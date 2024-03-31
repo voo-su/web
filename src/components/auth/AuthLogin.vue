@@ -1,0 +1,123 @@
+<script lang="ts" setup>
+import { reactive, ref } from 'vue'
+import type { FormInstance, FormRules } from 'element-plus'
+import { loginApi } from '@/api/auth'
+import { cookie } from '@/utils/storage/cookie-storage'
+import { authSessionKey } from '@/constants/default'
+import { getErrorForField } from '@/plugins'
+import type { FormLoginType } from './types'
+import IconLogo from '@/components/icons/IconLogo.vue'
+
+defineProps({
+  time: Number,
+  timerExpired: Boolean
+})
+
+const emit = defineEmits(['onVerify', 'onLogin', 'onSuccess'])
+
+const formRef = ref<FormInstance>()
+const errors = ref<any>([])
+
+const rules = reactive<FormRules>({
+  email: [
+    {
+      required: true,
+      message: 'Поле «Email» должно быть заполнено',
+      trigger: 'blur'
+    },
+    {
+      type: 'email',
+      message: 'Пожалуйста, введите правильный адрес почты',
+      trigger: ['blur', 'change']
+    }
+  ]
+})
+
+const form = reactive<FormLoginType>({
+  email: '',
+  loading: false
+})
+
+const onSubmit = async (formEl: FormInstance | undefined) => {
+  if (!formEl) return
+  await formEl.validate(async valid => {
+    if (valid) {
+      form.loading = true
+      errors.value = []
+      loginApi({
+        email: form.email,
+        platform: 'web'
+      }).then(async (res: any) => {
+        const {
+          code,
+          message,
+          data
+        } = res
+        form.loading = false
+        if (code == 200) {
+          const {
+            token,
+            expiresIn
+          } = data
+          await cookie.set(authSessionKey, token, expiresIn)
+          emit('onVerify')
+        } else {
+          errors.value.push({
+            path: ['email'],
+            message: message
+          })
+        }
+      }).finally(() => {
+        form.loading = false
+      })
+    }
+  })
+}
+</script>
+
+<template>
+  <el-header>
+    <div class="logo">
+      <icon-logo />
+    </div>
+    <h1>Мы так рады видеть вас</h1>
+    <h6>Вход или регистрация</h6>
+  </el-header>
+  <el-main>
+    <el-form
+      ref="formRef"
+      :model="form"
+      :rules="rules"
+      @submit.prevent="onSubmit(formRef)"
+    >
+      <el-form-item
+        :error="getErrorForField('email', errors)"
+        prop="email"
+      >
+        <el-input
+          v-model="form.email"
+          placeholder="Email"
+        />
+      </el-form-item>
+      <el-button
+        type="primary"
+        :loading="form.loading"
+        class="block"
+        @click="onSubmit(formRef)"
+      >
+        Войти
+      </el-button>
+    </el-form>
+    <div class="agreement">
+      Нажимая «Войти» вы соглашаетесь с
+      <a
+        href="/terms"
+        target="_blank"
+      >условиями использования</a>
+    </div>
+  </el-main>
+</template>
+
+<style lang="scss" scoped>
+@import '@/assets/scss/login.scss';
+</style>

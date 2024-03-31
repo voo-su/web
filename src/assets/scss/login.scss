@@ -1,0 +1,139 @@
+$char-w: 1ch;
+$gap: .3 * $char-w;
+$n-char: 6;
+$in-w: $n-char * ($char-w + $gap);
+
+.auth {
+  position: fixed;
+  width: 350px;
+  height: 350px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  .el-header {
+    margin: 20px 0;
+    text-align: center;
+    height: auto;
+
+    .logo {
+      svg {
+        width: 60px;
+        height: 60px;
+      }
+    }
+
+    h1 {
+      //font-size: 28px;
+      //line-height: 44px;
+
+      line-height: 44px;
+      font-weight: 600;
+      font-family: "Roboto", serif;
+    }
+
+    h6 {
+      font-size: 15px;
+    }
+
+    h5 {
+      text-align: left;
+    }
+
+    &.verify {
+      h5 {
+        text-align: center;
+        font-size: 15px;
+        margin-top: 10px;
+      }
+    }
+  }
+
+  .el-main {
+
+    .verify {
+      text-align: center;
+
+      &.el-form-item {
+        margin-bottom: 25px;
+
+        .el-form-item__content {
+          input {
+            display: block;
+            margin: 0 auto;
+            border: none;
+            padding: 0;
+            width: $in-w;
+            background: repeating-linear-gradient(90deg, dimgrey 0, dimgrey $char-w, transparent 0, transparent $char-w + $gap) 0 100%/ #{$in-w - $gap} 2px no-repeat;
+            font: 5ch droid sans mono, consolas, monospace;
+            letter-spacing: $gap;
+          }
+
+          .el-form-item__error {
+            margin: 5px 0 0 20%;
+          }
+        }
+      }
+    }
+
+    .el-button {
+      border-radius: 8px;
+    }
+
+    .agreement {
+      margin-top: 8px;
+      color: #8A8A95;
+      font-size: 12px;
+      text-align: center;
+      font-family: 'Roboto', sans-serif;
+
+      a {
+        font-weight: 500;
+        font-size: 12px;
+      }
+    }
+  }
+
+  .time {
+    margin-top: 10px;
+    text-align: center;
+
+    p {
+      font-size: 12px;
+      color: var(--el-text-color-secondary);
+    }
+
+    .el-button {
+      margin-top: 10px;
+      color: #1f2023;
+
+      &:focus {
+        color: var(--el-button-hover-link-text-color);
+      }
+    }
+  }
+
+  .expired {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    box-sizing: border-box;
+
+    p {
+      font-size: var(--el-font-size-base);
+      color: var(--el-text-color-secondary);
+      margin-bottom: 10px;
+    }
+  }
+}
+
+.el-footer {
+  position: absolute;
+  bottom: 30px;
+  left: 0;
+  right: 0;
+  width: 45%;
+  margin: 0 auto;
+}

@@ -1,0 +1,130 @@
+<script lang="ts" setup>
+import { computed, inject, onMounted, ref } from 'vue'
+import { Search } from '@element-plus/icons-vue'
+import ContactUserCardModal from '@/components/contact/ContactUserCardModal.vue'
+import ContactMemberCard from '@/components/contact/ContactMemberCard.vue'
+import AppPageHeader from '@/components/app/AppPageHeader.vue'
+import { modal } from '@/utils/common'
+import { toDialog } from '@/utils/dialog'
+import { useUserStore } from '@/store/user'
+import { contactGroupListApi, getContactListApi } from '@/api/contact'
+import ContactTopMenu from '@/components/contact/ContactTopMenu.vue'
+import DefaultLayout from '@/layouts/DefaultLayout.vue'
+
+const emit = defineEmits(['close'])
+const user: any = inject('$user')
+
+const userStore = useUserStore()
+const keywords = ref('')
+const index = ref(0)
+const items = ref([])
+const groups: any = ref([])
+
+const filter: any = computed(() => {
+  return items.value.filter((item: any) => {
+    let value = /*item.remark ||*/ item.username
+    let findIndex = value.toLowerCase().indexOf(keywords.value.toLowerCase())
+    if (index.value == 0) {
+      return findIndex != -1
+    }
+    return findIndex != -1 && index.value == item.group_id
+  })
+})
+
+const onLoadData = () => {
+  getContactListApi().then(res => {
+    if (res.code == 200) {
+      items.value = res.data.items || []
+    }
+  })
+}
+
+
+const onToDialog = (item: any) => {
+  toDialog(1, item.id)
+}
+
+const onInfo = item => {
+  // user(item.id, () =>{
+  //   emit('close')
+  // })
+  modal(ContactUserCardModal, { uid: item.id }, () => {
+    emit('close')
+  })
+}
+
+onMounted(() => {
+  onLoadData()
+})
+</script>
+
+<template>
+  <default-layout :index="1">
+    <el-container class="is-vertical h-100">
+      <app-page-header>
+        <template #content>
+          Мои контакты
+          <!--        <el-tabs v-if="groups.length" v-model="index">-->
+          <!--          <el-tab-pane v-for="tab in groups" :key="tab.id" :name="tab.id">-->
+          <!--            {{ tab.name }}({{ tab.count }})-->
+          <!--          </el-tab-pane>-->
+          <!--        </el-tabs>-->
+        </template>
+        <template #extra>
+          <el-input
+            v-model="keywords"
+            :prefix-icon="Search"
+            placeholder="Поиск"
+          />
+        </template>
+      </app-page-header>
+      <contact-top-menu />
+      <div
+        v-if="filter.length"
+        class="items"
+      >
+        <contact-member-card
+          v-for="item in filter"
+          :about="item.about"
+          :avatar="item.avatar"
+          :gender="item.gender"
+          :name="item.name"
+          :surname="item.surname"
+          :username="/*item.remark ||*/ item.username"
+          @click="onInfo(item)"
+          @to-dialog="onToDialog(item)"
+        />
+      </div>
+      <el-main
+        v-else
+      >
+        <div class="empty">
+          Ничего не найдено.
+        </div>
+      </el-main>
+    </el-container>
+  </default-layout>
+</template>
+
+<style lang="scss" scoped>
+.el-container{
+  background: #FFFFFF;
+  border-radius: 16px;
+}
+
+.from-header {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 15px;
+}
+
+.items {
+  display: block;
+  flex: 1;
+  flex-basis: auto;
+  overflow: auto;
+  padding: 10px;
+}
+</style>

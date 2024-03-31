@@ -1,0 +1,137 @@
+<script lang="ts" setup>
+import 'xgplayer/dist/index.min.css'
+import { nextTick, ref } from 'vue'
+import { getImageInfo } from '@/utils/functions'
+import Player, { I18N } from 'xgplayer'
+import RU from '@/lang/xgplayer'
+import { VideoPlay } from '@element-plus/icons-vue'
+import type { Data, VideoExtra } from './types'
+
+I18N.use(RU)
+
+const props = defineProps<{
+  extra: VideoExtra
+  data: Data
+  maxWidth: Boolean
+}>()
+
+const img = (src: string, width = 200) => {
+  const info: any = getImageInfo(src)
+
+  if (info.width == 0 || info.height == 0) {
+    return {}
+  }
+
+  if (info.width < width) {
+    return {
+      width: `${info.width}px`,
+      height: `${info.height}px`
+    }
+  }
+
+  return {
+    width: width + 'px',
+    height: parseInt(info.height / (info.width / width)) + 'px'
+  }
+}
+
+const open = ref(false)
+
+async function onPlay() {
+  open.value = true
+  await nextTick()
+  new Player({
+    id: 'video-player',
+    url: props.extra.url,
+    fluid: true,
+    autoplay: true,
+    lang: 'ru'
+  })
+}
+
+// :style="img(extra.cover, 350)"
+</script>
+
+<template>
+  <section
+    :class="{ left: data.float === 'left' }"
+
+    class="message-video"
+  >
+    <div
+      v-if="open"
+      id="video-player"
+      class="message-video-player"
+    />
+    <div
+      v-else
+      class="message-video-cover"
+    >
+      <el-image
+        :src="extra.cover"
+        fit="cover"
+      />
+      <el-button
+        link
+        size="large"
+        type="primary"
+        @click="onPlay"
+      >
+        <el-icon>
+          <video-play />
+        </el-icon>
+      </el-button>
+    </div>
+  </section>
+</template>
+
+<style lang="scss" scoped>
+.message-video {
+  position: relative;
+  min-width: 30px;
+  min-height: 30px;
+  padding: 3px;
+  color: #333;
+  background: #F4F4F7;
+  border-radius: 0 10px 0 10px;
+
+  &-player {
+    width: 300px !important;
+    height: 100px !important;
+  }
+
+  &-cover {
+    overflow: hidden;
+    padding: 0;
+    border-radius: 5px;
+    min-width: 268px;
+    min-height: 300px;
+    display: flex;
+    position: relative;
+
+    .el-image {
+      max-width: 300px !important;
+      object-fit: contain;
+      padding: 0;
+      margin: 0;
+
+      img {
+        width: 100%;
+        height: 100%;
+        border-radius: 5px;
+      }
+    }
+
+    .el-button {
+      position: absolute;
+      left: calc(50% - 30px);
+      top: calc(50% - 35px);
+
+      .el-icon {
+        color: #8f959e;
+        font-size: 50px;
+      }
+    }
+  }
+}
+</style>

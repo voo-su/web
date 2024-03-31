@@ -1,0 +1,22 @@
+import { createApp } from 'vue'
+import { createPinia } from 'pinia'
+import router from '@/router'
+import App from '@/App.vue'
+import '@/assets/scss/global.scss'
+import * as plugins from '@/plugins'
+import { modal } from '@/utils/common'
+import ContactUserCardModal from '@/components/contact/ContactUserCardModal.vue'
+
+async function bootstrap() {
+  const app = createApp(App)
+  app.use(createPinia())
+  app.use(router)
+  app.provide('$user', (uid: any) => {
+    modal(ContactUserCardModal, { uid })
+  })
+  plugins.setComponents(app)
+  plugins.setupDirective(app)
+  app.mount('#app')
+}
+
+bootstrap()

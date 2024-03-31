@@ -1,0 +1,22 @@
+{
+  "name": "Voo.su",
+  "short_name": "Voo.su",
+  "description": "Voo.su",
+  "start_url": "./",
+  "display": "standalone",
+  "theme_color": "#f0f0f0",
+  "background_color": "#f0f0f0",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "/favicon-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/favicon-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}
