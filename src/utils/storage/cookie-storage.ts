@@ -5,10 +5,10 @@ class CookieStorage {
     const encodedValue = encodeURIComponent(value)
     const date = new Date(Date.now() + expiresInSeconds * 1000)
     const expires = date.toUTCString()
-    const cookieValue = `${encodedName}=${encodedValue}; expires=${expires}; path=/`
-    // if (import.meta.env.VITE_APP_ENV != 'dev') {
-    //   cookieValue += '; HttpOnly'
-    // }
+    let cookieValue = `${encodedName}=${encodedValue}; expires=${expires}; path=/`
+    if (import.meta.env.VITE_APP_ENV != 'dev') {
+      cookieValue += '; HttpOnly'
+    }
     document.cookie = cookieValue
   }
 
@@ -28,7 +28,6 @@ class CookieStorage {
     }
     return null
   }
-
 
   remove(names: string | any[]): void {
     if (Array.isArray(names)) {

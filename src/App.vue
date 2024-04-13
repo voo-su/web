@@ -3,9 +3,12 @@ import { getCurrentInstance } from 'vue'
 import { ElDialog, ElMessage, ElMessageBox, ElNotification } from 'element-plus'
 import { useUserStore } from '@/store'
 import socket from '@/utils/socket'
-import { listener } from './utils/listener'
+import { listener } from '@/utils/listener'
 import ru from 'element-plus/dist/locale/ru.mjs'
 import { isLoggedIn } from '@/utils/auth'
+import 'element-plus/es/components/message-box/style/css'
+import 'element-plus/es/components/message/style/css'
+// import 'element-plus/es/components/notification/style/css'
 
 const userStore = useUserStore()
 
