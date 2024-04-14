@@ -10,9 +10,13 @@ import { useUserStore } from '@/store/user'
 import { contactFoldersApi, getContactListApi } from '@/api/contact'
 import ContactTopMenu from '@/components/contact/ContactTopMenu.vue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
+import ContactFolderManage from '@/components/contact/ContactFolderManage.vue'
+import { Files as IconFiles } from '@element-plus/icons-vue'
 
 const emit = defineEmits(['close'])
 const user: any = inject('$user')
+
+const isShowFolderManageModal = ref(false)
 
 const userStore = useUserStore()
 const keywords = ref('')
@@ -77,6 +81,9 @@ onMounted(() => {
   onLoadFolders()
 })
 
+const onFolders = () => {
+  isShowFolderManageModal.value = true
+}
 </script>
 
 <template>
@@ -99,6 +106,11 @@ onMounted(() => {
         <el-segmented
           v-model="index"
           :options="folders"
+        />
+        <el-button
+          :icon="IconFiles"
+          link
+          @click="onFolders()"
         />
       </div>
       <div
@@ -124,6 +136,11 @@ onMounted(() => {
       </el-main>
     </el-container>
   </default-layout>
+  <contact-folder-manage
+    v-model="isShowFolderManageModal"
+    @close="isShowFolderManageModal = false"
+    @relaod="onLoadFolders"
+  />
 </template>
 
 <style lang="scss" scoped>
