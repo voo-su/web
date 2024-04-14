@@ -21,10 +21,10 @@ const routes = [
     component: () => import('@/views/contacts/index.vue')
   },
   {
-    path: '/contacts/apply-list',
-    name: 'ApplyListView',
+    path: '/contacts/requests',
+    name: 'ContactRequestView',
     meta: { requiresAuth: true },
-    component: () => import('@/views/contacts/apply-list.vue')
+    component: () => import('@/views/contacts/requests.vue')
   },
   {
     path: '/settings',
@@ -66,7 +66,7 @@ const router = createRouter({
   routes
 })
 
-router.beforeEach(to => {
+router.beforeEach((to: any) => {
   if (to.meta.requiresAuth && !isLoggedIn()) {
     return {
       path: '/auth'

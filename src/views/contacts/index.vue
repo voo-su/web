@@ -7,7 +7,7 @@ import AppPageHeader from '@/components/app/AppPageHeader.vue'
 import { modal } from '@/utils/common'
 import { toDialog } from '@/utils/dialog'
 import { useUserStore } from '@/store/user'
-import { contactGroupListApi, getContactListApi } from '@/api/contact'
+import { contactFoldersApi, getContactListApi } from '@/api/contact'
 import ContactTopMenu from '@/components/contact/ContactTopMenu.vue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
 
@@ -18,7 +18,13 @@ const userStore = useUserStore()
 const keywords = ref('')
 const index = ref(0)
 const items = ref([])
-const groups: any = ref([])
+
+interface IFolder {
+  label: string
+  value: string
+}
+
+const folders = ref<IFolder[]>([])
 
 const filter: any = computed(() => {
   return items.value.filter((item: any) => {
@@ -31,14 +37,27 @@ const filter: any = computed(() => {
   })
 })
 
-const onLoadData = () => {
-  getContactListApi().then(res => {
+const onLoad = () => {
+  getContactListApi().then((res: any) => {
     if (res.code == 200) {
       items.value = res.data.items || []
     }
   })
 }
 
+const onLoadFolders = () => {
+  contactFoldersApi().then((res: any) => {
+    if (res.code == 200) {
+      let items = res.data.items.map(item => {
+        return {
+          label: `${item.name} (${item.count})`,
+          value: item.id,
+        }
+      })
+      folders.value = items || []
+    }
+  })
+}
 
 const onToDialog = (item: any) => {
   toDialog(1, item.id)
@@ -54,8 +73,10 @@ const onInfo = item => {
 }
 
 onMounted(() => {
-  onLoadData()
+  onLoad()
+  onLoadFolders()
 })
+
 </script>
 
 <template>
@@ -63,12 +84,7 @@ onMounted(() => {
     <el-container class="is-vertical h-100">
       <app-page-header>
         <template #content>
-          Мои контакты
-          <!--        <el-tabs v-if="groups.length" v-model="index">-->
-          <!--          <el-tab-pane v-for="tab in groups" :key="tab.id" :name="tab.id">-->
-          <!--            {{ tab.name }}({{ tab.count }})-->
-          <!--          </el-tab-pane>-->
-          <!--        </el-tabs>-->
+          Контакты
         </template>
         <template #extra>
           <el-input
@@ -78,7 +94,13 @@ onMounted(() => {
           />
         </template>
       </app-page-header>
-      <contact-top-menu />
+      <contact-top-menu/>
+      <div class="contact-folders">
+        <el-segmented
+          v-model="index"
+          :options="folders"
+        />
+      </div>
       <div
         v-if="filter.length"
         class="items"
@@ -95,9 +117,7 @@ onMounted(() => {
           @to-dialog="onToDialog(item)"
         />
       </div>
-      <el-main
-        v-else
-      >
+      <el-main v-else>
         <div class="empty">
           Ничего не найдено.
         </div>
@@ -107,7 +127,19 @@ onMounted(() => {
 </template>
 
 <style lang="scss" scoped>
-.el-container{
+.contact-folders {
+  padding: 5px 0 0 5px;
+
+  .el-segmented {
+    --el-segmented-padding: 4px;
+    min-height: 30px;
+    font-size: 13px;
+    --el-border-radius-base: 4px;
+    --el-segmented-bg-color: transparent;
+  }
+}
+
+.el-container {
   background: #FFFFFF;
   border-radius: 16px;
 }
