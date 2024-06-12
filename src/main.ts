@@ -2,7 +2,10 @@ import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import router from '@/router'
 import App from '@/App.vue'
-import '@/assets/scss/global.scss'
+import "element-plus/theme-chalk/src/message.scss";
+import "element-plus/theme-chalk/src/message-box.scss";
+import "element-plus/theme-chalk/src/notification.scss";
+import '@/assets/scss/main.scss'
 import * as plugins from '@/plugins'
 import { modal } from '@/utils/common'
 import ContactUserCardModal from '@/components/contact/ContactUserCardModal.vue'

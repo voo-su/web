@@ -149,23 +149,22 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
             placeholder="Фамилия"
           />
         </el-form-item>
-        <div class="flex">
+        <div class="flex w-100">
           <el-form-item
             label="Пол"
-            class="item-mr w-150"
+            class="w-50"
             placeholder="Укажите свой пол"
             prop="gender"
           >
-            <el-select-v2
+            <el-segmented
               v-model="form.gender"
               :options="genderOptions"
-              placeholder="Пол"
-              class="br-12"
             />
           </el-form-item>
           <el-form-item
             label="День рождения"
             prop="birthday"
+            class="w-50"
           >
             <el-date-picker
               v-model="form.birthday"
@@ -226,10 +225,12 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
 
   .el-form-item {
     margin-bottom: 20px;
+  }
 
-    &.item-mr {
-      margin-right: 20px;
-    }
+  .el-segmented {
+    width: 100%;
+    margin-right: 10px;
+    box-shadow: 0 0 0 1px var(--el-input-border-color, var(--el-border-color)) inset;
   }
 }
 </style>

@@ -1,187 +1,61 @@
-@forward 'element-plus/theme-chalk/src/mixins/config.scss';
-
-$__link: (
-  text-color: #a1a1a1,
-  hover-text-color: #000000
-);
-
-$__input: (
-  border-radius: 12px,
-  //bg-color: #EEEEEE,
-  //hover-border-color: #b8bac7,
-  //focus-border-color: #a4a6b0
-  height:38px
-);
-
-$__button: (
-  border-radius: 8px,
-  //bg-color: #2F80ED,
-  //text-color: #FFF,
-  hover-bg-color: #F0F2F5,
-  hover-text-color: #000000,
-  ////border-color: #a4a6b0, // TODO
-  //hover-border-color: #b8bac7,
-  //focus-border-color: #a4a6b0,
-  //active-border-color: #a4a6b0,
-);
-
-$__dropdown: (
-  menuItem-hover-fill: #dcdfe6,
-  menuItem-hover-color: #333333
-);
-
-$__avatar: (
-  'bg-color': #2F80ED,
-);
-
-$__dialog: (
-  'padding-primary': 0,
-  'border-radius': 12px
-);
-
-$__checkbox: (
-  'border-radius': 12px
-);
-
-$__menu: (
-  'hover-bg-color': #ececec
-);
-
-@forward 'element-plus/theme-chalk/src/common/var.scss' with (
+@forward "element-plus/theme-chalk/src/common/var.scss" with (
   $colors:(
     'primary': (
       'base': #2F80ED,
       'light-3': #1e62c2,
     )
   ),
-  $common-component-size: ('default': 40px),
+  $common-component-size: (
+    'default': 38px
+  ),
   $header: (
-    padding: 0,
+    'padding': 0,
   ),
   $main: (
-    padding: 0,
+    'padding': 0,
   ),
   $footer: (
-    padding: 0,
+    'padding': 0,
   ),
-  $link: $__link,
-  $input: $__input,
+  $link: (
+    'text-color': #a1a1a1,
+    'hover-text-color': #000000
+  ),
+  $input: (
+    'border-radius': 12px,
+    'bg-color': #EEEEEE,
+    'hover-border-color': #b8bac7,
+    'focus-border-color': #a4a6b0
+  ),
   //$input-height: ('default': 36px), // TODO
   //$input-line-height: ('default': 40px), // TODO
-  $button: $__button,
+  $button: (
+    'border-radius': 8px,
+    'hover-bg-color': #F0F2F5,
+    'hover-text-color': #000000,
+    //bg-color: #2F80ED,
+    //text-color: #FFF,
+    //border-color: #a4a6b0, // TODO
+    //hover-border-color: #b8bac7,
+    //focus-border-color: #a4a6b0,
+    //active-border-color: #a4a6b0,
+  ),
   $button-border-radius: ('default': 12px),
-  $dropdown: $__dropdown,
-  $avatar: $__avatar,
-  $dialog:$__dialog,
-  $checkbox: $__checkbox,
-  $menu: $__menu
+  $dropdown:  (
+    'menuItem-hover-fill': #dcdfe6,
+    'menuItem-hover-color': #333333
+  ),
+  $avatar: (
+    'bg-color': #2F80ED,
+  ),
+  $dialog:(
+    'padding-primary': 0,
+    'border-radius': 12px
+  ),
+  $checkbox: (
+    'border-radius': 12px
+  ),
+  $menu: (
+    'hover-bg-color': #ececec
+  )
 );
-
-@use "./dark.scss";
-
-.el-button {
-  font-family: 'Roboto', sans-serif;
-
-  &.block {
-    display: flex;
-    width: 100%;
-  }
-}
-
-//.el-menu-item {
-//  border-radius: 10px;
-//}
-
-.el-overlay {
-  backdrop-filter: blur(10px);
-  box-shadow: 0 0.25rem 0.5rem 0.125rem rgba(114, 114, 114, 0.251);
-}
-
-.el-dialog__header {
-  padding: 15px 0 15px 15px;
-  border-bottom: 1px solid var(--el-border-color);
-  margin: 0;
-
-  .module__after {
-    margin-left: auto;
-    padding-left: 12px;
-    -webkit-box-pack: end;
-    -ms-flex-pack: end;
-    justify-content: flex-end;
-
-    .close {
-      -webkit-box-sizing: border-box;
-      box-sizing: border-box;
-      color: #fff;
-      height: 56px;
-      -webkit-box-pack: center;
-      -ms-flex-pack: center;
-      justify-content: center;
-      padding: 18px;
-      position: absolute;
-      right: -56px;
-      top: 0;
-      -webkit-transition: opacity .15s ease-out;
-      transition: opacity .15s ease-out;
-      width: 56px;
-
-      .el-icon {
-        font-size: 20px;
-      }
-    }
-  }
-
-}
-
-.el-dialog {
-  .el-tabs {
-    &__header {
-      margin: 0;
-    }
-
-    &__content {
-      padding: 15px;
-    }
-
-    &__nav {
-      margin: 0 10px;
-    }
-  }
-}
-
-.el-form--label-top {
-  .el-form-item .el-form-item__label {
-    margin-bottom: 1px !important;
-  }
-
-  .el-form-item--large .el-form-item__error {
-    margin-left: 12px;
-  }
-}
-
-.el-message-box__btns {
-  .el-button {
-    height: 30px;
-  }
-}
-
-.el-select, .el-date-editor.el-input {
-  width: 100% !important;
-}
-
-
-.el-container.is-vertical {
-  flex-direction: column;
-}
-
-.el-main {
-  display: block;
-  flex: 1;
-  flex-basis: auto;
-  overflow: auto;
-}
-
-
-.el-dialog__footer {
-  padding-top: 0;
-}
