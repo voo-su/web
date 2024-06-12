@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { getAccountSettingApi } from '@/api/account'
+import { getAccountApi } from '@/api/account'
 import { findFriendApplyNumApi } from '@/api/contact'
 import { delAccessToken } from '@/utils/auth'
 import { storage } from '@/utils/storage/local-storage'
@@ -41,16 +41,15 @@ export const useUserStore = defineStore('user', {
     },
 
     loadSetting() {
-      getAccountSettingApi()
+      getAccountApi()
         .then((res: any) => {
           const {
             code,
             data
           } = res
           if (code == 200) {
-            const { user_info } = data
             const {
-              uid,
+              id,
               username,
               avatar,
               name,
@@ -58,9 +57,8 @@ export const useUserStore = defineStore('user', {
               gender,
               email,
               about
-              // is_qiye
-            } = user_info
-            this.uid = uid
+            } = data
+            this.uid = id
             this.username = username
             this.avatar = avatar
             this.name = name
@@ -68,7 +66,7 @@ export const useUserStore = defineStore('user', {
             this.gender = gender
             this.email = email || ''
             this.about = about
-            storage.set(userInfo, user_info)
+            storage.set(userInfo, data)
           }
         })
 

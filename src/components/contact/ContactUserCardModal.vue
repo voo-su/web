@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { computed, reactive, ref } from 'vue'
-import { contactMoveGroupApi, createContactApi, searchUserApi } from '@/api/contact'
+import { contactFolderMoveApi, createContactApi, searchUserApi, contactFoldersApi} from '@/api/contact'
 import { onSetDisturb, toDialog } from '@/utils/dialog'
 import { message } from '@/utils/util'
 import { Bell, Close as CloseIcon, Plus, Promotion } from '@element-plus/icons-vue'
@@ -35,12 +35,14 @@ const state = reactive({
   // remark: '',
   status: 1,
   text: '',
-  is_bot: 0
+  is_bot: 0,
+  group_id: 0
 })
 
-const options = reactive([])
+const folders = reactive([])
+
 const groupName = computed(() => {
-  const item = options.find(item => {
+  const item = folders.find(item => {
     return item.key == state.group_id
   })
 
@@ -48,7 +50,7 @@ const groupName = computed(() => {
     return item.label
   }
 
-  return 'Группа не установлена'
+  return 'Папка не установлена'
 })
 
 const dialogue = dialogStore.findItem(dialogueStore.index_name)
@@ -71,17 +73,17 @@ const onLoadData = () => {
       window['$message'].info('Информация о пользователе не существует')
     }
   })
-  // contactGroupListApi().then(res => {
-  //   if (res.code == 200) {
-  //     let items = res.data.items || []
-  //     for (const iter of items) {
-  //       options.push({
-  //         label: iter.name,
-  //         key: iter.id
-  //       })
-  //     }
-  //   }
-  // })
+  contactFoldersApi().then(res => {
+    if (res.code == 200) {
+      let items = res.data.items || []
+      for (const iter of items) {
+        folders.push({
+          label: iter.name,
+          key: iter.id
+        })
+      }
+    }
+  })
 }
 
 const onToDialog = () => {
@@ -97,10 +99,9 @@ const onJoinContact = () => {
   createContactApi({
     friend_id: parseInt(props.uid)
     // remark: state.text
-  }).then(({
-             code,
-             message
-           }) => {
+  })
+    .then((res: any) => {
+      const { code, message } = res
     if (code == 200) {
       emit('close')
       onClose()
@@ -127,6 +128,8 @@ const onNotification = value => {
 const onClose = () => {
   showModal.value = false
 }
+
+onLoadData()
 </script>
 
 <template>
@@ -157,6 +160,7 @@ const onClose = () => {
         />
       </div>
     </template>
+<!--    {{groupName}}-->
     <el-main>
       <div
         v-if="state.is_bot === 1"

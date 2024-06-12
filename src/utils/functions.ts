@@ -23,7 +23,7 @@ export const download = (cr_id: any) => {
     // link.target = '_blank'
     link.href = `${
       import.meta.env.VITE_BASE_API
-    }/v1/message/file/download?cr_id=${cr_id}&token=${token}`
+    }/v1/messages/file/download?cr_id=${cr_id}&token=${token}`
     link.click()
   } catch (e) {
   }

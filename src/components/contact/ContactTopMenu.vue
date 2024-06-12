@@ -15,7 +15,7 @@ const menus = [
     icon: markRaw(User)
   },
   {
-    link: '/contacts/apply-list',
+    link: '/contacts/requests',
     name: 'Заявки',
     icon: markRaw(CirclePlus),
     hotspot: userStore.isContactApply
@@ -31,7 +31,6 @@ const menus = [
   // }
 ]
 
-
 const activeMenuIndex = computed(() => {
   const foundMenu = menus.find(menu => menu.link === route.fullPath)
   return foundMenu ? menus.indexOf(foundMenu) : -1
@@ -40,12 +39,15 @@ const activeMenuIndex = computed(() => {
 const onClickMenu = (menu: any) => {
   router.push(menu.link)
 }
+
 </script>
 
 <template>
   <el-menu
     :default-active="String(activeMenuIndex)"
     mode="horizontal"
+    :ellipsis="false"
+    :unique-opened="true"
   >
     <el-menu-item
       v-for="(menu, index) in menus"
@@ -74,10 +76,8 @@ const onClickMenu = (menu: any) => {
 
   .el-menu-item {
     border-radius: 10px;
-
-    &:nth-last-child(1) {
-      margin-left: auto;
-    }
+    margin-left: 10px;
+    padding: 0 15px;
   }
 }
 
@@ -85,5 +85,4 @@ const onClickMenu = (menu: any) => {
   border-bottom: none;
   background-color: var(--el-menu-hover-bg-color);
 }
-
 </style>

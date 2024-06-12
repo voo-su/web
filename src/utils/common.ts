@@ -76,10 +76,10 @@ export const emitCall = (event, data, fn) => {
   }
 }
 
-export const modal = (Constructor, props = {}, close: () => void) => {
+export const modal = (constructor: any, props: any = {}, close: () => void) => {
   const mountNode = document.createElement('div')
   document.body.appendChild(mountNode)
-  const app = createApp(Constructor, {
+  const app = createApp(constructor, {
     ...props,
     remove() {
       mountNode.remove()

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
-import { getAccountDetailApi, updateUserDetailApi } from '@/api/account'
+import { getAccountApi, updateUserDetailApi } from '@/api/account'
 import { defAvatar, genderOptions } from '@/constants/default'
 import AvatarCropper from '@/components/base/BaseAvatarCropper.vue'
 import { useUserStore } from '@/store/user'
@@ -54,7 +54,7 @@ const form = reactive<FormType>({
   loading: false
 })
 
-getAccountDetailApi().then(({ data }) => {
+getAccountApi().then(({ data }) => {
   form.avatar = data.avatar
   form.email = data.email.toString()
   form.name = data.name.toString()

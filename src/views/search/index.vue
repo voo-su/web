@@ -3,22 +3,22 @@ import { ref } from 'vue'
 import { Search } from '@element-plus/icons-vue'
 import { userSearchApi } from '@/api/user'
 import DialogPageHeader from '@/components/app/AppPageHeader.vue'
-import SearchCard from '../../components/contact/ContactSearchCard.vue'
+import SearchCard from '@/components/contact/ContactSearchCard.vue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
 
 const emit = defineEmits(['update:show'])
 
 const keywords = ref('')
 
-interface Item {
-  id: number;
-  username: string;
-  avatar: string;
-  name: string;
+interface IItem {
+  id: number
+  username: string
+  avatar: string
+  name: string
   surname: string
 }
 
-const items = ref<Item[]>([])
+const items = ref<IItem[]>([])
 
 const onSearchInput = value => {
   if (value.trim().length >= 2) {
@@ -44,9 +44,7 @@ const onSearchInput = value => {
           />
         </template>
       </dialog-page-header>
-      <el-main
-        v-if="items.length === 0"
-      >
+      <el-main v-if="items.length === 0">
         <div class="empty">
           Ничего не найдено.
         </div>

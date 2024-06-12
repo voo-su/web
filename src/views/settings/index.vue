@@ -1,11 +1,10 @@
 <script lang="ts" setup>
 import { markRaw, ref } from 'vue'
-import DetailTab from '../../components/setting/tab/DetailTab.vue'
-import SecurityTab from '../../components/setting/tab/SecurityTab.vue'
-import NotificationTab from '../../components/setting/tab/NotificationTab.vue'
+import DetailTab from '@/components/setting/tab/DetailTab.vue'
+import SecurityTab from '@/components/setting/tab/SecurityTab.vue'
+import NotificationTab from '@/components/setting/tab/NotificationTab.vue'
 import { Bell, Setting, User } from '@element-plus/icons-vue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
-import AppPageHeader from '@/components/app/AppPageHeader.vue'
 
 const menus = [
   {
