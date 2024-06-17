@@ -1,11 +1,17 @@
 <script lang="ts" setup>
-import { computed, reactive, ref } from 'vue'
-import { contactFolderMoveApi, createContactApi, searchUserApi, contactFoldersApi} from '@/api/contact'
+import { computed, reactive, ref, markRaw } from 'vue'
+import { contactFolderMoveApi, createContactApi, searchUserApi, contactFoldersApi, deleteContactApi } from '@/api/contact'
 import { onSetDisturb, toDialog } from '@/utils/dialog'
-import { message } from '@/utils/util'
-import { Bell, Close as CloseIcon, Plus, Promotion } from '@element-plus/icons-vue'
+import {
+  Bell,
+  Close as CloseIcon,
+  Plus as IconPlus,
+  Promotion as IconPromotion,
+  Delete as IconDelete
+} from '@element-plus/icons-vue'
 import AvatarBox from '@/components/base/BaseAvatarBox.vue'
 import { useDialogStore, useDialogueStore } from '@/store'
+import type { Action } from 'element-plus'
 
 const props = defineProps({
   uid: {
@@ -26,32 +32,55 @@ const dialogueStore = useDialogueStore()
 
 const isNotification = ref(true)
 const showModal = ref(false)
-const state = reactive({
+
+interface IContact {
+  id: number,
+  username: string,
+  name: string,
+  surname: string,
+  gender: number,
+  avatar: string,
+  about: string,
+  // remark: string,
+  friend_status: number,
+  text: string,
+  is_bot: number,
+  group_id: number,
+}
+
+const state = reactive<IContact>({
   id: 0,
-  avatar: '',
-  gender: 0,
-  about: '',
   username: '',
+  name: '',
+  surname: '',
+  gender: 0,
+  avatar: '',
+  about: '',
   // remark: '',
-  status: 1,
+  friend_status: 1,
   text: '',
   is_bot: 0,
   group_id: 0
 })
 
-const folders = reactive([])
-
-const groupName = computed(() => {
-  const item = folders.find(item => {
-    return item.key == state.group_id
-  })
-
-  if (item) {
-    return item.label
-  }
-
-  return 'Папка не установлена'
-})
+// interface IFolder {
+//   key: number,
+//   label: string,
+// }
+//
+// const folders = reactive<IFolder[]>([])
+//
+// const groupName = computed(() => {
+//   const item = folders.find((item: IFolder) => {
+//     return item.key == state.group_id
+//   })
+//
+//   if (item) {
+//     return item.label
+//   }
+//
+//   return 'Папка не установлена'
+// })
 
 const dialogue = dialogStore.findItem(dialogueStore.index_name)
 
@@ -62,10 +91,9 @@ if (dialogueStore.index_name !== null) {
 const onLoadData = () => {
   searchUserApi({
     user_id: props.uid
-  }).then(({
-             code,
-             data
-           }) => {
+  }).then((res: any) => {
+    const { code, data } = res
+
     if (code == 200) {
       Object.assign(state, data)
       showModal.value = true
@@ -73,9 +101,12 @@ const onLoadData = () => {
       window['$message'].info('Информация о пользователе не существует')
     }
   })
-  contactFoldersApi().then(res => {
-    if (res.code == 200) {
-      let items = res.data.items || []
+
+  contactFoldersApi().then((res: any) => {
+    const { code, data } = res
+
+    if (code == 200) {
+      let items = data.items || []
       for (const iter of items) {
         folders.push({
           label: iter.name,
@@ -112,10 +143,23 @@ const onJoinContact = () => {
   })
 }
 
-onLoadData()
+// const handleSelectFolder = (value: any) => {
+//   contactFolderMoveApi({
+//     user_id: props.uid,
+//     group_id: value
+//   })
+//     .then((res: any) => {
+//     const { code, message } = res
+//     if (code == 200) {
+//       state.group_id = value
+//       window['$message'].success('Папка успешно изменена')
+//     } else {
+//       message().error(message)
+//     }
+//   })
+// }
 
-
-const onNotification = value => {
+const onNotification = (value: any) => {
   onSetDisturb({
     dialog_type: dialogueStore.dialog.dialog_type,
     receiver_id: dialogueStore.dialog.receiver_id,
@@ -123,6 +167,36 @@ const onNotification = value => {
     index_name: dialogueStore.index_name
   })
   isNotification.value = value
+}
+
+const onDeleteContact = () => {
+  let name = state.username || state.name
+
+  window['$messageBox'].confirm(
+    'Вы действительно хотите удалить пользователя из списка Контактов?',
+    `Удалить контакт ${name}`,
+    {
+      type: 'warning',
+      icon: markRaw(IconDelete),
+      confirmButtonText: 'Удалить',
+      cancelButtonText: 'Отмена',
+      callback: (action: Action) => {
+        if (action == 'confirm') {
+          deleteContactApi({
+            friend_id: state.id
+          }).then((res: any) => {
+            const { code, message } = res
+            if (code == 200) {
+              window['$message'].success('Контакт удален')
+              // onDeleteDialog(data.index_name)
+            } else {
+              window['$message'].error(message)
+            }
+          })
+        }
+      }
+    }
+  )
 }
 
 const onClose = () => {
@@ -160,7 +234,6 @@ onLoadData()
         />
       </div>
     </template>
-<!--    {{groupName}}-->
     <el-main>
       <div
         v-if="state.is_bot === 1"
@@ -204,6 +277,13 @@ onLoadData()
           <span class="text">{{ state.about || '-' }}</span>
         </div>
       </template>
+<!--      <div-->
+<!--        v-if="folders.length >= 1"-->
+<!--        class="info-item"-->
+<!--      >-->
+<!--        <span class="name">Папка</span>-->
+<!--        <span class="text">{{ groupName }}</span>-->
+<!--      </div>-->
       <div
         v-if="state.friend_status == 2 && dialogueStore.index_name !== null"
         class="info-item notif right"
@@ -220,38 +300,47 @@ onLoadData()
         </span>
       </div>
     </el-main>
-    <el-footer
+    <el-row
       v-if="state.is_bot === 0"
-      class="flex-center"
+      class="footer"
     >
       <template v-if="state.friend_status == 2">
-        <el-button
-          type="primary"
-          text
-          @click="onToDialog"
-        >
-          <template #icon>
-            <el-icon>
-              <promotion />
-            </el-icon>
-          </template>
-          Отправить сообщение
-        </el-button>
+        <el-col>
+          <el-button
+            type="primary"
+            text
+            :icon="IconPromotion"
+            @click="onToDialog"
+            class="w-100"
+          >
+            Отправить сообщение
+          </el-button>
+        </el-col>
+        <el-col>
+          <el-button
+            type="danger"
+            text
+            :icon="IconDelete"
+            @click="onDeleteContact"
+            class="w-100"
+          >
+            Удалить контакт
+          </el-button>
+        </el-col>
       </template>
       <template v-else-if="state.friend_status == 1">
-        <el-button
-          type="primary"
-          @click="onJoinContact"
-        >
-          <template #icon>
-            <el-icon>
-              <plus />
-            </el-icon>
-          </template>
-          Добавить в контакты
-        </el-button>
+        <el-col>
+          <el-button
+            type="primary"
+            :icon="IconPlus"
+            @click="onJoinContact"
+            class="w-100"
+          >
+            Добавить в контакты
+          </el-button>
+        </el-col>
       </template>
-    </el-footer>
+    </el-row>
   </el-dialog>
 </template>
 
@@ -263,6 +352,7 @@ onLoadData()
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-bottom: 12px;
 
   .avatar-box {
     height: 100px;
@@ -334,9 +424,8 @@ onLoadData()
   }
 }
 
-.el-footer {
-  height: 60px;
-  padding: 0 15px;
+.footer {
+  padding: 5px 15px;
   border-top: 1px solid var(--el-border-color);
 }
 </style>

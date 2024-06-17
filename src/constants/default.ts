@@ -5,10 +5,7 @@ export const accessToken = 'voo_su_access_token'
 export const userInfo = 'voo_su_user'
 
 export const genderOptions = [
-  {
-    label: 'Неизвестно',
-    value: '0'
-  },
+
   {
     label: 'Мужской',
     value: '1'

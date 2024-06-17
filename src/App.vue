@@ -19,17 +19,19 @@ listener()
 const ctx = getCurrentInstance()
 if (ctx) {
   const message = ElMessage
+  const messageBox = ElMessageBox
   const notification = ElNotification
   const dialog = ElDialog
-  const messageBox = ElMessageBox
+
   window['$message'] = message
+  window['$messageBox'] = messageBox
   window['$notification'] = notification
   window['$dialog'] = dialog
-  window['$messageBox'] = messageBox
+
   ctx.appContext.config.globalProperties.$message = message
+  ctx.appContext.config.globalProperties.$messageBox = messageBox
   ctx.appContext.config.globalProperties.$notification = notification
   ctx.appContext.config.globalProperties.$dialog = dialog
-  ctx.appContext.config.globalProperties.$messageBox = messageBox
 }
 </script>
 

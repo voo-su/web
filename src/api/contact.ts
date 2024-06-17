@@ -14,6 +14,10 @@ export const findFriendApplyNumApi = () => get('/v1/contacts/requests/unread-num
 
 export const searchUserApi = data => get('/v1/contacts/get', data)
 
+export const deleteContactApi = data => post('/v1/contacts/delete', data)
+
 export const contactFoldersApi = () => get('/v1/contacts/folders')
 
 export const contactFolderSaveApi = data => post('/v1/contacts/folders', data)
+
+export const contactFolderMoveApi = data => post('/v1/contacts/folders/move', data)

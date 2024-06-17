@@ -20,15 +20,6 @@ const menus = [
     icon: markRaw(CirclePlus),
     hotspot: userStore.isContactApply
   }
-  // {
-  //   name: 'Мои группы',
-  // },
-  // {
-  //   name: 'Открытые группы',
-  // },
-  // {
-  //   name: 'Управление группами',
-  // }
 ]
 
 const activeMenuIndex = computed(() => {
