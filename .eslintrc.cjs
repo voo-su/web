@@ -12,11 +12,35 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 'latest'
   },
-  // rules: {
+  rules: {
+    // Проверка чтобы имена компонентов всегда состояли из нескольких слов.
+    "vue/multi-word-component-names": "off",
+    // Проверка на максимальное количество атрибутов в строке.
+    "vue/max-attributes-per-line": [
+      "error",
+      {
+        "singleline": {
+          "max": 1
+        },
+        "multiline": {
+          "max": 1
+        }
+      }
+    ],
+    // Проверка последовательного отступа в шаблоне <template>.
+    "vue/html-indent": [
+      "error",
+      2,
+      {
+        "attribute": 1,
+        "baseIndent": 1,
+        "closeBracket": 0,
+        "alignAttributesVertically": true,
+        "ignores": []
+      }
+    ],
   //   // Предупреждает, если явно указанный аргумент типа является значением по умолчанию для этого параметра типа.
   //   '@typescript-eslint/no-unnecessary-type-arguments': 'off',
-  //   // Проверка чтобы имена компонентов всегда состояли из нескольких слов.
-  //   'vue/multi-word-component-names': 'off',
   //   // Проверка регистра для стиля именования компонентов в шаблоне.
   //   'vue/component-name-in-template-casing': [
   //     'error',
@@ -45,18 +69,6 @@ module.exports = {
   //       alphabetical: false
   //     }
   //   ],
-  //   // Проверка на максимальное количество атрибутов в строке.
-  //   'vue/max-attributes-per-line': [
-  //     'error',
-  //     {
-  //       singleline: {
-  //         max: 1
-  //       },
-  //       multiline: {
-  //         max: 1
-  //       }
-  //     }
-  //   ],
   //   // Проверка на самозакрывающийся тег или компонент.
   //   'vue/html-self-closing': [
   //     'error',
@@ -68,18 +80,6 @@ module.exports = {
   //       },
   //       svg: 'always',
   //       math: 'always'
-  //     }
-  //   ],
-  //   // Проверка последовательного отступа в шаблоне <template>.
-  //   'vue/html-indent': [
-  //     'error',
-  //     2,
-  //     {
-  //       attribute: 1,
-  //       baseIndent: 1,
-  //       closeBracket: 0,
-  //       alignAttributesVertically: true,
-  //       ignores: []
   //     }
   //   ],
   //   // Проверка нерегулярных пробелов.
@@ -211,5 +211,5 @@ module.exports = {
   //       exceptAfterSingleLine: true
   //     }
   //   ]
-  // }
+  }
 }
