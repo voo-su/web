@@ -269,8 +269,10 @@ const onStickerEvent = (data: any) => {
     editorInsertText(data.value, data.img)
   } else {
     emit('editor-event',
-      emitCall('sticker_event', data.value, () => {
-      })
+      emitCall(
+        'sticker_event',
+        data.value, () => {}
+      )
     )
   }
 
