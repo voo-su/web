@@ -9,6 +9,7 @@ import { clearUnreadChatApi, createChatApi } from '@/api/chat'
 import { useDialogStore } from '@/store'
 import { useDialogueStore } from '@/store/dialogue'
 import { useNotifyStore } from '@/store/notify'
+import { ElMessage } from 'element-plus'
 
 class Dialog extends Base {
 
@@ -17,7 +18,7 @@ class Dialog extends Base {
   receiver_id = 0
   dialog_type = 0
 
-  constructor(resource) {
+  constructor(resource: any) {
     super()
     this.sender_id = resource.sender_id
     this.receiver_id = resource.receiver_id
@@ -74,7 +75,7 @@ class Dialog extends Base {
         })
       }
     } else {
-      window['$message'].info('Уведомление о сообщении')
+      ElMessage.info('Уведомление о сообщении')
     }
   }
 
@@ -89,10 +90,9 @@ class Dialog extends Base {
     createChatApi({
       dialog_type,
       receiver_id
-    }).then(({
-               code,
-               data
-             }) => {
+    }).then((res: any) => {
+      const { code, data } = res
+
       if (code == 200) {
         useDialogStore().addItem(formatDialogItem(data))
         this.play()

@@ -4,6 +4,7 @@ import { useDialogStore, useNotifyStore } from '@/store'
 import { applyNotificationAuth } from '@/utils/notification'
 import { isLoggedIn } from '@/utils/auth'
 import socket from '@/utils/socket'
+import { ElDialog } from 'element-plus'
 
 const registerOnceExpireNotice = () => {
   let once = false
@@ -24,7 +25,7 @@ const registerOnceExpireNotice = () => {
       return
     }
     once = true
-    window['$dialog'].info({
+    ElDialog.info({
       title: 'Важное сообщение',
       content: 'Текущая сессия недействительна. Пожалуйста, выполните вход снова.',
       positiveText: 'Войти',
@@ -44,19 +45,19 @@ const registerLeaveWebListener = () => {
 }
 
 const registerNotificationAuth = () => {
-  applyNotificationAuth(value => {
+  applyNotificationAuth((value: any) => {
     useNotifyStore().isWebNotify = value
   })
 }
 
 const registerClickListener = () => {
-  const push = el => {
+  const push = (el: any) => {
     const href = el.getAttribute('href')
     if (href) {
       return window.open(href)
     }
   }
-  document.body.addEventListener('click', event => {
+  document.body.addEventListener('click', (event: any) => {
     const { target } = event
     if (target.nodeName.toLocaleLowerCase() === 'a') {
       if (event.preventDefault) {

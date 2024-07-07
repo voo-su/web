@@ -1,6 +1,6 @@
 export default {
-  created(el, binding, vnode) {
-    el.addEventListener('copy', function(event) {
+  created(el: any, binding: any, vnode: any) {
+    el.addEventListener('copy', function(event: any) {
       binding.value(event)
     })
   }

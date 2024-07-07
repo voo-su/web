@@ -55,8 +55,8 @@ const emojis = [
 
 export const emojiList = { emojis }
 
-export const textReplaceEmoji = content => {
-  return content.replace(new RegExp(`(${emojis})`, 'gi'), ($0, $1) => {
+export const textReplaceEmoji = (content: any) => {
+  return content.replace(new RegExp(`(${emojis})`, 'gi'), ($0: any, $1: any) => {
     return emojis[$1]
   })
 }

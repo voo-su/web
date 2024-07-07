@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import AppHeader from '../components/app/AppHeader.vue'
-import AppFooter from '../components/app/AppFooter.vue'
+import AppHeader from '@/components/app/AppHeader.vue'
+import AppFooter from '@/components/app/AppFooter.vue'
 
 defineProps({
   index: {

@@ -40,8 +40,8 @@ const state = reactive({
   isShowGroupNotice: false
 })
 
-const onPanelHeaderEvent = eventType => {
-  const events = {
+const onPanelHeaderEvent = (eventType: any) => {
+  const events: any = {
     info: () => user(dialogParams.receiver_id),
     group: () => state.isShowGroupAside = !state.isShowGroupAside,
     disturb: () => {

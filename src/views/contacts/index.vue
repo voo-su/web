@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { computed, inject, onMounted, ref } from 'vue'
 import { Search } from '@element-plus/icons-vue'
-import ContactUserCardModal from '@/components/contact/ContactUserCardModal.vue'
+import ContactUserCard from '@/components/contact/ContactUserCard.vue'
 import ContactMemberCard from '@/components/contact/ContactMemberCard.vue'
 import AppPageHeader from '@/components/app/AppPageHeader.vue'
 import { modal } from '@/utils/common'
@@ -10,25 +10,25 @@ import { useUserStore } from '@/store/user'
 import { contactFoldersApi, getContactListApi } from '@/api/contact'
 import ContactTopMenu from '@/components/contact/ContactTopMenu.vue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
-import ContactFolderManage from '@/components/contact/ContactFolderManage.vue'
-import { Files as IconFiles } from '@element-plus/icons-vue'
+// import ContactFolderManage from '@/components/contact/ContactFolderManage.vue'
+// import { Files as IconFiles } from '@element-plus/icons-vue'
 
 const emit = defineEmits(['close'])
 const user: any = inject('$user')
 
-const isShowFolderManageModal = ref(false)
+// const isShowFolderManageModal = ref(false)
 
 const userStore = useUserStore()
 const keywords = ref('')
 const index = ref(0)
 const items = ref([])
 
-interface IFolder {
-  label: string
-  value: string
-}
-
-const folders = ref<IFolder[]>([])
+// interface IFolder {
+//   label: string
+//   value: string
+// }
+//
+// const folders = ref<IFolder[]>([])
 
 const filter: any = computed(() => {
   return items.value.filter((item: any) => {
@@ -49,41 +49,42 @@ const onLoad = () => {
   })
 }
 
-const onLoadFolders = () => {
-  contactFoldersApi().then((res: any) => {
-    if (res.code == 200) {
-      let items = res.data.items.map(item => {
-        return {
-          label: `${item.name} (${item.count})`,
-          value: item.id,
-        }
-      })
-      folders.value = items || []
-    }
-  })
-}
+// const onLoadFolders = () => {
+//   contactFoldersApi().then((res: any) => {
+//     if (res.code == 200) {
+//       let items = res.data.items.map((item: any) => {
+//         return {
+//           label: `${item.name} (${item.count})`,
+//           value: item.id,
+//         }
+//       })
+//       folders.value = items || []
+//     }
+//   })
+// }
 
 const onToDialog = (item: any) => {
   toDialog(1, item.id)
 }
 
-const onInfo = item => {
+const onInfo = (item: any) => {
   // user(item.id, () =>{
   //   emit('close')
   // })
-  modal(ContactUserCardModal, { uid: item.id }, () => {
+
+  modal(ContactUserCard, { uid: item.id }, () => {
     emit('close')
   })
 }
 
 onMounted(() => {
   onLoad()
-  onLoadFolders()
+  // onLoadFolders()
 })
 
-const onFolders = () => {
-  isShowFolderManageModal.value = true
-}
+// const onFolders = () => {
+//   isShowFolderManageModal.value = true
+// }
 </script>
 
 <template>
@@ -102,17 +103,17 @@ const onFolders = () => {
         </template>
       </app-page-header>
       <contact-top-menu/>
-      <div class="contact-folders">
-        <el-segmented
-          v-model="index"
-          :options="folders"
-        />
-        <el-button
-          :icon="IconFiles"
-          link
-          @click="onFolders()"
-        />
-      </div>
+<!--      <div class="contact-folders">-->
+<!--        <el-segmented-->
+<!--          v-model="index"-->
+<!--          :options="folders"-->
+<!--        />-->
+<!--        <el-button-->
+<!--          :icon="IconFiles"-->
+<!--          link-->
+<!--          @click="onFolders()"-->
+<!--        />-->
+<!--      </div>-->
       <div
         v-if="filter.length"
         class="items"
@@ -136,11 +137,11 @@ const onFolders = () => {
       </el-main>
     </el-container>
   </default-layout>
-  <contact-folder-manage
-    v-model="isShowFolderManageModal"
-    @close="isShowFolderManageModal = false"
-    @relaod="onLoadFolders"
-  />
+<!--  <contact-folder-manage-->
+<!--    v-model="isShowFolderManageModal"-->
+<!--    @close="isShowFolderManageModal = false"-->
+<!--    @relaod="onLoadFolders"-->
+<!--  />-->
 </template>
 
 <style lang="scss" scoped>

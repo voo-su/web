@@ -1,11 +1,10 @@
-export const authSessionKey = 'voo_su_auth_session'
-export const authSessionTimerKey = 'voo_su_auth_timer'
+export const authSessionKey: string = 'voo_su_auth_session'
+export const authSessionTimerKey: string = 'voo_su_auth_timer'
 
-export const accessToken = 'voo_su_access_token'
-export const userInfo = 'voo_su_user'
+export const accessToken: string = 'voo_su_access_token'
+export const userInfo: string = 'voo_su_user'
 
 export const genderOptions = [
-
   {
     label: 'Мужской',
     value: '1'

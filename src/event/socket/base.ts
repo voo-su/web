@@ -24,13 +24,13 @@ class Base {
     }
   }
 
-  isDialog(dialog_type, sender_id, receiver_id) {
+  isDialog(dialogType: number, senderId: number, receiverId:number) {
     const params = this.getDialogParams()
-    if (dialog_type != params.dialog_type) {
+    if (dialogType != params.dialog_type) {
       return false
     } else if (
-      params.receiver_id == receiver_id ||
-      params.receiver_id == sender_id
+      params.receiver_id == receiverId ||
+      params.receiver_id == senderId
     ) {
       return true
     }

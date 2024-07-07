@@ -1,12 +1,11 @@
 import Base from './base'
-
 import { useDialogueStore } from '@/store/dialogue'
 
 class Keyboard extends Base {
 
   resource
 
-  constructor(resource) {
+  constructor(resource: any) {
     super()
     this.resource = resource
     this.handle()

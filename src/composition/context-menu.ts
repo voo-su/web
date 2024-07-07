@@ -1,7 +1,7 @@
 import { h, ref } from 'vue'
 
 export const useContextMenu = () => {
-  const isShow = ref(false)
+  const isShow = ref<boolean>(false)
   const showContextMenu = () => {
     isShow.value = true
   }

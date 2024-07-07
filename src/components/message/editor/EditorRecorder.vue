@@ -6,11 +6,11 @@ import { countDownTime } from '@/utils/functions'
 
 const emit = defineEmits(['close', 'on-submit'])
 
-const isShow = ref(true)
-const status = ref(0)
-const animation = ref(false)
-const duration = ref(0)
-let recorder = null
+const isShow = ref<boolean>(true)
+const status = ref<number>(0)
+const animation = ref<boolean>(false)
+const duration = ref<number>(0)
+let recorder: any = null
 
 const onCloseClick = () => {
   onDestroy()
@@ -40,11 +40,11 @@ const onStart = () => {
       animation.value = true
       status.value = 1
     },
-    error => {
+    (error: any) => {
       console.log(`${error.name} : ${error.message}`)
     }
   )
-  recorder.onprocess = value => {
+  recorder.onprocess = (value: any) => {
     duration.value = parseInt(value)
   }
 }

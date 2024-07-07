@@ -4,8 +4,9 @@ import { parseTime } from '@/utils/datetime'
 import { createChatApi, delChatApi, setNotDisturbApi } from '@/api/chat'
 import { KEY_INDEX_NAME } from '@/constants/dialog'
 import { useDialogueStore } from '@/store'
+import { ElMessage } from 'element-plus'
 
-export const formatDialogRecord = (uid, data) => {
+export const formatDialogRecord = (uid: any, data: any) => {
   data.float = 'center'
   if (data.user_id > 0) {
     data.float = data.user_id == uid ? 'right' : 'left'
@@ -15,18 +16,18 @@ export const formatDialogRecord = (uid, data) => {
 }
 
 export const palyMusic = (muted = false) => {
-  const audio = document.getElementById('audio')
+  const audio: any = document.getElementById('audio')
   audio.currentTime = 0
   audio.muted = muted
   audio.play()
 }
 
 export const findDialogIndex = (index_name: any) => {
-  return useDialogStore().items.findIndex(item => item.index_name === index_name)
+  return useDialogStore().items.findIndex((item: any) => item.index_name === index_name)
 }
 
 export const findDialog = (index_name: any) => {
-  return useDialogStore().items.find(item => item.index_name === index_name)
+  return useDialogStore().items.find((item: any) => item.index_name === index_name)
 }
 
 export const formatDialogItem = (params: any) => {
@@ -64,19 +65,19 @@ export const onSetDisturb = (data: any) => {
              message
            }: any) => {
     if (code == 200) {
-      // window['$message'].success('Успешно установлено')
+      // ElMessage.success('Успешно установлено')
 
       useDialogStore().updateItem({
         index_name: data.index_name,
         is_disturb: data.is_disturb == 0 ? 1 : 0
       })
     } else {
-      window['$message'].error(message)
+      ElMessage.error(message)
     }
   })
 }
 
-export const toDialog = (dialog_type, receiver_id) => {
+export const toDialog = (dialog_type: any, receiver_id: any) => {
   if (findDialogIndex(`${dialog_type}_${receiver_id}`) >= 0) {
     sessionStorage.setItem(KEY_INDEX_NAME, `${dialog_type}_${receiver_id}`)
     return router.push({
@@ -87,11 +88,9 @@ export const toDialog = (dialog_type, receiver_id) => {
   createChatApi({
     dialog_type: parseInt(dialog_type),
     receiver_id: parseInt(receiver_id)
-  }).then(({
-             code,
-             data,
-             message
-           }) => {
+  }).then((res: any) => {
+    const { code, data, message } = res
+    
     if (code == 200) {
       sessionStorage.setItem(KEY_INDEX_NAME, `${dialog_type}_${receiver_id}`)
       if (findDialogIndex(`${dialog_type}_${receiver_id}`) === -1) {
@@ -102,7 +101,7 @@ export const toDialog = (dialog_type, receiver_id) => {
         query: { v: new Date().getTime() }
       })
     } else {
-      window['$message'].info(message)
+      ElMessage.info(message)
     }
   })
 }
@@ -115,7 +114,7 @@ export const getCacheIndexName = () => {
   return index_name
 }
 
-export const setCacheIndexName = (type, id) => {
+export const setCacheIndexName = (type: any, id: any) => {
   sessionStorage.setItem(KEY_INDEX_NAME, `${type}_${id}`)
 }
 

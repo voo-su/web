@@ -1,7 +1,8 @@
 import { createApp } from 'vue'
+import { ElMessage } from 'element-plus'
 
-export const debounce = (fn, delay) => {
-  let timer = null
+export const debounce = (fn: any, delay: any) => {
+  let timer: any = null
   return function() {
     timer && clearTimeout(timer)
     const content = this
@@ -12,7 +13,7 @@ export const debounce = (fn, delay) => {
   }
 }
 
-export const throttle = (fn, delay, call = function() {
+export const throttle = (fn: any, delay: any, call = function() {
 }) => {
   let lastTime = 0
   return function() {
@@ -26,18 +27,18 @@ export const throttle = (fn, delay, call = function() {
   }
 }
 
-export function clipboard(text, callback) {
+export function clipboard(text: any, callback: any) {
   navigator.clipboard
     .writeText(text)
     .then(() => {
       callback && callback()
     })
     .catch(() => {
-      window['$message'].info('Нет разрешения на доступ к буферу обмена.')
+      ElMessage.info('Нет разрешения на доступ к буферу обмена.')
     })
 }
 
-export async function clipboardImage(src, callback) {
+export async function clipboardImage(src: any, callback: any) {
   const { state } = await navigator.permissions.query({
     name: 'clipboard-write'
   })
@@ -50,9 +51,9 @@ export async function clipboardImage(src, callback) {
     const canvas = document.createElement('canvas')
     canvas.width = image.width
     canvas.height = image.height
-    const context = canvas.getContext('2d')
+    const context: any = canvas.getContext('2d')
     context.drawImage(image, 0, 0, image.width, image.height)
-    canvas.toBlob(async blob => {
+    canvas.toBlob(async (blob: any) => {
       try {
         const item = new ClipboardItem({
           [blob.type]: blob
@@ -60,14 +61,14 @@ export async function clipboardImage(src, callback) {
         await navigator.clipboard.write([item])
         callback()
       } catch (err) {
-        window['$message'].info('Ошибка при копировании изображения: ', err)
+        ElMessage.info('Ошибка при копировании изображения: ', err)
       }
     }, 'image/png')
   }
 }
 
 
-export const emitCall = (event, data, fn) => {
+export const emitCall = (event: any, data: any, fn: any) => {
   return {
     event: event,
     data: data,
@@ -92,7 +93,7 @@ export const modal = (constructor: any, props: any = {}, close: () => void) => {
 
 export const htmlDecode = (input: any) => {
   const htmlEntities = /&(?:[a-z]+|#\d+);/gi
-  const htmlEntityMap = {
+  const htmlEntityMap: any = {
     '&amp;': '&',
     '&lt;': '<',
     '&gt;': '>',
@@ -102,33 +103,39 @@ export const htmlDecode = (input: any) => {
     '&copy;': '\u00A9',
     '&reg;': '\u00AE'
   }
-  return input.replace(htmlEntities, match => {
+
+  return input.replace((htmlEntities: any, match: any) => {
     return htmlEntityMap[match] || match
   })
 }
 
-export function getVideoImage(file) {
+export function getVideoImage(file: any) {
   return new Promise((resolve, reject) => {
     const video = document.createElement('video')
     video.src = URL.createObjectURL(file)
     video.addEventListener('loadeddata', function() {
       this.currentTime = 1
     })
+
     video.addEventListener('seeked', function() {
       this.width = this.videoWidth
       this.height = this.videoHeight
+
       const canvas = document.createElement('canvas')
       const ctx = canvas.getContext('2d')
+
       canvas.width = this.width
       canvas.height = this.height
       ctx?.drawImage(this, 0, 0, canvas.width, canvas.height)
-      const image = {
+
+      const image: any = {
         url: canvas.toDataURL('image/jpeg', 1),
         width: this.width,
         height: this.height,
         duration: this.duration
       }
-      canvas.toBlob(function(blob) {
+
+      canvas.toBlob(function(blob: any) {
         image.file = new File([blob], 'video_image.jpeg', {
           type: blob.type,
           lastModified: Date.now()

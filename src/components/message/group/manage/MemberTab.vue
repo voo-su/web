@@ -12,10 +12,15 @@ import GroupLaunch from '../GroupLaunch.vue'
 import { useUserStore } from '@/store/user'
 import AvatarBox from '@/components/base/BaseAvatarBox.vue'
 import ContextMenu from '@/components/base/BaseContextMenu.vue'
+import { ElMessageBox } from 'element-plus'
+import { ElDialog } from 'element-plus'
+import { ElMessage } from 'element-plus'
 
 import {
   getGroupMembersApi,
   groupAssignAdminApi,
+  groupHandoverApi,
+  groupNoSpeakApi,
   removeMembersGroupApi
 } from '@/api/group-chat'
 import { renderIcon } from '@/plugins'
@@ -40,7 +45,7 @@ const filterCheck = computed(() => {
   return items.value.filter((item: any) => item.is_delete)
 })
 
-const filterSearch = computed(() => {
+const filterSearch: any = computed(() => {
   if (!keywords.value.length) {
     return items.value
   }
@@ -58,7 +63,7 @@ const isAdmin = computed(() => {
   })
 })
 
-const dropdown = reactive({
+const dropdown = reactive<any>({
   options: [],
   show: false,
   dropdownX: 0,
@@ -67,10 +72,10 @@ const dropdown = reactive({
 })
 
 const onLoadData = () => {
-  getGroupMembersApi({ group_id: props.id }).then(res => {
+  getGroupMembersApi({ group_id: props.id }).then((res: any) => {
     if (res.code == 200) {
       let data = res.data.items || []
-      data.forEach(item => {
+      data.forEach((item: any) => {
         item.is_delete = false
       })
       items.value = data
@@ -78,14 +83,14 @@ const onLoadData = () => {
   })
 }
 
-const onDelete = item => {
+const onDelete = (item: any) => {
   removeMembersGroupApi({
     group_id: props.id,
     members_ids: `${item.user_id}`
-  }).then(res => {
+  }).then((res: any) => {
     if (res.code == 200) {
       onLoadData()
-      window['$message'].success('Успешно удален')
+      ElMessage.success('Успешно удален')
     }
   })
 }
@@ -98,11 +103,11 @@ const onBatchDelete = () => {
   removeMembersGroupApi({
     group_id: props.id,
     members_ids: filterCheck.value.map((item: any) => item.user_id).join(',')
-  }).then(res => {
+  }).then((res: any) => {
     if (res.code == 200) {
       batchDelete.value = false
       onLoadData()
-      window['$message'].success('Успешно удален')
+      ElMessage.success('Успешно удален')
     }
   })
 }
@@ -131,7 +136,7 @@ const onAssignAdmin = (item: any) => {
   let title = item.leader == 0
     ? `Вы уверены, что хотите назначить ${item.username} администратором ?`
     : `Вы уверены, что хотите снять администраторские права с ${item.username} ?`
-  window['$messageBox'].confirm(title, null, {
+    ElMessageBox.confirm(title, null, {
     confirmButtonText: 'Назначить',
     cancelButtonText: 'Отмена',
     type: 'warning'
@@ -141,18 +146,64 @@ const onAssignAdmin = (item: any) => {
         mode: item.leader == 0 ? 1 : 2,
         group_id: props.id,
         user_id: parseInt(item.user_id)
-      }).then(({
-                 code,
-                 message
-               }) => {
+      }).then(({ code, message }: any) => {
         if (code == 200) {
-          window['$message'].success('Успешно')
+          ElMessage.success('Успешно')
           onLoadData()
         } else {
-          window['$message'].error(message)
+          ElMessage.error(message)
         }
       })
     }).catch(() => {
+  })
+}
+
+const onTransfer = (item: any) => {
+  ElDialog.create({
+    title: 'Подсказка',
+    content: `Вы уверены, что хотите передать права группы пользователю ${item.username} ?`,
+    positiveText: 'Ок',
+    negativeText: 'Отмена',
+    onPositiveClick: () => {
+      groupHandoverApi({
+        group_id: props.id,
+        user_id: parseInt(item.user_id)
+      }).then((res: any) => {
+        if (res.code == 200) {
+          ElMessage.success('Операция выполнена успешно')
+          onLoadData()
+        } else {
+          ElMessage.error(res.message)
+        }
+      })
+    }
+  })
+}
+
+const onForbidden = (item: any) => {
+  let content = `Вы уверены, что хотите запретить говорить пользователю ${item.username} ?`
+  if (item.is_mute === 1) {
+    content = `Вы уверены, что хотите снять запрет на говорение у пользователя ${item.username} ?`
+  }
+  ElDialog.create({
+    title: 'Советы',
+    content: content,
+    positiveText: 'Ок',
+    negativeText: 'Отмена',
+    onPositiveClick: () => {
+      groupNoSpeakApi({
+        mode: item.is_mute == 0 ? 1 : 2,
+        group_id: props.id,
+        user_id: parseInt(item.user_id)
+      }).then((res: any) => {
+        if (res.code == 200) {
+          ElMessage.success('Операция выполнена успешно')
+          onLoadData()
+        } else {
+          ElMessage.error(res.message)
+        }
+      })
+    }
   })
 }
 
@@ -213,7 +264,7 @@ const onContextMenu = (e: any, item: any) => {
 }
 
 const onContextMenuHandle = (key: string) => {
-  const events = {
+  const events: any = {
     info: onUserInfo,
     delete: onDelete,
     assignment: onAssignAdmin

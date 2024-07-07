@@ -25,7 +25,7 @@ const onCloseClick = () => {
 const onSendClick = () => {
   state.loading = true
 
-  let call = emitCall(null, null, value => {
+  let call = emitCall(null, null, (value: any) => {
     state.loading = false
     value && onCloseClick()
   })
@@ -33,8 +33,8 @@ const onSendClick = () => {
   emit('submit', call)
 }
 
-const loadFileSrc = file => {
-  let reader = new FileReader()
+const loadFileSrc = (file: any) => {
+  let reader: any = new FileReader()
   state.size = file.size
   reader.onload = () => {
     state.src = reader.result

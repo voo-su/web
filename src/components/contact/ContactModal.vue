@@ -10,14 +10,14 @@ const isShowBox = ref(true)
 const items = ref([])
 const keywords = ref('')
 
-const searchFilter = computed(() => {
-  return items.value.filter(item => {
+const searchFilter: any = computed(() => {
+  return items.value.filter((item: any) => {
     return item.username.match(keywords.value) != null
   })
 })
 
-const checkedFilter = computed(() => {
-  return items.value.filter(item => item.checked)
+const checkedFilter: any = computed(() => {
+  return items.value.filter((item: any) => item.checked)
 })
 
 const isCanSubmit = computed(() => {
@@ -25,11 +25,11 @@ const isCanSubmit = computed(() => {
 })
 
 const onLoad = () => {
-  getContactListApi().then(res => {
+  getContactListApi().then((res: any) => {
     if (res.code == 200 && res.data) {
       let list = res.data.items || []
 
-      items.value = list.map(item => {
+      items.value = list.map((item: any) => {
         return Object.assign(item, {
           id: item.id,
           type: 1,
@@ -46,15 +46,15 @@ const onCloseClick = () => {
   emit('close')
 }
 
-const onTriggerContact = item => {
-  let data = items.value.find(val => val.id === item.id)
+const onTriggerContact = (item: any) => {
+  let data: any = items.value.find((val: any) => val.id === item.id)
   if (data) {
     data.checked = !data.checked
   }
 }
 
 const onSubmit = () => {
-  let data = checkedFilter.value.map(item => {
+  let data = checkedFilter.value.map((item: any) => {
     return {
       id: item.id,
       type: item.type

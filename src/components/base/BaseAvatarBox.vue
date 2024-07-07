@@ -28,7 +28,7 @@ const props = defineProps({
   }
 })
 
-const substring = value => value.substring(0, 1).toLocaleUpperCase()
+const substring = (value: any) => value.substring(0, 1).toLocaleUpperCase()
 </script>
 
 <template>

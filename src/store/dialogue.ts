@@ -1,11 +1,44 @@
 import { defineStore } from 'pinia'
-import { removeRecordsApi, revokeRecordsApi } from '@/api/message'
+import { forwardRecordsApi, removeRecordsApi, revokeRecordsApi } from '@/api/message'
 import { getGroupMembersApi } from '@/api/group-chat'
+import { ElMessage } from 'element-plus'
 
-let keyboardTimeout = null
+interface IDialog {
+  username: string
+  avatar: string
+  name: string
+  surname: string
+  dialog_type: number
+  receiver_id: number
+}
+
+interface IItems {
+  dialog_type: number
+  receiver_id: number
+  read_sequence: number
+  records: any
+}
+
+interface IDialogueState {
+  chatId: number
+  index_name: any
+  dialog: IDialog
+  is_bot: any
+  keyboard: any
+  online: any
+  records: any
+  unreadBubble: any
+  isOpenMultiSelect: any
+  isShowEditor: any
+  isShowSessionList: any
+  members: any
+  items: IItems[]
+}
+
+let keyboardTimeout: any = null
 
 export const useDialogueStore = defineStore('dialogue', {
-  state: () => {
+  state: (): IDialogueState => {
     return {
       chatId: 0,
       index_name: null,
@@ -36,8 +69,9 @@ export const useDialogueStore = defineStore('dialogue', {
       ]
     }
   },
+
   actions: {
-    setOnlineStatus(status) {
+    setOnlineStatus(status: boolean) {
       this.online = status
     },
     setDialogue(data: any = {}) {
@@ -68,7 +102,9 @@ export const useDialogueStore = defineStore('dialogue', {
       const {
         code,
         data
-      } = await getGroupMembersApi({ group_id: this.dialog.receiver_id })
+      } = await getGroupMembersApi({
+        group_id: this.dialog.receiver_id
+      })
 
       if (code != 200) return
       this.members = []
@@ -90,23 +126,23 @@ export const useDialogueStore = defineStore('dialogue', {
       this.records = []
     },
 
-    unshiftDialogueRecord(records) {
+    unshiftDialogueRecord(records: any) {
       this.records.unshift(...records)
     },
 
-    addDialogueRecord(record) {
+    addDialogueRecord(record: any) {
       this.records.push(record)
     },
 
-    updateDialogueRecord(params) {
+    updateDialogueRecord(params: any) {
       const { msg_id = '' } = params
-      const item = this.records.find(item => item.msg_id === msg_id)
+      const item = this.records.find((item: { msg_id: number }) => item.msg_id === msg_id)
       item && Object.assign(item, params)
     },
 
-    batchDelDialogueRecord(ids) {
-      ids.forEach(id => {
-        const index = this.records.findIndex(item => item.id === id)
+    batchDelDialogueRecord(ids: number[]) {
+      ids.forEach((id: number) => {
+        const index = this.records.findIndex((item: { id: number }) => item.id === id)
         if (index >= 0) this.records.splice(index, 1)
       })
     },
@@ -117,7 +153,7 @@ export const useDialogueStore = defineStore('dialogue', {
       keyboardTimeout = setTimeout(() => (this.keyboard = false), 2000)
     },
 
-    setUnreadBubble(value) {
+    setUnreadBubble(value: number) {
       if (value == 0) {
         this.unreadBubble = 0
       } else {
@@ -139,27 +175,44 @@ export const useDialogueStore = defineStore('dialogue', {
         dialog_type: this.dialog.dialog_type,
         receiver_id: this.dialog.receiver_id,
         record_id: ids.join(',')
-      }).then(res => {
+      }).then((res: any) => {
         if (res.code == 200) {
           this.batchDelDialogueRecord(ids)
         } else {
-          window['$message'].warning(res.message)
+          ElMessage.warning(res.message)
         }
       })
     },
 
     ApiRevokeRecord(msg_id = '') {
-      revokeRecordsApi({ msg_id }).then(res => {
+      revokeRecordsApi({ msg_id }).then((res: any) => {
         if (res.code == 200) {
           this.updateDialogueRecord({ msg_id, is_revoke: 1 })
         } else {
-          window['$message'].warning(res.message)
+          ElMessage.warning(res.message)
+        }
+      })
+    },
+
+    ApiForwardRecord(options: any) {
+      const data = Object.assign(
+        {
+          dialog_type: this.dialog.dialog_type,
+          receiver_id: this.dialog.receiver_id
+        },
+        options
+      )
+
+      forwardRecordsApi(data).then((res: any) => {
+        if (res.code == 200) {
+          this.closeMultiSelect()
         }
       })
     }
   },
+
   getters: {
-    selectItems: state => state.records.filter(item => item.isCheck),
+    selectItems: state => state.records.filter((item: any) => item.isCheck),
     isGroupDialog: state => state.dialog.dialog_type === 2
   }
 })

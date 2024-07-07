@@ -24,7 +24,7 @@ export const useUserStore = defineStore('user', {
   },
   // persist: true,
   actions: {
-    updateSocketStatus(status) {
+    updateSocketStatus(status: boolean) {
       this.online = status
     },
 

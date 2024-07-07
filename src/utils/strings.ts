@@ -1,4 +1,4 @@
-export const trim = (str, type = null) => {
+export const trim = (str: string, type = null) => {
   if (type) {
     return str.replace(/(^\s*)|(\s*$)/g, '')
   } else if (type == 'l') {
@@ -8,11 +8,11 @@ export const trim = (str, type = null) => {
   }
 }
 
-export const hidePhone = phone => {
+export const hidePhone = (phone: string) => {
   return phone.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2')
 }
 
-export const textReplaceLink = (text, color = '#409eff') => {
+export const textReplaceLink = (text: string, color: string = '#409eff') => {
   const exp =
     /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi
 
@@ -22,13 +22,13 @@ export const textReplaceLink = (text, color = '#409eff') => {
   )
 }
 
-export const textReplaceMention = (text, color = '#2196F3') => {
+export const textReplaceMention = (text: string, color: string= '#2196F3') => {
   return text.replace(new RegExp(/@\S+/, 'g'), ($0, $1) => {
     return `<span style="color:${color};">${$0}</span>`
   })
 }
 
-export const fileFormatSize = value => {
+export const fileFormatSize = (value: string) => {
   if (null == value || value == '') {
     return '0'
   }
@@ -43,7 +43,7 @@ export const fileFormatSize = value => {
   return size + ' ' + unitArr[index]
 }
 
-export const fileSuffix = fileName => {
+export const fileSuffix = (fileName: string) => {
   const ext = fileName.split('.')
 
   return ext[ext.length - 1]

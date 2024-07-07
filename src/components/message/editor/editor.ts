@@ -11,11 +11,11 @@ interface AnalysisResp {
   msgType: number
 }
 
-function removeLeadingNewlines(str) {
+function removeLeadingNewlines(str: string) {
   return str.replace(/^[\n\s]+/, '')
 }
 
-function removeTrailingNewlines(str) {
+function removeTrailingNewlines(str: string) {
   return str.replace(/[\n\s]+$/, '')
 }
 
@@ -28,7 +28,7 @@ export function getEditorNodeInfo(editor: HTMLElement | null): AnalysisResp {
     msgType: 1
   }
 
-  const nodes = editor ? editor.childNodes : []
+  const nodes: any = editor ? editor.childNodes : []
 
   for (const node of nodes) {
     let preNode

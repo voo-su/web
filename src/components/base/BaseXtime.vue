@@ -11,9 +11,10 @@ export default defineComponent({
     }
   },
   setup(props) {
-    let timeout = null
+    let timeout: number | undefined = undefined
     const inTime = new Date(props.time.replace(/-/g, '/')).getTime()
     const text = ref('')
+
     const format = () => {
       clearTimeout(timeout)
       text.value = beautifyTime(props.time)
@@ -21,11 +22,15 @@ export default defineComponent({
         timeout = setTimeout(format, 60 * 1000)
       }
     }
+
     watch(props, format)
+
     onUnmounted(() => {
       clearTimeout(timeout)
     })
+
     format()
+
     return () => h('span', [text.value])
   }
 })

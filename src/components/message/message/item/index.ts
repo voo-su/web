@@ -19,6 +19,7 @@ import SysGroupMemberQuitMessage from './invite/group/GroupMemberQuitMessage.vue
 import SysGroupMutedMessage from './invite/group/GroupMutedMessage.vue'
 import SysGroupCancelMutedMessage from './invite/group/GroupCancelMutedMessage.vue'
 import MixedMessage from './MixedMessage.vue'
+import ForwardMessage from './ItemForwardMessage.vue'
 
 export {
   TextMessage,
@@ -41,5 +42,6 @@ export {
   SysGroupMutedMessage,
   SysGroupCancelMutedMessage,
   GroupNoticeMessage,
-  MixedMessage
+  MixedMessage,
+  ForwardMessage
 }

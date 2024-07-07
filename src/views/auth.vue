@@ -10,10 +10,16 @@ import AppFooter from '../components/app/AppFooter.vue'
 
 const router = useRouter()
 
-const timerExpired = ref<Boolean>(false)
-const time = ref<Number>(0)
+const timerExpired = ref<boolean>(false)
+const time = ref<number>(0)
 
-const state = reactive({ component: markRaw(AuthLogin) })
+interface IState {
+  component: any
+}
+
+const state = reactive<IState>({
+  component: markRaw(AuthLogin)
+})
 
 const onVerify = () => {
   time.value = 200

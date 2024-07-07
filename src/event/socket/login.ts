@@ -6,7 +6,7 @@ class Login extends Base {
 
   resource
 
-  constructor(resource) {
+  constructor(resource: any) {
     super()
     this.resource = resource
     this.handle()

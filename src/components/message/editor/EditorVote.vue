@@ -5,7 +5,7 @@ import type { FormInstance, FormRules } from 'element-plus'
 
 const emit = defineEmits(['close', 'submit'])
 
-const isShow = ref(true)
+const isShow = ref<boolean>(true)
 
 const formRef = ref<FormInstance>()
 const rules = reactive<FormRules>({
@@ -59,7 +59,7 @@ const addOption = () => form.options.push({
   del: true
 })
 
-const delOption = index => form.options.length > 2 && form.options.splice(index, 1)
+const delOption = (index: number) => form.options.length > 2 && form.options.splice(index, 1)
 
 const isCanSubmit = computed(() => {
   return (

@@ -1,6 +1,6 @@
 class LocalStorage {
 
-  get(key, def: any = '') {
+  get(key: string, def: any = '') {
     const item = localStorage.getItem(key)
     if (!item) return def
     try {
@@ -17,7 +17,7 @@ class LocalStorage {
     return def
   }
 
-  set(key, value, expire = 60 * 60 * 24) {
+  set(key: string, value: string, expire: number = 60 * 60 * 24) {
     localStorage.setItem(key, JSON.stringify({
         value,
         expire: expire !== null
@@ -27,7 +27,7 @@ class LocalStorage {
     )
   }
 
-  remove(key) {
+  remove(key: string) {
     localStorage.removeItem(key)
   }
 

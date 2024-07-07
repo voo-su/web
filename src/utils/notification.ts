@@ -1,15 +1,19 @@
-const WebNotification = window.Notification
-  || window.mozNotification
-  || window.webkitNotification
+import { ElMessage } from 'element-plus'
+
+let _window: any = window
+console.log(_window)
+const WebNotification = _window.Notification
+  || _window.mozNotification
+  || _window.webkitNotification
 
 export const applyNotificationAuth = (fn: any) => {
   const notification = WebNotification
   if (notification) {
-    notification.requestPermission(result => {
+    notification.requestPermission((result: any) => {
       return fn('granted' === result)
     })
   } else {
-    window['$message'].error('Уведомления не поддерживаются в вашем браузере.')
+    ElMessage.error('Уведомления не поддерживаются в вашем браузере.')
     return fn(false)
   }
 }

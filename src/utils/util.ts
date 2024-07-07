@@ -1,10 +1,4 @@
-import { ElMessage } from 'element-plus'
-
-export const message = function(): ElMessage {
-  return window.$message
-}
-
-const getVersionNumber = (userAgent, regex) => {
+const getVersionNumber = (userAgent: string, regex: RegExp) => {
   const matches = userAgent.match(regex)
 
   return matches && matches.length > 1 ? matches[1] : ''

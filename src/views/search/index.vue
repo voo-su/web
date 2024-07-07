@@ -8,7 +8,7 @@ import DefaultLayout from '@/layouts/DefaultLayout.vue'
 
 const emit = defineEmits(['update:show'])
 
-const keywords = ref('')
+const keywords = ref<string>('')
 
 interface IItem {
   id: number
@@ -20,9 +20,11 @@ interface IItem {
 
 const items = ref<IItem[]>([])
 
-const onSearchInput = value => {
+const onSearchInput = (value: any) => {
   if (value.trim().length >= 2) {
-    userSearchApi({ username: keywords.value }).then((res: any) => {
+    userSearchApi({
+      username: keywords.value
+    }).then((res: any) => {
       if (res.code == 200) {
         items.value = res.data.items || []
       }

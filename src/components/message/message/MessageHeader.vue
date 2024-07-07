@@ -17,7 +17,7 @@ const emit = defineEmits(['event'])
 
 const user: any = inject('$user')
 
-const onInfo = id => {
+const onInfo = (id: number) => {
   if (id !== 0) {
     if (props.data.type == 1) {
       user(id)
@@ -28,7 +28,7 @@ const onInfo = id => {
   }
 }
 
-const state = reactive({
+const state = reactive<any>({
   dropdown: {
     options: [],
     show: false,

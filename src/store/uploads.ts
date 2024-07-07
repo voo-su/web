@@ -1,10 +1,11 @@
 import { defineStore } from 'pinia'
+import { ElMessage } from 'element-plus'
 
 import { fileSubareaUploadApi, findFileSplitInfoApi } from '@/api/upload'
 import { sendDialogFileApi } from '@/api/message'
 
-const fileSlice = (file, uploadId, eachSize) => {
-  const splitNum = Math.ceil(file.size / eachSize)
+const fileSlice = (file: any, uploadId: any, eachSize: any) => {
+  const splitNum: any = Math.ceil(file.size / eachSize)
   const items = []
   for (let i = 0; i < splitNum; i++) {
     const start = i * eachSize
@@ -31,7 +32,7 @@ export const useUploadsStore = defineStore('uploads', {
       this.isShow = false
     },
 
-    initUploadFile(file, dialogType, receiverId, username) {
+    initUploadFile(file: any, dialogType: any, receiverId: any, username: any) {
       findFileSplitInfoApi({
         file_name: file.name,
         file_size: file.size
@@ -61,17 +62,17 @@ export const useUploadsStore = defineStore('uploads', {
           this.triggerUpload(upload_id)
           this.isShow = true
         } else {
-          window['$message'].error(message)
+          ElMessage.error(message)
         }
       })
     },
 
-    findItem(uploadId) {
-      return this.items.find(item => item.upload_id === uploadId)
+    findItem(uploadId: any) {
+      return this.items.find((item: any) => item.upload_id === uploadId)
     },
 
-    triggerUpload(uploadId) {
-      const item = this.findItem(uploadId)
+    triggerUpload(uploadId: any) {
+      const item: any = this.findItem(uploadId)
       const form = item.files[item.uploadIndex]
       item.status = 1
       fileSubareaUploadApi(form)
@@ -97,7 +98,7 @@ export const useUploadsStore = defineStore('uploads', {
         })
     },
 
-    sendUploadMessage(item) {
+    sendUploadMessage(item: any) {
       sendDialogFileApi({
         upload_id: item.upload_id,
         receiver_id: item.receiver_id,
@@ -107,7 +108,7 @@ export const useUploadsStore = defineStore('uploads', {
   },
   getters: {
     successCount: state => {
-      return state.items.filter(item => {
+      return state.items.filter((item: any) => {
         return item.status === 2
       }).length
     }

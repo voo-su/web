@@ -8,22 +8,20 @@ import AvatarBox from '@/components/base/BaseAvatarBox.vue'
 import { throttle } from '@/utils/common'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
 import ContactTopMenu from '@/components/contact/ContactTopMenu.vue'
+import { ElMessage } from 'element-plus'
 
 const user: any = inject('$user')
 
 const userStore = useUserStore()
 const emit = defineEmits(['close'])
-const loadingAccept = ref(false)
-const loadingDecline = ref(false)
-const items = ref([])
+
+const loadingAccept = ref<boolean>(false)
+const loadingDecline = ref<boolean>(false)
+const items = ref<any>([])
 
 const onLoadData = () => {
-  getContactApplyRecordsApi().then(res => {
-    const {
-      code,
-      data
-    } = res
-
+  getContactApplyRecordsApi().then((res: any) => {
+    const { code, data } = res
     if (code == 200) {
       items.value = data.items || []
       userStore.isContactApply = false
@@ -31,45 +29,40 @@ const onLoadData = () => {
   })
 }
 
-const onInfo = item => user(item.user_id)
+const onInfo = (item: any) => user(item.user_id)
 
-const onAccept = throttle(item => {
+const onAccept = throttle((item: any) => {
   loadingAccept.value = true
   applyAcceptApi({
     apply_id: item.id
     // remark: item.username
-  }).then(res => {
-    const {
-      code,
-      message
-    } = res
+  }).then((res: any) => {
+    const { code, message } = res
     if (code == 200) {
       onLoadData()
-      window['$message'].success('Заявка принята')
+      ElMessage.success('Заявка принята')
     } else {
-      window['$message'].info(message)
+      ElMessage.info(message)
     }
   }).finally(() => {
     loadingAccept.value = false
   })
 }, 1000)
 
-const onDecline = throttle(item => {
+const onDecline = throttle((item: any) => {
   loadingDecline.value = true
   applyDeclineApi({
     apply_id: item.id
     // remark: 'отклонять'
-  }).then(res => {
-    const {
-      code,
-      message
-    } = res
+  }).then((res: any) => {
+    const { code, message } = res
+
     loadingAccept.value = false
     if (code == 200) {
       onLoadData()
-      window['$message'].success('Заявка отклонена')
+      ElMessage.success('Заявка отклонена')
     } else {
-      window['$message'].info(message)
+      ElMessage.info(message)
     }
   }).finally(() => {
     loadingAccept.value = false

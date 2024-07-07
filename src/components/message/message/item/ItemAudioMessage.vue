@@ -8,9 +8,9 @@ const props = defineProps({
   data: Object
 })
 
-const audioRef = ref(null)
-const canvas = ref(null)
-const durationDesc = ref(null)
+const audioRef = ref<any>(null)
+const canvas = ref<any>(null)
+const durationDesc = ref<any>(null)
 
 const state = reactive({
   isAudioPlay: false,
@@ -53,7 +53,7 @@ const onCanplay = () => {
   durationDesc.value = formatTime(parseInt(audioRef.value.duration))
 }
 
-const onError = e => {
+const onError = (e: any) => {
   console.log('проблемы с воспроизведением аудио', e)
 }
 

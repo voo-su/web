@@ -8,6 +8,7 @@ import { getVideoImage, throttle } from '@/utils/common'
 import Editor from '@/components/message/editor/Editor.vue'
 // import MultiSelectFooter from './MessageMultiSelectFooter.vue'
 import { uploadImageApi } from '@/api/upload'
+import { ElMessage } from 'element-plus'
 
 const props = defineProps({
   uid: {
@@ -48,7 +49,7 @@ const onSendMessage = (data = {}, callBack: any) => {
     }
   }
   publishMessageApi(message)
-    .then(res => {
+    .then((res: any) => {
       const {
         code,
         message
@@ -56,11 +57,11 @@ const onSendMessage = (data = {}, callBack: any) => {
       if (code == 200) {
         callBack(true)
       } else {
-        window['$message'].warning(message)
+        ElMessage.warning(message)
       }
     })
     .catch(() => {
-      window['$message'].warning('Сеть перегружена, пожалуйста, попробуйте позже')
+      ElMessage.warning('Сеть перегружена, пожалуйста, попробуйте позже')
     })
 }
 
@@ -95,23 +96,24 @@ const onSendTextEvent = throttle((value: any) => {
   })
 }, 1000)
 
-const onSendImageEvent = ({
-                            data,
-                            callBack
-                          }) => {
+const onSendImageEvent = ({ data, callBack }: any) => {
   onSendMessage({ type: 'image', ...data }, callBack)
 }
 
-const onSendVideoEvent = async ({ data }) => {
-  let resp = await getVideoImage(data)
+const onSendVideoEvent = async ({ data }: any) => {
+  let resp: any = await getVideoImage(data)
   const coverForm = new FormData()
   coverForm.append('file', resp.file)
-  let cover = await uploadImageApi(coverForm)
+
+  let cover: any = await uploadImageApi(coverForm)
   if (cover.code != 200) return
+
   const form = new FormData()
   form.append('file', data)
-  let video = await uploadImageApi(form)
+  
+  let video: any = await uploadImageApi(form)
   if (video.code != 200) return
+
   let message = {
     type: 'video',
     url: video.data.src,
@@ -125,10 +127,10 @@ const onSendVideoEvent = async ({ data }) => {
 }
 
 
-const onSendAudioEvent = ({ data }) => {
+const onSendAudioEvent = ({ data }: any) => {
   let maxsize = 200 * 1024 * 1024
   if (data.size > maxsize) {
-    return window['$message'].warning('Файлы размером более 100 МБ нельзя загружать')
+    return ElMessage.warning('Файлы размером более 100 МБ нельзя загружать')
   }
   uploadsStore.initUploadFile(
     data,
@@ -138,10 +140,10 @@ const onSendAudioEvent = ({ data }) => {
   )
 }
 
-const onSendFileEvent = ({ data }) => {
+const onSendFileEvent = ({ data }: any) => {
   let maxsize = 200 * 1024 * 1024
   if (data.size > maxsize) {
-    return window['$message'].warning('Файлы размером более 100 МБ нельзя загружать')
+    return ElMessage.warning('Файлы размером более 100 МБ нельзя загружать')
   }
   uploadsStore.initUploadFile(
     data,
@@ -151,10 +153,7 @@ const onSendFileEvent = ({ data }) => {
   )
 }
 
-const onSendVoteEvent = ({
-                           data,
-                           callBack
-                         }) => {
+const onSendVoteEvent = ({ data, callBack }: any) => {
   sendVoteApi({
     receiver_id: props.receiver_id,
     mode: data.mode,
@@ -162,7 +161,7 @@ const onSendVoteEvent = ({
     title: data.title,
     options: data.options
   })
-    .then(res => {
+    .then((res: any) => {
       const {
         code,
         message
@@ -170,26 +169,20 @@ const onSendVoteEvent = ({
       if (code == 200) {
         callBack(true)
       } else {
-        window['$message'].warning(message)
+        ElMessage.warning(message)
       }
     })
     .catch(() => callBack(false))
 }
 
-const onSendStickerEvent = ({
-                               data,
-                               callBack
-                             }) => {
+const onSendStickerEvent = ({ data, callBack }: any) => {
   onSendMessage({
     type: 'sticker',
     sticker_id: data
   }, callBack)
 }
 
-const onSendMixedEvent = ({
-                            data,
-                            callBack
-                          }) => {
+const onSendMixedEvent = ({ data, callBack }: any) => {
   let message = {
     type: 'mixed',
     quote_id: data.quoteId,
@@ -205,7 +198,7 @@ const onKeyboardPush = throttle(() => {
   })
 }, 3000)
 
-const onInputEvent = ({ data }) => {
+const onInputEvent = ({ data }: any) => {
   dialogStore.updateItem({
     index_name: props.index_name,
     draft_text: data
@@ -215,17 +208,14 @@ const onInputEvent = ({ data }) => {
   }
 }
 
-const onSendImageAttachEvent = ({
-                                  data,
-                                  callBack
-                                }) => {
+const onSendImageAttachEvent = ({ data, callBack }: any) => {
   let fileData = new FormData()
   fileData.append('dialog_type', props.dialog_type)
   fileData.append('receiver_id', props.receiver_id)
   fileData.append('image', data)
 
   const resp = sendDialogImageApi(fileData)
-  resp.then(res => {
+  resp.then((res: any) => {
     const {
       code,
       message
@@ -233,14 +223,14 @@ const onSendImageAttachEvent = ({
     if (code == 200) {
       callBack(true)
     } else {
-      window['$message'].info(message)
+      ElMessage.info(message)
     }
   })
 
   resp.finally(() => callBack(false))
 }
 
-const events = {
+const events: any = {
   text_event: onSendTextEvent,
   image_event: onSendImageEvent,
   image_attach_event: onSendImageAttachEvent,
@@ -253,7 +243,7 @@ const events = {
   mixed_event: onSendMixedEvent
 }
 
-const onEditorEvent = msg => {
+const onEditorEvent = (msg: any) => {
   events[msg.event] && events[msg.event](msg)
 }
 

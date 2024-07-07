@@ -1,14 +1,14 @@
 <script lang="ts" setup>
 import { Picture as IconPicture } from '@element-plus/icons-vue'
-import { getImageInfo } from '@/utils/functions'
+import { getImageInfo, type IImageInfo } from '@/utils/functions'
 
 const props = defineProps({
   extra: Object,
   data: Object
 })
 
-const img = (src, width = 200) => {
-  const info = getImageInfo(src)
+const img = (src: any, width: number = 200) => {
+  const info: IImageInfo = getImageInfo(src)
   if (info.width == 0 || info.height == 0) {
     return {}
   }
@@ -21,8 +21,8 @@ const img = (src, width = 200) => {
   }
 
   return {
-    width: width + 'px',
-    height: parseInt(info.height / (info.width / width)) + 'px'
+    width: `${width}px`,
+    height: `${info.height / (info.width / width)}px`,
   }
 }
 

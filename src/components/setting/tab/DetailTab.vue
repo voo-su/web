@@ -5,9 +5,10 @@ import { defAvatar, genderOptions } from '@/constants/default'
 import AvatarCropper from '@/components/base/BaseAvatarCropper.vue'
 import { useUserStore } from '@/store/user'
 import type { FormInstance, FormRules } from 'element-plus'
+import { ElMessage } from 'element-plus'
 
 const userStore = useUserStore()
-const cropper = ref(false)
+const cropper = ref<boolean>(false)
 const formRef = ref<FormInstance>()
 
 const rules = reactive<FormRules>({
@@ -66,7 +67,7 @@ getAccountApi().then(({ data }) => {
   form.about = data.about.toString()
 })
 
-const onUploadAvatar = avatar => {
+const onUploadAvatar = (avatar: any) => {
   cropper.value = false
   form.avatar = avatar
   onSubmit(formRef.value)
@@ -86,11 +87,11 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
         about: form.about
       })
         .then(() => {
-          window['$message'].success('Информация успешно сохранена')
+          ElMessage.success('Информация успешно сохранена')
           userStore.loadSetting()
         })
         .catch(() => {
-          window['$message'].warning('Не удалось сохранить информацию')
+          ElMessage.warning('Не удалось сохранить информацию')
         })
         .finally(() => {
           form.loading = false

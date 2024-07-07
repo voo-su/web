@@ -6,7 +6,7 @@ const emit = defineEmits(['select', 'click-outside'])
 const show = ref<boolean>(false)
 const panel = ref()
 
-const init = value => {
+const init = (value: any) => {
   const el = panel.value
   if (el) {
     //const rect = el.getBoundingClientRect()
@@ -16,7 +16,7 @@ const init = value => {
   }
 }
 
-const event = e => {
+const event = (e: any) => {
   const el = panel.value
   if (el && !el.contains(e.target)) {
     emit('click-outside')

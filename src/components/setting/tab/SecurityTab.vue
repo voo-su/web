@@ -7,7 +7,7 @@ import UsernameBox from '@/components/setting/box/UsernameBox.vue'
 const state = reactive({ component: markRaw(SecurityBox) })
 
 const onClick = (key: string) => {
-  const component = {
+  const component: any = {
     security: SecurityBox,
     email: EmailBox,
     username: UsernameBox

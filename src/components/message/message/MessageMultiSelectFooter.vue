@@ -8,7 +8,7 @@ const dialogueStore = useDialogueStore()
 const isShowContactModal = ref(false)
 const forwardMode = ref(0)
 
-const onShowContactModal = type => {
+const onShowContactModal = (type: any) => {
   forwardMode.value = type
   isShowContactModal.value = true
 }
@@ -30,14 +30,14 @@ const onSingleForward = () => {
 }
 
 const onMultiDelete = () => {
-  let ids = dialogueStore.selectItems.map(item => item.id)
+  let ids = dialogueStore.selectItems.map((item: any) => item.id)
   if (!ids.length)
     return
   dialogueStore.ApiDeleteRecord(ids)
 }
 
-const onContactModal = data => {
-  let ids = dialogueStore.selectItems.map(item => item.id)
+const onContactModal = (data: any) => {
+  let ids = dialogueStore.selectItems.map((item: any) => item.id)
   let user_ids = []
   let group_ids = []
   for (const o of data) {

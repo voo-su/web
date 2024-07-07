@@ -10,7 +10,7 @@ class Revoke extends Base {
   receiver_id = 0
   dialog_type = 0
 
-  constructor(resource) {
+  constructor(resource: any) {
     super()
     this.resource = resource
     this.sender_id = resource.sender_id

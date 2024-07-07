@@ -1,6 +1,11 @@
 import { getAccessToken } from '@/utils/auth'
 
-export const getImageInfo = (imgsrc: any) => {
+export interface IImageInfo {
+  width: number
+  height: number
+}
+
+export const getImageInfo = (imgsrc: any): IImageInfo => {
   const data = {
     width: 0,
     height: 0
@@ -29,7 +34,7 @@ export const download = (cr_id: any) => {
   }
 }
 
-export const insertText = (obj, str) => {
+export const insertText = (obj: any, str: any) => {
   if (document.selection) {
     const sel = document.selection.createRange()
     sel.text = str
@@ -54,8 +59,8 @@ export const insertText = (obj, str) => {
   }
 }
 
-export const countDownTime = (second = 0) => {
-  const formate0to9 = arg => {
+export const countDownTime = (second: number = 0) => {
+  const formate0to9 = (arg: number) => {
     return arg < 10 ? `0${arg}` : arg
   }
 
@@ -65,7 +70,7 @@ export const countDownTime = (second = 0) => {
   return `${formate0to9(hours)}:${formate0to9(minutes)}:${formate0to9(seconds)}`
 }
 
-export const parseJwt = token => {
+export const parseJwt = (token: string) => {
   const base64Url = token.split('.')[1]
   const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/')
   const jsonPayload = decodeURIComponent(window.atob(base64)
@@ -74,14 +79,14 @@ export const parseJwt = token => {
   return JSON.parse(jsonPayload)
 }
 
-export const downloadImage = (src, name) => {
+export const downloadImage = (src: string, name: string) => {
   const image = new Image()
   image.setAttribute('crossOrigin', 'anonymous')
   image.onload = () => {
     const canvas = document.createElement('canvas')
     canvas.width = image.width
     canvas.height = image.height
-    const context = canvas.getContext('2d')
+    const context: any = canvas.getContext('2d')
     context.drawImage(image, 0, 0, image.width, image.height)
     const url = canvas.toDataURL('image/png')
     const a = document.createElement('a')

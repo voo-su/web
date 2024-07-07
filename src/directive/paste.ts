@@ -1,6 +1,6 @@
 export default {
-  created(el, binding) {
-    el.addEventListener('paste', event => {
+  created(el: any, binding: any) {
+    el.addEventListener('paste', (event: any) => {
       binding.value(event)
     })
   }

@@ -4,7 +4,8 @@ import { useUserStore } from '@/store'
 import type { FormInstance, FormRules } from 'element-plus'
 import { updateUsernameApi } from '@/api/account'
 import { getErrorForField } from '@/plugins'
-import IconUser from '@/components/icons/IconUser'
+import IconUser from '@/components/icons/IconUser.vue'
+import { ElMessage } from 'element-plus'
 
 const userStore = useUserStore()
 const emit = defineEmits(['onClick'])
@@ -56,7 +57,7 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
           message
         } = res
         if (code == 200) {
-          window['$message'].success('Имя пользователя успешно изменен')
+          ElMessage.success('Имя пользователя успешно изменен')
           userStore.username = form.username
           emit('onClick', 'security')
         } else {

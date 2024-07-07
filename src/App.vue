@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { getCurrentInstance } from 'vue'
-import { ElDialog, ElMessage, ElMessageBox, ElNotification } from 'element-plus'
+// import { getCurrentInstance } from 'vue'
+// import { ElMessage } from 'element-plus'
 import { useUserStore } from '@/store'
 import socket from '@/utils/socket'
 import { listener } from '@/utils/listener'
@@ -16,23 +16,12 @@ if (isLoggedIn()) {
 
 listener()
 
-const ctx = getCurrentInstance()
-if (ctx) {
-  const message = ElMessage
-  const messageBox = ElMessageBox
-  const notification = ElNotification
-  const dialog = ElDialog
-
-  window['$message'] = message
-  window['$messageBox'] = messageBox
-  window['$notification'] = notification
-  window['$dialog'] = dialog
-
-  ctx.appContext.config.globalProperties.$message = message
-  ctx.appContext.config.globalProperties.$messageBox = messageBox
-  ctx.appContext.config.globalProperties.$notification = notification
-  ctx.appContext.config.globalProperties.$dialog = dialog
-}
+// const ctx = getCurrentInstance()
+// if (ctx) {
+//   const message = ElMessage
+//   ElMessage = message
+//   ctx.appContext.config.globalProperties.$message = message
+// }
 </script>
 
 <template>

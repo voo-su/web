@@ -1,17 +1,19 @@
 import axios from 'axios'
 import { delAccessToken, getAccessToken } from '@/utils/auth'
+import { ElDialog } from 'element-plus'
+import { ElMessage } from 'element-plus'
 
 const request = axios.create({
   baseURL: import.meta.env.VITE_BASE_API,
   timeout: 10000
 })
 
-const errorHandler = error => {
+const errorHandler = (error: any) => {
   if (error.response) {
     if (error.response.status == 401) {
       delAccessToken()
-      window['$message'].error('Ваша текущая сессия истекла. Пожалуйста, выполните вход заново.')
-      // window['$dialog'].info({
+      ElMessage.error('Ваша текущая сессия истекла. Пожалуйста, выполните вход заново.')
+      // ElDialog.info({
       //     title: 'Важное сообщение',
       //     content: 'Ваша текущая сессия истекла. Пожалуйста, выполните вход заново.',
       //     positiveText: 'Войти сейчас?',
@@ -35,7 +37,7 @@ request.interceptors.request.use(config => {
 
 request.interceptors.response.use(response => response.data, errorHandler)
 
-export const get = (url, data = {}, options = {}) => {
+export const get = (url: string, data = {}, options = {}) => {
   return request({
     url,
     params: data,
@@ -44,7 +46,7 @@ export const get = (url, data = {}, options = {}) => {
   })
 }
 
-export const post = (url, data = {}, options = {}) => {
+export const post = (url: string, data = {}, options = {}) => {
   return request({
     url,
     method: 'post',
@@ -53,7 +55,7 @@ export const post = (url, data = {}, options = {}) => {
   })
 }
 
-export const put = (url, data = {}, options = {}) => {
+export const put = (url: string, data = {}, options = {}) => {
   return request({
     url,
     method: 'put',
@@ -62,7 +64,7 @@ export const put = (url, data = {}, options = {}) => {
   })
 }
 
-export const upload = (url, data = {}, options = {}) => {
+export const upload = (url: string, data = {}, options = {}) => {
   return request({
     url,
     method: 'post',

@@ -7,6 +7,8 @@ import EventDialog from '../event/socket/dialog'
 import EventKeyboard from '../event/socket/keyboard'
 import EventLogin from '../event/socket/login'
 import EventRevoke from '../event/socket/revoke'
+import { ElNotification } from 'element-plus'
+import { ElMessage } from 'element-plus'
 
 const urlCallback = () => {
   if (!isLoggedIn()) {
@@ -72,8 +74,7 @@ class Socket {
   }
 
   onPong() {
-    this.ws.on('pong', () => {
-    })
+    this.ws.on('pong', () => {})
   }
 
   onImMessage() {
@@ -110,7 +111,7 @@ class Socket {
 
   onImContactApply() {
     this.ws.on('voo.contact.request', (data: any) => {
-      // window['$notification'].create({
+      // ElNotification.create({
       //   title: 'Уведомление о запросе на добавление в контакты',
       //   content: data.username,
       //   description: `Заявитель: ${data.friend.username}`,
@@ -130,8 +131,8 @@ class Socket {
 
   onImGroupApply() {
     this.ws.on('voo.group_chat.request', () => {
-      // window['$message'].info('Уведомление о заявке в группу')
-      // window['$notification'].create({
+      // ElMessage.info('Уведомление о заявке в группу')
+      // ElNotification.create({
       //   title: 'Уведомление о заявке в группу',
       //   content: 'Поступила новая заявка на вступление в группу. Пожалуйста, проверьте.',
       //   avatar: () =>
@@ -149,7 +150,7 @@ class Socket {
 
   onEventError() {
     this.ws.on('event_error', (data: any) => {
-      window['$message'] && window['$message'].error(JSON.stringify(data))
+      ElMessage && ElMessage.error(JSON.stringify(data))
     })
   }
 

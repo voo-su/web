@@ -5,6 +5,7 @@ import { editGroupApi, groupDetailApi } from '@/api/group-chat'
 import { defGroup } from '@/constants/default'
 import AvatarBox from '@/components/base/BaseAvatarBox.vue'
 import type { FormInstance, FormRules } from 'element-plus'
+import { ElMessage } from 'element-plus'
 
 const emit = defineEmits(['close'])
 const props = defineProps({
@@ -14,7 +15,7 @@ const props = defineProps({
   }
 })
 
-const cropper = ref(false)
+const cropper = ref<boolean>(false)
 const formRef = ref<FormInstance>()
 
 interface FormType {
@@ -46,13 +47,13 @@ const rules = reactive<FormRules>({
   ]
 })
 
-const onUploadAvatar = avatar => {
+const onUploadAvatar = (avatar: any) => {
   cropper.value = false
   form.avatar = avatar
 }
 
 const onLoadData = () => {
-  groupDetailApi({ group_id: props.id }).then(res => {
+  groupDetailApi({ group_id: props.id }).then((res: any) => {
     if (res.code == 200) {
       form.name = res.data.group_name
       form.avatar = res.data.avatar
@@ -66,19 +67,19 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
   await formEl.validate(async valid => {
     if (valid) {
       if (form.name.trim() == '') {
-        return window['$message'].info('Имя группы не может быть пустым')
+        return ElMessage.info('Имя группы не может быть пустым')
       }
       editGroupApi({
         group_id: props.id,
         group_name: form.name,
         avatar: form.avatar,
         description: form.description
-      }).then(res => {
+      }).then((res: any) => {
         if (res.code == 200) {
-          window['$message'].success('Информация о группе успешно обновлена')
+          ElMessage.success('Информация о группе успешно обновлена')
           emit('close')
         } else {
-          window['$message'].error(res.message)
+          ElMessage.error(res.message)
         }
       })
     }

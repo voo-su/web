@@ -3,18 +3,19 @@ import { reactive, ref } from 'vue'
 import { VueCropper } from 'vue-cropper'
 import 'vue-cropper/dist/index.css'
 import { uploadAvatarApi } from '@/api/upload'
+import { ElMessage } from 'element-plus'
 
 const emit = defineEmits(['close', 'success'])
 
-const state = reactive({
+const state = reactive<any>({
   show: true,
   src: ''
 })
-const dialogRef = ref()
+const dialogRef = ref<any>()
 
-const cropper = ref('cropper')
+const cropper = ref<any>('cropper')
 
-const option = reactive({
+const option = reactive<any>({
   img: '',
   size: 1,
   full: false,
@@ -39,10 +40,10 @@ const onTriggerUpload = () => {
   document.getElementById('upload-avatar').click()
 }
 
-const onUpload = e => {
+const onUpload = (e: any) => {
   let file = e.target.files[0]
   let reader = new FileReader()
-  reader.onload = e => {
+  reader.onload = (e: any) => {
     let data
     if (typeof e.target.result === 'object') {
       data = window.URL.createObjectURL(new Blob([e.target.result]))
@@ -55,7 +56,7 @@ const onUpload = e => {
 }
 
 const realTime = () => {
-  cropper.value.getCropData(img => {
+  cropper.value.getCropData((img: any) => {
     option.preview = img
   })
 }
@@ -72,18 +73,20 @@ const refreshCrop = () => {
 }
 
 const onSubmit = () => {
-  cropper.value.getCropBlob(blob => {
+  cropper.value.getCropBlob((blob: any) => {
     let file = new File([blob], 'avatar.png', {
       type: blob.type,
       lastModified: Date.now()
     })
+
     const form = new FormData()
     form.append('file', file)
-    uploadAvatarApi(form).then(res => {
+
+    uploadAvatarApi(form).then((res: any) => {
       if (res.code == 200) {
         emit('success', res.data.avatar)
       } else {
-        window['$message'].info(res.message)
+        ElMessage.info(res.message)
       }
     })
   })

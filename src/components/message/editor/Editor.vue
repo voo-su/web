@@ -19,13 +19,14 @@ import EditorSticker from './EditorSticker.vue'
 import EditorVote from './EditorVote.vue'
 // import EditorRecorder from './EditorRecorder.vue'
 import IconAudio from '@/components/icons/IconAudio.vue'
-import { getEditorNodeInfo } from './editor.ts'
+import { getEditorNodeInfo } from './editor'
 import { getImageInfo } from '@/utils/functions'
 import { uploadImageApi } from '@/api/upload'
 import IconEmoticon from '@/components/icons/IconEmoticon.vue'
-import { publisher } from '@/utils/publisher.ts'
+import { publisher } from '@/utils/publisher'
 import IconClip from '@/components/icons/IconClip.vue'
 import type { IDropdown } from './types'
+import { ElMessage } from 'element-plus'
 
 const emit = defineEmits(['editor-event'])
 const dialogueStore = useDialogueStore()
@@ -149,7 +150,7 @@ const sendMessage = (e: any, data: any) => {
   switch (data.msgType) {
     case 1:
       if (data.items[0].content.length > 1024) {
-        return window['$message'].info('Превышена максимальная длина сообщения. Пожалуйста, разделите его на несколько частей и отправьте отдельно.')
+        return ElMessage.info('Превышена максимальная длина сообщения. Пожалуйста, разделите его на несколько частей и отправьте отдельно.')
       }
 
       let event = emitCall('text_event', data, (ok: any) => {
@@ -217,7 +218,7 @@ const onInputEvent = (e: any) => emit('editor-event',
   })
 )
 
-const onImageAttachEvent = ({ callBack }) => {
+const onImageAttachEvent = ({ callBack }: any) => {
   const data = emitCall('image_attach_event', imagePreview.file, (ok: boolean) => {
     callBack(ok)
   })
@@ -277,7 +278,7 @@ const onStickerEvent = (data: any) => {
 }
 
 const insertEditorImage = (file: File) => {
-  let imageNode = document.createElement('img')
+  let imageNode:any = document.createElement('img')
   imageNode.className = 'message-input-image'
 
   let reader = new FileReader()
@@ -308,7 +309,7 @@ const insertEditorImage = (file: File) => {
   const form = new FormData()
   form.append('file', file)
   uploadImageApi(form)
-    .then(res => {
+    .then((res: any) => {
       const {
         code,
         data,
@@ -319,14 +320,14 @@ const insertEditorImage = (file: File) => {
         imageNode.src = data.src
       } else {
         imageNode.remove()
-        window['$message'].error(message)
+        ElMessage.error(message)
       }
     })
 }
 
-const isSupportedImageFormat = fileName => /\.(gif|jpg|jpeg|png|webp|svg)$/i.test(fileName)
+const isSupportedImageFormat = (fileName: string) => /\.(gif|jpg|jpeg|png|webp|svg)$/i.test(fileName)
 
-const onUploadImageAttachFile = e => {
+const onUploadImageAttachFile = (e: any) => {
   const file = e.target.files[0]
   e.target.value = null
 
@@ -334,22 +335,22 @@ const onUploadImageAttachFile = e => {
     return insertEditorImage(file)
   }
 
-  window['$message'].info('Поддерживаются только форматы: gif, jpg, jpeg, png, webp, svg.')
+  ElMessage.info('Поддерживаются только форматы: gif, jpg, jpeg, png, webp, svg.')
 }
 
-const onUploadImageChange = e => {
+const onUploadImageChange = (e: any) => {
   const file = e.target.files[0]
 
   if (file && isSupportedImageFormat(file.name)) {
     openImagePreview(file)
     e.target.value = null
   } else {
-    window['$message'].info('Поддерживаются только форматы: gif, jpg, jpeg, png, webp, svg.')
+    ElMessage.info('Поддерживаются только форматы: gif, jpg, jpeg, png, webp, svg.')
   }
 }
 
 
-const onUploadVideoFile = e => {
+const onUploadVideoFile = (e: any) => {
   const file = e.target.files[0]
   e.target.value = null
 
@@ -364,10 +365,10 @@ const onUploadVideoFile = e => {
     return
   }
 
-  window['$message'].info('Поддерживаются только форматы: mp4, avi, mov, mkv')
+  ElMessage.info('Поддерживаются только форматы: mp4, avi, mov, mkv')
 }
 
-const onUploadAudioFile = e => {
+const onUploadAudioFile = (e: any) => {
   const file = e.target.files[0]
   e.target.value = null
 
@@ -382,7 +383,7 @@ const onUploadAudioFile = e => {
     return
   }
 
-  window['$message'].info('Поддерживаются только форматы: mp3, wav, aac, flac, ogg')
+  ElMessage.info('Поддерживаются только форматы: mp3, wav, aac, flac, ogg')
 }
 
 const onUploadFile = (e: any) => {
@@ -396,7 +397,7 @@ const onUploadFile = (e: any) => {
   // return
   // }
 
-  // return window['$message'].info('Поддерживаются только форматы: pdf, docx, xlsx, zip, txt')
+  // return ElMessage.info('Поддерживаются только форматы: pdf, docx, xlsx, zip, txt')
 }
 
 // const onRecorderEvent = (file: any) => {
@@ -405,7 +406,7 @@ const onUploadFile = (e: any) => {
 // }
 
 
-const openImagePreview = file => {
+const openImagePreview = (file: any) => {
   imagePreview.file = file
   imagePreview.show = true
 }
@@ -453,7 +454,7 @@ const loadEditorDraftText = () => {
   const editor = document.getElementById('editable')
   if (!editor) return
 
-  const dialog = dialogStore.findItem(dialogueStore.index_name)
+  const dialog: any = dialogStore.findItem(dialogueStore.index_name)
   if (dialog) {
     editor.innerHTML = dialog.draft_text
   }

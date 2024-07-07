@@ -1,5 +1,5 @@
 class Publisher {
-  private channels: Channels = {}
+  private channels: any = {}
 
   subscribe(channel: string, callback: Function) {
     if (!this.channels[channel]) {
@@ -12,7 +12,7 @@ class Publisher {
     if (!this.channels[channel]) {
       return
     }
-    this.channels[channel].forEach(callback => {
+    this.channels[channel].forEach((callback: any) => {
       callback(data)
     })
   }

@@ -2,6 +2,8 @@
 import { computed, reactive, ref } from 'vue'
 import { contactFoldersApi, contactFolderSaveApi } from '@/api/contact'
 import { Delete as IconDelete, Plus as IconPlus } from '@element-plus/icons-vue'
+import { ElDialog } from 'element-plus'
+import { ElMessage } from 'element-plus'
 
 const isShowBox = ref(true)
 const emit = defineEmits(['close', 'relaod'])
@@ -18,10 +20,7 @@ const options = reactive<Item[]>([])
 let index = 1
 
 const onLoad = async () => {
-  let {
-    code,
-    data
-  } = await contactFoldersApi()
+  let { code, data } = await contactFoldersApi()
   if (code != 200) return
   let items = data.items || []
   for (const item of items) {
@@ -49,11 +48,11 @@ const onSubmit = () => {
     .then((res: any) => {
       const {code, message} = res
       if (code == 200) {
-        window['$message'].success('Успешно')
+        ElMessage.success('Успешно')
         emit('relaod')
         emit('close')
       } else {
-        window['$message'].error(message)
+        ElMessage.error(message)
       }
     })
 }
@@ -75,7 +74,7 @@ const delOption = (item: Item) => {
     }
   }
   if (item.count > 0) {
-    window['$dialog'].create({
+    ElDialog.create({
       title: '',
       content: `В папке ${item.name} есть ${item.count} контакты. Вы уверены, что хотите удалить ?`,
       positiveText: 'Ок',

@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 import { inject } from 'vue'
 
-const showUserModal = inject('$user')
-
 defineProps({
   extra: Object,
   data: Object
 })
+
+const showUserModal = inject<any>('$user')
 </script>
 
 <template>

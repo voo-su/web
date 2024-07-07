@@ -1,7 +1,7 @@
-export const objForEach = (obj, fn) => {
+export const objForEach = (obj: any, fn: any) => {
   let key = void 0,
     result = void 0
-  for (key in obj) {
+  for (const key in obj) {
     if (obj.hasOwnProperty(key)) {
       result = fn.call(obj, key, obj[key])
       if (result === false) {
@@ -11,12 +11,12 @@ export const objForEach = (obj, fn) => {
   }
 }
 
-export const arrForEach = (fakeArr, fn) => {
+export const arrForEach = (fakeArr: any, fn: any) => {
   let i = void 0,
     item = void 0,
     result = void 0
   const length = fakeArr.length || 0
-  for (i = 0; i < length; i++) {
+  for (let i = 0; i < length; i++) {
     item = fakeArr[i]
     result = fn.call(fakeArr, item, i)
     if (result === false) {
@@ -48,7 +48,7 @@ export const getPasteText = (e: any) => {
   return replaceHtmlSymbol(pasteText)
 }
 
-export const getPasteHtml = (e, filterStyle, ignoreImg) => {
+export const getPasteHtml = (e: any, filterStyle: any, ignoreImg: any) => {
   const clipboardData =
     e.clipboardData || (e.originalEvent && e.originalEvent.clipboardData)
   let pasteText = void 0,
@@ -95,7 +95,7 @@ export const getPasteImgs = (e: any) => {
   if (!items) {
     return result
   }
-  objForEach(items, (key, value) => {
+  objForEach(items, (key: any, value: any) => {
     const { type } = value
     if (/image/i.test(type)) {
       result.push(value.getAsFile())
@@ -112,7 +112,7 @@ export const getDragPasteImg = (e: any) => {
   if (!items) {
     return result
   }
-  objForEach(items, (key, value) => {
+  objForEach(items, (key: any, value: any) => {
     const { type } = value
     if (/image/i.test(type)) {
       result.push(value.getAsFile())
@@ -154,6 +154,6 @@ export const pasteFilter = (e: any) => {
 export const pasteUids = (value: any) => {
   const atids = value.match(/data-atid="\d+"/g)
   return atids
-    ? atids.toString().match(/\d+/g).map(value => parseInt(value))
+    ? atids.toString().match(/\d+/g).map((value: any) => parseInt(value))
     : []
 }

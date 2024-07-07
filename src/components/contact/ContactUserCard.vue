@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { computed, reactive, ref, markRaw } from 'vue'
 import { contactFolderMoveApi, createContactApi, searchUserApi, contactFoldersApi, deleteContactApi } from '@/api/contact'
+import { ElMessageBox } from 'element-plus'
 import { onSetDisturb, toDialog } from '@/utils/dialog'
 import {
   Bell,
@@ -12,6 +13,7 @@ import {
 import AvatarBox from '@/components/base/BaseAvatarBox.vue'
 import { useDialogStore, useDialogueStore } from '@/store'
 import type { Action } from 'element-plus'
+import { ElMessage } from 'element-plus'
 
 const props = defineProps({
   uid: {
@@ -82,7 +84,7 @@ const state = reactive<IContact>({
 //   return 'Папка не установлена'
 // })
 
-const dialogue = dialogStore.findItem(dialogueStore.index_name)
+const dialogue: any = dialogStore.findItem(dialogueStore.index_name)
 
 if (dialogueStore.index_name !== null) {
   isNotification.value = dialogue.is_disturb == 0
@@ -98,23 +100,23 @@ const onLoadData = () => {
       Object.assign(state, data)
       showModal.value = true
     } else {
-      window['$message'].info('Информация о пользователе не существует')
+      ElMessage.info('Информация о пользователе не существует')
     }
   })
 
-  contactFoldersApi().then((res: any) => {
-    const { code, data } = res
+  // contactFoldersApi().then((res: any) => {
+  //   const { code, data } = res
 
-    if (code == 200) {
-      let items = data.items || []
-      for (const iter of items) {
-        folders.push({
-          label: iter.name,
-          key: iter.id
-        })
-      }
-    }
-  })
+  //   if (code == 200) {
+  //     let items = data.items || []
+  //     for (const iter of items) {
+  //       folders.push({
+  //         label: iter.name,
+  //         key: iter.id
+  //       })
+  //     }
+  //   }
+  // })
 }
 
 const onToDialog = () => {
@@ -125,7 +127,7 @@ const onToDialog = () => {
 
 const onJoinContact = () => {
   // if (!state.text.length) {
-  //   return window['$message'].info('Поле примечания не может быть пустым')
+  //   return ElMessage.info('Поле примечания не может быть пустым')
   // }
   createContactApi({
     friend_id: parseInt(props.uid)
@@ -136,9 +138,9 @@ const onJoinContact = () => {
     if (code == 200) {
       emit('close')
       onClose()
-      window['$message'].success('Заявка успешно отправлена')
+      ElMessage.success('Заявка успешно отправлена')
     } else {
-      window['$message'].error(message)
+      ElMessage.error(message)
     }
   })
 }
@@ -152,7 +154,7 @@ const onJoinContact = () => {
 //     const { code, message } = res
 //     if (code == 200) {
 //       state.group_id = value
-//       window['$message'].success('Папка успешно изменена')
+//       ElMessage.success('Папка успешно изменена')
 //     } else {
 //       message().error(message)
 //     }
@@ -172,7 +174,7 @@ const onNotification = (value: any) => {
 const onDeleteContact = () => {
   let name = state.username || state.name
 
-  window['$messageBox'].confirm(
+  ElMessageBox.confirm(
     'Вы действительно хотите удалить пользователя из списка Контактов?',
     `Удалить контакт ${name}`,
     {
@@ -187,10 +189,10 @@ const onDeleteContact = () => {
           }).then((res: any) => {
             const { code, message } = res
             if (code == 200) {
-              window['$message'].success('Контакт удален')
+              ElMessage.success('Контакт удален')
               // onDeleteDialog(data.index_name)
             } else {
-              window['$message'].error(message)
+              ElMessage.error(message)
             }
           })
         }

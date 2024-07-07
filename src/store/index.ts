@@ -4,7 +4,6 @@ import { useDialogStore } from '@/store/dialog'
 import { useEditorStore } from '@/store/editor'
 import { useDialogueStore } from '@/store/dialogue'
 import { useUploadsStore } from '@/store/uploads'
-import { useProjectStore } from '@/store/project'
 
 export {
   useUserStore,
@@ -12,6 +11,5 @@ export {
   useDialogStore,
   useEditorStore,
   useDialogueStore,
-  useUploadsStore,
-  useProjectStore
+  useUploadsStore
 }

@@ -16,8 +16,9 @@ import ContextMenu from '@/components/base/BaseContextMenu.vue'
 import AvatarBox from '@/components/base/BaseAvatarBox.vue'
 import IconOneCheck from '@/components/icons/IconOneCheck.vue'
 import IconTwoCheck from '@/components/icons/IconTwoCheck.vue'
-import { publisher } from '@/utils/publisher.ts'
+import { publisher } from '@/utils/publisher'
 import ItemRevokeMessage from '@/components/message/message/item/ItemRevokeMessage.vue'
+import { ElMessage } from 'element-plus'
 
 const {
   dropdown,
@@ -208,10 +209,10 @@ const onDownloadFile = (data: any) => {
   }
 
   if (data.msg_type == 4) {
-    return window['$message'].info('Загрузка аудиофайлов в настоящее время не поддерживается')
+    return ElMessage.info('Загрузка аудиофайлов в настоящее время не поддерживается')
   }
 
-  return window['$message'].info('Загрузка видеофайлов в настоящее время не поддерживается')
+  return ElMessage.info('Загрузка видеофайлов в настоящее время не поддерживается')
 }
 
 const onQuoteMessage = (data: any) => {
@@ -332,7 +333,7 @@ const onJumpMessage = (msgid: string) => {
 
       if (locationMessage.num === 0) {
         locationMessage = null
-        window['$message'].info('Только последние 300 записей доступны для просмотра.')
+        ElMessage.info('Только последние 300 записей доступны для просмотра.')
         return
       }
     }
@@ -372,7 +373,7 @@ const onRowClick = (item: any) => {
     if (ForwardableMessageType.includes(item.msg_type)) {
       item.isCheck = !item.isCheck
     } else {
-      window['$message'].info('Этот тип сообщения не поддерживает пересылку')
+      ElMessage.info('Этот тип сообщения не поддерживает пересылку')
     }
   }
 }

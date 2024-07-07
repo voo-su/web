@@ -27,7 +27,7 @@ defineProps({
   }
 })
 
-const onUserCardModal = id => user(id)
+const onUserCardModal = (id: number) => user(id)
 </script>
 
 <template>

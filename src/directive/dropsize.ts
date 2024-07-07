@@ -1,9 +1,13 @@
-const touch = {
+const touch: any = {
   lastTime: 0,
   interval: 300,
   startX: 0
 }
-let move = 0, element, min = 200, max = 230
+
+let move: number = 0
+let element: any
+let min: number = 200
+let max: number = 230
 
 const mousemove_ = (e: any) => {
   if (!touch.init) return
@@ -26,7 +30,7 @@ const mouseup_ = () => {
 }
 
 export default {
-  mounted: (el, binding) => {
+  mounted: (el: any, binding: any) => {
     if (el) {
       element = el
       max = binding.value.max
@@ -56,6 +60,7 @@ export default {
       el.appendChild(dom)
     }
   },
+
   unmounted: () => {
     document.removeEventListener('mousemove', mousemove_)
     document.removeEventListener('mouseup', mouseup_)

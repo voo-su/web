@@ -12,13 +12,12 @@ defineProps({
 <template>
   <section class="login-message">
     <h4>Уведомление о входе в систему</h4>
-    <p>Время входа: {{ formatTime(extra.datetime) }}</p>
-    <p>IP: {{ extra.ip }}</p>
-    <!--<p>Местоположение входа: {{ extra.address }}</p>-->
     <p>
       Устройство: {{ getOSType(extra.agent) }} / {{ getBrowserType(extra.agent) }}
     </p>
-    <!--<p>Причина исключения: {{ extra.reason }}</p>-->
+    <p>IP: {{ extra.ip }}</p>
+    <p>Место входа: {{ extra.address }}</p>
+    <p>Время входа: {{ formatTime(extra.datetime) }}</p>
   </section>
 </template>
 

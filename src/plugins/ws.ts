@@ -1,10 +1,28 @@
 const cache = new Set()
 
+interface IConfig {
+  heartbeat: {
+    setInterval: any
+    pingInterval: number
+    pingTimeout: number
+  }
+  reconnect: {
+    lockReconnect: boolean
+    setTimeout: any
+    time: number
+    number: number
+  }
+}
+
 class Ws {
 
-  connect = null
+  connect: any = null
+  
+  urlCallBack: any
 
-  config = {
+  events: any
+
+  config: IConfig = {
     heartbeat: {
       setInterval: null,
       pingInterval: 20000,
@@ -18,23 +36,20 @@ class Ws {
     }
   }
 
-  lastTime = 0
+  lastTime: number = 0
 
-  onCallBacks = []
+  onCallBacks: any = []
 
   defaultEvent = {
-    onError: () => {
-    },
-    onOpen: () => {
-    },
-    onClose: () => {
-    }
+    onError: () => {},
+    onOpen: () => {},
+    onClose: () => {}
   }
 
-  constructor(urlCallBack, events) {
+  constructor(urlCallBack: any, events: any) {
     this.urlCallBack = urlCallBack
     this.events = Object.assign({}, this.defaultEvent, events)
-    this.on('connect', data => {
+    this.on('connect', (data: any) => {
       this.config.heartbeat.pingInterval = data.ping_interval * 1000
       this.config.heartbeat.pingTimeout = data.ping_timeout * 1000
       this.heartbeat()
@@ -42,7 +57,7 @@ class Ws {
     })
   }
 
-  on(event, callBack) {
+  on(event: any, callBack: any) {
     this.onCallBacks[event] = callBack
     return this
   }
@@ -63,13 +78,14 @@ class Ws {
 
   reconnect() {
     clearTimeout(this.config.reconnect.setTimeout)
+
     this.config.reconnect.setTimeout = setTimeout(() => {
       this.connection()
       console.log('Соединение с сетью разорвано, попытка повторного подключения...')
     }, this.config.reconnect.time)
   }
 
-  onParse(evt) {
+  onParse(evt: any) {
     const {
       sid,
       event,
@@ -83,27 +99,27 @@ class Ws {
     }
   }
 
-  onOpen(evt) {
+  onOpen(evt: any) {
     this.lastTime = new Date().getTime()
     this.events.onOpen(evt)
     this.ping()
   }
 
-  onClose(evt) {
+  onClose(evt: any) {
     this.events.onClose(evt)
     this.connect && this.connect.close()
     this.connect = null
     evt.code == 1006 && this.reconnect()
   }
 
-  onError(evt) {
+  onError(evt: any) {
     this.events.onError(evt)
     this.connect.close()
     this.connect = null
     this.reconnect()
   }
 
-  onMessage(evt) {
+  onMessage(evt: any) {
     this.lastTime = new Date().getTime()
     const result = this.onParse(evt)
     if (result.sid) {
@@ -125,6 +141,7 @@ class Ws {
         if (this.connect) {
           this.connect.close()
         }
+
         this.reconnect()
       } else {
         this.ping()
@@ -136,7 +153,7 @@ class Ws {
     this.connect.send('{"event":"ping"}')
   }
 
-  send(mesage) {
+  send(mesage: any) {
     if (typeof mesage == 'string') {
       this.connect.send(mesage)
     } else {
@@ -148,11 +165,12 @@ class Ws {
     this.connect.close()
   }
 
-  emit(event, data) {
+  emit(event: any, data: any) {
     const content = JSON.stringify({
       event,
       content: data
     })
+
     if (this.connect && this.connect.readyState === 1) {
       this.connect.send(content)
     } else {

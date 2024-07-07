@@ -1,5 +1,5 @@
 export default {
-  mounted(el) {
+  mounted(el: any) {
     setTimeout(() => {
       el.focus()
     }, 0)

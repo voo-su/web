@@ -1,18 +1,18 @@
 export default {
-  created(el, binding) {
-    el.addEventListener('dragenter', event => {
+  created(el: any, binding: any) {
+    el.addEventListener('dragenter', (event: any) => {
       event.stopPropagation()
       event.preventDefault()
     })
-    el.addEventListener('dragover', event => {
+    el.addEventListener('dragover', (event: any) => {
       event.stopPropagation()
       event.preventDefault()
     })
-    el.addEventListener('dragleave', event => {
+    el.addEventListener('dragleave', (event: any) => {
       event.stopPropagation()
       event.preventDefault()
     })
-    el.addEventListener('drop', event => {
+    el.addEventListener('drop', (event: any) => {
       event.stopPropagation()
       event.preventDefault()
       binding.value(event)

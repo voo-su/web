@@ -1,14 +1,14 @@
 class CookieStorage {
 
-  set(name: string, value: string, expiresInSeconds: number): void {
+  set(name: string, value: string, expiresInSeconds: number = 0): void {
     const encodedName = encodeURIComponent(name)
     const encodedValue = encodeURIComponent(value)
     const date = new Date(Date.now() + expiresInSeconds * 1000)
     const expires = date.toUTCString()
     let cookieValue = `${encodedName}=${encodedValue}; expires=${expires}; path=/`
-    if (import.meta.env.VITE_APP_ENV != 'dev') {
-      cookieValue += '; HttpOnly'
-    }
+    // if (import.meta.env.VITE_APP_ENV != 'dev') {
+    //   cookieValue += '; HttpOnly'
+    // }
     document.cookie = cookieValue
   }
 

@@ -11,7 +11,7 @@ import {
   Message,
   MuteNotification,
   Postcard,
-  Search
+  Search,
 } from '@element-plus/icons-vue'
 import DialogItem from './DialogItem.vue'
 import { clearUnreadChatApi, topChatApi } from '@/api/chat'
@@ -21,6 +21,8 @@ import { renderIcon } from '@/plugins'
 import GroupLaunch from '@/components/message/group/GroupLaunch.vue'
 import IconPin from '@/components/icons/IconPin.vue'
 import IconUnpin from '@/components/icons/IconUnpin.vue'
+import { ElDialog } from 'element-plus'
+import { ElMessage } from 'element-plus'
 
 const user: any = inject('$user')
 const dialogueStore = useDialogueStore()
@@ -29,7 +31,7 @@ const dialogStore = useDialogStore()
 const isShowCreateGroupBox = ref(false)
 const searchKeyword = ref('')
 
-const state = reactive({
+const state = reactive<any>({
   dropdown: {
     options: [],
     show: false,
@@ -44,7 +46,7 @@ const unreadNum = computed(() => dialogStore.dialogUnreadNum)
 const loadStatus = computed(() => dialogStore.loadStatus)
 const indexName = computed(() => dialogueStore.index_name)
 
-const items = computed(() => {
+const items: any = computed(() => {
   if (searchKeyword.value.length === 0) {
     return dialogStore.dialogItems
   }
@@ -93,27 +95,89 @@ const onUserInfo = (data: any) => {
 
 const onToTopDialog = (data: any) => {
   if (data.is_top == 0 && topItems.value.length >= 4) {
-    return window['$message'].info('Максимальное количество выбранных бесед не может превышать 4')
+    return ElMessage.info('Максимальное количество выбранных бесед не может превышать 4')
   }
   topChatApi({
     list_id: data.id,
     type: data.is_top == 0 ? 1 : 2
-  }).then(({
-             code,
-             message
-           }: any) => {
+  }).then((res: any) => {
+    const { code, message } = res
+
     if (code == 200) {
       dialogStore.updateItem({
         index_name: data.index_name,
         is_top: data.is_top == 0 ? 1 : 0
       })
     } else {
-      window['$message'].error(message)
+      ElMessage.error(message)
     }
   })
 }
 
-const onContextMenuDialog = (e, item) => {
+// const onSignOutGroup = (data: any) => {
+//   ElDialog.create({
+//     showIcon: false,
+//     title: `Выйти из группового чата ${data.name} ?`,
+//     content: 'После выхода вы больше не будете получать сообщения от этой группы.',
+//     positiveText: 'Ок',
+//     negativeText: 'Отмена',
+//     onPositiveClick: () => {
+//       secedeGroupApi({
+//         group_id: data.receiver_id
+//       }).then(({
+//                  code,
+//                  message
+//                }: any) => {
+//         if (code == 200) {
+//           ElMessage.success('Вы успешно вышли из группы')
+//           onDeleteDialog(data.index_name)
+//         } else {
+//           ElMessage.error(message)
+//         }
+//       })
+//     }
+//   })
+// }
+
+// const onChangeRemark = (data: any) => {
+//   let remark = ''
+//   ElDialog.create({
+//     showIcon: false,
+//     title: 'Изменить заметку',
+//     content: () => {
+//       return h(ElInput, {
+//         defaultValue: data.remark_name,
+//         placeholder: 'Введите заметку',
+//         style: { marginTop: '20px' },
+//         onInput: value => (remark = value),
+//         autofocus: true
+//       })
+//     },
+//     negativeText: 'Отмена',
+//     positiveText: 'Изменить заметку',
+//     onPositiveClick: () => {
+//       editContactRemarkApi({
+//         friend_id: data.receiver_id,
+//         remark: remark
+//       }).then(({
+//                  code,
+//                  message
+//                }: any) => {
+//         if (code == 200) {
+//           ElMessage.success('Заметка успешно изменена')
+//           dialogStore.updateItem({
+//             index_name: data.index_name,
+//             remark_name: remark
+//           })
+//         } else {
+//           ElMessage.error(message)
+//         }
+//       })
+//     }
+//   })
+// }
+
+const onContextMenuDialog = (e: any, item: any) => {
   state.dropdown.show = false
   state.dropdown.item = Object.assign({}, item)
   state.dropdown.options = []
@@ -139,6 +203,13 @@ const onContextMenuDialog = (e, item) => {
     label: 'Удалить чат',
     key: 'remove'
   })
+  // if (item.dialog_type != 1) {
+  //   state.dropdown.options.push({
+  //     icon: renderIcon(Operation),
+  //     label: 'Покинуть группу',
+  //     key: 'signout_group'
+  //   })
+  // }
   nextTick(() => {
     state.dropdown.show = true
     state.dropdown.dropdownX = e.clientX
@@ -149,13 +220,12 @@ const onContextMenuDialog = (e, item) => {
 }
 
 const onContextMenuDialogHandle = (key: string) => {
-  const events = {
+  const events: any = {
     info: onUserInfo,
     disturb: onSetDisturb,
     remove: onRemoveDialog,
-    top: onToTopDialog
+    top: onToTopDialog,
     // signout_group: onSignOutGroup,
-    // delete_contact: onDeleteContact
     // remark: onChangeRemark
   }
   state.dropdown.show = false

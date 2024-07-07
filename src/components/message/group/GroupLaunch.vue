@@ -3,6 +3,7 @@ import { computed, reactive, ref } from 'vue'
 import { Close as CloseIcon, Delete, Search } from '@element-plus/icons-vue'
 import { defAvatar } from '@/constants/default.js'
 import { createGroupApi, getInviteFriendsApi, inviteGroupApi } from '@/api/group-chat'
+import { ElMessage } from 'element-plus'
 
 const emit = defineEmits(['close', 'on-submit'])
 const props = defineProps({
@@ -18,19 +19,19 @@ const model = reactive({
   name: ''
 })
 
-const isShowBox = ref(true)
+const isShowBox = ref<boolean>(true)
 
-const searchFilter = computed(() => {
+const searchFilter: any = computed(() => {
   if (model.keywords) {
-    return items.value.filter(item => {
+    return items.value.filter((item: any) => {
       return item.username.match(model.keywords) != null
     })
   }
   return items.value
 })
 
-const checkedFilter = computed(() => {
-  return items.value.filter(item => item.checked)
+const checkedFilter: any = computed(() => {
+  return items.value.filter((item: any) => item.checked)
 })
 
 const isCanSubmit = computed(() => {
@@ -42,16 +43,16 @@ const isCanSubmit = computed(() => {
 
 const onReset = () => {
   model.name = ''
-  items.value.forEach(item => {
+  items.value.forEach((item: any) => {
     item.checked = false
   })
 }
 
 const onLoad = () => {
-  getInviteFriendsApi({ group_id: props.gid }).then(res => {
+  getInviteFriendsApi({ group_id: props.gid }).then((res: any) => {
     if (res.code == 200 && res.data) {
       let list = res.data || []
-      items.value = list.map(item => {
+      items.value = list.map((item: any) => {
         return Object.assign(item, {
           username: /*item.friend_remark ? item.friend_remark :*/ item.username,
           checked: false
@@ -65,20 +66,20 @@ const onCloseClick = () => {
   emit('close')
 }
 
-const onTriggerContact = item => {
-  let data = items.value.find(val => {
+const onTriggerContact = (item: any) => {
+  let data: any = items.value.find((val: any) => {
     return val.id === item.id
   })
   data && (data.checked = !data.checked)
 }
 
-const onCreateSubmit = ids => {
+const onCreateSubmit = (ids: number[]) => {
   createGroupApi({
     avatar: '',
     name: model.name,
     description: '',
     ids: ids.join(',')
-  }).then(res => {
+  }).then((res: any) => {
     if (res.code == 200) {
       onReset()
       emit('on-submit', res.data)
@@ -88,22 +89,22 @@ const onCreateSubmit = ids => {
   })
 }
 
-const onInviteSubmit = ids => {
+const onInviteSubmit = (ids: number[]) => {
   inviteGroupApi({
     group_id: props.gid,
     ids: ids.join(',')
-  }).then(res => {
+  }).then((res: any) => {
     if (res.code == 200) {
       emit('on-invite')
       emit('close')
-      window['$message'].success('Приглашение успешно отправлено')
+      ElMessage.success('Приглашение успешно отправлено')
       isShowBox.value = false
     }
   })
 }
 
 const onSubmit = () => {
-  let ids = checkedFilter.value.map(item => item.id)
+  let ids = checkedFilter.value.map((item: any) => item.id)
   if (props.gid == 0) {
     onCreateSubmit(ids)
   } else {

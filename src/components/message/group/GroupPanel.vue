@@ -7,6 +7,7 @@ import { getGroupMembersApi, groupDetailApi, secedeGroupApi } from '@/api/group-
 import { ElMessageBox } from 'element-plus'
 import AvatarBox from '@/components/base/BaseAvatarBox.vue'
 import GroupLaunch from './GroupLaunch.vue'
+import { ElMessage } from 'element-plus'
 
 const userStore = useUserStore()
 
@@ -25,14 +26,14 @@ watch(props, () => {
   loadMembers()
 })
 
-const activeName = ref('info')
+const activeName = ref<string>('info')
 
-const isShow = ref(true)
+const isShow = ref<boolean>(true)
 
-const editCardPopover = ref(false)
-const isShowGroup = ref(false)
-const isShowManage = ref(false)
-const state = reactive({
+const editCardPopover = ref<boolean>(false)
+const isShowGroup = ref<boolean>(false)
+const isShowManage = ref<boolean>(false)
+const state = reactive<any>({
   keywords: '',
   detail: {
     avatar: '',
@@ -71,14 +72,14 @@ const isAdmin = computed(() => {
 const onGroupCallBack = () => {
 }
 
-const onToInfo = item => user(item.user_id)
+const onToInfo = (item: any) => user(item.user_id)
 
 const onClose = () => {
   emit('close')
 }
 
 const loadDetail = () => {
-  groupDetailApi({ group_id: props.gid }).then(res => {
+  groupDetailApi({ group_id: props.gid }).then((res: any) => {
     if (res.code == 200) {
       let result = res.data
       state.detail.avatar = result.avatar
@@ -94,7 +95,7 @@ const loadDetail = () => {
 }
 
 const loadMembers = () => {
-  getGroupMembersApi({ group_id: props.gid }).then(res => {
+  getGroupMembersApi({ group_id: props.gid }).then((res: any) => {
     if (res.code == 200) {
       state.members = res.data.items || []
     }
@@ -112,12 +113,12 @@ const onSignOut = () => {
     }
   )
     .then(() => {
-      secedeGroupApi({ group_id: props.gid }).then(res => {
+      secedeGroupApi({ group_id: props.gid }).then((res: any) => {
         if (res.code == 200) {
-          window['$message'].success('Вы успешно покинули группу')
+          ElMessage.success('Вы успешно покинули группу')
           onClose()
         } else {
-          window['$message'].error(res.message)
+          ElMessage.error(res.message)
         }
       })
     })
@@ -125,6 +126,25 @@ const onSignOut = () => {
 
     })
 }
+
+// const onChangeRemark = () => {
+//   updateGroupCardApi({
+//     group_id: props.gid,
+//     visit_card: state.remark
+//   }).then(({
+//              code,
+//              message
+//            }) => {
+//     if (code == 200) {
+//       editCardPopover.value.setShow(false)
+//       state.detail.visit_card = state.remark
+//       ElMessage.success('Имя карточки группы успешно обновлено')
+//       loadMembers()
+//     } else {
+//       ElMessage.error(message)
+//     }
+//   })
+// }
 
 loadDetail()
 loadMembers()
