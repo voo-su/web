@@ -46,7 +46,7 @@ const onLoad = async () => {
 const onSubmit = () => {
   contactFolderSaveApi({items: options})
     .then((res: any) => {
-      const {code, message} = res
+      const { code, message } = res
       if (code == 200) {
         ElMessage.success('Успешно')
         emit('relaod')

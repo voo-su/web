@@ -17,7 +17,7 @@ class LocalStorage {
     return def
   }
 
-  set(key: string, value: string, expire: number = 60 * 60 * 24) {
+  set(key: string, value: string, expire: number | null = 60 * 60 * 24) {
     localStorage.setItem(key, JSON.stringify({
         value,
         expire: expire !== null

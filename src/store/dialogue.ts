@@ -74,6 +74,7 @@ export const useDialogueStore = defineStore('dialogue', {
     setOnlineStatus(status: boolean) {
       this.online = status
     },
+
     setDialogue(data: any = {}) {
       this.chatId = data.id
       this.online = data.is_online == 1
@@ -170,31 +171,35 @@ export const useDialogueStore = defineStore('dialogue', {
       }
     },
 
-    ApiDeleteRecord(ids = []) {
+    deleteRecord(ids: number[] = []) {
       removeRecordsApi({
         dialog_type: this.dialog.dialog_type,
         receiver_id: this.dialog.receiver_id,
         record_id: ids.join(',')
-      }).then((res: any) => {
-        if (res.code == 200) {
-          this.batchDelDialogueRecord(ids)
-        } else {
-          ElMessage.warning(res.message)
-        }
       })
+        .then((res: any) => {
+          if (res.code == 200) {
+            this.batchDelDialogueRecord(ids)
+          } else {
+            ElMessage.warning(res.message)
+          }
+        })
     },
 
-    ApiRevokeRecord(msg_id = '') {
-      revokeRecordsApi({ msg_id }).then((res: any) => {
-        if (res.code == 200) {
-          this.updateDialogueRecord({ msg_id, is_revoke: 1 })
-        } else {
-          ElMessage.warning(res.message)
-        }
-      })
+    revokeRecord(msg_id: string = '') {
+      revokeRecordsApi({ msg_id })
+        .then((res: any) => {
+          if (res.code == 200) {
+            this.updateDialogueRecord({
+              msg_id, is_revoke: 1
+            })
+          } else {
+            ElMessage.warning(res.message)
+          }
+        })
     },
 
-    ApiForwardRecord(options: any) {
+    forwardRecord(options: any) {
       const data = Object.assign(
         {
           dialog_type: this.dialog.dialog_type,
@@ -203,11 +208,12 @@ export const useDialogueStore = defineStore('dialogue', {
         options
       )
 
-      forwardRecordsApi(data).then((res: any) => {
-        if (res.code == 200) {
-          this.closeMultiSelect()
-        }
-      })
+      forwardRecordsApi(data)
+        .then((res: any) => {
+          if (res.code == 200) {
+            this.closeMultiSelect()
+          }
+        })
     }
   },
 

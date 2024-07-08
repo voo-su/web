@@ -11,15 +11,10 @@ interface AnalysisResp {
   msgType: number
 }
 
-function removeLeadingNewlines(str: string) {
-  return str.replace(/^[\n\s]+/, '')
-}
+const removeLeadingNewlines = (str: string) => str.replace(/^[\n\s]+/, '')
+const removeTrailingNewlines = (str: string) => str.replace(/[\n\s]+$/, '')
 
-function removeTrailingNewlines(str: string) {
-  return str.replace(/[\n\s]+$/, '')
-}
-
-export function getEditorNodeInfo(editor: HTMLElement | null): AnalysisResp {
+export const getEditorNodeInfo = (editor: HTMLElement | null):  AnalysisResp => {
   const resp: AnalysisResp = {
     items: [],
     mentions: [],

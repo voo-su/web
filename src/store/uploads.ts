@@ -6,10 +6,12 @@ import { sendDialogFileApi } from '@/api/message'
 
 const fileSlice = (file: any, uploadId: any, eachSize: any) => {
   const splitNum: any = Math.ceil(file.size / eachSize)
+
   const items = []
   for (let i = 0; i < splitNum; i++) {
     const start = i * eachSize
     const end = Math.min(file.size, start + eachSize)
+  
     const form = new FormData()
     form.append('file', file.slice(start, end))
     form.append('upload_id', uploadId)
@@ -17,11 +19,17 @@ const fileSlice = (file: any, uploadId: any, eachSize: any) => {
     form.append('split_num', splitNum)
     items.push(form)
   }
+
   return items
 }
 
+interface IUploads {
+  isShow: boolean
+  items: any
+}
+
 export const useUploadsStore = defineStore('uploads', {
-  state: () => {
+  state: (): IUploads => {
     return {
       isShow: false,
       items: []
@@ -37,16 +45,9 @@ export const useUploadsStore = defineStore('uploads', {
         file_name: file.name,
         file_size: file.size
       }).then((res: any) => {
-        const {
-          code,
-          data,
-          message
-        } = res
+        const { code, data, message } = res
         if (code == 200) {
-          const {
-            upload_id,
-            split_size
-          } = data
+          const { upload_id, split_size } = data
           this.items.unshift({
             file: file,
             dialog_type: dialogType,

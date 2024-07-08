@@ -8,24 +8,15 @@ export const trim = (str: string, type = null) => {
   }
 }
 
-export const hidePhone = (phone: string) => {
-  return phone.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2')
-}
+export const hidePhone = (phone: string) => phone.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2')
 
 export const textReplaceLink = (text: string, color: string = '#409eff') => {
-  const exp =
-    /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi
-
-  return text.replace(
-    exp,
-    `<a href="$1" alt="link" style="color:${color};text-decoration: revert;">$1</a >`
-  )
+  const exp: RegExp = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi
+  return text.replace(exp, `<a href="$1" alt="link" style="color:${color};text-decoration: revert;">$1</a >`)
 }
 
-export const textReplaceMention = (text: string, color: string= '#2196F3') => {
-  return text.replace(new RegExp(/@\S+/, 'g'), ($0, $1) => {
-    return `<span style="color:${color};">${$0}</span>`
-  })
+export const textReplaceMention = (text: string, color: string = '#2196F3') => {
+  return text.replace(new RegExp(/@\S+/, 'g'), ($0, $1) => `<span style="color:${color};">${$0}</span>`)
 }
 
 export const fileFormatSize = (value: string) => {
@@ -33,18 +24,15 @@ export const fileFormatSize = (value: string) => {
     return '0'
   }
 
-  const unitArr = ['Байт', 'КБ', 'МБ', 'ГБ', 'ТБ', 'ПБ', 'ЭБ', 'ЗБ', 'ИБ']
-  let index = 0
   const srcsize = parseFloat(value)
-  index = Math.floor(Math.log(srcsize) / Math.log(1000))
+  let index = Math.floor(Math.log(srcsize) / Math.log(1000))
   let size = srcsize / Math.pow(1000, index)
-  size = size.toFixed(2)
 
-  return size + ' ' + unitArr[index]
+  const unitArr = ['Байт', 'КБ', 'МБ', 'ГБ', 'ТБ', 'ПБ', 'ЭБ', 'ЗБ', 'ИБ']
+  return size.toFixed(2) + ' ' + unitArr[index]
 }
 
 export const fileSuffix = (fileName: string) => {
   const ext = fileName.split('.')
-
   return ext[ext.length - 1]
 }

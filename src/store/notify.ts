@@ -1,8 +1,15 @@
 import { defineStore } from 'pinia'
 import { storage } from '@/utils/storage/local-storage'
 
+interface INotify {
+  isPromptTone: any
+  isKeyboard: any
+  isLeaveWeb: boolean
+  isWebNotify: boolean
+}
+
 export const useNotifyStore = defineStore('notify', {
-  state: () => {
+  state: (): INotify => {
     return {
       isPromptTone: storage.get('isPromptTone', true),
       isKeyboard: storage.get('isKeyboard', true),
@@ -11,12 +18,12 @@ export const useNotifyStore = defineStore('notify', {
     }
   },
   actions: {
-    setPromptTone(value) {
+    setPromptTone(value: any) {
       this.isPromptTone = value
       storage.set('isPromptTone', value, null)
     },
 
-    setKeyboard(value) {
+    setKeyboard(value: any) {
       this.isKeyboard = value
       storage.set('isKeyboard', value, null)
     }

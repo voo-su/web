@@ -124,10 +124,8 @@ const onToTopDialog = (data: any) => {
 //     onPositiveClick: () => {
 //       secedeGroupApi({
 //         group_id: data.receiver_id
-//       }).then(({
-//                  code,
-//                  message
-//                }: any) => {
+//       }).then((res: any) => {
+//         const { code, message } = res
 //         if (code == 200) {
 //           ElMessage.success('Вы успешно вышли из группы')
 //           onDeleteDialog(data.index_name)
@@ -149,7 +147,7 @@ const onToTopDialog = (data: any) => {
 //         defaultValue: data.remark_name,
 //         placeholder: 'Введите заметку',
 //         style: { marginTop: '20px' },
-//         onInput: value => (remark = value),
+//         onInput: (value: any) => (remark = value),
 //         autofocus: true
 //       })
 //     },
@@ -159,10 +157,8 @@ const onToTopDialog = (data: any) => {
 //       editContactRemarkApi({
 //         friend_id: data.receiver_id,
 //         remark: remark
-//       }).then(({
-//                  code,
-//                  message
-//                }: any) => {
+//       }).then((res: any) => {
+//         const { code, message } = res
 //         if (code == 200) {
 //           ElMessage.success('Заметка успешно изменена')
 //           dialogStore.updateItem({

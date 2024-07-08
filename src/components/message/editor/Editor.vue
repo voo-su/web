@@ -37,7 +37,9 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
-  members: { default: () => [] }
+  members: {
+    default: () => []
+  }
 })
 
 const editorRef = ref()

@@ -1,6 +1,5 @@
 import axios from 'axios'
 import { delAccessToken, getAccessToken } from '@/utils/auth'
-import { ElDialog } from 'element-plus'
 import { ElMessage } from 'element-plus'
 
 const request = axios.create({
@@ -13,17 +12,10 @@ const errorHandler = (error: any) => {
     if (error.response.status == 401) {
       delAccessToken()
       ElMessage.error('Ваша текущая сессия истекла. Пожалуйста, выполните вход заново.')
-      // ElDialog.info({
-      //     title: 'Важное сообщение',
-      //     content: 'Ваша текущая сессия истекла. Пожалуйста, выполните вход заново.',
-      //     positiveText: 'Войти сейчас?',
-      //     maskClosable: false,
-      //     onPositiveClick: () => {
       location.reload()
-      //     }
-      //   })
     }
   }
+
   return Promise.reject(error)
 }
 
@@ -32,6 +24,7 @@ request.interceptors.request.use(config => {
   if (token) {
     config.headers['Authorization'] = `Bearer ${token}`
   }
+
   return config
 }, errorHandler)
 

@@ -1,8 +1,8 @@
 import { markRaw, reactive } from 'vue'
 import {
   ChatRound as IconChatRound,
-  CopyDocument,
-  Delete,
+  CopyDocument as IconCopyDocument,
+  Delete as IconDelete,
   Download as IconDownload,
   Remove as RemoveIcon
 } from '@element-plus/icons-vue'
@@ -19,7 +19,6 @@ const isRevoke = (uid: any, item: any): boolean => {
 }
 
 export const useMenu = () => {
-
   const dropdown: IDropdown = reactive({
     options: [],
     show: false,
@@ -34,15 +33,17 @@ export const useMenu = () => {
     if ([1, 3].includes(item.msg_type)) {
       dropdown.options.push({
         label: 'Копировать',
-        icon: markRaw(CopyDocument),
+        icon: markRaw(IconCopyDocument),
         key: 'copy'
       })
     }
+
     dropdown.options.push({
       label: 'Ответить',
       icon: markRaw(IconChatRound),
       key: 'quote'
     })
+
     if (isRevoke(uid, item)) {
       dropdown.options.push({
         label: `Отозвать`,
@@ -50,16 +51,19 @@ export const useMenu = () => {
         key: 'revoke'
       })
     }
+
     // dropdown.options.push({
     //   label: 'Переслать',
     //   icon: markRaw(IconForward),
     //   key: 'forward'
     // })
+
     // dropdown.options.push({
     //   label: 'Выделить',
     //   icon: markRaw(IconForward),
     //   key: 'multiSelect'
     // })
+
     if ([3, 4, 5].includes(item.msg_type)) {
       dropdown.options.push({
         label: 'Скачать',
@@ -67,11 +71,13 @@ export const useMenu = () => {
         key: 'download'
       })
     }
+
     dropdown.options.push({
       label: 'Удалить',
-      icon: markRaw(Delete),
+      icon: markRaw(IconDelete),
       key: 'delete'
     })
+
     dropdown.x = e.clientX
     dropdown.y = e.clientY
     dropdown.show = true

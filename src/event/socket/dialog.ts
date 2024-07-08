@@ -41,8 +41,8 @@ class Dialog extends Base {
 
   getDialogText() {
     let text = this.resource.content.replace(/<img .*?>/g, '')
-    if (this.resource.msg_type != message.ChatMsgTypeText) {
-      text = message.ChatMsgTypeMapping[this.resource.msg_type]
+    if (this.resource.msg_type != message.chatMsgTypeText) {
+      text = message.chatMsgTypeMapping[this.resource.msg_type]
     }
     return text
   }

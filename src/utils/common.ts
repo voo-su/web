@@ -3,7 +3,7 @@ import { ElMessage } from 'element-plus'
 
 export const debounce = (fn: any, delay: any) => {
   let timer: any = null
-  return function() {
+  return function () {
     timer && clearTimeout(timer)
     const content = this
     const args = arguments
@@ -13,10 +13,10 @@ export const debounce = (fn: any, delay: any) => {
   }
 }
 
-export const throttle = (fn: any, delay: any, call = function() {
+export const throttle = (fn: any, delay: any, call = function () {
 }) => {
   let lastTime = 0
-  return function() {
+  return function () {
     const now = new Date().getTime()
     if (now - lastTime > delay) {
       lastTime = now
@@ -60,19 +60,18 @@ export async function clipboardImage(src: any, callback: any) {
         })
         await navigator.clipboard.write([item])
         callback()
-      } catch (err) {
+      } catch (err: any) {
         ElMessage.info('Ошибка при копировании изображения: ', err)
       }
     }, 'image/png')
   }
 }
 
-
 export const emitCall = (event: any, data: any, fn: any) => {
   return {
     event: event,
     data: data,
-    callBack: fn || function() {
+    callBack: fn || function () {
     }
   }
 }
@@ -113,11 +112,11 @@ export function getVideoImage(file: any) {
   return new Promise((resolve, reject) => {
     const video = document.createElement('video')
     video.src = URL.createObjectURL(file)
-    video.addEventListener('loadeddata', function() {
+    video.addEventListener('loadeddata', function () {
       this.currentTime = 1
     })
 
-    video.addEventListener('seeked', function() {
+    video.addEventListener('seeked', function () {
       this.width = this.videoWidth
       this.height = this.videoHeight
 
@@ -135,7 +134,7 @@ export function getVideoImage(file: any) {
         duration: this.duration
       }
 
-      canvas.toBlob(function(blob: any) {
+      canvas.toBlob(function (blob: any) {
         image.file = new File([blob], 'video_image.jpeg', {
           type: blob.type,
           lastModified: Date.now()

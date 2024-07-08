@@ -10,6 +10,7 @@ export const getImageInfo = (imgsrc: any): IImageInfo => {
     width: 0,
     height: 0
   }
+
   const arr = imgsrc.split('_')
   if (arr.length == 1) return data
   let info = arr[arr.length - 1].match(/\d+x\d+/g)
@@ -26,9 +27,8 @@ export const download = (cr_id: any) => {
   try {
     const link = document.createElement('a')
     // link.target = '_blank'
-    link.href = `${
-      import.meta.env.VITE_BASE_API
-    }/v1/messages/file/download?cr_id=${cr_id}&token=${token}`
+    link.href = `${import.meta.env.VITE_BASE_API
+      }/v1/messages/file/download?cr_id=${cr_id}&token=${token}`
     link.click()
   } catch (e) {
   }

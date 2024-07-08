@@ -1,6 +1,5 @@
 export const objForEach = (obj: any, fn: any) => {
-  let key = void 0,
-    result = void 0
+  let result = void 0
   for (const key in obj) {
     if (obj.hasOwnProperty(key)) {
       result = fn.call(obj, key, obj[key])
@@ -12,9 +11,8 @@ export const objForEach = (obj: any, fn: any) => {
 }
 
 export const arrForEach = (fakeArr: any, fn: any) => {
-  let i = void 0,
-    item = void 0,
-    result = void 0
+  let item = void 0
+  let result = void 0
   const length = fakeArr.length || 0
   for (let i = 0; i < length; i++) {
     item = fakeArr[i]
@@ -37,8 +35,7 @@ export const replaceHtmlSymbol = (html: any) => {
 }
 
 export const getPasteText = (e: any) => {
-  const clipboardData =
-    e.clipboardData || (e.originalEvent && e.originalEvent.clipboardData)
+  const clipboardData = e.clipboardData || (e.originalEvent && e.originalEvent.clipboardData)
   let pasteText = void 0
   if (clipboardData == null) {
     pasteText = window.clipboardData && window.clipboardData.getData('text')
@@ -49,10 +46,9 @@ export const getPasteText = (e: any) => {
 }
 
 export const getPasteHtml = (e: any, filterStyle: any, ignoreImg: any) => {
-  const clipboardData =
-    e.clipboardData || (e.originalEvent && e.originalEvent.clipboardData)
-  let pasteText = void 0,
-    pasteHtml = void 0
+  let pasteText = void 0
+  let pasteHtml = void 0
+  const clipboardData = e.clipboardData || (e.originalEvent && e.originalEvent.clipboardData)
   if (clipboardData == null) {
     pasteText = window.clipboardData && window.clipboardData.getData('text')
   } else {
@@ -84,40 +80,49 @@ export const getPasteHtml = (e: any, filterStyle: any, ignoreImg: any) => {
 }
 
 export const getPasteImgs = (e: any) => {
-  const result = []
+  const result: any = []
   const txt = getPasteText(e)
   if (txt) {
     return result
   }
-  const clipboardData =
-    e.clipboardData || (e.originalEvent && e.originalEvent.clipboardData) || {}
+
+  const clipboardData = e.clipboardData
+    || (e.originalEvent && e.originalEvent.clipboardData)
+    || {}
+
   const { items } = clipboardData
   if (!items) {
     return result
   }
+
   objForEach(items, (key: any, value: any) => {
     const { type } = value
     if (/image/i.test(type)) {
       result.push(value.getAsFile())
     }
   })
+
   return result
 }
 
 export const getDragPasteImg = (e: any) => {
-  const result = []
-  const dataTransfer =
-    e.dataTransfer || (e.originalEvent && e.originalEvent.dataTransfer) || {}
+  const result: any = []
+  const dataTransfer = e.dataTransfer
+    || (e.originalEvent && e.originalEvent.dataTransfer)
+    || {}
+
   const { items } = dataTransfer
   if (!items) {
     return result
   }
+
   objForEach(items, (key: any, value: any) => {
     const { type } = value
     if (/image/i.test(type)) {
       result.push(value.getAsFile())
     }
   })
+
   return result
 }
 
@@ -129,6 +134,7 @@ export const pasteFilter = (e: any) => {
   } else {
     text = (e.originalEvent || e).clipboardData.getData('text/plain')
   }
+
   if (document.body.createTextRange) {
     if (document.selection) {
       textRange = document.selection.createRange()

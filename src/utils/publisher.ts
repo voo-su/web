@@ -5,6 +5,7 @@ class Publisher {
     if (!this.channels[channel]) {
       this.channels[channel] = []
     }
+
     this.channels[channel].push(callback)
   }
 
@@ -12,6 +13,7 @@ class Publisher {
     if (!this.channels[channel]) {
       return
     }
+
     this.channels[channel].forEach((callback: any) => {
       callback(data)
     })
@@ -21,6 +23,7 @@ class Publisher {
     if (!this.channels[channel]) {
       this.channels[channel] = []
     }
+
     for (const index in this.channels[channel]) {
       if (this.channels[channel][index] === callback) {
         this.channels[channel].splice(index, 1)

@@ -49,17 +49,18 @@ const onReset = () => {
 }
 
 const onLoad = () => {
-  getInviteFriendsApi({ group_id: props.gid }).then((res: any) => {
-    if (res.code == 200 && res.data) {
-      let list = res.data || []
-      items.value = list.map((item: any) => {
-        return Object.assign(item, {
-          username: /*item.friend_remark ? item.friend_remark :*/ item.username,
-          checked: false
+  getInviteFriendsApi({ group_id: props.gid })
+    .then((res: any) => {
+      if (res.code == 200 && res.data) {
+        let list = res.data || []
+        items.value = list.map((item: any) => {
+          return Object.assign(item, {
+            username: /*item.friend_remark ? item.friend_remark :*/ item.username,
+            checked: false
+          })
         })
-      })
-    }
-  })
+      }
+    })
 }
 
 const onCloseClick = () => {

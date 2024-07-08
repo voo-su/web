@@ -55,17 +55,19 @@ const form = reactive<FormType>({
   loading: false
 })
 
-getAccountApi().then(({ data }) => {
-  form.avatar = data.avatar
-  form.email = data.email.toString()
-  form.name = data.name.toString()
-  form.surname = data.surname.toString()
-  form.gender = data.gender.toString()
-  if (data.birthday) {
-    form.birthday = ref(data.birthday)
-  }
-  form.about = data.about.toString()
-})
+getAccountApi()
+  .then((res: any) => {
+    const { data } = res
+    form.avatar = data.avatar
+    form.email = data.email.toString()
+    form.name = data.name.toString()
+    form.surname = data.surname.toString()
+    form.gender = data.gender.toString()
+    if (data.birthday) {
+      form.birthday = ref(data.birthday)
+    }
+    form.about = data.about.toString()
+  })
 
 const onUploadAvatar = (avatar: any) => {
   cropper.value = false

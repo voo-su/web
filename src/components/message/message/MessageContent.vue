@@ -9,7 +9,7 @@ import { clipboard, clipboardImage, htmlDecode } from '@/utils/common'
 import { addClass, removeClass } from '@/utils/dom'
 import { downloadImage } from '@/utils/functions'
 import { formatDialogRecord } from '@/utils/dialog'
-import { ForwardableMessageType, MessageComponents } from '@/constants/message'
+import { forwardableMessageType, messageComponents } from '@/constants/message'
 import { dialogRecordsApi } from '@/api/message'
 import { useMenu } from './menu'
 import ContextMenu from '@/components/base/BaseContextMenu.vue'
@@ -19,14 +19,6 @@ import IconTwoCheck from '@/components/icons/IconTwoCheck.vue'
 import { publisher } from '@/utils/publisher'
 import ItemRevokeMessage from '@/components/message/message/item/ItemRevokeMessage.vue'
 import { ElMessage } from 'element-plus'
-
-const {
-  dropdown,
-  showDropdownMenu,
-  closeDropdownMenu
-} = useMenu()
-const user: any = inject('$user')
-const dialogueStore = useDialogueStore()
 
 const props = defineProps({
   uid: {
@@ -47,6 +39,13 @@ const props = defineProps({
   }
 })
 
+const {
+  dropdown,
+  showDropdownMenu,
+  closeDropdownMenu
+} = useMenu()
+const user: any = inject('$user')
+const dialogueStore = useDialogueStore()
 const records = computed(() => dialogueStore.records)
 
 const loadConfig = reactive({
@@ -54,7 +53,7 @@ const loadConfig = reactive({
   minRecord: 0
 })
 
-const skipBottom = ref(false)
+const skipBottom = ref<boolean>(false)
 
 let locationMessage: any = null
 
@@ -119,7 +118,6 @@ const onLoadDialog = () => {
         if (locationMessage) {
           onJumpMessage(locationMessage.msgid)
         }
-
       })
     })
     .catch(() => {
@@ -185,22 +183,20 @@ const onPanelScroll = (e: any) => {
 
 const onCopyText = (data: any) => {
   if (data.content && data.content.length > 0) {
-    return clipboard(htmlDecode(data.content), () => {
-    })
+    return clipboard(htmlDecode(data.content), () => {})
   }
 
   if (data.extra?.url) {
-    return clipboardImage(data.extra.url, () => () => {
-    })
+    return clipboardImage(data.extra.url, () => () => {})
   }
 }
 
-const onDeleteDialog = (data: any) => {
-  dialogueStore.ApiDeleteRecord([data.id])
+const onDeleteDialog = (data: {id: number}) => {
+  dialogueStore.deleteRecord([data.id])
 }
 
 const onRevokeDialog = (data: any) => {
-  dialogueStore.ApiRevokeRecord(data.msg_id)
+  dialogueStore.revokeRecord(data.msg_id)
 }
 
 const onDownloadFile = (data: any) => {
@@ -297,7 +293,7 @@ const onContextMenu = (e: any, item: any) => {
 // }
 
 const onContextMenuHandle = (key: string) => {
-  const events = {
+  const events: any = {
     copy: onCopyText,
     delete: onDeleteDialog,
     revoke: onRevokeDialog,
@@ -306,6 +302,7 @@ const onContextMenuHandle = (key: string) => {
     // forward: onForwardMessage,
     // multiSelect: onMultiSelect
   }
+
   events[key] && events[key](dropdown.item)
   closeDropdownMenu()
 }
@@ -370,7 +367,7 @@ const onReload = () => {
 
 const onRowClick = (item: any) => {
   if (dialogueStore.isOpenMultiSelect) {
-    if (ForwardableMessageType.includes(item.msg_type)) {
+    if (forwardableMessageType.includes(item.msg_type)) {
       item.isCheck = !item.isCheck
     } else {
       ElMessage.info('Этот тип сообщения не поддерживает пересылку')
@@ -410,7 +407,7 @@ onMounted(onReload)
           class="message-box"
         >
           <component
-            :is="MessageComponents[item.msg_type] || 'unknown-message'"
+            :is="messageComponents[item.msg_type] || 'unknown-message'"
             :data="item"
             :extra="item.extra"
           />
@@ -480,7 +477,7 @@ onMounted(onReload)
                   <span class="_content">{{ item.extra?.reply?.content }}</span>
                 </div>
                 <component
-                  :is="MessageComponents[item.msg_type] || 'unknown-message'"
+                  :is="messageComponents[item.msg_type] || 'unknown-message'"
                   :data="item"
                   :extra="item.extra"
                   :max-width="true"
@@ -488,7 +485,7 @@ onMounted(onReload)
                 />
               </div>
               <component
-                :is="MessageComponents[item.msg_type] || 'unknown-message'"
+                :is="messageComponents[item.msg_type] || 'unknown-message'"
                 v-else
                 :data="item"
                 :extra="item.extra"

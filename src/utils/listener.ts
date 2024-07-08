@@ -13,17 +13,21 @@ const registerOnceExpireNotice = () => {
     if (document.visibilityState === 'hidden') {
       return
     }
+
     if (isLoggedIn() || once) {
       return
     }
+
     const router = useRouter()
     if (router === undefined) {
       return
     }
+
     const pathname = router.currentRoute.value.path
     if (paths.includes(pathname)) {
       return
     }
+
     once = true
     ElDialog.info({
       title: 'Важное сообщение',
@@ -57,6 +61,7 @@ const registerClickListener = () => {
       return window.open(href)
     }
   }
+
   document.body.addEventListener('click', (event: any) => {
     const { target } = event
     if (target.nodeName.toLocaleLowerCase() === 'a') {
@@ -92,8 +97,12 @@ const registerConnectListener = () => {
     if (notifyStore.isLeaveWeb) {
       return
     }
+
     const pathname = router.currentRoute.value.path
-    const paths = ['/auth', '/terms']
+    const paths: string[] = [
+      '/auth',
+      '/terms'
+    ]
     if (!paths.includes(pathname) && isLoggedIn()) {
       !socket.isConnect() && socket.connect()
     }

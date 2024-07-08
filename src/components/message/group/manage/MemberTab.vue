@@ -72,15 +72,16 @@ const dropdown = reactive<any>({
 })
 
 const onLoadData = () => {
-  getGroupMembersApi({ group_id: props.id }).then((res: any) => {
-    if (res.code == 200) {
-      let data = res.data.items || []
-      data.forEach((item: any) => {
-        item.is_delete = false
-      })
-      items.value = data
-    }
-  })
+  getGroupMembersApi({ group_id: props.id })
+    .then((res: any) => {
+      if (res.code == 200) {
+        let data = res.data.items || []
+        data.forEach((item: any) => {
+          item.is_delete = false
+        })
+        items.value = data
+      }
+    })
 }
 
 const onDelete = (item: any) => {
@@ -136,7 +137,7 @@ const onAssignAdmin = (item: any) => {
   let title = item.leader == 0
     ? `Вы уверены, что хотите назначить ${item.username} администратором ?`
     : `Вы уверены, что хотите снять администраторские права с ${item.username} ?`
-    ElMessageBox.confirm(title, null, {
+  ElMessageBox.confirm(title, null, {
     confirmButtonText: 'Назначить',
     cancelButtonText: 'Отмена',
     type: 'warning'
@@ -146,16 +147,18 @@ const onAssignAdmin = (item: any) => {
         mode: item.leader == 0 ? 1 : 2,
         group_id: props.id,
         user_id: parseInt(item.user_id)
-      }).then(({ code, message }: any) => {
-        if (code == 200) {
-          ElMessage.success('Успешно')
-          onLoadData()
-        } else {
-          ElMessage.error(message)
-        }
       })
+        .then((res: any) => {
+          const { code, message } = res
+          if (code == 200) {
+            ElMessage.success('Успешно')
+            onLoadData()
+          } else {
+            ElMessage.error(message)
+          }
+        })
     }).catch(() => {
-  })
+    })
 }
 
 const onTransfer = (item: any) => {

@@ -1,90 +1,90 @@
-export const ChatMsgTypeText: number = 1
-export const ChatMsgTypeCode: number = 2
-export const ChatMsgTypeImage: number = 3
-export const ChatMsgTypeAudio: number = 4
-export const ChatMsgTypeVideo: number = 5
-export const ChatMsgTypeFile: number = 6
-export const ChatMsgTypeLocation: number = 7
-export const ChatMsgTypeCard: number = 8
-export const ChatMsgTypeForward: number = 9
-export const ChatMsgTypeLogin: number = 10
-export const ChatMsgTypeVote: number = 11
-export const ChatMsgTypeMixed: number = 12
+export const chatMsgTypeText: number = 1
+export const chatMsgTypeCode: number = 2
+export const chatMsgTypeImage: number = 3
+export const chatMsgTypeAudio: number = 4
+export const chatMsgTypeVideo: number = 5
+export const chatMsgTypeFile: number = 6
+export const chatMsgTypeLocation: number = 7
+export const chatMsgTypeCard: number = 8
+export const chatMsgTypeForward: number = 9
+export const chatMsgTypeLogin: number = 10
+export const chatMsgTypeVote: number = 11
+export const chatMsgTypeMixed: number = 12
 
-export const ChatMsgSysText: number = 1000
-export const ChatMsgSysGroupCreate: number = 1101
-export const ChatMsgSysGroupMemberJoin: number = 1102
-export const ChatMsgSysGroupMemberQuit: number = 1103
-export const ChatMsgSysGroupMemberKicked: number = 1104
-export const ChatMsgSysGroupMessageRevoke: number = 1105
-export const ChatMsgSysGroupDismissed: number = 1106
-export const ChatMsgSysGroupMuted: number = 1107
-export const ChatMsgSysGroupCancelMuted: number = 1108
-export const ChatMsgSysGroupMemberMuted: number = 1109
-export const ChatMsgSysGroupMemberCancelMuted: number = 1110
-export const ChatMsgSysGroupNotice: number = 1111
-export const ChatMsgSysGroupTransfer: number = 1113
+export const chatMsgSysText: number = 1000
+export const chatMsgSysGroupCreate: number = 1101
+export const chatMsgSysGroupMemberJoin: number = 1102
+export const chatMsgSysGroupMemberQuit: number = 1103
+export const chatMsgSysGroupMemberKicked: number = 1104
+export const chatMsgSysGroupMessageRevoke: number = 1105
+export const chatMsgSysGroupDismissed: number = 1106
+export const chatMsgSysGroupMuted: number = 1107
+export const chatMsgSysGroupCancelMuted: number = 1108
+export const chatMsgSysGroupMemberMuted: number = 1109
+export const chatMsgSysGroupMemberCancelMuted: number = 1110
+export const chatMsgSysGroupNotice: number = 1111
+export const chatMsgSysGroupTransfer: number = 1113
 
-export const ChatMsgTypeMapping = {
-  [ChatMsgTypeText]: 'Сообщения',
-  [ChatMsgTypeImage]: 'Фотография',
-  [ChatMsgTypeAudio]: 'Аудиозапись',
-  [ChatMsgTypeVideo]: 'Видео',
-  [ChatMsgTypeFile]: 'Файл',
-  [ChatMsgTypeLocation]: 'Местоположение',
-  [ChatMsgTypeCard]: 'Карточка',
-  [ChatMsgTypeForward]: 'Пересланное сообщение',
-  [ChatMsgTypeLogin]: 'Уведомление о входе в систему',
-  [ChatMsgTypeVote]: 'Опрос',
-  [ChatMsgTypeCode]: 'Код',
-  [ChatMsgTypeMixed]: 'Фотографии',
-  [ChatMsgSysText]: 'Системное сообщение',
-  [ChatMsgSysGroupCreate]: 'Создание группы',
-  [ChatMsgSysGroupMemberJoin]: 'Присоединение к группе',
-  [ChatMsgSysGroupMemberQuit]: 'Выход из группы',
-  [ChatMsgSysGroupMemberKicked]: 'Исключение из группы',
-  [ChatMsgSysGroupMessageRevoke]: 'Отзыв сообщения',
-  [ChatMsgSysGroupDismissed]: 'Роспуск группы',
-  [ChatMsgSysGroupMuted]: 'Заглушение группы',
-  [ChatMsgSysGroupCancelMuted]: 'Снятие заглушения группы',
-  [ChatMsgSysGroupMemberMuted]: 'Заглушение участника группы',
-  [ChatMsgSysGroupMemberCancelMuted]: 'Снятие заглушения участника группы',
-  [ChatMsgSysGroupNotice]: 'Объявление в группе'
+export const chatMsgTypeMapping = {
+  [chatMsgTypeText]: 'Сообщения',
+  [chatMsgTypeImage]: 'Фотография',
+  [chatMsgTypeAudio]: 'Аудиозапись',
+  [chatMsgTypeVideo]: 'Видео',
+  [chatMsgTypeFile]: 'Файл',
+  [chatMsgTypeLocation]: 'Местоположение',
+  [chatMsgTypeCard]: 'Карточка',
+  [chatMsgTypeForward]: 'Пересланное сообщение',
+  [chatMsgTypeLogin]: 'Уведомление о входе в систему',
+  [chatMsgTypeVote]: 'Опрос',
+  [chatMsgTypeCode]: 'Код',
+  [chatMsgTypeMixed]: 'Фотографии',
+  [chatMsgSysText]: 'Системное сообщение',
+  [chatMsgSysGroupCreate]: 'Создание группы',
+  [chatMsgSysGroupMemberJoin]: 'Присоединение к группе',
+  [chatMsgSysGroupMemberQuit]: 'Выход из группы',
+  [chatMsgSysGroupMemberKicked]: 'Исключение из группы',
+  [chatMsgSysGroupMessageRevoke]: 'Отзыв сообщения',
+  [chatMsgSysGroupDismissed]: 'Роспуск группы',
+  [chatMsgSysGroupMuted]: 'Заглушение группы',
+  [chatMsgSysGroupCancelMuted]: 'Снятие заглушения группы',
+  [chatMsgSysGroupMemberMuted]: 'Заглушение участника группы',
+  [chatMsgSysGroupMemberCancelMuted]: 'Снятие заглушения участника группы',
+  [chatMsgSysGroupNotice]: 'Объявление в группе'
 }
 
-export const MessageComponents = {
-  [ChatMsgTypeText]: 'text-message',
-  [ChatMsgTypeImage]: 'image-message',
-  [ChatMsgTypeAudio]: 'audio-message',
-  [ChatMsgTypeVideo]: 'video-message',
-  [ChatMsgTypeFile]: 'file-message',
-  [ChatMsgTypeLocation]: 'location-message',
-  [ChatMsgTypeCard]: 'user-card-message',
-  [ChatMsgTypeForward]: 'forward-message',
-  [ChatMsgTypeLogin]: 'login-message',
-  [ChatMsgTypeVote]: 'vote-message',
-  [ChatMsgTypeCode]: 'code-message',
-  [ChatMsgTypeMixed]: 'mixed-message',
-  [ChatMsgSysText]: 'sys-text-message',
-  [ChatMsgSysGroupCreate]: 'sys-group-create-message',
-  [ChatMsgSysGroupMemberJoin]: 'sys-group-join-message',
-  [ChatMsgSysGroupMemberQuit]: 'sys-group-member-quit-message',
-  [ChatMsgSysGroupMemberKicked]: 'sys-group-member-kicked-message',
-  [ChatMsgSysGroupMemberMuted]: 'sys-group-member-muted-message',
-  [ChatMsgSysGroupMemberCancelMuted]: 'sys-group-member-cancel-muted-message',
-  [ChatMsgSysGroupTransfer]: 'sys-group-transfer-message',
-  [ChatMsgSysGroupMuted]: 'sys-group-muted-message',
-  [ChatMsgSysGroupCancelMuted]: 'sys-group-cancel-muted-message',
-  [ChatMsgSysGroupNotice]: 'Group-notice-message'
+export const messageComponents = {
+  [chatMsgTypeText]: 'text-message',
+  [chatMsgTypeImage]: 'image-message',
+  [chatMsgTypeAudio]: 'audio-message',
+  [chatMsgTypeVideo]: 'video-message',
+  [chatMsgTypeFile]: 'file-message',
+  [chatMsgTypeLocation]: 'location-message',
+  [chatMsgTypeCard]: 'user-card-message',
+  [chatMsgTypeForward]: 'forward-message',
+  [chatMsgTypeLogin]: 'login-message',
+  [chatMsgTypeVote]: 'vote-message',
+  [chatMsgTypeCode]: 'code-message',
+  [chatMsgTypeMixed]: 'mixed-message',
+  [chatMsgSysText]: 'sys-text-message',
+  [chatMsgSysGroupCreate]: 'sys-group-create-message',
+  [chatMsgSysGroupMemberJoin]: 'sys-group-join-message',
+  [chatMsgSysGroupMemberQuit]: 'sys-group-member-quit-message',
+  [chatMsgSysGroupMemberKicked]: 'sys-group-member-kicked-message',
+  [chatMsgSysGroupMemberMuted]: 'sys-group-member-muted-message',
+  [chatMsgSysGroupMemberCancelMuted]: 'sys-group-member-cancel-muted-message',
+  [chatMsgSysGroupTransfer]: 'sys-group-transfer-message',
+  [chatMsgSysGroupMuted]: 'sys-group-muted-message',
+  [chatMsgSysGroupCancelMuted]: 'sys-group-cancel-muted-message',
+  [chatMsgSysGroupNotice]: 'Group-notice-message'
 }
 
-export const ForwardableMessageType = [
-  ChatMsgTypeText,
-  ChatMsgTypeCode,
-  ChatMsgTypeImage,
-  ChatMsgTypeAudio,
-  ChatMsgTypeVideo,
-  ChatMsgTypeFile,
-  ChatMsgTypeLocation,
-  ChatMsgTypeCard
+export const forwardableMessageType = [
+  chatMsgTypeText,
+  chatMsgTypeCode,
+  chatMsgTypeImage,
+  chatMsgTypeAudio,
+  chatMsgTypeVideo,
+  chatMsgTypeFile,
+  chatMsgTypeLocation,
+  chatMsgTypeCard
 ]

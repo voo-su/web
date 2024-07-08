@@ -2,46 +2,56 @@ import { defineStore } from 'pinia'
 import { chatsApi } from '@/api/chat'
 import { formatDialogItem } from '@/utils/dialog'
 
-const ttime = datetime => {
+const ttime = (datetime: any) => {
   if (datetime == undefined || datetime == '') {
     return new Date().getTime()
   }
   return new Date(datetime.replace(/-/g, '/')).getTime()
 }
 
+interface IItems {
+  unread_num: any
+  msg_text: any
+  updated_at: any
+  is_top: any
+}
+
+interface IDialog {
+  loadStatus: number
+  items: IItems[]
+}
+
 export const useDialogStore = defineStore('dialog', {
-  state: () => {
+  state: (): IDialog => {
     return {
       loadStatus: 2,
       items: []
     }
   },
   actions: {
-    findItem(index_name) {
-      return this.items.find(item => item.index_name === index_name)
+    findItem(index_name: any) {
+      return this.items.find((item: any) => item.index_name === index_name)
     },
 
     updateItem(params: any) {
-      const item = this.items.find(item => item.index_name === params.index_name)
+      const item = this.items.find((item: any) => item.index_name === params.index_name)
       item && Object.assign(item, params)
     },
 
-    addItem(params) {
+    addItem(params: any) {
       this.items = [params, ...this.items]
     },
 
-    delItem(index_name) {
-      const i = this.items.findIndex(item => item.index_name === index_name)
+    delItem(index_name: any) {
+      const i = this.items.findIndex((item: any) => item.index_name === index_name)
       if (i >= 0) {
         this.items.splice(i, 1)
       }
       this.items = [...this.items]
     },
 
-    updateMessage(params) {
-      const item = this.items.find(
-        item => item.index_name === params.index_name
-      )
+    updateMessage(params: any) {
+      const item = this.items.find((item: any) => item.index_name === params.index_name)
       if (item) {
         item.unread_num++
         item.msg_text = params.msg_text
@@ -58,7 +68,7 @@ export const useDialogStore = defineStore('dialog', {
             data
           } = res
           if (code == 200) {
-            this.items = data.items.map(item => formatDialogItem(item))
+            this.items = data.items.map((item: any) => formatDialogItem(item))
             this.loadStatus = 3
           } else {
             this.loadStatus = 4
@@ -71,7 +81,7 @@ export const useDialogStore = defineStore('dialog', {
   },
   getters: {
     topItems: state => {
-      return state.items.filter(item => item.is_top == 1)
+      return state.items.filter((item: any) => item.is_top == 1)
     },
 
     dialogItems: state => {

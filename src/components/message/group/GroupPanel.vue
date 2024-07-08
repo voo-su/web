@@ -79,27 +79,29 @@ const onClose = () => {
 }
 
 const loadDetail = () => {
-  groupDetailApi({ group_id: props.gid }).then((res: any) => {
-    if (res.code == 200) {
-      let result = res.data
-      state.detail.avatar = result.avatar
-      state.detail.name = result.group_name
-      state.detail.description = result.description
-      // state.detail.visit_card = result.visit_card
-      // state.remark = result.visit_card
-      if (result.notice) {
-        state.detail.group_notice = result.notice
+  groupDetailApi({ group_id: props.gid })
+    .then((res: any) => {
+      if (res.code == 200) {
+        let result = res.data
+        state.detail.avatar = result.avatar
+        state.detail.name = result.group_name
+        state.detail.description = result.description
+        // state.detail.visit_card = result.visit_card
+        // state.remark = result.visit_card
+        if (result.notice) {
+          state.detail.group_notice = result.notice
+        }
       }
-    }
-  })
+    })
 }
 
 const loadMembers = () => {
-  getGroupMembersApi({ group_id: props.gid }).then((res: any) => {
-    if (res.code == 200) {
-      state.members = res.data.items || []
-    }
-  })
+  getGroupMembersApi({ group_id: props.gid })
+    .then((res: any) => {
+      if (res.code == 200) {
+        state.members = res.data.items || []
+      }
+    })
 }
 
 const onSignOut = () => {
@@ -113,14 +115,15 @@ const onSignOut = () => {
     }
   )
     .then(() => {
-      secedeGroupApi({ group_id: props.gid }).then((res: any) => {
-        if (res.code == 200) {
-          ElMessage.success('Вы успешно покинули группу')
-          onClose()
-        } else {
-          ElMessage.error(res.message)
-        }
-      })
+      secedeGroupApi({ group_id: props.gid })
+        .then((res: any) => {
+          if (res.code == 200) {
+            ElMessage.success('Вы успешно покинули группу')
+            onClose()
+          } else {
+            ElMessage.error(res.message)
+          }
+        })
     })
     .catch(() => {
 
@@ -131,10 +134,8 @@ const onSignOut = () => {
 //   updateGroupCardApi({
 //     group_id: props.gid,
 //     visit_card: state.remark
-//   }).then(({
-//              code,
-//              message
-//            }) => {
+//   }).then((res: any) => {
+//     const { code, message } = res
 //     if (code == 200) {
 //       editCardPopover.value.setShow(false)
 //       state.detail.visit_card = state.remark

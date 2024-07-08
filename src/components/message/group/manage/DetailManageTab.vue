@@ -53,13 +53,14 @@ const onUploadAvatar = (avatar: any) => {
 }
 
 const onLoadData = () => {
-  groupDetailApi({ group_id: props.id }).then((res: any) => {
-    if (res.code == 200) {
-      form.name = res.data.group_name
-      form.avatar = res.data.avatar
-      form.description = res.data.description
-    }
-  })
+  groupDetailApi({ group_id: props.id })
+    .then((res: any) => {
+      if (res.code == 200) {
+        form.name = res.data.group_name
+        form.avatar = res.data.avatar
+        form.description = res.data.description
+      }
+    })
 }
 
 const onSubmit = async (formEl: FormInstance | undefined) => {

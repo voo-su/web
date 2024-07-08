@@ -6,8 +6,22 @@ import { storage } from '@/utils/storage/local-storage'
 import { userInfo } from '@/constants/default'
 import { logoutApi } from '@/api/auth'
 
+interface IUser {
+  uid: number
+  username: string
+  avatar: string
+  name: string
+  surname: string
+  gender: number
+  email: string
+  about: string
+  online: boolean
+  isContactApply: boolean
+  isGroupApply: boolean
+}
+
 export const useUserStore = defineStore('user', {
-  state: () => {
+  state: (): IUser => {
     return {
       uid: 0,
       username: '',
@@ -72,20 +86,19 @@ export const useUserStore = defineStore('user', {
 
       findFriendApplyNumApi()
         .then((res: any) => {
-          const {
-            code,
-            data
-          } = res
+          const { code, data } = res
           if (code == 200) {
             this.isContactApply = data.unread_num > 0
           }
         })
 
-      // groupApplyUnreadApi().then(({ code, data }) => {
-      //   if (code == 200) {
-      //     this.isGroupApply = data.unread_num > 0
-      //   }
-      // })
+      // groupApplyUnreadApi()
+      //   .then((res: any) => {
+      //     const { code, data } = res
+      //     if (code == 200) {
+      //       this.isGroupApply = data.unread_num > 0
+      //     }
+      //   })
     }
   },
   getters: {}

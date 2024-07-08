@@ -1,12 +1,10 @@
 const getVersionNumber = (userAgent: string, regex: RegExp) => {
   const matches = userAgent.match(regex)
-
   return matches && matches.length > 1 ? matches[1] : ''
 }
 
 export const getOSType = (userAgent: string = ''): string => {
   const lowerUserAgent = userAgent.toLowerCase()
-
   if (/windows/.test(lowerUserAgent)) {
     return `Windows ${getVersionNumber(lowerUserAgent, /windows\snt\s(\d+(\.\d+)*)/)}`
   } else if (/iphone|ipad|ipod/.test(lowerUserAgent)) {
@@ -26,7 +24,6 @@ export const getOSType = (userAgent: string = ''): string => {
 
 export const getBrowserType = (userAgent: string = ''): string => {
   const lowerUserAgent = userAgent.toLowerCase()
-
   if (lowerUserAgent.includes('opr') || lowerUserAgent.includes('opera')) {
     return `Opera ${getVersionNumber(lowerUserAgent, /(opr|opera)[\s\/](\d+(\.\d+)*)/)}`
   } else if (lowerUserAgent.includes('msie') || lowerUserAgent.includes('trident')) {
@@ -45,11 +42,7 @@ export const getBrowserType = (userAgent: string = ''): string => {
 }
 
 export const getName = (data: { username: string; name?: string; surname?: string }): string => {
-  const {
-    name,
-    surname,
-    username
-  } = data
+  const { name, surname, username } = data
   if (name && name.length >= 1) {
     return surname && surname.length >= 1 ? `${name} ${surname}` : name
   }

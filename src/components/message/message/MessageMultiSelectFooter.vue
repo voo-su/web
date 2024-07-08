@@ -33,7 +33,7 @@ const onMultiDelete = () => {
   let ids = dialogueStore.selectItems.map((item: any) => item.id)
   if (!ids.length)
     return
-  dialogueStore.ApiDeleteRecord(ids)
+  dialogueStore.deleteRecord(ids)
 }
 
 const onContactModal = (data: any) => {
@@ -47,7 +47,7 @@ const onContactModal = (data: any) => {
       group_ids.push(o.id)
     }
   }
-  dialogueStore.ApiForwardRecord({
+  dialogueStore.forwardRecord({
     forward_mode: forwardMode.value,
     records_ids: ids.join(','),
     receive_user_ids: user_ids.join(','),
@@ -115,6 +115,7 @@ const onContactModal = (data: any) => {
       </div>
     </div>
   </section>
+  
   <contact-modal
     v-model="isShowContactModal"
     @close="isShowContactModal = false"

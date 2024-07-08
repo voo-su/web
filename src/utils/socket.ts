@@ -74,7 +74,7 @@ class Socket {
   }
 
   onPong() {
-    this.ws.on('pong', () => {})
+    this.ws.on('pong', () => { })
   }
 
   onImMessage() {
@@ -157,7 +157,6 @@ class Socket {
   emit(event: string, data: any) {
     this.ws.emit(event, data)
   }
-
 }
 
 export default new Socket()

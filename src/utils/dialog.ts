@@ -60,10 +60,8 @@ export const onSetDisturb = (data: any) => {
     dialog_type: data.dialog_type,
     receiver_id: data.receiver_id,
     is_disturb: data.is_disturb == 0 ? 1 : 0
-  }).then(({
-             code,
-             message
-           }: any) => {
+  }).then((res: any) => {
+    const { code, message } = res
     if (code == 200) {
       // ElMessage.success('Успешно установлено')
 
@@ -90,7 +88,7 @@ export const toDialog = (dialog_type: any, receiver_id: any) => {
     receiver_id: parseInt(receiver_id)
   }).then((res: any) => {
     const { code, data, message } = res
-    
+
     if (code == 200) {
       sessionStorage.setItem(KEY_INDEX_NAME, `${dialog_type}_${receiver_id}`)
       if (findDialogIndex(`${dialog_type}_${receiver_id}`) === -1) {
@@ -126,7 +124,8 @@ const onDeleteDialog = (index_name = '') => {
 export const onRemoveDialog = (data: any) => {
   delChatApi({
     list_id: data.id
-  }).then(({ code }: any) => {
+  }).then((res: any) => {
+    const { code } = res
     if (code == 200) {
       onDeleteDialog(data.index_name)
     }
