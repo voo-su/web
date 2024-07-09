@@ -5,7 +5,6 @@ import { defAvatar } from '@/constants/default.js'
 import { createGroupApi, getInviteFriendsApi, inviteGroupApi } from '@/api/group-chat'
 import { ElMessage } from 'element-plus'
 
-const emit = defineEmits(['close', 'on-submit'])
 const props = defineProps({
   gid: {
     type: Number,
@@ -13,7 +12,9 @@ const props = defineProps({
   }
 })
 
-const items = ref([])
+const emit = defineEmits(['close', 'on-submit', 'on-invite'])
+
+const items = ref<any>([])
 const model = reactive({
   keywords: '',
   name: ''
@@ -112,7 +113,6 @@ const onSubmit = () => {
     onInviteSubmit(ids)
   }
 }
-
 </script>
 
 <template>

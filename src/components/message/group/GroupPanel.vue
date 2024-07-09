@@ -11,13 +11,14 @@ import { ElMessage } from 'element-plus'
 
 const userStore = useUserStore()
 
-const emit = defineEmits(['close', 'to-dialog'])
 const props = defineProps({
   gid: {
     type: Number,
     default: 0
   }
 })
+
+const emit = defineEmits(['close', 'to-dialog'])
 
 const user: any = inject('$user')
 
@@ -125,9 +126,7 @@ const onSignOut = () => {
           }
         })
     })
-    .catch(() => {
-
-    })
+    .catch(() => {})
 }
 
 // const onChangeRemark = () => {

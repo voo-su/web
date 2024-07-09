@@ -137,7 +137,7 @@ const onAssignAdmin = (item: any) => {
   let title = item.leader == 0
     ? `Вы уверены, что хотите назначить ${item.username} администратором ?`
     : `Вы уверены, что хотите снять администраторские права с ${item.username} ?`
-  ElMessageBox.confirm(title, null, {
+  ElMessageBox.confirm(title, '', {
     confirmButtonText: 'Назначить',
     cancelButtonText: 'Отмена',
     type: 'warning'
@@ -157,8 +157,7 @@ const onAssignAdmin = (item: any) => {
             ElMessage.error(message)
           }
         })
-    }).catch(() => {
-    })
+    }).catch(() => {})
 }
 
 const onTransfer = (item: any) => {
@@ -232,6 +231,7 @@ const onContextMenu = (e: any, item: any) => {
     //   key: 'batch_delete'
     // }
   ]
+
   if (isAdmin.value) {
     if (item.leader == 1) {
       dropdown.options.push({
@@ -258,11 +258,13 @@ const onContextMenu = (e: any, item: any) => {
       key: 'delete'
     })
   }
+
   nextTick(() => {
     dropdown.show = true
     dropdown.dropdownX = e.clientX
     dropdown.dropdownY = e.clientY
   })
+
   e.preventDefault()
 }
 
@@ -302,18 +304,12 @@ onLoadData()
         </el-space>
       </div>
     </el-header>
-    <el-main
-      v-if="filterSearch.length === 0"
-    >
-      <div class="empty">
+    <el-main class="items scrollbar">
+      <div v-if="filterSearch.length === 0" class="empty">
         Ничего не найдено.
       </div>
-    </el-main>
-    <el-main
-      v-else
-      class="items scrollbar"
-    >
       <div
+        v-else
         v-for="member in filterSearch"
         :key="member.user_id"
         class="item-card"
@@ -358,11 +354,15 @@ onLoadData()
             <span
               v-if="member.leader === 2"
               class="member-type"
-            >Владелец</span>
+            >
+              Владелец
+            </span>
             <span
               v-show="member.leader == 1"
               class="member-type"
-            >Админ</span>
+            >
+              Админ
+            </span>
             <!--              <span-->
             <!--                v-show="member.is_mute == 1"-->
             <!--                class="badge"-->
@@ -436,45 +436,48 @@ onLoadData()
   border-bottom: 1px solid var(--el-border-color);
 }
 
-.items {
+.el-main {
   height: 406px;
-  padding: 5px;
 }
 
-.item-card {
-  display: flex;
-  width: 100%;
-  min-height: 50px;
-  padding: 10px;
-  box-sizing: border-box;
-  cursor: pointer;
-  border-radius: 10px;
+.items {
+  padding: 5px;
 
-  &:hover {
-    background-color: #ececec;
-  }
-
-  .left-item {
-    flex-shrink: 0;
-  }
-
-  .right-item {
+  .item-card {
     display: flex;
     width: 100%;
-    margin-left: 10px;
+    min-height: 50px;
+    padding: 10px;
+    box-sizing: border-box;
+    cursor: pointer;
+    border-radius: 10px;
 
-    .item-title {
-      height: 28px;
-      width: inherit;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-weight: 400;
+    &:hover {
+      background-color: #ececec;
     }
 
-    .tool {
-      margin: 0 0 0 10px;
-      transform: rotate(90deg);
+    .left-item {
+      flex-shrink: 0;
+    }
+
+    .right-item {
+      display: flex;
+      width: 100%;
+      margin-left: 10px;
+
+      .item-title {
+        height: 28px;
+        width: inherit;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-weight: 400;
+      }
+
+      .tool {
+        margin: 0 0 0 10px;
+        transform: rotate(90deg);
+      }
     }
   }
 }

@@ -19,9 +19,9 @@ const cropper = ref<boolean>(false)
 const formRef = ref<FormInstance>()
 
 interface FormType {
-  avatar: string,
-  name: string,
-  description: string,
+  avatar: string
+  name: string
+  description: string
 }
 
 const form = reactive<FormType>({
@@ -70,6 +70,7 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
       if (form.name.trim() == '') {
         return ElMessage.info('Имя группы не может быть пустым')
       }
+
       editGroupApi({
         group_id: props.id,
         group_name: form.name,

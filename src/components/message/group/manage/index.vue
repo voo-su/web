@@ -1,12 +1,16 @@
 <script lang="ts" setup>
-import { markRaw, ref } from 'vue'
-import LayoutTab from '@/components/app/AppLayoutTab.vue'
-import DetailTab from './DetailManageTab.vue'
-import MemberTab from './MemberTab.vue'
+import { markRaw } from 'vue'
+import AppLayout from '@/components/app/AppLayout.vue'
+import GroupManageDetail from './GroupManageDetail.vue'
+import GroupManageMember from './GroupManageMember.vue'
+import GroupManageSettings from './GroupManageSettings.vue'
+import {
+  Postcard as IconPostcard,
+  User as IconUser,
+  CirclePlus as IconCirclePlus,
+  Setting as IconSetting
+} from '@element-plus/icons-vue'
 
-import { Postcard, User } from '@element-plus/icons-vue'
-
-const emit = defineEmits(['close'])
 const props = defineProps({
   gid: {
     type: Number,
@@ -14,44 +18,32 @@ const props = defineProps({
   }
 })
 
-const isShowBox = ref(true)
-const tabIndex = ref(0)
+const emit = defineEmits(['close'])
 const menus = [
   {
-    name: 'Информация о группе',
-    icon: markRaw(Postcard),
-    component: DetailTab
+    name: 'Основная информация',
+    icon: markRaw(IconPostcard),
+    component: GroupManageDetail
   },
   {
     name: 'Участники',
-    icon: markRaw(User),
-    component: MemberTab
+    icon: markRaw(IconUser),
+    component: GroupManageMember
+  },
+  {
+    name: 'Управление',
+    icon: markRaw(IconSetting),
+    component: GroupManageSettings
   }
-  // {
-  //   name: 'Объявления группы',
-  //   icon: markRaw(User),
-  //   component: NoticeTab
-  // },
-  // {
-  //   name: 'Заявки в группу',
-  //   icon: markRaw(User),
-  //   component: ApplyTab
-  // },
-  // {
-  //   name: 'Настройки группы',
-  //   icon: markRaw(User),
-  //   component: ConfigTab
-  // }
 ]
 
 const onCloseClick = () => {
   emit('close')
 }
-
 </script>
 
 <template>
-  <layout-tab
+  <app-layout
     :id="gid"
     title="Управление группой"
     :menus="menus"
@@ -59,6 +51,4 @@ const onCloseClick = () => {
   />
 </template>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>
