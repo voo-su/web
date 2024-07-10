@@ -72,9 +72,11 @@ const onInfo = (item: any) => {
   //   emit('close')
   // })
 
-  modal(ContactUserCard, { uid: item.id }, () => {
-    emit('close')
-  })
+  modal(ContactUserCard, {
+    uid: parseInt(item.id)
+  },
+    () => emit('close')
+  )
 }
 
 onMounted(() => {

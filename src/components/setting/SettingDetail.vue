@@ -34,13 +34,13 @@ const rules = reactive<FormRules>({
 })
 
 interface FormType {
-  avatar: string,
-  name: string,
-  surname: string,
-  email: string,
-  gender: string,
-  about: string,
-  birthday: any,
+  avatar: string
+  name: string
+  surname: string
+  email: string
+  gender: string
+  about: string
+  birthday: any
   loading: boolean
 }
 
@@ -129,8 +129,6 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
         :model="form"
         :rules="rules"
         label-placement="left"
-        label-width="auto"
-        require-mark-placement="right-hanging"
         style="margin-top: 10px"
         label-position="top"
       >

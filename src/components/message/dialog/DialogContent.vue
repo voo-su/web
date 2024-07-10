@@ -13,7 +13,6 @@ const userStore = useUserStore()
 const dialogueStore = useDialogueStore()
 const dialogStore = useDialogStore()
 
-
 const members = computed(() => dialogueStore.members)
 
 const dialogParams = reactive({

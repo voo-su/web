@@ -48,7 +48,12 @@ const user: any = inject('$user')
 const dialogueStore = useDialogueStore()
 const records = computed(() => dialogueStore.records)
 
-const loadConfig = reactive({
+interface ILoadConfig {
+  status: number
+  minRecord: number
+}
+
+const loadConfig = reactive<ILoadConfig>({
   status: 0,
   minRecord: 0
 })
@@ -355,7 +360,6 @@ const onJumpMessage = (msgid: string) => {
   setTimeout(() => {
     removeClass(element, 'border')
   }, 3000)
-
 }
 
 const onReload = () => {

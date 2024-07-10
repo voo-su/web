@@ -10,17 +10,19 @@ const props = defineProps({
 
 const userStore = useUserStore()
 const mode = props.extra.detail.answer_mode
-const state = reactive({ options: [] })
+const state = reactive<any>({
+  options: []
+})
 
 const isCanSubmit = computed(() => {
-  return state.options.some(item => item.is_checked)
+  return state.options.some((item: any) => item.is_checked)
 })
 
 const isVoted = computed(() => {
-  return props.extra.vote_users.some(item => item == userStore.uid)
+  return props.extra.vote_users.some((item: any) => item == userStore.uid)
 })
 
-const setOptions = options => {
+const setOptions = (options: any) => {
   for (const option of options) {
     state.options.push({
       key: option.key,
@@ -32,10 +34,10 @@ const setOptions = options => {
   }
 }
 
-const updateStatistics = data => {
+const updateStatistics = (data: any) => {
   let { count } = data
 
-  state.options.forEach(option => {
+  state.options.forEach((option: any) => {
     option.num = data.options[option.key]
 
     if (count > 0) {
@@ -44,9 +46,9 @@ const updateStatistics = data => {
   })
 }
 
-const change = (data, option) => {
+const change = (data: any, option: any) => {
   if (mode == 0) {
-    state.options.forEach(option => (option.is_checked = false))
+    state.options.forEach((option: any) => (option.is_checked = false))
   }
 
   option.is_checked = data
@@ -55,17 +57,18 @@ const change = (data, option) => {
 const onSubmit = () => {
   if (!isCanSubmit.value) return
 
-  let items = []
+  let items: any = []
 
-  state.options.forEach(item => {
+  state.options.forEach((item: any) => {
     item.is_checked && items.push(item.key)
   })
 
   confirmVoteHandleApi({
     record_id: props.data.id,
     options: items.join(',')
-  }).then(res => {
-    if (res.code == 200) {
+  }).then((res: any) => {
+    const { code } = res
+    if (code == 200) {
       updateStatistics(res.data)
       props.extra.vote_users.push(userStore.uid)
       props.extra.detail.answered_num++
@@ -73,7 +76,7 @@ const onSubmit = () => {
   })
 }
 
-const detail = detail => detail.answer_anonymous ? 'Анонимный опрос' : 'Опрос'
+const detail = (detail: any) => detail.answer_anonymous ? 'Анонимный опрос' : 'Опрос'
 
 onMounted(() => {
   setOptions(props.extra.detail.answer_option)

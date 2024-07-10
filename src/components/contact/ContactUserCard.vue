@@ -32,22 +32,22 @@ const emit = defineEmits(['close', 'event'])
 const dialogStore = useDialogStore()
 const dialogueStore = useDialogueStore()
 
-const isNotification = ref(true)
-const showModal = ref(false)
+const isNotification = ref<boolean>(true)
+const showModal = ref<boolean>(false)
 
 interface IContact {
-  id: number,
-  username: string,
-  name: string,
-  surname: string,
-  gender: number,
-  avatar: string,
-  about: string,
-  // remark: string,
-  friend_status: number,
-  text: string,
-  is_bot: number,
-  group_id: number,
+  id: number
+  username: string
+  name: string
+  surname: string
+  gender: number
+  avatar: string
+  about: string
+  // remark: string
+  friend_status: number
+  text: string
+  is_bot: number
+  group_id: number
 }
 
 const state = reactive<IContact>({
@@ -66,8 +66,8 @@ const state = reactive<IContact>({
 })
 
 // interface IFolder {
-//   key: number,
-//   label: string,
+//   key: number
+//   label: string
 // }
 //
 // const folders = reactive<IFolder[]>([])
@@ -106,7 +106,6 @@ const onLoadData = () => {
 
   // contactFoldersApi().then((res: any) => {
   //   const { code, data } = res
-
   //   if (code == 200) {
   //     let items = data.items || []
   //     for (const iter of items) {
@@ -130,7 +129,7 @@ const onJoinContact = () => {
   //   return ElMessage.info('Поле примечания не может быть пустым')
   // }
   createContactApi({
-    friend_id: parseInt(props.uid)
+    friend_id: props.uid
     // remark: state.text
   })
     .then((res: any) => {

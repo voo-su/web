@@ -12,7 +12,7 @@ const props = defineProps<{
 
 const { float } = props.data
 
-const maxWidth = (src, width = 200) => {
+const maxWidth = (src: any, width: number = 200) => {
   const info = getImageInfo(src)
   if (info.width == 0) {
     return width
@@ -20,23 +20,26 @@ const maxWidth = (src, width = 200) => {
   if (info.width < width) {
     return info.width
   }
+
   return width
 }
 
-const img = (src, width = 200) => {
+const img = (src: any, width: number = 200) => {
   const info = getImageInfo(src)
   if (info.width == 0 || info.height == 0) {
     return {}
   }
+
   if (info.width < width) {
     return {
       width: `${info.width}px`,
       height: `${info.height}px`
     }
   }
+
   return {
-    width: width + 'px',
-    height: parseInt(info.height / (info.width / width)) + 'px'
+    width: `${width}px`,
+    height: `${info.height / (info.width / width)}px`,
   }
 }
 </script>

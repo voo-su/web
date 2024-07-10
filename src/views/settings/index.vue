@@ -1,30 +1,36 @@
 <script lang="ts" setup>
 import { markRaw, ref } from 'vue'
-import DetailTab from '@/components/setting/tab/DetailTab.vue'
-import SecurityTab from '@/components/setting/tab/SecurityTab.vue'
-import NotificationTab from '@/components/setting/tab/NotificationTab.vue'
+import SettingDetail from '@/components/setting/SettingDetail.vue'
+import SettingSecurity from '@/components/setting/SettingSecurity.vue'
+import SettingNotification from '@/components/setting/SettingNotification.vue'
 import { Bell, Setting, User } from '@element-plus/icons-vue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
 
-const menus = [
+interface IMenu {
+  name: string
+  icon: any
+  component: any
+}
+
+const menus: IMenu[] = [
   {
     name: 'Личные данные',
     icon: markRaw(User),
-    component: DetailTab
+    component: SettingDetail
   },
   {
     name: 'Безопасность',
     icon: markRaw(Setting),
-    component: SecurityTab
+    component: SettingSecurity
   },
   {
     name: 'Уведомления',
     icon: markRaw(Bell),
-    component: NotificationTab
+    component: SettingNotification
   }
 ]
 
-const tabIndex = ref(0)
+const tabIndex = ref<number>(0)
 </script>
 
 <template>
@@ -75,7 +81,7 @@ const tabIndex = ref(0)
 
   .el-menu-item {
     border-radius: 10px;
-    padding-left: 10px!important;
+    padding-left: 10px !important;
 
     .el-icon {
       position: relative;
@@ -89,12 +95,13 @@ const tabIndex = ref(0)
       background: #ececec;
       border-radius: 5px;
     }
-   &.is-active{
-     .el-icon {
-       background-color: #2F80ED;
-       color: #ffffff;
-     }
-   }
+
+    &.is-active {
+      .el-icon {
+        background-color: #2F80ED;
+        color: #ffffff;
+      }
+    }
 
   }
 }

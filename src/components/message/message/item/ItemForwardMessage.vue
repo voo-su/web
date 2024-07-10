@@ -10,7 +10,7 @@ const props = defineProps<{
   pid: string
 }>()
 
-const isShowRecord = ref(false)
+const isShowRecord = ref<boolean>(false)
 
 const title = computed(() => {
   return [...new Set(props.extra.records.map(v => v.username))].join(',')

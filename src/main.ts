@@ -15,7 +15,11 @@ async function bootstrap() {
   app.use(createPinia())
   app.use(router)
   app.provide('$user', (uid: any) => {
-    modal(ContactUserCard, { uid })
+    modal(ContactUserCard, {
+      uid: parseInt(uid)
+    },
+      () => { }
+    )
   })
   plugins.setComponents(app)
   plugins.setupDirective(app)

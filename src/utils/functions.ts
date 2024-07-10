@@ -12,9 +12,15 @@ export const getImageInfo = (imgsrc: any): IImageInfo => {
   }
 
   const arr = imgsrc.split('_')
-  if (arr.length == 1) return data
+  if (arr.length == 1) {
+    return data
+  }
+
   let info = arr[arr.length - 1].match(/\d+x\d+/g)
-  if (info == null) return data
+  if (info == null) {
+    return data
+  }
+
   info = info[0].split('x')
   return {
     width: parseInt(info[0]),

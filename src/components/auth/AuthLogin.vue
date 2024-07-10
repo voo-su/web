@@ -5,7 +5,7 @@ import { loginApi } from '@/api/auth'
 import { cookie } from '@/utils/storage/cookie-storage'
 import { authSessionKey } from '@/constants/default'
 import { getErrorForField } from '@/plugins'
-import type { FormLoginType } from './types'
+import type { IFormLoginType } from './types'
 import IconLogo from '@/components/icons/IconLogo.vue'
 
 defineProps({
@@ -33,7 +33,7 @@ const rules = reactive<FormRules>({
   ]
 })
 
-const form = reactive<FormLoginType>({
+const form = reactive<IFormLoginType>({
   email: '',
   loading: false
 })

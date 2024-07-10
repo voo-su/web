@@ -5,8 +5,8 @@ import { Delete as IconDelete, Plus as IconPlus } from '@element-plus/icons-vue'
 import { ElDialog } from 'element-plus'
 import { ElMessage } from 'element-plus'
 
-const isShowBox = ref(true)
 const emit = defineEmits(['close', 'relaod'])
+const isShowBox = ref<boolean>(true)
 
 interface Item {
   id: number
@@ -44,7 +44,9 @@ const onLoad = async () => {
 }
 
 const onSubmit = () => {
-  contactFolderSaveApi({items: options})
+  contactFolderSaveApi({
+    items: options
+  })
     .then((res: any) => {
       const { code, message } = res
       if (code == 200) {

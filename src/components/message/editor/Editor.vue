@@ -28,10 +28,6 @@ import IconClip from '@/components/icons/IconClip.vue'
 import type { IDropdown } from './types'
 import { ElMessage } from 'element-plus'
 
-const emit = defineEmits(['editor-event'])
-const dialogueStore = useDialogueStore()
-const dialogStore = useDialogStore()
-
 const props = defineProps({
   vote: {
     type: Boolean,
@@ -42,9 +38,13 @@ const props = defineProps({
   }
 })
 
+const emit = defineEmits(['editor-event'])
+const dialogueStore = useDialogueStore()
+const dialogStore = useDialogStore()
+
 const editorRef = ref()
 
-const isShowEditorVote = ref(false)
+const isShowEditorVote = ref<boolean>(false)
 // const isShowEditorRecorder = ref(false)
 
 const fileImageAttachRef = ref()
@@ -216,8 +216,7 @@ const onButton = () => {
 }
 
 const onInputEvent = (e: any) => emit('editor-event',
-  emitCall('input_event', e.target.innerHTML.toString(), () => {
-  })
+  emitCall('input_event', e.target.innerHTML.toString(), () => {})
 )
 
 const onImageAttachEvent = ({ callBack }: any) => {

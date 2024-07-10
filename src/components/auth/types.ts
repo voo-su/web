@@ -1,9 +1,9 @@
-export interface FormLoginType {
+export interface IFormLoginType {
   email: string
   loading: boolean
 }
 
-export interface FormVerifyType {
+export interface IFormVerifyType {
   code: string
   loading: boolean
 }

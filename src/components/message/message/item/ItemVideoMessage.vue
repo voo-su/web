@@ -15,6 +15,8 @@ const props = defineProps<{
   maxWidth: Boolean
 }>()
 
+const open = ref<boolean>(false)
+
 interface IImg {
   width: string
   height: string
@@ -40,9 +42,7 @@ const img = (src: string, width: number = 200): IImg | void=> {
   }
 }
 
-const open = ref(false)
-
-async function onPlay() {
+const onPlay = async () => {
   open.value = true
   await nextTick()
   new Player({

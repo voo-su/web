@@ -5,8 +5,6 @@ import AvatarBox from '@/components/base/BaseAvatarBox.vue'
 import { getName } from '@/utils/util'
 import IconPin from '@/components/icons/IconPin.vue'
 
-const emit = defineEmits(['tab-dialog', 'top-dialog'])
-
 defineProps({
   data: {
     type: Object,
@@ -18,6 +16,8 @@ defineProps({
     default: ''
   }
 })
+
+const emit = defineEmits(['tab-dialog', 'top-dialog'])
 </script>
 
 <template>

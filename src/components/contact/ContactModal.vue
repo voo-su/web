@@ -6,9 +6,9 @@ import { getContactListApi } from '@/api/contact'
 
 const emit = defineEmits(['update:modelValue', 'close', 'on-submit'])
 
-const isShowBox = ref(true)
-const items = ref([])
-const keywords = ref('')
+const isShowBox = ref<boolean>(true)
+const items = ref<any>([])
+const keywords = ref<string>('')
 
 const searchFilter: any = computed(() => {
   return items.value.filter((item: any) => {

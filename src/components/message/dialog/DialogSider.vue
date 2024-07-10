@@ -28,8 +28,8 @@ const user: any = inject('$user')
 const dialogueStore = useDialogueStore()
 const dialogStore = useDialogStore()
 
-const isShowCreateGroupBox = ref(false)
-const searchKeyword = ref('')
+const isShowCreateGroupBox = ref<boolean>(false)
+const searchKeyword = ref<string>('')
 
 const state = reactive<any>({
   dropdown: {
@@ -58,7 +58,7 @@ const items: any = computed(() => {
   })
 })
 
-const onTabDialog = (data: any, follow = false) => {
+const onTabDialog = (data: any, follow: boolean = false) => {
   if (data.index_name === indexName.value) {
     return
   }

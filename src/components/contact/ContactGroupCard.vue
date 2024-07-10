@@ -2,8 +2,6 @@
 import { defAvatar } from '@/constants/default'
 import { Plus, Share } from '@element-plus/icons-vue'
 
-const emit = defineEmits(['dialog', 'join'])
-
 defineProps({
   avatar: {
     type: String,
@@ -26,6 +24,8 @@ defineProps({
     default: false
   }
 })
+
+const emit = defineEmits(['dialog', 'join'])
 </script>
 
 <template>
@@ -47,8 +47,6 @@ defineProps({
         {{ username.substring(0, 1) }}
       </div>
     </div>
-
-
     <div class="right-item">
       <div class="username">
         <span class="text-ellipsis">
@@ -60,7 +58,7 @@ defineProps({
       <!--      </div>-->
       <div class="helper">
         <div class="tool">
-          <el-icon @click.stop="emit(isMember ? 'Dialog' : 'join')">
+          <el-icon @click.stop="emit(isMember ? 'dialog' : 'join')">
             <component :is="isMember ? Share : Plus" />
           </el-icon>
         </div>

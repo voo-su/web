@@ -1,8 +1,6 @@
 <script lang="ts" setup>
 import AvatarBox from '@/components/base/BaseAvatarBox.vue'
 
-const emit = defineEmits(['to-dialog'])
-
 defineProps({
   avatar: {
     type: String,
@@ -29,6 +27,8 @@ defineProps({
     default: ''
   }
 })
+
+const emit = defineEmits(['to-dialog'])
 </script>
 
 <template>

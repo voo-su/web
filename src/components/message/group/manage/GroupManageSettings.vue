@@ -11,6 +11,25 @@ const props = defineProps({
 })
 const emit = defineEmits(['close'])
 
+const detail = reactive({
+  is_mute: false,
+  mute_loading: false,
+  is_overt: false,
+  overt_loading: false
+})
+
+const onLoadData = () => {
+  groupDetailApi({
+    group_id: props.id
+  })
+    .then((res: any) => {
+      if (res.code == 200) {
+        detail.is_mute = res.data.is_mute == 1
+        detail.is_overt = res.data.is_overt == 1
+      }
+    })
+}
+
 const onDismiss = () => {
   dismissGroupApi({
     group_id: props.id
@@ -25,6 +44,48 @@ const onDismiss = () => {
     })
 }
 
+const onMute = (value: any) => {
+  detail.mute_loading = true
+  muteGroupApi({
+    group_id: props.id,
+    mode: detail.is_mute ? 2 : 1
+  })
+    .then((res: any) => {
+      const {
+        code,
+        message
+      } = res
+      if (code == 200) {
+        detail.is_mute = value
+      } else {
+        ElMessage.info(message)
+      }
+    })
+    .finally(() => {
+      detail.mute_loading = false
+    })
+}
+
+const onOvert = (value: any) => {
+  detail.overt_loading = true
+  overtGroupApi({
+    group_id: props.id,
+    mode: detail.is_overt ? 2 : 1
+  })
+    .then((res: any) => {
+      const { code, message } = res
+      if (code == 200) {
+        detail.is_overt = value
+      } else {
+        ElMessage.info(message)
+      }
+    })
+    .finally(() => {
+      detail.overt_loading = false
+    })
+}
+
+onLoadData()
 </script>
 
 <template>
@@ -37,6 +98,20 @@ const onDismiss = () => {
         label-placement="left"
         label-width="auto"
       >
+        <el-form-item label="Открытая группа">
+          <el-switch
+            :loading="detail.overt_loading"
+            v-model="detail.is_overt"
+            @change="onOvert"
+          />
+        </el-form-item>
+        <el-form-item label="Запретить писать сообщения">
+          <el-switch
+            :loading="detail.mute_loading"
+            v-model="detail.is_mute"
+            @change="onMute"
+          />
+        </el-form-item>
         <div class="t-center">
           <el-popconfirm
             title="Вы действительно хотите удалить группу ?"

@@ -12,6 +12,7 @@ const onClick = (key: string) => {
     email: EmailBox,
     username: UsernameBox
   }
+
   state.component = component[key] && markRaw(component[key])
 }
 </script>

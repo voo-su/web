@@ -8,7 +8,7 @@ import socket from '@/utils/socket'
 import { setAccessToken } from '@/utils/auth'
 import { useUserStore } from '@/store'
 import { Close } from '@element-plus/icons-vue'
-import type { FormVerifyType } from './types'
+import type { IFormVerifyType } from './types'
 import { getErrorForField } from '@/plugins'
 import IconLogo from '@/components/icons/IconLogo.vue'
 
@@ -38,7 +38,7 @@ const rules = reactive<FormRules>({
   ]
 })
 
-const form = reactive<FormVerifyType>({
+const form = reactive<IFormVerifyType>({
   code: '',
   loading: false
 })

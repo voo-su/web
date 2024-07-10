@@ -12,7 +12,9 @@ import ContextMenu from '@/components/base/BaseContextMenu.vue'
 import { renderIcon } from '@/plugins'
 import { getName } from '@/utils/util'
 
-const props = defineProps({ data: Object })
+const props = defineProps({
+  data: Object
+})
 const emit = defineEmits(['event'])
 
 const user: any = inject('$user')

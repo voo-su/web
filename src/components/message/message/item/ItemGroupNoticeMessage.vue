@@ -8,7 +8,7 @@ defineProps<{
   maxWidth: Boolean
 }>()
 
-let show = ref(false)
+let show = ref<boolean>(false)
 </script>
 
 <template>

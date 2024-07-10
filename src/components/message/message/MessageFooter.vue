@@ -31,7 +31,9 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
-  members: { default: () => [] }
+  members: {
+    default: () => []
+  }
 })
 
 const dialogStore = useDialogStore()
@@ -263,6 +265,4 @@ onMounted(() => {
   />
 </template>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

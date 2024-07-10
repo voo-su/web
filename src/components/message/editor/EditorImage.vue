@@ -3,7 +3,6 @@ import { onMounted, reactive } from 'vue'
 import { emitCall } from '@/utils/common'
 import { Upload } from '@element-plus/icons-vue'
 
-const emit = defineEmits(['close', 'submit'])
 const props = defineProps({
   file: {
     type: File,
@@ -11,7 +10,16 @@ const props = defineProps({
   }
 })
 
-const state = reactive({
+const emit = defineEmits(['close', 'submit'])
+
+interface IState {
+  show: boolean
+  src: string
+  size: string
+  loading: boolean
+}
+
+const state = reactive<IState>({
   show: true,
   src: '',
   size: '',

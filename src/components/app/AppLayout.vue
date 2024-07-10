@@ -19,8 +19,8 @@ defineProps({
 
 const emit = defineEmits(['close'])
 
-const isShowBox = ref(true)
-const tabIndex = ref(0)
+const isShowBox = ref<boolean>(true)
+const tabIndex = ref<number>(0)
 
 const onClose = () => {
   emit('close')
