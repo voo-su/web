@@ -16,12 +16,12 @@ import DefaultLayout from '@/layouts/DefaultLayout.vue'
 const emit = defineEmits(['close'])
 const user: any = inject('$user')
 
-// const isShowFolderManageModal = ref(false)
+// const isShowFolderManageModal = ref<boolean>(false)
 
 const userStore = useUserStore()
-const keywords = ref('')
-const index = ref(0)
-const items = ref([])
+const keywords = ref<string>('')
+const index = ref<number>(0)
+const items = ref<any>([])
 
 // interface IFolder {
 //   label: string

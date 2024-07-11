@@ -39,6 +39,12 @@ const routes = [
     component: () => import('@/views/search/index.vue')
   },
   {
+    path: '/search/groups',
+    name: 'SearchGroupView',
+    meta: { requiresAuth: true },
+    component: () => import('@/views/search/group.vue')
+  },
+  {
     path: '/terms',
     name: 'TermsView',
     meta: {},

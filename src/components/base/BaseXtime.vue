@@ -13,7 +13,7 @@ export default defineComponent({
   setup(props) {
     let timeout: number | undefined = undefined
     const inTime = new Date(props.time.replace(/-/g, '/')).getTime()
-    const text = ref('')
+    const text = ref<string>('')
 
     const format = () => {
       clearTimeout(timeout)

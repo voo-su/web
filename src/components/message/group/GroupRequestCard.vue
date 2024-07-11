@@ -7,13 +7,9 @@ defineProps({
     type: String,
     default: ''
   },
-  username: {
+  name: {
     type: String,
     default: ''
-  },
-  gender: {
-    type: Number,
-    default: 0
   },
   about: {
     type: String,
@@ -44,13 +40,13 @@ const emit = defineEmits(['dialog', 'join'])
         v-else
         class="avatar flex-center"
       >
-        {{ username.substring(0, 1) }}
+        {{ name.substring(0, 1) }}
       </div>
     </div>
     <div class="right-item">
-      <div class="username">
+      <div class="name">
         <span class="text-ellipsis">
-          {{ username || '-' }}
+          {{ name || '-' }}
         </span>
       </div>
       <!--      <div class="flags text-ellipsis">-->
@@ -71,10 +67,11 @@ const emit = defineEmits(['dialog', 'join'])
 .items-box {
   display: flex;
   min-width: 220px;
-  min-height: 50px;
+  min-height: 100px;
   border: 1px solid var(--el-border-color);
   padding: 10px;
   box-sizing: border-box;
+  border-radius: 10px;
 
   .left-item {
     width: 50px;
@@ -95,7 +92,7 @@ const emit = defineEmits(['dialog', 'join'])
     min-height: 40px;
     overflow: hidden;
 
-    .username {
+    .name {
       width: 100%;
       height: 20px;
       display: flex;

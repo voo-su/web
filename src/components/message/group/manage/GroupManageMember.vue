@@ -36,10 +36,10 @@ const emit = defineEmits(['close'])
 const user: any = inject('$user')
 
 const userStore = useUserStore()
-const isGroupLaunch = ref(false)
-const keywords = ref('')
-const batchDelete = ref(false)
-const items = ref([])
+const isGroupLaunch = ref<boolean>(false)
+const keywords = ref<string>('')
+const batchDelete = ref<boolean>(false)
+const items = ref<any>([])
 
 const filterCheck = computed(() => {
   return items.value.filter((item: any) => item.is_delete)
@@ -305,7 +305,10 @@ onLoadData()
       </div>
     </el-header>
     <el-main class="items scrollbar">
-      <div v-if="filterSearch.length === 0" class="empty">
+      <div
+        v-if="filterSearch.length === 0"
+        class="empty"
+      >
         Ничего не найдено.
       </div>
       <div

@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import { Search } from '@element-plus/icons-vue'
 import { userSearchApi } from '@/api/user'
-import DialogPageHeader from '@/components/app/AppPageHeader.vue'
+import AppPageHeader from '@/components/app/AppPageHeader.vue'
 import SearchCard from '@/components/contact/ContactSearchCard.vue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
 
@@ -36,7 +36,7 @@ const onSearchInput = (value: any) => {
 <template>
   <default-layout :index="2">
     <el-container class="is-vertical h-100">
-      <dialog-page-header>
+      <app-page-header>
         <template #center>
           <el-input
             v-model="keywords"
@@ -45,17 +45,16 @@ const onSearchInput = (value: any) => {
             @input="onSearchInput"
           />
         </template>
-      </dialog-page-header>
-      <el-main v-if="items.length === 0">
-        <div class="empty">
+      </app-page-header>
+      <el-main class="scrollbar">
+        <div
+          v-if="items.length === 0"
+          class="empty"
+        >
           Ничего не найдено.
         </div>
-      </el-main>
-      <el-main
-        v-else
-        class="scrollbar"
-      >
         <search-card
+          v-else
           v-for="item in items"
           :id="item.id"
           :username="item.username"
