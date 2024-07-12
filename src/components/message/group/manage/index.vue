@@ -3,6 +3,7 @@ import { markRaw } from 'vue'
 import AppLayout from '@/components/app/AppLayout.vue'
 import GroupManageDetail from './GroupManageDetail.vue'
 import GroupManageMember from './GroupManageMember.vue'
+import GroupManageRequests from './GroupManageRequests.vue'
 import GroupManageSettings from './GroupManageSettings.vue'
 import {
   Postcard as IconPostcard,
@@ -29,6 +30,11 @@ const menus = [
     name: 'Участники',
     icon: markRaw(IconUser),
     component: GroupManageMember
+  },
+  {
+    name: 'Заявки',
+    icon: markRaw(IconCirclePlus),
+    component: GroupManageRequests
   },
   {
     name: 'Управление',

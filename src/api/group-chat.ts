@@ -31,3 +31,11 @@ export const groupNoSpeakApi = (data: any) => post('/v1/group-chats/no-speak', d
 export const muteGroupApi = (data: any) => post('/v1/group-chats/mute', data)
 
 export const overtGroupApi = (data: any) => post('/v1/group-chats/overt', data)
+
+export const createGroupRequestsApi = (data: any) => post('/v1/group-chats/requests/create', data)
+
+export const getGroupRequestsApi = (data: any) => get('/v1/group-chats/requests', data)
+
+export const deleteGroupApplyApi = (data: any) => post('/v1/group-chats/requests/decline', data)
+
+export const agreeGroupApplyApi = (data: any) => post('/v1/group-chats/requests/agree', data)
