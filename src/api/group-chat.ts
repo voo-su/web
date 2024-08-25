@@ -39,3 +39,8 @@ export const getGroupRequestsApi = (data: any) => get('/v1/group-chats/requests'
 export const deleteGroupApplyApi = (data: any) => post('/v1/group-chats/requests/decline', data)
 
 export const agreeGroupApplyApi = (data: any) => post('/v1/group-chats/requests/agree', data)
+
+export const getGroupAdsApi = (data: any) => get('/v1/group-chats/ads', data)
+
+export const editGroupAdsApi = (data: any) => post('/v1/group-chats/ads/edit', data)
+

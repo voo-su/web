@@ -59,7 +59,7 @@ const onContextMenuMessage = (e: any) => {
     // menu.options.push({
     //   icon: renderIcon(Postcard),
     //   label: 'Объявление о группе',
-    //   key: 'notice'
+    //   key: 'ads'
     // })
   }
   state.dropdown.options.push({

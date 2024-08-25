@@ -3,6 +3,7 @@ import { markRaw } from 'vue'
 import AppLayout from '@/components/app/AppLayout.vue'
 import GroupManageDetail from './GroupManageDetail.vue'
 import GroupManageMember from './GroupManageMember.vue'
+import GroupManageAds from './GroupManageAds.vue'
 import GroupManageRequests from './GroupManageRequests.vue'
 import GroupManageSettings from './GroupManageSettings.vue'
 import {
@@ -37,7 +38,12 @@ const menus = [
     component: GroupManageRequests
   },
   {
-    name: 'Управление',
+    name: 'Объявления',
+    icon: markRaw(IconUser),
+    component: GroupManageAds
+  },
+  {
+    name: 'Настройки',
     icon: markRaw(IconSetting),
     component: GroupManageSettings
   }

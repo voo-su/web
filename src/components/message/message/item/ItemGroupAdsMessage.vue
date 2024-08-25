@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
-import type { GroupNoticeExtra } from './types'
-
+import type { GroupAdsExtra } from './types'
+import { WindPower } from '@element-plus/icons-vue'
 defineProps<{
-  extra: GroupNoticeExtra
+  extra: GroupAdsExtra
   data: any
   maxWidth: Boolean
 }>()
@@ -13,7 +13,7 @@ let show = ref<boolean>(false)
 
 <template>
   <section
-    class="group-notice-message"
+    class="group-ads-message"
     @click="show = !show"
   >
     <div class="title">
@@ -21,7 +21,9 @@ let show = ref<boolean>(false)
         size="small"
         type="info"
       >
-        Объявление группы
+        <el-icon>
+          <WindPower />
+        </el-icon>
       </el-tag>
       {{ extra.title }}
     </div>
@@ -35,7 +37,7 @@ let show = ref<boolean>(false)
 </template>
 
 <style lang="scss" scoped>
-.group-notice-message {
+.group-ads-message {
   max-width: 500px;
   min-height: 50px;
   border-radius: 10px;

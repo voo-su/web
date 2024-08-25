@@ -112,7 +112,7 @@ const onSendSticker = (type: number, value: string, img: string = '') => {
             </el-icon>
           </div>
         </div>
-      </div> 
+      </div>
     </el-main>
     <el-footer class="sticker-footer tabs">
       <div
@@ -172,6 +172,7 @@ const onSendSticker = (type: number, value: string, img: string = '') => {
         height: 65px;
         background-color: #eff1f7;
         margin: 2px;
+        cursor: pointer;
 
         .mask {
           display: none;
@@ -223,7 +224,7 @@ const onSendSticker = (type: number, value: string, img: string = '') => {
         cursor: pointer;
 
         &.active {
-          background-color: white;       
+          background-color: white;
         }
 
         .tip {
@@ -243,11 +244,11 @@ const onSendSticker = (type: number, value: string, img: string = '') => {
         }
 
         &:hover {
+          background-color: #dfdcdc;
+
           .tip {
             display: flex;
           }
-
-          background-color: #dfdcdc;
         }
       }
     }

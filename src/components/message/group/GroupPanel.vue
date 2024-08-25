@@ -89,8 +89,8 @@ const loadDetail = () => {
         state.detail.description = result.description
         // state.detail.visit_card = result.visit_card
         // state.remark = result.visit_card
-        if (result.notice) {
-          state.detail.group_notice = result.notice
+        if (result.ads) {
+          state.detail.group_ads = result.ads
         }
       }
     })

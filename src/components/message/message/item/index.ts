@@ -8,7 +8,7 @@ import SysTextMessage from './ItemSysTextMessage.vue'
 import AudioMessage from './ItemAudioMessage.vue'
 import VideoMessage from './ItemVideoMessage.vue'
 import UnknownMessage from './ItemUnknownMessage.vue'
-import GroupNoticeMessage from './ItemGroupNoticeMessage.vue'
+import GroupAdsMessage from './ItemGroupAdsMessage.vue'
 import SysGroupCreateMessage from './invite/group/GroupJoinMessage.vue'
 import SysGroupJoinMessage from './invite/group/GroupJoinMessage.vue'
 import SysGroupMemberKickedMessage from './invite/group/GroupMemberKickedMessage.vue'
@@ -41,7 +41,7 @@ export {
   SysGroupMemberQuitMessage,
   SysGroupMutedMessage,
   SysGroupCancelMutedMessage,
-  GroupNoticeMessage,
+  GroupAdsMessage,
   MixedMessage,
   ForwardMessage
 }

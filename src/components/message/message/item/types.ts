@@ -32,7 +32,7 @@ export interface Data {
   content: string
 }
 
-export interface GroupNoticeExtra {
+export interface GroupAdsExtra {
   owner_id: number
   owner_name: string
   title: number

@@ -36,7 +36,7 @@ const user: any = inject('$user')
 
 const state = reactive({
   isShowGroupAside: false,
-  isShowGroupNotice: false
+  isShowGroupAds: false
 })
 
 const onPanelHeaderEvent = (eventType: any) => {
@@ -51,8 +51,8 @@ const onPanelHeaderEvent = (eventType: any) => {
         index_name: dialogParams.index_name
       })
     },
-    // notice: () => {
-    //   state.isShowGroupNotice = !state.isShowGroupNotice
+    // ads: () => {
+    //   state.isShowGroupAds = !state.isShowGroupAds
     // }
     remove: () => onRemoveDialog({
       id: dialogParams.chatId,
@@ -94,10 +94,10 @@ const onPanelHeaderEvent = (eventType: any) => {
     :gid="dialogParams.receiver_id"
     @close="state.isShowGroupAside = false"
   />
-  <!--  <group-notice-->
-  <!--    v-if="state.isShowGroupNotice"-->
+  <!--  <group-ads-->
+  <!--    v-if="state.isShowGroupAds"-->
   <!--    :group-id="dialogParams.receiver_id"-->
-  <!--    @close="state.isShowGroupNotice = false"-->
+  <!--    @close="state.isShowGroupAds = false"-->
   <!--  />-->
 </template>
 

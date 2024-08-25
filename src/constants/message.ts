@@ -22,11 +22,11 @@ export const chatMsgSysGroupMuted: number = 1107
 export const chatMsgSysGroupCancelMuted: number = 1108
 export const chatMsgSysGroupMemberMuted: number = 1109
 export const chatMsgSysGroupMemberCancelMuted: number = 1110
-export const chatMsgSysGroupNotice: number = 1111
+export const chatMsgSysGroupAds: number = 1111
 export const chatMsgSysGroupTransfer: number = 1113
 
 export const chatMsgTypeMapping = {
-  [chatMsgTypeText]: 'Сообщения',
+  [chatMsgTypeText]: 'Сообщение',
   [chatMsgTypeImage]: 'Фотография',
   [chatMsgTypeAudio]: 'Аудиозапись',
   [chatMsgTypeVideo]: 'Видео',
@@ -45,11 +45,11 @@ export const chatMsgTypeMapping = {
   [chatMsgSysGroupMemberKicked]: 'Исключение из группы',
   [chatMsgSysGroupMessageRevoke]: 'Отзыв сообщения',
   [chatMsgSysGroupDismissed]: 'Роспуск группы',
-  [chatMsgSysGroupMuted]: 'Заглушение группы',
-  [chatMsgSysGroupCancelMuted]: 'Снятие заглушения группы',
-  [chatMsgSysGroupMemberMuted]: 'Заглушение участника группы',
-  [chatMsgSysGroupMemberCancelMuted]: 'Снятие заглушения участника группы',
-  [chatMsgSysGroupNotice]: 'Объявление в группе'
+  [chatMsgSysGroupMuted]: 'Отключение уведомлений в группе',
+  [chatMsgSysGroupCancelMuted]: 'Включение уведомлений в группе',
+  [chatMsgSysGroupMemberMuted]: 'Отключение уведомлений для участника группы',
+  [chatMsgSysGroupMemberCancelMuted]: 'Включение уведомлений для участника группы',
+  [chatMsgSysGroupAds]: 'Объявление в группе'
 }
 
 export const messageComponents = {
@@ -75,7 +75,7 @@ export const messageComponents = {
   [chatMsgSysGroupTransfer]: 'sys-group-transfer-message',
   [chatMsgSysGroupMuted]: 'sys-group-muted-message',
   [chatMsgSysGroupCancelMuted]: 'sys-group-cancel-muted-message',
-  [chatMsgSysGroupNotice]: 'Group-notice-message'
+  [chatMsgSysGroupAds]: 'Group-ads-message'
 }
 
 export const forwardableMessageType = [
