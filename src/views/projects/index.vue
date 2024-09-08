@@ -1,8 +1,10 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
+import { Plus as PlusIcon } from '@element-plus/icons-vue'
 import { getProjectListApi } from '@/api/project'
+import CreateProject from '@/components/project/CreateProject.vue'
 
 const router = useRouter()
 
@@ -12,7 +14,7 @@ interface Item {
 }
 
 const items = ref<Item[]>([])
-
+const creation = ref(false)
 const load = () => {
   getProjectListApi().then((res: any) => {
     if (res.code == 200 && res.data) {
@@ -22,6 +24,13 @@ const load = () => {
   })
 }
 
+const goProject = (id: number) => {
+  console.log(id)
+}
+
+onMounted(() => {
+  load()
+})
 </script>
 
 <template>
@@ -41,14 +50,24 @@ const load = () => {
                   <h4>Проекты</h4>
                 </div>
               </div>
+              <div class="el-page-header__extra">
+                <el-button
+                  type="primary"
+                  :icon="PlusIcon"
+                  @click="creation = true"
+                >
+                  Создать проект
+                </el-button>
+              </div>
             </div>
           </div>
-          <div v-infinite-scroll="load" class="project-list">
+          <div class="project-list">
             <el-card
               v-for="(item, index) in items"
               :key="index"
               shadow="never"
               class="project-list_item"
+              @click="goProject(item.id)"
             >
               {{ item.title }}
             </el-card>
@@ -57,6 +76,11 @@ const load = () => {
       </el-row>
     </div>
   </default-layout>
+  <create-project
+    v-if="creation"
+    @close="creation = false"
+    @success="goProject"
+  />
 </template>
 
 <style lang="scss">
@@ -75,6 +99,12 @@ const load = () => {
       h4 {
         font-size: 1.5rem;
         line-height: 2rem;
+      }
+    }
+
+    &__extra {
+      .el-button {
+        height: 30px;
       }
     }
   }
