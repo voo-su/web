@@ -9,6 +9,12 @@ const routes = [
     component: () => import('@/views/chats/index.vue')
   },
   {
+    path: '/auth',
+    name: 'AuthView',
+    meta: { requiresAuth: false },
+    component: () => import('@/views/auth.vue')
+  },
+  {
     path: '/messages',
     name: 'MessageView',
     meta: { requiresAuth: true },
@@ -51,10 +57,10 @@ const routes = [
     component: () => import('@/views/terms.vue')
   },
   {
-    path: '/auth',
-    name: 'AuthView',
-    meta: { requiresAuth: false },
-    component: () => import('@/views/auth.vue')
+    path: '/projects',
+    name: 'ProjectView',
+    meta: { requiresAuth: true },
+    component: () => import('@/views/projects/index.vue')
   },
   {
     path: '/:pathMatch(.*)*',
