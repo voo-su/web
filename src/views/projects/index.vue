@@ -18,15 +18,16 @@ const creation = ref(false)
 const load = () => {
   getProjectListApi().then((res: any) => {
     if (res.code == 200 && res.data) {
-      const data = res.data
+      const { data } = res
       items.value = data.items || []
     }
   })
 }
 
-const goProject = (id: number) => {
-  console.log(id)
-}
+const goProject = (id: number) => router.push({
+  name: 'CardProjectView',
+  params: { id }
+})
 
 onMounted(() => {
   load()
@@ -41,7 +42,10 @@ onMounted(() => {
       :closable="false"
     />
     <div class="project-layout">
-      <el-row class="row-bg" justify="center">
+      <el-row
+        class="row-bg"
+        justify="center"
+      >
         <el-col :span="21">
           <div class="el-page-header">
             <div class="el-page-header__header">
