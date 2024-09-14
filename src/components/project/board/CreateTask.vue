@@ -1,8 +1,9 @@
 <script lang="ts" setup>
-import { reactive, ref } from 'vue'
+import { computed, reactive, ref } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
 import { Close as CloseIcon } from '@element-plus/icons-vue'
 import { createTaskProjectApi } from '@/api/project'
+import { useProjectStore } from '@/store'
 
 const props = defineProps({
   projectId: {
@@ -11,15 +12,23 @@ const props = defineProps({
   }
 })
 
-const emit = defineEmits(['close', 'success'])
+const emit = defineEmits(['close'])
 
 const isShow = ref(true)
 const formRef = ref<FormInstance>()
 
-const form = reactive({
+interface IForm {
+  loading: boolean
+  title: string
+  description: string
+  typeId: number | null
+}
+
+const form = reactive<IForm>({
   loading: false,
   title: '',
-  description: ''
+  description: '',
+  typeId: null
 })
 
 const rules = reactive<FormRules>({
@@ -40,8 +49,29 @@ const rules = reactive<FormRules>({
       trigger: 'blur'
     }
   ],
-  description: []
+  description: [],
+  typeId: [
+    {
+      required: true,
+      message: 'Поле "Статус" не должно быть пустым',
+      trigger: 'blur'
+    }
+  ]
 })
+
+interface IType {
+  id: number
+  title: string
+}
+
+const types = computed<IType[]>(() => useProjectStore().getTypes)
+
+interface IRes {
+  code?: number
+  data: {
+    id: number
+  }
+}
 
 const onSubmit = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
@@ -49,15 +79,16 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
     if (valid) {
       createTaskProjectApi({
         project_id: props.projectId,
+        type_id: form.typeId,
         title: form.title,
         description: form.description
-      }).then((res: any) => {
+      }).then((res: IRes) => {
         const {
           code,
           data
         } = res
         if (code == 200) {
-          emit('success', data.id)
+          emit('close')
         }
       }).finally(() => {
         form.loading = false
@@ -100,6 +131,7 @@ const onCloseClick = () => {
         ref="formRef"
         :model="form"
         :rules="rules"
+        label-position="top"
       >
         <el-form-item prop="title">
           <el-input
@@ -112,6 +144,20 @@ const onCloseClick = () => {
             v-model="form.description"
             type="textarea"
           />
+        </el-form-item>
+        <el-form-item
+          prop="typeId"
+          class="status"
+          label="Статус"
+        >
+          <el-select v-model="form.typeId">
+            <el-option
+              v-for="(item, index) in types"
+              :key="index"
+              :label="item.title"
+              :value="item.id"
+            />
+          </el-select>
         </el-form-item>
         <el-form-item>
           <div class="footer">
@@ -138,6 +184,10 @@ const onCloseClick = () => {
 
   .el-form {
     width: 100%;
+
+    .status {
+      width: 200px;
+    }
   }
 
   .footer {

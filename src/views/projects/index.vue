@@ -38,30 +38,33 @@ onMounted(() => {
 
 <template>
   <default-layout :index="3">
-    <app-page-header>
-      <template #content>
-        Проекты
-      </template>
-      <template #extra>
-        <el-button
-          :icon="PlusIcon"
-          type="primary"
-          @click="creation = true"
+    <div class="project-layout h-100">
+      <app-page-header>
+        <template #content>
+          Проекты
+        </template>
+        <template #extra>
+          <el-button
+            :icon="PlusIcon"
+            type="primary"
+            link
+            @click="creation = true"
+          >
+            Создать проект
+          </el-button>
+        </template>
+      </app-page-header>
+      <div class="items">
+        <el-card
+          v-for="(item, index) in items"
+          :key="index"
+          class="item-card"
+          shadow="never"
+          @click="goProject(item.id)"
         >
-          Создать проект
-        </el-button>
-      </template>
-    </app-page-header>
-    <div class="items">
-      <el-card
-        v-for="(item, index) in items"
-        :key="index"
-        class="item-card"
-        shadow="never"
-        @click="goProject(item.id)"
-      >
-        {{ item.title }}
-      </el-card>
+          {{ item.title }}
+        </el-card>
+      </div>
     </div>
   </default-layout>
   <create-project
@@ -72,17 +75,22 @@ onMounted(() => {
 </template>
 
 <style lang="scss" scoped>
-.items {
-  margin: 10px;
+.project-layout {
+  background: #FFFFFF;
+  border-radius: 16px;
 
-  .item-card {
-    margin-bottom: 10px;
-    cursor: pointer;
-    border-radius: 10px;
-  }
+  .items {
+    margin: 10px;
 
-  .item-card:hover {
-    background-color: #ececec;
+    .item-card {
+      margin-bottom: 10px;
+      cursor: pointer;
+      border-radius: 10px;
+    }
+
+    .item-card:hover {
+      background-color: #ececec;
+    }
   }
 }
 </style>

@@ -19,7 +19,7 @@ const creation = ref(false)
 </script>
 
 <template>
-  <default-layout :index="2">
+  <default-layout :index="3">
     <div class="project-layout h-100">
       <el-page-header
         content="Проект"
@@ -46,7 +46,6 @@ const creation = ref(false)
     v-if="creation"
     :project-id="projectId"
     @close="creation = false"
-    @success=""
   />
 </template>
 

@@ -34,11 +34,20 @@ const rules = reactive<FormRules>({
   ]
 })
 
+interface IRes {
+  code?: number
+  data: {
+    id: number
+  }
+}
+
 const onSubmit = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
   await formEl.validate(async valid => {
     if (valid) {
-      createProjectApi({ title: form.title }).then((res: any) => {
+      createProjectApi({
+        title: form.title
+      }).then((res: IRes) => {
         const {
           code,
           data

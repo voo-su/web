@@ -1,8 +1,9 @@
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import BoardColumn from './BoardColumn.vue'
 import { getProjectTasksApi } from '@/api/project'
 import CardTask from './CardTask.vue'
+import { useProjectStore } from '@/store'
 
 const props = defineProps({
   projectId: {
@@ -26,10 +27,12 @@ interface IRes {
   code?: number
   data: {
     categories: IItem[]
-  };
+  }
 }
 
-const items = ref<IItem[]>([])
+const items = computed<IItem[]>(() => useProjectStore().getItems)
+const cardTask = ref<boolean>(false)
+const taskId = ref<number | null>(null)
 
 const load = () => {
   getProjectTasksApi({
@@ -37,13 +40,11 @@ const load = () => {
   }).then((res: IRes) => {
     if (res.code == 200 && res.data) {
       const { data } = res
-      items.value = data.categories || []
+      const { categories } = data
+      useProjectStore().addItems(categories)
     }
   })
 }
-
-const cardTask = ref<boolean>(false)
-const taskId = ref<number | null>(null)
 
 const onOpenTask = (id: number) => {
   taskId.value = id
