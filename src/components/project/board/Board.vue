@@ -2,6 +2,7 @@
 import { onMounted, ref } from 'vue'
 import BoardColumn from './BoardColumn.vue'
 import { getProjectTasksApi } from '@/api/project'
+import CardTask from './CardTask.vue'
 
 const props = defineProps({
   projectId: {
@@ -10,35 +11,43 @@ const props = defineProps({
   }
 })
 
-interface Tasks {
+interface ITasks {
   id: number
   title: string
 }
 
-interface Item {
+interface IItem {
   id: number
   title: string
-  tasks: Tasks[]
+  tasks: ITasks[]
 }
 
-const items = ref<Item[]>([])
-
-interface Res {
-  code?: number;
+interface IRes {
+  code?: number
   data: {
-    categories: Item[]
+    categories: IItem[]
   };
 }
+
+const items = ref<IItem[]>([])
 
 const load = () => {
   getProjectTasksApi({
     project_id: props.projectId
-  }).then((res: Res) => {
+  }).then((res: IRes) => {
     if (res.code == 200 && res.data) {
       const { data } = res
       items.value = data.categories || []
     }
   })
+}
+
+const cardTask = ref<boolean>(false)
+const taskId = ref<number | null>(null)
+
+const onOpenTask = (id: number) => {
+  taskId.value = id
+  cardTask.value = true
 }
 
 onMounted(() => {
@@ -58,9 +67,15 @@ onMounted(() => {
         :type-id="item.id"
         :project-id="props.projectId"
         :items="item.tasks"
+        @open-task="onOpenTask"
       />
     </el-col>
   </el-row>
+  <card-task
+    v-if="cardTask"
+    :task-id="taskId"
+    @close="cardTask = false"
+  />
 </template>
 
 <style scoped>

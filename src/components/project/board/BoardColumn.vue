@@ -1,6 +1,13 @@
 <script lang="ts" setup>
 import { VueDraggableNext } from 'vue-draggable-next'
 import { setProjectTaskMoveApi } from '@/api/project'
+import type { PropType } from 'vue'
+import { defineProps } from 'vue'
+
+interface IItem {
+  id: number
+  title: string
+}
 
 const props = defineProps({
   title: {
@@ -16,9 +23,12 @@ const props = defineProps({
     default: null
   },
   items: {
-    type: Array
+    type: Array as PropType<IItem[]>,
+    default: () => []
   }
 })
+
+const emit = defineEmits(['openTask'])
 
 const onChange = (event: any) => {
   // console.log(event)
@@ -31,15 +41,30 @@ const onChange = (event: any) => {
   // }
 }
 
-const onMove = (event: any) => {
+interface IMove {
+  item: { _underlying_vm_: { id: number } }
+  from: { dataset: { section: string } }
+  to: { dataset: { section: string } }
+}
+
+interface IRes {
+  code?: number
+  data: {}
+}
+
+const onMove = (event: IMove) => {
   setProjectTaskMoveApi({
     project_id: props.projectId,
     task_id: event.item._underlying_vm_.id,
     from_id: Number(event.from.dataset.section),
     to_id: Number(event.to.dataset.section)
-  }).then((res: any) => {
+  }).then((res: IRes) => {
     console.log(res)
   })
+}
+
+const onOpenTask = (id: number) => {
+  emit('openTask', id)
 }
 </script>
 
@@ -64,6 +89,7 @@ const onMove = (event: any) => {
         <el-card
           class="board"
           shadow="never"
+          @click="onOpenTask(item.id)"
         >
           {{ item.title }}
         </el-card>
@@ -74,8 +100,10 @@ const onMove = (event: any) => {
 
 <style lang="scss" scoped>
 .board-column {
-  background-color: #f4f5f7;
+  //background-color: #f4f5f7;
+  background-color: #e9ecef;
   padding: 5px;
+  border-radius: 8px;
 
   .header {
     margin: 8px 8px 10px 8px;

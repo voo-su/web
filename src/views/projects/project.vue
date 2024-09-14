@@ -4,7 +4,7 @@ import ProjectBoard from '@/components/project/board/Board.vue'
 import { useRoute, useRouter } from 'vue-router'
 import { ref } from 'vue'
 import { Plus as PlusIcon } from '@element-plus/icons-vue'
-import CreateBoard from '@/components/project/board/CreateBoard.vue'
+import CreateTask from '@/components/project/board/CreateTask.vue'
 
 const router = useRouter()
 const route = useRoute()
@@ -42,7 +42,7 @@ const creation = ref(false)
       </div>
     </div>
   </default-layout>
-  <create-board
+  <create-task
     v-if="creation"
     :project-id="projectId"
     @close="creation = false"
