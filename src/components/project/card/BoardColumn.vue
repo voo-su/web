@@ -1,49 +1,88 @@
 <script lang="ts" setup>
-import { Plus as PlusIcon } from '@element-plus/icons-vue'
 import { VueDraggableNext } from 'vue-draggable-next'
 
-const props = defineProps<{
-  title: String,
-  items: any[],
-}>()
+const props = defineProps({
+  title: {
+    type: String,
+    default: 'Неизвестно'
+  },
+  projectId: {
+    type: Number,
+    default: null
+  },
+  items: {
+    type: Array
+  }
+})
+
+const onChange = (event: any) => {
+  // console.log(event)
+  // if (event.added != undefined) {
+  //   const element = event.added.element
+  //   const newIndex = event.added.newIndex
+  //   console.log({
+  //     board_id: element.id,
+  //   })
+  // }
+}
 
 </script>
 
 <template>
-  <el-card shadow="never">
-    <template #header>
-      <div class="card-header">
-        <span>{{ props.title }}</span>
-        <el-button
-          type="primary"
-          :icon="PlusIcon"
-          link
-          @click=""
-        >
-          Создать
-        </el-button>
-      </div>
-    </template>
+  <div class="board-column">
+    <div class="header">
+      <span class="title">{{ props.title }}</span>
+    </div>
     <vue-draggable-next
-      :list="items"
+      :list="props.items"
       group="people"
+      :sort="false"
+      class="body h-100"
+      @change="onChange"
     >
       <div
-        v-for="(item, index) in items"
+        v-for="(item, index) in props.items"
         :key="index"
       >
-        <el-card shadow="never">
+        <el-card
+          class="board"
+          shadow="never"
+        >
           {{ item.title }}
         </el-card>
       </div>
     </vue-draggable-next>
-  </el-card>
+  </div>
 </template>
 
 <style lang="scss" scoped>
-.card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.board-column {
+  background-color: #f4f5f7;
+  padding: 5px;
+
+  .header {
+    margin: 8px 8px 10px 8px;
+
+    .title {
+      font-size: 17px;
+      color: #5e6c84;
+    }
+  }
+
+  .body {
+    padding: 0 5px;
+    min-height: 400px;
+
+    .board {
+      cursor: pointer;
+      border: none;
+      box-shadow: #091e4240 0 1px 2px;
+      margin-bottom: 5px;
+
+      &:hover {
+        background-color: #ececec;
+      }
+    }
+  }
 }
 </style>

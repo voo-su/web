@@ -1,7 +1,10 @@
 <script lang="ts" setup>
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
-import ProjectCardBoard from '@/components/project/card/Board.vue'
-import { useRouter, useRoute } from 'vue-router'
+import ProjectBoard from '@/components/project/card/Board.vue'
+import { useRoute, useRouter } from 'vue-router'
+import { ref } from 'vue'
+import { Plus as PlusIcon } from '@element-plus/icons-vue'
+import CreateBoard from '@/components/project/card/CreateBoard.vue'
 
 const router = useRouter()
 const route = useRoute()
@@ -9,44 +12,59 @@ const route = useRoute()
 const { params } = route
 const projectId = Number(params.id)
 
-const goBack = () => router.push({ name: 'ProjectView' })
+const goBack = () => router.push({ name: 'ProjectsView' })
+
+const creation = ref(false)
+
 </script>
 
 <template>
   <default-layout :index="2">
-    <el-alert
-      title="Раздел находится в разработке"
-      type="warning"
-      :closable="false"
-    />
-    <div class="project_card-layout">
-      <el-row
-        class="row-bg"
-        justify="center"
+    <div class="project-layout h-100">
+      <el-page-header
+        content="Проект"
+        title="Назад"
+        @back="goBack"
       >
-        <el-col :span="21">
-          <el-page-header
-            title="Назад"
-            content="Проект"
-            @back="goBack"
-          />
-          <project-card-board :project-id="projectId" />
-        </el-col>
-      </el-row>
+        <template #extra>
+          <el-button
+            type="primary"
+            :icon="PlusIcon"
+            link
+            @click="creation = true"
+          >
+            Создать задачу
+          </el-button>
+        </template>
+      </el-page-header>
+      <div class="board-list">
+        <project-board :project-id="projectId" />
+      </div>
     </div>
   </default-layout>
+  <create-board
+    v-if="creation"
+    :project-id="projectId"
+    @close="creation = false"
+    @success=""
+  />
 </template>
 
-<style lang="scss">
-.el-container {
-  height: 100%;
-}
+<style lang="scss" scoped>
+.project-layout {
+  background: #FFFFFF;
+  border-radius: 16px;
 
-.project_card-layout {
-  margin-top: 40px;
+  .el-page-header {
+    border-bottom: 1px solid var(--el-border-color);
+  }
 
   .el-page-header {
     margin-bottom: 20px;
+  }
+
+  .board-list {
+    margin: 20px;
   }
 }
 </style>

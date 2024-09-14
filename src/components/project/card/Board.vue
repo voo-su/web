@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue'
 import BoardColumn from './BoardColumn.vue'
-import { getProjectTaskListApi } from '@/api/project'
+import { getProjectTasksApi } from '@/api/project'
 
 const props = defineProps({
   projectId: {
@@ -10,36 +10,32 @@ const props = defineProps({
   }
 })
 
+interface Tasks {
+  id: number
+  title: string
+}
+
 interface Item {
-  id: number;
-  title: string;
+  id: number
+  title: string
+  tasks: Tasks[]
 }
 
-interface Column {
-  title: string;
-  items: Item[]
-}
+const items = ref<Item[]>([])
 
-const items = ref<Column[]>([])
-
-const load = async typeId => {
-  getProjectTaskListApi({
-    project_id: props.projectId,
-    task_type: typeId
+const load = () => {
+  getProjectTasksApi({
+    project_id: props.projectId
   }).then((res: any) => {
     if (res.code == 200 && res.data) {
-      const {data} = res
-      items.value.push({
-        title: typeId,
-        items: data.items || []
-      })
+      const { data } = res
+      items.value = data.categories || []
     }
   })
 }
 
 onMounted(() => {
-  load(1)
-  load(2)
+  load()
 })
 </script>
 
@@ -51,8 +47,9 @@ onMounted(() => {
       :span="6"
     >
       <board-column
-        :items="item.items"
         :title="item.title"
+        :project-id="props.projectId"
+        :items="item.tasks"
       />
     </el-col>
   </el-row>
