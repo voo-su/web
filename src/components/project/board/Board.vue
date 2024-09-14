@@ -23,10 +23,17 @@ interface Item {
 
 const items = ref<Item[]>([])
 
+interface Res {
+  code?: number;
+  data: {
+    categories: Item[]
+  };
+}
+
 const load = () => {
   getProjectTasksApi({
     project_id: props.projectId
-  }).then((res: any) => {
+  }).then((res: Res) => {
     if (res.code == 200 && res.data) {
       const { data } = res
       items.value = data.categories || []
@@ -48,6 +55,7 @@ onMounted(() => {
     >
       <board-column
         :title="item.title"
+        :type-id="item.id"
         :project-id="props.projectId"
         :items="item.tasks"
       />

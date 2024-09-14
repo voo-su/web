@@ -66,7 +66,7 @@ const routes = [
     path: '/project/:id',
     name: 'ProjectView',
     meta: { requiresAuth: true },
-    component: () => import('@/views/projects/card.vue')
+    component: () => import('@/views/projects/project.vue')
   },
   {
     path: '/:pathMatch(.*)*',

@@ -1,10 +1,15 @@
 <script lang="ts" setup>
 import { VueDraggableNext } from 'vue-draggable-next'
+import { setProjectTaskMoveApi } from '@/api/project'
 
 const props = defineProps({
   title: {
     type: String,
     default: 'Неизвестно'
+  },
+  typeId: {
+    type: Number,
+    default: null
   },
   projectId: {
     type: Number,
@@ -26,6 +31,16 @@ const onChange = (event: any) => {
   // }
 }
 
+const onMove = (event: any) => {
+  setProjectTaskMoveApi({
+    project_id: props.projectId,
+    task_id: event.item._underlying_vm_.id,
+    from_id: Number(event.from.dataset.section),
+    to_id: Number(event.to.dataset.section)
+  }).then((res: any) => {
+    console.log(res)
+  })
+}
 </script>
 
 <template>
@@ -37,8 +52,10 @@ const onChange = (event: any) => {
       :list="props.items"
       group="people"
       :sort="false"
+      :data-section="props.typeId"
       class="body h-100"
       @change="onChange"
+      @end="onMove"
     >
       <div
         v-for="(item, index) in props.items"

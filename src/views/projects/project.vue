@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
-import ProjectBoard from '@/components/project/card/Board.vue'
+import ProjectBoard from '@/components/project/board/Board.vue'
 import { useRoute, useRouter } from 'vue-router'
 import { ref } from 'vue'
 import { Plus as PlusIcon } from '@element-plus/icons-vue'
-import CreateBoard from '@/components/project/card/CreateBoard.vue'
+import CreateBoard from '@/components/project/board/CreateBoard.vue'
 
 const router = useRouter()
 const route = useRoute()
