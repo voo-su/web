@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { Search } from '@element-plus/icons-vue'
-import { userSearchApi } from '@/api/user'
+import { searchUsersApi } from '@/api/search'
 import AppPageHeader from '@/components/app/AppPageHeader.vue'
 import SearchCard from '@/components/contact/ContactSearchCard.vue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
@@ -22,7 +22,7 @@ const items = ref<IItem[]>([])
 
 const onSearchInput = (value: any) => {
   if (value.trim().length >= 2) {
-    userSearchApi({
+    searchUsersApi({
       username: keywords.value
     }).then((res: any) => {
       if (res.code == 200) {

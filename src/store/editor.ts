@@ -48,7 +48,9 @@ export const useEditorStore = defineStore('editor', {
     },
 
     saveUserSticker(resoure: any) {
-      collectStickerApi({ record_id: resoure.record_id })
+      collectStickerApi({
+        record_id: resoure.record_id
+      })
         .then((res: any) => {
           const { code, message } = res
           if (code == 200) {

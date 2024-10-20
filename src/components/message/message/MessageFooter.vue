@@ -6,7 +6,6 @@ import socket from '@/utils/socket'
 import { publishMessageApi, sendDialogImageApi, sendVoteApi } from '@/api/message'
 import { getVideoImage, throttle } from '@/utils/common'
 import Editor from '@/components/message/editor/Editor.vue'
-// import MultiSelectFooter from './MessageMultiSelectFooter.vue'
 import { uploadImageApi } from '@/api/upload'
 import { ElMessage } from 'element-plus'
 
@@ -43,19 +42,14 @@ const uploadsStore = useUploadsStore()
 const dialogueStore = useDialogueStore()
 
 const onSendMessage = (data = {}, callBack: any) => {
-  let message = {
+  publishMessageApi({
     ...data,
     receiver: {
       receiver_id: props.receiver_id,
       dialog_type: props.dialog_type
     }
-  }
-  publishMessageApi(message)
-    .then((res: any) => {
-      const {
-        code,
-        message
-      } = res
+  })
+    .then(({ code, message }: any) => {
       if (code == 200) {
         callBack(true)
       } else {
@@ -67,11 +61,7 @@ const onSendMessage = (data = {}, callBack: any) => {
     })
 }
 
-const onSendTextEvent = throttle((value: any) => {
-  let {
-    data,
-    callBack
-  } = value
+const onSendTextEvent = throttle(({ data, callBack }: any) => {
   let message = {
     type: 'text',
     content: data.items[0].content,
@@ -112,7 +102,7 @@ const onSendVideoEvent = async ({ data }: any) => {
 
   const form = new FormData()
   form.append('file', data)
-  
+
   let video: any = await uploadImageApi(form)
   if (video.code != 200) return
 
@@ -127,7 +117,6 @@ const onSendVideoEvent = async ({ data }: any) => {
   onSendMessage(message, () => {
   })
 }
-
 
 const onSendAudioEvent = ({ data }: any) => {
   let maxsize = 200 * 1024 * 1024

@@ -1,16 +1,7 @@
 import { post } from '@/utils/request'
-
-interface ILoginApi {
-    email: string
-    platform: string
-}
+import type { ILoginApi, IVerifyApi } from '@/api/types/auth'
 
 export const loginApi = (data: ILoginApi) => post('/v1/auth/login', data)
-
-interface IVerifyApi {
-    token: string,
-    code: string
-}
 
 export const verifyApi = (data: IVerifyApi) => post('/v1/auth/verify', data)
 

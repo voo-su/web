@@ -51,7 +51,9 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
     if (valid) {
       form.loading = true
       errors.value = []
-      updateUsernameApi({ username: form.username }).then((res: any) => {
+      updateUsernameApi({
+        username: form.username
+      }).then((res: any) => {
         const {
           code,
           message

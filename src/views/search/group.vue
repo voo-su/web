@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
-import { createGroupRequestsApi, groupOvertListApi } from '@/api/group-chat'
+import { createGroupRequestsApi } from '@/api/group-chat'
+import { searchGroupsApi } from '@/api/search'
 import GroupRequestCard from '@/components/message/group/GroupRequestCard.vue'
 import { Fold, Search } from '@element-plus/icons-vue'
 import { debounce } from '@/utils/common'
@@ -37,7 +38,7 @@ const items = ref<IItem[]>([])
 const onLoadData = () => {
   if (search.loading) return
   search.loading = true
-  groupOvertListApi({
+  searchGroupsApi({
     page: search.page,
     name: search.name
   }).then((res: any) => {

@@ -116,7 +116,9 @@ const onSignOut = () => {
     }
   )
     .then(() => {
-      secedeGroupApi({ group_id: props.gid })
+      secedeGroupApi({
+        group_id: props.gid
+      })
         .then((res: any) => {
           if (res.code == 200) {
             ElMessage.success('Вы успешно покинули группу')

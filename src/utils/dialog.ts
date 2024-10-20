@@ -1,7 +1,7 @@
 import { useDialogStore } from '@/store'
 import router from '@/router'
 import { parseTime } from '@/utils/datetime'
-import { createChatApi, delChatApi, setNotDisturbApi } from '@/api/chat'
+import { createChatApi, deleteChatApi, setNotDisturbApi } from '@/api/chat'
 import { KEY_INDEX_NAME } from '@/constants/dialog'
 import { useDialogueStore } from '@/store'
 import { ElMessage } from 'element-plus'
@@ -122,7 +122,7 @@ const onDeleteDialog = (index_name = '') => {
 }
 
 export const onRemoveDialog = (data: any) => {
-  delChatApi({
+  deleteChatApi({
     list_id: data.id
   }).then((res: any) => {
     const { code } = res

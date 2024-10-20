@@ -125,12 +125,8 @@ const onToDialog = () => {
 }
 
 const onJoinContact = () => {
-  // if (!state.text.length) {
-  //   return ElMessage.info('Поле примечания не может быть пустым')
-  // }
   createContactApi({
     friend_id: props.uid
-    // remark: state.text
   })
     .then((res: any) => {
       const { code, message } = res

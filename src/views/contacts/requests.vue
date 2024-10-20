@@ -35,7 +35,6 @@ const onAccept = throttle((item: any) => {
   loadingAccept.value = true
   applyAcceptApi({
     apply_id: item.id
-    // remark: item.username
   }).then((res: any) => {
     const { code, message } = res
     if (code == 200) {
@@ -53,7 +52,6 @@ const onDecline = throttle((item: any) => {
   loadingDecline.value = true
   applyDeclineApi({
     apply_id: item.id
-    // remark: 'отклонять'
   }).then((res: any) => {
     const { code, message } = res
 
