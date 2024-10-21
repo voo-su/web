@@ -1,25 +1,27 @@
-FROM node:20.14-alpine3.20 as builder
+FROM alpine:3.20 AS builder
 
-WORKDIR /usr/src/app
+RUN apk --no-cache add nodejs yarn
 
 ENV PATH /usr/src/node_modules/.bin:$PATH
 
-COPY package.json ./
+WORKDIR /usr/src/voo-su
 
-RUN npm install
+COPY package.json yarn.lock ./
+
+RUN yarn install
 
 COPY . ./
 
-FROM builder as dev
+RUN yarn build-only
 
-CMD ["npm", "run", "dev"]
+FROM alpine:3.20
 
-#FROM builder as prod-builder
-#
-#RUN npm run build
-#
-#FROM node:20.14-alpine3.20 as prod
-#
-#COPY --from=prod-builder /usr/src/app/dist /usr/share/nginx/html
-#
-#CMD ["nginx", "-g", "daemon off;"]
+RUN apk --no-cache add nginx
+
+COPY --from=builder /usr/src/voo-su/dist /usr/share/nginx/html
+
+COPY --from=builder /usr/src/voo-su/docker-nginx-default.conf /etc/nginx/http.d/default.conf
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
