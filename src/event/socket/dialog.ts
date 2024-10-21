@@ -114,7 +114,7 @@ class Dialog extends Base {
       setTimeout(() => {
         socket.emit('voo.message.read', {
           receiver_id: this.sender_id,
-          msg_id: [this.resource.id]
+          msg_ids: [this.resource.msg_id]
         })
       }, 1000)
     }

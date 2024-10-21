@@ -16,10 +16,14 @@ export const formatDialogRecord = (uid: any, data: any) => {
 }
 
 export const palyMusic = (muted = false) => {
-  const audio: any = document.getElementById('audio')
-  audio.currentTime = 0
-  audio.muted = muted
-  audio.play()
+  const audio = document.getElementById('audio') as HTMLAudioElement | null
+  if (audio) {
+    audio.currentTime = 0
+    audio.muted = muted
+    audio.play().catch(error => {
+      console.log('Ошибка при воспроизведении звука:', error)
+    })
+  }
 }
 
 export const findDialogIndex = (index_name: any) => {

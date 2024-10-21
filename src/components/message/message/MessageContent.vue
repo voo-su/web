@@ -134,14 +134,14 @@ const onAfterRead = (records: any) => {
   let ids: number[] = []
   for (const record of records) {
     if (props.receiver_id === record.user_id && record.is_read === 0) {
-      ids.push(record.id)
+      ids.push(record.msg_id)
     }
   }
 
   if (ids.length) {
     socket.emit('voo.message.read', {
       receiver_id: props.receiver_id,
-      msg_id: ids
+      msg_ids: ids
     })
   }
 }
