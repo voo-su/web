@@ -64,8 +64,3 @@ export interface IGetForwardRecordsApi {
   record_id: number
 }
 
-export interface ISendDialogTextApi {
-  dialog_type: number
-  receiver_id: number
-  text: string
-}

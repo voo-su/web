@@ -10,13 +10,12 @@ import type {
   IRemoveRecordsApi,
   IRevokeRecordsApi,
   ISendDialogFileApi,
-  ISendDialogTextApi,
   ISendVoteApi,
 } from '@/api/types/message'
 
 export const dialogRecordsApi = (data: IDialogRecordsApi) => get('/v1/messages', data)
 
-export const publishMessageApi = (data: IPublishMessageApi) => post('/v1/messages/publish', data)
+export const publishMessageApi = (data: IPublishMessageApi) => post('/v1/messages/send', data)
 
 export const sendDialogFileApi = (data: ISendDialogFileApi) => post('/v1/messages/file', data)
 
@@ -44,4 +43,3 @@ export const forwardRecordsApi = (data: IForwardRecordsApi) => post('/v1/message
 
 export const getForwardRecordsApi = (data: IGetForwardRecordsApi) => get('/v1/messages/forward/list', data)
 
-export const sendDialogTextApi = (data: ISendDialogTextApi) => post('/v1/messages/text', data)
