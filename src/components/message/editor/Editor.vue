@@ -492,30 +492,37 @@ const onSubscribeQuote = (data: any) => {
     let range = selection.getRangeAt(0)
     range.deleteContents()
 
+    // Создание блока цитаты
     const quoteCard = document.createElement('div')
     quoteCard.classList.add('quote-card')
 
+    // Установка data-атрибутов цитаты
     quoteCard.dataset.id = id
     quoteCard.dataset.title = title
     quoteCard.dataset.description = description
     quoteCard.dataset.image = image
 
+    // Отключаем редактирование цитаты
     quoteCard.setAttribute('contenteditable', 'false')
 
+    // Создание контента для цитаты
     const quoteCardContent = document.createElement('span')
     quoteCardContent.classList.add('quote-card-content')
 
+    // Заголовок цитаты
     const quoteCardTitle = document.createElement('span')
     quoteCardTitle.classList.add('quote-card-title')
     quoteCardTitle.textContent = title
     quoteCardContent.appendChild(quoteCardTitle)
 
+    // Если изображения нет, добавляем описание
     if (image.length === 0) {
       const quoteCardMeta = document.createElement('span')
       quoteCardMeta.classList.add('quote-card-meta')
       quoteCardMeta.textContent = description
       quoteCardContent.appendChild(quoteCardMeta)
     } else {
+      // Добавляем изображение, если оно есть
       const iconImg = document.createElement('img')
       iconImg.setAttribute('src', image)
       iconImg.classList.add('quote-card-image')
@@ -524,25 +531,25 @@ const onSubscribeQuote = (data: any) => {
 
     quoteCard.appendChild(quoteCardContent)
 
+    // Вставляем цитату на место курсора
     try {
       range.insertNode(quoteCard)
+
+      // Создание пустого текстового узла после цитаты, чтобы пользователь мог продолжить ввод текста
+      const textNode = document.createTextNode('\u00A0') // это неразрывный пробел
       range.setStartAfter(quoteCard)
+      range.insertNode(textNode)
+      range.setStartAfter(textNode)
       range.collapse(true)
     } catch (error) {
-      console.error('Не удалось:', error)
+      console.error('Не удалось вставить:', error)
     }
 
+    // Снимаем выделение и устанавливаем новое после вставки
     selection.removeAllRanges()
     selection.addRange(range)
     editor.focus()
   }
-
-  // Добавление текста в конец
-  // const newText = 'Текст'
-  // if (editor) {
-  //   const newTextNode = document.createTextNode(newText)
-  //   editor.appendChild(newTextNode)
-  // }
 }
 
 const onRecorderStart = () => {
