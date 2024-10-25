@@ -9,7 +9,7 @@ import { setAccessToken } from '@/utils/auth'
 import { useUserStore } from '@/store'
 import { Close } from '@element-plus/icons-vue'
 import type { IFormVerifyType } from './types'
-import { getErrorForField } from '@/plugins'
+import { getErrorForField } from '@/utils/functions'
 import IconLogo from '@/components/icons/IconLogo.vue'
 
 const userStore = useUserStore()

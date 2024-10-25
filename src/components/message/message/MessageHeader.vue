@@ -9,7 +9,7 @@ import {
   Postcard
 } from '@element-plus/icons-vue'
 import ContextMenu from '@/components/base/BaseContextMenu.vue'
-import { renderIcon } from '@/plugins'
+import { renderIcon } from '@/utils/functions'
 import { getName } from '@/utils/util'
 
 const props = defineProps({

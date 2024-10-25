@@ -27,7 +27,7 @@ export const throttle = (fn: any, delay: any, call = function () {
   }
 }
 
-export function clipboard(text: any, callback: any) {
+export const clipboard = (text: any, callback: any) => {
   navigator.clipboard
     .writeText(text)
     .then(() => {
@@ -38,7 +38,7 @@ export function clipboard(text: any, callback: any) {
     })
 }
 
-export async function clipboardImage(src: any, callback: any) {
+export const clipboardImage = async (src: any, callback: any) => {
   const { state } = await navigator.permissions.query({
     name: 'clipboard-write'
   })

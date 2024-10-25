@@ -4,9 +4,12 @@ import type { FormInstance, FormRules } from 'element-plus'
 import { loginApi } from '@/api/auth'
 import { cookie } from '@/utils/storage/cookie-storage'
 import { authSessionKey } from '@/constants/default'
-import { getErrorForField } from '@/plugins'
+import { getErrorForField } from '@/utils/functions'
 import type { IFormLoginType } from './types'
 import IconLogo from '@/components/icons/IconLogo.vue'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 defineProps({
   time: Number,
@@ -81,7 +84,7 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
       <icon-logo />
     </div>
     <h1>Мы так рады видеть вас</h1>
-    <h6>Вход или регистрация</h6>
+    <h6>{{ t('loginOrRegister') }}</h6>
   </el-header>
   <el-main>
     <el-form

@@ -3,7 +3,7 @@ import { reactive, ref } from 'vue'
 import { useUserStore } from '@/store'
 import type { FormInstance, FormRules } from 'element-plus'
 import { updateUsernameApi } from '@/api/account'
-import { getErrorForField } from '@/plugins'
+import { getErrorForField } from '@/utils/functions'
 import IconUser from '@/components/icons/IconUser.vue'
 import { ElMessage } from 'element-plus'
 

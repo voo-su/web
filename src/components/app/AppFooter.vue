@@ -1,5 +1,15 @@
 <script lang="ts" setup>
-import IconLang from '@/components/icons/IconLang.vue'</script>
+import IconLang from '@/components/icons/IconLang.vue'
+import { useI18n } from 'vue-i18n'
+const { locale, t } = useI18n()
+
+const languages = [
+  {
+    label: 'Русский',
+    value: 'ru'
+  }
+]
+</script>
 
 <template>
   <div class="footer-container">
@@ -9,15 +19,23 @@ import IconLang from '@/components/icons/IconLang.vue'</script>
     <ul class="navs">
       <li>
         <el-link href="/terms">
-          Правила
+          {{ t('terms') }}
         </el-link>
       </li>
     </ul>
     <div class="lang">
-      <el-icon :size="14">
-        <icon-lang />
-      </el-icon>
-      Русский
+      <el-select-v2
+        v-model="locale"
+        :options="languages"
+        size="small"
+      >
+        <template #label="{ label }">
+          <el-icon :size="14">
+            <icon-lang />
+          </el-icon>
+          <span class="label">{{ label }}</span>
+        </template>
+      </el-select-v2>
     </div>
   </div>
 </template>
@@ -28,7 +46,6 @@ import IconLang from '@/components/icons/IconLang.vue'</script>
   display: flex;
   align-items: center;
   justify-content: space-between;
-  //border-top: 1px solid var(--el-border-color);
 
   .copyright {
     color: #a1a1a1;
@@ -40,6 +57,19 @@ import IconLang from '@/components/icons/IconLang.vue'</script>
       display: inline-block;
       padding-right: 5px;
       padding-left: 5px;
+    }
+  }
+
+  .lang {
+    display: flex;
+    width: 15%;
+
+    .el-icon {
+      top: 3px;
+    }
+
+    .label {
+      margin-left: 3px;
     }
   }
 }

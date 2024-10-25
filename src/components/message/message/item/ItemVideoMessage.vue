@@ -3,7 +3,7 @@ import 'xgplayer/dist/index.min.css'
 import { nextTick, ref } from 'vue'
 import { getImageInfo, type IImageInfo } from '@/utils/functions'
 import Player, { I18N } from 'xgplayer'
-import RU from '@/lang/xgplayer'
+import RU from '@/locale/translations/ru-xgplayer'
 import { VideoPlay } from '@element-plus/icons-vue'
 import type { Data, VideoExtra } from './types'
 
@@ -26,7 +26,7 @@ const img = (src: string, width: number = 200): IImg | void=> {
   const info: IImageInfo = getImageInfo(src)
 
   if (info.width == 0 || info.height == 0) {
-    return 
+    return
   }
 
   if (info.width < width) {

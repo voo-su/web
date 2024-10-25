@@ -1,3 +1,5 @@
+export * from './locale'
+export * from './pinia'
+export * from './component'
 export * from './directive'
-export * from './helper'
 export * from './ws'

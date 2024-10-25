@@ -1,8 +1,6 @@
-function trim(string: string) {
-  return (string || '').replace(/^[\s\uFEFF]+|[\s\uFEFF]+$/g, '')
-}
+const trim = (string: string) => (string || '').replace(/^[\s\uFEFF]+|[\s\uFEFF]+$/g, '')
 
-export function hasClass(el: Element, cls: string) {
+export const hasClass = (el: Element, cls: string) => {
   if (!el || !cls) return false
   if (cls.indexOf(' ') !== -1) throw new Error('Имя класса не должно содержать пробелов.')
   if (el.classList) {
@@ -12,7 +10,7 @@ export function hasClass(el: Element, cls: string) {
   }
 }
 
-export function addClass(el: Element, cls: string) {
+export const addClass = (el: Element, cls: string) => {
   if (!el) return
   let curClass = el.className
   const classes = (cls || '').split(' ')
@@ -32,7 +30,7 @@ export function addClass(el: Element, cls: string) {
   }
 }
 
-export function removeClass(el: Element, cls: string) {
+export const removeClass = (el: Element, cls: string) => {
   if (!el || !cls) return
   const classes = cls.split(' ')
   let curClass = ' ' + el.className + ' '

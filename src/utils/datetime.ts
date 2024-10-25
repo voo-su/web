@@ -1,4 +1,4 @@
-export function formatTime(datetime: string | null): string {
+export const formatTime = (datetime: string | null): string => {
   if (datetime == null) {
     return ''
   }
@@ -52,7 +52,7 @@ export function formatTime(datetime: string | null): string {
   return `${minutes} минут назад`
 }
 
-export function parseTime(time: any, cFormat?: string): string | null {
+export const parseTime = (time: any, cFormat?: string): string | null => {
   if (arguments.length === 0) {
     return null
   }
@@ -97,7 +97,7 @@ export function parseTime(time: any, cFormat?: string): string | null {
   )
 }
 
-export function beautifyTime(datetime: string | null): string {
+export const beautifyTime = (datetime: string | null): string => {
   if (datetime == null) {
     return ''
   }

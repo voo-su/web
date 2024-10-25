@@ -23,7 +23,7 @@ import {
   groupNoSpeakApi,
   removeMembersGroupApi
 } from '@/api/group-chat'
-import { renderIcon } from '@/plugins'
+import { renderIcon } from '@/utils/functions'
 
 const props = defineProps({
   id: {

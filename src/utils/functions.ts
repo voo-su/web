@@ -1,4 +1,6 @@
 import { getAccessToken } from '@/utils/auth'
+import { h } from 'vue'
+import { ElIcon } from 'element-plus'
 
 export interface IImageInfo {
   width: number
@@ -102,4 +104,24 @@ export const downloadImage = (src: string, name: string) => {
     a.dispatchEvent(event)
   }
   image.src = src
+}
+
+export const renderIcon = (icon: any) => {
+  return () => {
+    return h(ElIcon, null, { default: () => h(icon) })
+  }
+}
+
+export const getErrorForField = (field: string, errors: any) => {
+  if (!errors && !errors.length) {
+    return false
+  }
+
+  const filtered = errors.filter((error: any) => {
+    return error.path[0] === field
+  })
+
+  if (filtered.length) {
+    return filtered[0].message
+  }
 }
