@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <title>Voo.su</title>
   <meta name="description" content="voo.su">
   <meta name="keywords" content="voo.su"/>
@@ -10,6 +10,84 @@
   <link href="/favicon.svg" rel="icon" type="image/svg+xml">
   <link href="/manifest.webmanifest" rel="manifest">
   <link href="/tableau.json" rel="yandex-tableau-widget">
+  <style>
+    .app-loading {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 150px;
+      height: 150px;
+      background: transparent;
+      border: 3px solid #8f959e;
+      border-radius: 50%;
+      text-align: center;
+      line-height: 150px;
+      font-family: Roboto, sans-serif;
+      font-size: 20px;
+      color: #000000;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      text-shadow: 0 0 10px #000000;
+      box-shadow: 0 0 20px rgba(0, 0, 0, .5);
+    }
+
+    .app-loading:before {
+      content: '';
+      position: absolute;
+      top: -3px;
+      left: -3px;
+      width: 100%;
+      height: 100%;
+      border: 3px solid transparent;
+      border-top: 3px solid #000000;
+      border-right: 3px solid #000000;
+      border-radius: 50%;
+      animation: animateC 2s linear infinite;
+    }
+
+    span.inner {
+      display: block;
+      position: absolute;
+      top: calc(50% - 2px);
+      left: 50%;
+      width: 50%;
+      height: 4px;
+      background: transparent;
+      transform-origin: left;
+      animation: animate 2s linear infinite;
+    }
+
+    span.inner:before {
+      content: '';
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #000000;
+      top: -6px;
+      right: -8px;
+      box-shadow: 0 0 20px #000000;
+    }
+
+    @keyframes animateC {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes animate {
+      0% {
+        transform: rotate(45deg);
+      }
+      100% {
+        transform: rotate(405deg);
+      }
+    }
+  </style>
 </head>
 <body>
 <noscript>
@@ -18,7 +96,12 @@
     Включите поддержку JavaScript или воспользуйтесь любым современным браузером.
   </strong>
 </noscript>
-<div id="app"></div>
+<div id="app">
+  <div class="app-loading">
+    VOO.SU
+    <span class="inner"></span>
+  </div>
+</div>
 <script type="module" src="/src/main.ts"></script>
 </body>
 </html>
