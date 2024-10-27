@@ -32,13 +32,9 @@ const option = reactive<any>({
   preview: ''
 })
 
-const onCloseClick = () => {
-  emit('close')
-}
+const onCloseClick = () => emit('close')
 
-const onTriggerUpload = () => {
-  document.getElementById('upload-avatar').click()
-}
+const onTriggerUpload = () => document.getElementById('upload-avatar').click()
 
 const onUpload = (e: any) => {
   let file = e.target.files[0]
@@ -61,16 +57,11 @@ const realTime = () => {
   })
 }
 
-const rotateLeft = () => {
-  cropper.value.rotateLeft()
-}
-const rotateRight = () => {
-  cropper.value.rotateRight()
-}
+const rotateLeft = () => cropper.value.rotateLeft()
 
-const refreshCrop = () => {
-  cropper.value.refresh()
-}
+const rotateRight = () => cropper.value.rotateRight()
+
+const refreshCrop = () => cropper.value.refresh()
 
 const onSubmit = () => {
   cropper.value.getCropBlob((blob: any) => {

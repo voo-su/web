@@ -32,5 +32,4 @@ class Publisher {
   }
 }
 
-export default Publisher
 export const publisher = new Publisher()

@@ -188,7 +188,9 @@ const onPanelScroll = (e: any) => {
 
 const onCopyText = (data: any) => {
   if (data.content && data.content.length > 0) {
-    return clipboard(htmlDecode(data.content), () => {})
+    const content = data.selectedText || data.content
+    // return clipboard(htmlDecode(content), () => {})
+    return clipboard(content, () => {})
   }
 
   if (data.extra?.url) {
@@ -278,6 +280,9 @@ const onContextMenu = (e: any, item: any) => {
   if (!dialogueStore.isShowEditor || dialogueStore.isOpenMultiSelect) {
     return e.preventDefault()
   }
+
+  // Добавляем выделенный текст в объект item
+  item.selectedText = window.getSelection().toString()
 
   showDropdownMenu(e, props.uid, item)
 

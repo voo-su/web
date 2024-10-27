@@ -178,5 +178,6 @@ onMounted(() => {
   flex-basis: auto;
   overflow: auto;
   padding: 10px;
+  //padding: 2px 10px 10px 10px;
 }
 </style>

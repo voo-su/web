@@ -13,8 +13,7 @@ export const debounce = (fn: any, delay: any) => {
   }
 }
 
-export const throttle = (fn: any, delay: any, call = function () {
-}) => {
+export const throttle = (fn: any, delay: any, call = () => {}) => {
   let lastTime = 0
   return function () {
     const now = new Date().getTime()

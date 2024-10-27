@@ -3,15 +3,21 @@ import IconLogo from '@/components/icons/IconLogo.vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
+
+const goBack = () => router.push('/')
 </script>
 
 <template>
+  <el-page-header
+    @back="goBack"
+    content="Соглашение и правила пользования Voo.su"
+    class="navbar-fixed-top"
+  />
   <div class="container">
     <div class="main">
       <div class="logo">
-        <icon-logo @click="router.push('/')" />
+        <icon-logo @click="goBack" />
       </div>
-      <h1>Соглашение и правила пользования сайтом Voo.su</h1>
       <p>
         Настоящее Соглашение регламентирует отношения между Администрацией информационного ресурса «Voo.su» и
         физическим лицом, которое ищет и распространяет информацию на данном ресурсе.
@@ -38,6 +44,7 @@ const router = useRouter()
   .logo {
     text-align: center;
     cursor: pointer;
+    margin-bottom: 20px;
 
     svg {
       width: 90px;
@@ -49,12 +56,6 @@ const router = useRouter()
     text-align: left;
     max-width: 800px;
     width: 100%;
-
-    h1 {
-      font-size: 24px;
-      text-align: center;
-      margin: 15px auto;
-    }
 
     p {
       font-size: 14px;

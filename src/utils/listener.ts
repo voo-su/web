@@ -4,7 +4,7 @@ import { useDialogStore, useNotifyStore } from '@/store'
 import { applyNotificationAuth } from '@/utils/notification'
 import { isLoggedIn } from '@/utils/auth'
 import socket from '@/utils/socket'
-import { ElDialog } from 'element-plus'
+import { ElMessageBox } from 'element-plus'
 
 const registerOnceExpireNotice = () => {
   let once = false
@@ -29,16 +29,20 @@ const registerOnceExpireNotice = () => {
     }
 
     once = true
-    ElDialog.info({
-      title: 'Важное сообщение',
-      content: 'Текущая сессия недействительна. Пожалуйста, выполните вход снова.',
-      positiveText: 'Войти',
-      maskClosable: false,
-      onPositiveClick: () => {
+    ElMessageBox.confirm(
+      'Пожалуйста, выполните вход снова.',
+      'Текущая сессия недействительна.',
+      {
+        confirmButtonText: 'Войти',
+        center: true,
+        showCancelButton: false
+      }
+    )
+      .then(() => {
         once = false
         useRouter().push('/auth')
-      }
-    })
+      })
+      .catch(() => {})
   })
 }
 

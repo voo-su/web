@@ -10,15 +10,20 @@ import { useDialogStore } from '@/store'
 import { useDialogueStore } from '@/store/dialogue'
 import { useNotifyStore } from '@/store/notify'
 import { ElMessage } from 'element-plus'
+import {
+  GROUP_CHAT_MSG_SYS_MEMBER_JOIN,
+  GROUP_CHAT_MSG_SYS_MEMBER_KICKED,
+  GROUP_CHAT_MSG_SYS_MEMBER_QUIT
+} from '@/constants/dialog'
+import type { IResource, IResourceData } from './type'
 
 class Dialog extends Base {
+  resource: IResourceData
+  sender_id: number = 0
+  receiver_id: number = 0
+  dialog_type: number = 0
 
-  resource
-  sender_id = 0
-  receiver_id = 0
-  dialog_type = 0
-
-  constructor(resource: any) {
+  constructor(resource: IResource) {
     super()
     this.sender_id = resource.sender_id
     this.receiver_id = resource.receiver_id
@@ -53,10 +58,13 @@ class Dialog extends Base {
 
   handle() {
     if (!this.isCurrSender()) {
+      // TODO`
     }
+
     if (findDialogIndex(this.getIndexName()) == -1) {
       return this.addDialogItem()
     }
+
     if (this.isDialog(this.dialog_type, this.receiver_id, this.sender_id)) {
       this.insertDialogRecord()
     } else {
@@ -82,11 +90,14 @@ class Dialog extends Base {
   addDialogItem() {
     let receiver_id = this.sender_id
     const { dialog_type } = this
+
+    // TODO
     if (dialog_type == 1 && this.receiver_id != this.getAccountId()) {
       receiver_id = this.receiver_id
     } else if (dialog_type == 2) {
       receiver_id = this.receiver_id
     }
+
     createChatApi({
       dialog_type,
       receiver_id
@@ -103,13 +114,14 @@ class Dialog extends Base {
   insertDialogRecord() {
     const record = this.resource
 
-    if ([1102, 1103, 1104].includes(record.msg_type)) {
+    if ([GROUP_CHAT_MSG_SYS_MEMBER_JOIN, GROUP_CHAT_MSG_SYS_MEMBER_QUIT, GROUP_CHAT_MSG_SYS_MEMBER_KICKED].includes(record.msg_type)) {
       useDialogueStore().updateGroupMembers()
     }
 
     useDialogueStore().addDialogueRecord(
       formatDialogRecord(this.getAccountId(), this.resource)
     )
+
     if (!this.isCurrSender()) {
       setTimeout(() => {
         socket.emit('voo.message.read', {
@@ -118,6 +130,7 @@ class Dialog extends Base {
         })
       }, 1000)
     }
+
     const el = document.getElementById('chat-panel')
     if (!el) {
       return

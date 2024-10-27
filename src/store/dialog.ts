@@ -62,11 +62,7 @@ export const useDialogStore = defineStore('dialog', {
     loadDialogList() {
       this.loadStatus = 2
       chatsApi()
-        .then((res: any) => {
-          const {
-            code,
-            data
-          } = res
+        .then(({ code, data }: any) => {
           if (code == 200) {
             this.items = data.items.map((item: any) => formatDialogItem(item))
             this.loadStatus = 3
@@ -74,7 +70,8 @@ export const useDialogStore = defineStore('dialog', {
             this.loadStatus = 4
           }
         })
-        .catch(() => {
+        .catch((err: any) => {
+          console.error('Не удалось:', err)
           this.loadStatus = 4
         })
     }

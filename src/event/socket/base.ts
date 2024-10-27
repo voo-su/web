@@ -4,9 +4,6 @@ import { useDialogueStore } from '@/store/dialogue'
 
 class Base {
 
-  constructor() {
-  }
-
   getAccountId() {
     return useUserStore().uid
   }

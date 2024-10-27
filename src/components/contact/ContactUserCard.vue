@@ -1,6 +1,12 @@
 <script lang="ts" setup>
 import { computed, reactive, ref, markRaw } from 'vue'
-import { contactFolderMoveApi, createContactApi, searchUserApi, contactFoldersApi, deleteContactApi } from '@/api/contact'
+import {
+  contactFolderMoveApi,
+  createContactApi,
+  searchUserApi,
+  contactFoldersApi,
+  deleteContactApi
+} from '@/api/contact'
 import { ElMessageBox } from 'element-plus'
 import { onSetDisturb, toDialog } from '@/utils/dialog'
 import {
@@ -47,7 +53,7 @@ interface IContact {
   friend_status: number
   text: string
   is_bot: number
-  group_id: number
+  folder_id: number
 }
 
 const state = reactive<IContact>({
@@ -62,7 +68,7 @@ const state = reactive<IContact>({
   friend_status: 1,
   text: '',
   is_bot: 0,
-  group_id: 0
+  folder_id: 0
 })
 
 // interface IFolder {
@@ -74,7 +80,7 @@ const state = reactive<IContact>({
 //
 // const groupName = computed(() => {
 //   const item = folders.find((item: IFolder) => {
-//     return item.key == state.group_id
+//     return item.key == state.folder_id
 //   })
 //
 //   if (item) {
@@ -93,9 +99,7 @@ if (dialogueStore.index_name !== null) {
 const onLoadData = () => {
   searchUserApi({
     user_id: props.uid
-  }).then((res: any) => {
-    const { code, data } = res
-
+  }).then(({ code, data }: any) => {
     if (code == 200) {
       Object.assign(state, data)
       showModal.value = true
@@ -104,18 +108,18 @@ const onLoadData = () => {
     }
   })
 
-  // contactFoldersApi().then((res: any) => {
-  //   const { code, data } = res
-  //   if (code == 200) {
-  //     let items = data.items || []
-  //     for (const iter of items) {
-  //       folders.push({
-  //         label: iter.name,
-  //         key: iter.id
-  //       })
-  //     }
-  //   }
-  // })
+  contactFoldersApi()
+    .then(({ code, data }: any) => {
+    if (code == 200) {
+      let items = data.items || []
+      for (const iter of items) {
+        folders.push({
+          label: iter.name,
+          key: iter.id
+        })
+      }
+    }
+  })
 }
 
 const onToDialog = () => {
@@ -128,8 +132,7 @@ const onJoinContact = () => {
   createContactApi({
     friend_id: props.uid
   })
-    .then((res: any) => {
-      const { code, message } = res
+    .then(({ code, message }: any) => {
     if (code == 200) {
       emit('close')
       onClose()
@@ -143,12 +146,11 @@ const onJoinContact = () => {
 // const handleSelectFolder = (value: any) => {
 //   contactFolderMoveApi({
 //     user_id: props.uid,
-//     group_id: value
+//     folder_id: value
 //   })
-//     .then((res: any) => {
-//     const { code, message } = res
+//     .then(({ code, message }: any) => {
 //     if (code == 200) {
-//       state.group_id = value
+//       state.folder_id = value
 //       ElMessage.success('Папка успешно изменена')
 //     } else {
 //       message().error(message)
@@ -167,13 +169,11 @@ const onNotification = (value: any) => {
 }
 
 const onDeleteContact = () => {
-  let name = state.username || state.name
-
   ElMessageBox.confirm(
     'Вы действительно хотите удалить пользователя из списка Контактов?',
-    `Удалить контакт ${name}`,
+    `Удалить контакт ${state.username || state.name}`,
     {
-      type: 'warning',
+   //   type: 'warning',
       icon: markRaw(IconDelete),
       confirmButtonText: 'Удалить',
       cancelButtonText: 'Отмена',
@@ -263,7 +263,7 @@ onLoadData()
         >
           <span class="name">Пол</span>
           <span class="text">
-            {{ state.gender == 1 ? 'муж' : state.gender == 2 ? 'жен' : '' }}
+            {{ state.gender === 1 ? 'муж' : state.gender === 2 ? 'жен' : '' }}
           </span>
         </div>
         <div
@@ -282,7 +282,7 @@ onLoadData()
 <!--        <span class="text">{{ groupName }}</span>-->
 <!--      </div>-->
       <div
-        v-if="state.friend_status == 2 && dialogueStore.index_name !== null"
+        v-if="state.friend_status === 2 && dialogueStore.index_name !== null"
         class="info-item notif right"
       >
         <el-icon :size="18">
@@ -301,7 +301,7 @@ onLoadData()
       v-if="state.is_bot === 0"
       class="footer"
     >
-      <template v-if="state.friend_status == 2">
+      <template v-if="state.friend_status === 2">
         <el-col>
           <el-button
             type="primary"
@@ -325,7 +325,7 @@ onLoadData()
           </el-button>
         </el-col>
       </template>
-      <template v-else-if="state.friend_status == 1">
+      <template v-else-if="state.friend_status === 1">
         <el-col>
           <el-button
             type="primary"

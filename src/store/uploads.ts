@@ -11,7 +11,7 @@ const fileSlice = (file: any, uploadId: any, eachSize: any) => {
   for (let i = 0; i < splitNum; i++) {
     const start = i * eachSize
     const end = Math.min(file.size, start + eachSize)
-  
+
     const form = new FormData()
     form.append('file', file.slice(start, end))
     form.append('upload_id', uploadId)
@@ -35,17 +35,13 @@ export const useUploadsStore = defineStore('uploads', {
       items: []
     }
   },
-  actions: {
-    close() {
-      this.isShow = false
-    },
 
+  actions: {
     initUploadFile(file: any, dialogType: any, receiverId: any, username: any) {
       findFileSplitInfoApi({
         file_name: file.name,
         file_size: file.size
-      }).then((res: any) => {
-        const { code, data, message } = res
+      }).then(({ code, data, message }: any) => {
         if (code == 200) {
           const { upload_id, split_size } = data
           this.items.unshift({
@@ -104,9 +100,14 @@ export const useUploadsStore = defineStore('uploads', {
         upload_id: item.upload_id,
         receiver_id: item.receiver_id,
         dialog_type: item.dialog_type
-      })
+      }).then(() => {})
+    },
+
+    close() {
+      this.isShow = false
     }
   },
+
   getters: {
     successCount: state => {
       return state.items.filter((item: any) => {

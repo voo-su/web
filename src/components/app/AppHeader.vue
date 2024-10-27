@@ -47,11 +47,6 @@ const menus = reactive([
     icon: markRaw(IconSearch),
     hotspot: false
   }
-  // {
-  //   link: '/projects',
-  //   icon: markRaw(Memo),
-  //   hotspot: null
-  // }
 ])
 
 const onClickMenu = (menu: any) => {

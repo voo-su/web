@@ -541,8 +541,8 @@ const onSubscribeQuote = (data: any) => {
       range.insertNode(textNode)
       range.setStartAfter(textNode)
       range.collapse(true)
-    } catch (error) {
-      console.error('Не удалось вставить:', error)
+    } catch (err) {
+      console.error('Не удалось вставить:', err)
     }
 
     // Снимаем выделение и устанавливаем новое после вставки

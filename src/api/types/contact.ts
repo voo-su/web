@@ -29,5 +29,5 @@ export interface IContactFolderSaveApi {
 
 export interface IContactFolderMoveApi {
   user_id: number
-  group_id: number
+  folder_id: number
 }

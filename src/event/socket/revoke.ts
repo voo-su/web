@@ -4,11 +4,11 @@ import { parseTime } from '@/utils/datetime'
 import { useDialogStore } from '@/store'
 
 class Revoke extends Base {
-
-  resource
-  sender_id = 0
-  receiver_id = 0
-  dialog_type = 0
+  resource: any
+  sender_id: number = 0
+  receiver_id: number = 0
+  dialog_type: number = 0
+  msg_id: any
 
   constructor(resource: any) {
     super()
@@ -32,7 +32,6 @@ class Revoke extends Base {
     return `${this.dialog_type}_${receiver_id}`
   }
 
-
   handle() {
     useDialogStore().updateItem({
       index_name: this.getIndexName(),
@@ -46,7 +45,6 @@ class Revoke extends Base {
       msg_id: this.msg_id,
       is_revoke: 1
     })
-    console.log(12)
   }
 }
 

@@ -35,7 +35,7 @@ export default defineConfig({
   css: {
     preprocessorOptions: {
       scss: {
-        additionalData: `@use "@/assets/scss/element.scss" as *;`
+        additionalData: `@use "@/assets/scss/element-plus.scss" as *;`
       }
     }
   }

@@ -33,7 +33,7 @@ export const formatTime = (datetime: string | null): string => {
       return parseTime(outTime, 'Позавчера h:i')
     }
 
-    return parseTime(outTime, 'h:i d.m')
+    return parseTime(outTime, 'h:i d.m.y')
   }
 
   const diff = time.getTime() - outTime.getTime()
@@ -52,9 +52,9 @@ export const formatTime = (datetime: string | null): string => {
   return `${minutes} минут назад`
 }
 
-export const parseTime = (time: any, cFormat?: string): string | null => {
-  if (arguments.length === 0) {
-    return null
+export const parseTime = (time: any, cFormat?: string): string => {
+  if (time.length === 0) {
+    return ''
   }
 
   let date: Date

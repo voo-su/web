@@ -3,7 +3,7 @@ import { useDialogueStore } from '@/store/dialogue'
 
 class Keyboard extends Base {
 
-  resource
+  resource: any
 
   constructor(resource: any) {
     super()
@@ -16,12 +16,15 @@ class Keyboard extends Base {
     if (params.index_name === null) {
       return false
     }
+
     if (params.dialog_type != 1) {
       return false
     }
+
     if (params.receiver_id != this.resource.sender_id) {
       return false
     }
+
     useDialogueStore().triggerKeyboard()
   }
 }

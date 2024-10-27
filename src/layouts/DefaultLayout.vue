@@ -58,17 +58,8 @@ defineProps({
 
       & > .container-fluid {
         height: 100% !important;
-        //border: 1px solid var(--el-border-color);
-        //background-color: white;
-        //border-radius: 0 0 8px 8px;
       }
     }
   }
 }
-
-//@media (min-width: 1350px) {
-//  .container .content-container .main-fixed {
-//    max-width: 1280px;
-//  }
-//}
 </style>

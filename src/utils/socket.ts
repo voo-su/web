@@ -7,8 +7,7 @@ import EventDialog from '../event/socket/dialog'
 import EventKeyboard from '../event/socket/keyboard'
 import EventLogin from '../event/socket/login'
 import EventRevoke from '../event/socket/revoke'
-import { ElNotification } from 'element-plus'
-import { ElMessage } from 'element-plus'
+import { ElMessageBox, ElNotification, ElMessage } from 'element-plus'
 
 const urlCallback = () => {
   if (!isLoggedIn()) {
@@ -59,6 +58,7 @@ class Socket {
   bindEvents() {
     this.onPing()
     this.onPong()
+    this.onReset()
     this.onImMessage()
     this.onImMessageRead()
     this.onImContactStatus()
@@ -75,6 +75,22 @@ class Socket {
 
   onPong() {
     this.ws.on('pong', () => { })
+  }
+
+  onReset() {
+    this.ws.on('voo.reset', () => {
+      ElMessageBox.confirm(
+        'Сайт был обновлён. Перезагрузите страницу, чтобы всё работало корректно.',
+        'Обновление сайта',
+        {
+          center: true,
+          showConfirmButton: false,
+          showCancelButton: false
+        }
+      )
+        .then(() => {})
+        .catch(() => {})
+    })
   }
 
   onImMessage() {
