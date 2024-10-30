@@ -78,7 +78,6 @@ const onLang = () => ElMessageBox({
 
   .lang {
     display: flex;
-    width: 15%;
 
     .el-icon {
       top: 3px;

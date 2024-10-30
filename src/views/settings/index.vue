@@ -3,7 +3,8 @@ import { markRaw, ref } from 'vue'
 import SettingDetail from '@/components/setting/SettingDetail.vue'
 import SettingSecurity from '@/components/setting/SettingSecurity.vue'
 import SettingNotification from '@/components/setting/SettingNotification.vue'
-import { Bell, Setting, User } from '@element-plus/icons-vue'
+import SettingBot from '@/components/setting/SettingBot.vue'
+import { Bell, Setting, User, Cpu } from '@element-plus/icons-vue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
 
 interface IMenu {
@@ -27,6 +28,11 @@ const menus: IMenu[] = [
     name: 'Уведомления',
     icon: markRaw(Bell),
     component: SettingNotification
+  },
+  {
+    name: 'Бот',
+    icon: markRaw(Cpu),
+    component: SettingBot
   }
 ]
 

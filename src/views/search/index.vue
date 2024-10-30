@@ -23,7 +23,7 @@ const items = ref<IItem[]>([])
 const onSearchInput = (value: any) => {
   if (value.trim().length >= 2) {
     searchUsersApi({
-      username: keywords.value
+      q: keywords.value
     }).then((res: any) => {
       if (res.code == 200) {
         items.value = res.data.items || []

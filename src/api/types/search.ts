@@ -1,5 +1,5 @@
 export interface ISearchUserApi {
-  username: string
+  q: string
 }
 
 export interface ISearchGroupApi {
