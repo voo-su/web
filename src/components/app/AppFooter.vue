@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { h, ref } from 'vue'
+import { ElMessageBox } from 'element-plus'
 import IconLang from '@/components/icons/IconLang.vue'
 import { useI18n } from 'vue-i18n'
 const { locale, t } = useI18n()
@@ -9,6 +11,27 @@ const languages = [
     value: 'ru'
   }
 ]
+
+const onLang = () => ElMessageBox({
+  title: t('selectYourLang'),
+  showCancelButton: true,
+  showConfirmButton: false,
+  message: () => h('ul', {
+      class: 'lang-list'
+    }, languages.map(lang =>
+      h('li', {
+        key: lang.value,
+        class: {
+          'lang-item': true,
+          'selected': locale.value === lang.value
+        },
+        onClick: () => {
+          locale.value = lang.value
+        }
+      }, lang.label)
+    ))
+}).catch(() => { })
+
 </script>
 
 <template>
@@ -24,18 +47,11 @@ const languages = [
       </li>
     </ul>
     <div class="lang">
-      <el-select-v2
-        v-model="locale"
-        :options="languages"
-        size="small"
-      >
-        <template #label="{ label }">
-          <el-icon :size="14">
-            <icon-lang />
-          </el-icon>
-          <span class="label">{{ label }}</span>
-        </template>
-      </el-select-v2>
+      <el-button
+        :icon="IconLang"
+        link
+        @click="onLang"
+      >{{ t('lang') }}</el-button>
     </div>
   </div>
 </template>

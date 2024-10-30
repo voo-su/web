@@ -3,16 +3,17 @@ import 'xgplayer/dist/index.min.css'
 import { nextTick, ref } from 'vue'
 import { getImageInfo, type IImageInfo } from '@/utils/functions'
 import Player, { I18N } from 'xgplayer'
-import RU from '@/locale/translations/ru-xgplayer'
 import { VideoPlay } from '@element-plus/icons-vue'
 import type { Data, VideoExtra } from './types'
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 
-I18N.use(RU)
+I18N.use(t('xgplayer'))
 
 const props = defineProps<{
   extra: VideoExtra
   data: Data
-  maxWidth: Boolean
+  maxWidth: boolean
 }>()
 
 const open = ref<boolean>(false)

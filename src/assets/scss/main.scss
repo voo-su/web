@@ -467,7 +467,22 @@ h3.title {
   border-bottom: 1px solid var(--el-border-color);
 }
 
-.lang .el-select__wrapper {
-  background-color: transparent;
-  box-shadow: none;
+.lang-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  .lang-item {
+    padding-bottom: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+
+    &.selected {
+      font-weight: bold;
+    }
+
+    &:hover {
+      color: #202020;
+    }
+  }
 }
