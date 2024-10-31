@@ -3,7 +3,6 @@ import { markRaw, ref } from 'vue'
 import SettingDetail from '@/components/setting/SettingDetail.vue'
 import SettingSecurity from '@/components/setting/SettingSecurity.vue'
 import SettingNotification from '@/components/setting/SettingNotification.vue'
-import SettingBot from '@/components/setting/SettingBot.vue'
 import { Bell, Setting, User, Cpu } from '@element-plus/icons-vue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
 
@@ -28,11 +27,6 @@ const menus: IMenu[] = [
     name: 'Уведомления',
     icon: markRaw(Bell),
     component: SettingNotification
-  },
-  {
-    name: 'Бот',
-    icon: markRaw(Cpu),
-    component: SettingBot
   }
 ]
 
@@ -42,7 +36,7 @@ const tabIndex = ref<number>(0)
 <template>
   <default-layout :index="null">
     <el-row
-      :gutter="20"
+      :gutter="19"
       class="h-100"
     >
       <el-col :span="5">
@@ -62,8 +56,10 @@ const tabIndex = ref<number>(0)
           </el-menu-item>
         </el-menu>
       </el-col>
-      <el-col :span="18">
-        <component :is="menus[tabIndex].component" />
+      <el-col :span="19">
+        <div class="component h-100">
+          <component :is="menus[tabIndex].component" />
+        </div>
       </el-col>
     </el-row>
   </default-layout>
@@ -76,8 +72,8 @@ const tabIndex = ref<number>(0)
   padding: 10px;
 }
 
-.el-col-18 {
-  margin-left: 15px;
+.component {
+ // margin-left: 15px;
   background: #FFFFFF;
   border-radius: 16px;
 }

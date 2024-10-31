@@ -45,6 +45,11 @@ const onLang = () => ElMessageBox({
           {{ t('terms') }}
         </el-link>
       </li>
+      <li>
+        <el-link href="/dev">
+          {{ t('developers') }}
+        </el-link>
+      </li>
     </ul>
     <div class="lang">
       <el-button

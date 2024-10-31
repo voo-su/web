@@ -5,6 +5,7 @@ export default {
   email: 'email',
   login: 'Войти',
   terms: 'Правила',
+  developers: 'Разработчикам',
 
   xgplayer: {
     LANG: 'ru',
