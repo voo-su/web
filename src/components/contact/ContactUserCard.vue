@@ -108,18 +108,18 @@ const onLoadData = () => {
     }
   })
 
-  contactFoldersApi()
-    .then(({ code, data }: any) => {
-    if (code == 200) {
-      let items = data.items || []
-      for (const iter of items) {
-        folders.push({
-          label: iter.name,
-          key: iter.id
-        })
-      }
-    }
-  })
+  // contactFoldersApi()
+  //   .then(({ code, data }: any) => {
+  //   if (code == 200) {
+  //     let items = data.items || []
+  //     for (const iter of items) {
+  //       folders.push({
+  //         label: iter.name,
+  //         key: iter.id
+  //       })
+  //     }
+  //   }
+  // })
 }
 
 const onToDialog = () => {

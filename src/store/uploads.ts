@@ -1,13 +1,11 @@
 import { defineStore } from 'pinia'
-import { ElMessage } from 'element-plus'
 
 import { fileSubareaUploadApi, findFileSplitInfoApi } from '@/api/upload'
 import { sendDialogFileApi } from '@/api/message'
 
-const fileSlice = (file: any, uploadId: any, eachSize: any) => {
-  const splitNum: any = Math.ceil(file.size / eachSize)
-
-  const items = []
+const fileSlice = (file: File, uploadId: string, eachSize: number) => {
+  const splitNum = Math.ceil(file.size / eachSize)
+  const items: FormData[] = []
   for (let i = 0; i < splitNum; i++) {
     const start = i * eachSize
     const end = Math.min(file.size, start + eachSize)
@@ -15,8 +13,9 @@ const fileSlice = (file: any, uploadId: any, eachSize: any) => {
     const form = new FormData()
     form.append('file', file.slice(start, end))
     form.append('upload_id', uploadId)
-    form.append('split_index', i)
-    form.append('split_num', splitNum)
+    form.append('split_index', `${i + 1}`)
+    form.append('split_num', `${splitNum}`)
+
     items.push(form)
   }
 
@@ -37,30 +36,30 @@ export const useUploadsStore = defineStore('uploads', {
   },
 
   actions: {
-    initUploadFile(file: any, dialogType: any, receiverId: any, username: any) {
+    async initUploadFile(file: File, dialogType: number, receiverId: number, username: string) {
       findFileSplitInfoApi({
         file_name: file.name,
         file_size: file.size
       }).then(({ code, data, message }: any) => {
-        if (code == 200) {
-          const { upload_id, split_size } = data
-          this.items.unshift({
-            file: file,
-            dialog_type: dialogType,
-            receiver_id: receiverId,
-            upload_id: upload_id,
-            uploadIndex: 0,
-            percentage: 0,
-            status: 0,
-            files: fileSlice(file, upload_id, split_size),
-            avatar: '',
-            username: username
-          })
-          this.triggerUpload(upload_id)
-          this.isShow = true
-        } else {
-          ElMessage.error(message)
-        }
+        if (code !== 200) throw new Error('Не удалось найти информацию о разделении файла.')
+
+        const { upload_id, shard_size } = data
+
+        this.items.unshift({
+          file: file,
+          dialog_type: dialogType,
+          receiver_id: receiverId,
+          upload_id: upload_id,
+          uploadIndex: 0,
+          percentage: 0,
+          status: 0,
+          files: fileSlice(file, upload_id, shard_size),
+          avatar: '',
+          username: username
+        })
+
+        this.triggerUpload(upload_id)
+        this.isShow = true
       })
     },
 
