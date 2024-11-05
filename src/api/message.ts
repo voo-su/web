@@ -6,20 +6,15 @@ import type {
   IDialogRecordsApi,
   IForwardRecordsApi,
   IGetForwardRecordsApi,
-  IPublishMessageApi,
+  IMessageSendApi,
   IRemoveRecordsApi,
   IRevokeRecordsApi,
-  ISendDialogFileApi,
   ISendVoteApi,
 } from '@/api/types/message'
 
 export const dialogRecordsApi = (data: IDialogRecordsApi) => get('/v1/messages', data)
 
-export const publishMessageApi = (data: IPublishMessageApi) => post('/v1/messages/send', data)
-
-export const sendDialogFileApi = (data: ISendDialogFileApi) => post('/v1/messages/file', data)
-
-export const sendDialogImageApi = (data: FormData) => upload('/v1/messages/image', data)
+export const messageSendApi = (data: IMessageSendApi) => post('/v1/messages/send', data)
 
 export const revokeRecordsApi = (data: IRevokeRecordsApi) => post('/v1/messages/revoke', data)
 
@@ -31,9 +26,7 @@ export const confirmVoteHandleApi = (data: IConfirmVoteHandleApi) => post('/v1/m
 
 export const getStickerListApi = () => get('/v1/messages/stickers')
 
-export const sendStickerApi = (data: FormData) => post('/v1/messages/stickers', data)
-
-export const uploadStickerApi = (data: FormData) => upload('/v1/messages/stickers/create', data)
+export const uploadStickerApi = (data: FormData) => upload('/v1/messages/stickers', data)
 
 export const deleteStickerApi = (data: IDeleteStickerApi) => upload('/v1/messages/stickers/delete', data)
 

@@ -3,10 +3,10 @@ import { onMounted } from 'vue'
 import { useDialogStore, useDialogueStore, useNotifyStore, useUploadsStore } from '@/store'
 import { useEditorStore } from '@/store/editor'
 import socket from '@/utils/socket'
-import { publishMessageApi, sendDialogImageApi, sendVoteApi } from '@/api/message'
+import { messageSendApi, sendVoteApi } from '@/api/message'
 import { getVideoImage, throttle } from '@/utils/common'
 import Editor from '@/components/message/editor/Editor.vue'
-import { uploadImageApi } from '@/api/upload'
+import { uploadApi } from '@/api/upload'
 import { ElMessage } from 'element-plus'
 
 const props = defineProps({
@@ -42,7 +42,7 @@ const uploadsStore = useUploadsStore()
 const dialogueStore = useDialogueStore()
 
 const onSendMessage = (data = {}, callBack: any) => {
-  publishMessageApi({
+  messageSendApi({
     ...data,
     receiver: {
       receiver_id: props.receiver_id,
@@ -79,7 +79,7 @@ const onSendTextEvent = throttle(({ data, callBack }: any) => {
       draft_text: ''
     })
 
-    let el = document.getElementById('dialog-session-list')
+    let el = document.getElementById('chat-session-list')
     if (el) {
       el.scrollTop = 0
     }
@@ -97,13 +97,13 @@ const onSendVideoEvent = async ({ data }: any) => {
   const coverForm = new FormData()
   coverForm.append('file', resp.file)
 
-  let cover: any = await uploadImageApi(coverForm)
+  let cover: any = await uploadApi(coverForm)
   if (cover.code != 200) return
 
   const form = new FormData()
   form.append('file', data)
 
-  let video: any = await uploadImageApi(form)
+  let video: any = await uploadApi(form)
   if (video.code != 200) return
 
   let message = {
@@ -199,32 +199,9 @@ const onInputEvent = ({ data }: any) => {
   }
 }
 
-const onSendImageAttachEvent = ({ data, callBack }: any) => {
-  let fileData = new FormData()
-  fileData.append('dialog_type', props.dialog_type)
-  fileData.append('receiver_id', props.receiver_id)
-  fileData.append('image', data)
-
-  const resp = sendDialogImageApi(fileData)
-  resp.then((res: any) => {
-    const {
-      code,
-      message
-    } = res
-    if (code == 200) {
-      callBack(true)
-    } else {
-      ElMessage.info(message)
-    }
-  })
-
-  resp.finally(() => callBack(false))
-}
-
 const events: any = {
   text_event: onSendTextEvent,
   image_event: onSendImageEvent,
-  image_attach_event: onSendImageAttachEvent,
   video_event: onSendVideoEvent,
   audio_event: onSendAudioEvent,
   file_event: onSendFileEvent,
@@ -244,12 +221,9 @@ onMounted(() => {
 </script>
 
 <template>
-  <!--  <multi-select-footer v-if="dialogueStore.isOpenMultiSelect" />-->
-  <!--  <editor-->
-  <!--    v-else-->
   <editor
     :members="members"
-    :vote="dialog_type == 2"
+    :vote="dialog_type === 2"
     @editor-event="onEditorEvent"
   />
 </template>

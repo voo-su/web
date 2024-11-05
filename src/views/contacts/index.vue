@@ -5,7 +5,7 @@ import ContactUserCard from '@/components/contact/ContactUserCard.vue'
 import ContactMemberCard from '@/components/contact/ContactMemberCard.vue'
 import AppPageHeader from '@/components/app/AppPageHeader.vue'
 import { modal } from '@/utils/common'
-import { toDialog } from '@/utils/dialog'
+import { toDialog } from '@/utils/chat'
 import { useUserStore } from '@/store/user'
 import { contactFoldersApi, getContactListApi } from '@/api/contact'
 import ContactTopMenu from '@/components/contact/ContactTopMenu.vue'
@@ -63,7 +63,7 @@ const onLoad = () => {
 //   })
 // }
 
-const onToDialog = (item: any) => {
+const onToChat = (item: any) => {
   toDialog(1, item.id)
 }
 
@@ -129,7 +129,7 @@ onMounted(() => {
           :surname="item.surname"
           :username="/*item.remark ||*/ item.username"
           @click="onInfo(item)"
-          @to-dialog="onToDialog(item)"
+          @to-chat="onToChat(item)"
         />
       </div>
       <el-main v-else>

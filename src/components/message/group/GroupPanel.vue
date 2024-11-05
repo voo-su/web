@@ -18,7 +18,7 @@ const props = defineProps({
   }
 })
 
-const emit = defineEmits(['close', 'to-dialog'])
+const emit = defineEmits(['close', 'to-chat'])
 
 const user: any = inject('$user')
 
@@ -194,7 +194,7 @@ loadMembers()
           <!--              <div class="block">-->
           <!--                <el-button-->
           <!--                  :icon="Comment"-->
-          <!--                  @click="emit('to-dialog')"-->
+          <!--                  @click="emit('to-chat')"-->
           <!--                />-->
           <!--              </div>-->
           <!--            </div>-->

@@ -5,18 +5,12 @@ export interface IDialogRecordsApi {
   limit: number
 }
 
-export interface IPublishMessageApi {
+export interface IMessageSendApi {
   type: string
   receiver: {
-    receiver_id: number
     dialog_type: number
+    receiver_id: number
   }
-}
-
-export interface ISendDialogFileApi {
-  upload_id: number
-  receiver_id: number
-  dialog_type: number
 }
 
 export interface IRevokeRecordsApi {

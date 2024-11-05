@@ -28,7 +28,7 @@ defineProps({
   }
 })
 
-const emit = defineEmits(['to-dialog'])
+const emit = defineEmits(['to-chat'])
 </script>
 
 <template>
@@ -63,7 +63,7 @@ const emit = defineEmits(['to-dialog'])
       </div>
       <!--      <div class="helper">-->
       <!--        <div class="tool">-->
-      <!--          <el-icon @click.stop="emit('to-dialog')">-->
+      <!--          <el-icon @click.stop="emit('to-chat')">-->
       <!--            <share />-->
       <!--          </el-icon>-->
       <!--        </div>-->

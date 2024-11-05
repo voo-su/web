@@ -8,7 +8,7 @@ import {
   deleteContactApi
 } from '@/api/contact'
 import { ElMessageBox } from 'element-plus'
-import { onSetDisturb, toDialog } from '@/utils/dialog'
+import { onSetDisturb, toDialog } from '@/utils/chat'
 import {
   Bell,
   Close as CloseIcon,

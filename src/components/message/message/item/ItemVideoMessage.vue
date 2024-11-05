@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import 'xgplayer/dist/index.min.css'
-import { nextTick, ref } from 'vue'
+import { nextTick, ref, computed } from 'vue'
 import { getImageInfo, type IImageInfo } from '@/utils/functions'
 import Player, { I18N } from 'xgplayer'
 import { VideoPlay } from '@element-plus/icons-vue'
@@ -8,7 +8,11 @@ import type { Data, VideoExtra } from './types'
 import { useI18n } from 'vue-i18n'
 const { t } = useI18n()
 
-I18N.use(t('xgplayer'))
+const { locale, messages } = useI18n()
+
+const xgplayer = computed(() => messages.value[locale.value].xgplayer)
+
+I18N.use(xgplayer.value)
 
 const props = defineProps<{
   extra: VideoExtra

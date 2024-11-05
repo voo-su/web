@@ -15,14 +15,13 @@ import {
 } from '@element-plus/icons-vue'
 import DialogItem from './DialogItem.vue'
 import { clearUnreadChatApi, topChatApi } from '@/api/chat'
-import { findDialog, findDialogIndex, getCacheIndexName, onRemoveDialog, onSetDisturb } from '@/utils/dialog'
+import { findDialog, findDialogIndex, getCacheIndexName, onRemoveDialog, onSetDisturb } from '@/utils/chat'
 import ContextMenu from '@/components/base/BaseContextMenu.vue'
 import { renderIcon } from '@/utils/functions'
 import GroupLaunch from '@/components/message/group/GroupLaunch.vue'
 import IconPin from '@/components/icons/IconPin.vue'
 import IconUnpin from '@/components/icons/IconUnpin.vue'
-import { ElDialog } from 'element-plus'
-import { ElMessage } from 'element-plus'
+import { ElMessage, ElDialog } from 'element-plus'
 
 const user: any = inject('$user')
 const dialogueStore = useDialogueStore()
@@ -58,7 +57,7 @@ const items: any = computed(() => {
   })
 })
 
-const onTabDialog = (data: any, follow: boolean = false) => {
+const onTabChat = (data: any, follow: boolean = false) => {
   if (data.index_name === indexName.value) {
     return
   }
@@ -77,7 +76,7 @@ const onTabDialog = (data: any, follow: boolean = false) => {
   }
   if (follow) {
     setTimeout(() => {
-      let el = document.getElementById('dialog-session-list')
+      let el = document.getElementById('chat-session-list')
       if (el) {
         let index = findDialogIndex(data.index_name)
         el.scrollTo({
@@ -238,7 +237,7 @@ const onGroupCallBack = (data: any) => {
 
 const onInitialize = () => {
   let index_name = getCacheIndexName()
-  index_name && onTabDialog(findDialog(index_name), true)
+  index_name && onTabChat(findDialog(index_name), true)
 }
 
 const onClickCreateGroup = () => {
@@ -271,7 +270,7 @@ onMounted(() => {
       </div>
     </el-header>
     <!--    <el-header-->
-    <!--      v-show="loadStatus == 3 && topItems.length > 0"-->
+    <!--      v-show="loadStatus === 3 && topItems.length > 0"-->
     <!--      class="tops-header"-->
     <!--    >-->
     <!--      <el-tooltip-->
@@ -288,7 +287,7 @@ onMounted(() => {
     <!--            active: item.index_name == indexName,-->
     <!--          }"-->
     <!--          class="top-item"-->
-    <!--          @click="onTabDialog(item, true)"-->
+    <!--          @click="onTabChat(item, true)"-->
     <!--        >-->
     <!--          <el-avatar-->
     <!--            v-if="item.avatar"-->
@@ -314,10 +313,10 @@ onMounted(() => {
     <!--      </p>-->
     <!--    </header>-->
     <el-main
-      id="dialog-session-list"
+      id="chat-session-list"
       class="scrollbar"
     >
-      <template v-if="loadStatus == 2">
+      <template v-if="loadStatus === 2">
         <div
           v-for="i in 10"
           :key="i"
@@ -326,14 +325,13 @@ onMounted(() => {
           <el-skeleton />
         </div>
       </template>
-      <template v-if="loadStatus == 3">
+      <template v-if="loadStatus === 3">
         <dialog-item
           v-for="item in items"
           :key="item.index_name"
-          :active="item.index_name == indexName"
+          :active="item.index_name === indexName"
           :data="item"
-          @tab-dialog="onTabDialog"
-          @top-dialog="onToTopDialog"
+          @tab-chat="onTabChat"
           @contextmenu.prevent="onContextMenuDialog($event, item)"
         />
         <div
@@ -344,7 +342,7 @@ onMounted(() => {
         </div>
       </template>
       <el-empty
-        v-if="loadStatus == 4"
+        v-if="loadStatus === 4"
         description="Ошибка загрузки данных, пожалуйста, попробуйте снова..."
       >
         <template #image>

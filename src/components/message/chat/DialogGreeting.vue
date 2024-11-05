@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import { ChatRound } from '@element-plus/icons-vue'</script>
+import { ChatRound } from '@element-plus/icons-vue'
+</script>
 
 <template>
   <div class="greeting flex-center">

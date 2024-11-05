@@ -5,7 +5,7 @@ import AuthVerify from '@/components/auth/AuthVerify.vue'
 import { cookie } from '@/utils/storage/cookie-storage'
 import { authSessionKey, authSessionTimerKey } from '@/constants/default'
 import { useRouter } from 'vue-router'
-import { palyMusic } from '@/utils/dialog'
+import { palyMusic } from '@/utils/chat'
 import AppFooter from '../components/app/AppFooter.vue'
 
 const router = useRouter()

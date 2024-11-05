@@ -14,14 +14,13 @@ import {
 import { emitCall } from '@/utils/common'
 import { getDragPasteImg, pasteFilter } from '@/utils/editor'
 import { defAvatar } from '@/constants/default'
-import EditorImage from './EditorImage.vue'
 import EditorSticker from './EditorSticker.vue'
 import EditorVote from './EditorVote.vue'
 // import EditorRecorder from './EditorRecorder.vue'
 import IconAudio from '@/components/icons/IconAudio.vue'
 import { getEditorNodeInfo } from './editor'
 import { getImageInfo } from '@/utils/functions'
-import { uploadImageApi } from '@/api/upload'
+import { uploadApi } from '@/api/upload'
 import IconEmoticon from '@/components/icons/IconEmoticon.vue'
 import { publisher } from '@/utils/publisher'
 import IconClip from '@/components/icons/IconClip.vue'
@@ -47,32 +46,18 @@ const editorRef = ref()
 const isShowEditorVote = ref<boolean>(false)
 // const isShowEditorRecorder = ref(false)
 
-const fileImageAttachRef = ref()
 const fileImageRef = ref()
 const fileVideoRef = ref()
 const fileAudioRef = ref()
 const uploadFileRef = ref()
 
 const stickerRef = ref()
-const imagePreview = reactive({
-  show: false,
-  file: null
-})
 
 const dropdown = reactive<IDropdown[]>([
   {
     show: true,
-    title: 'Прикрепить фото',
-    icon: markRaw(Camera),
-
-    click: () => {
-      fileImageAttachRef.value.click()
-    }
-  },
-  {
-    show: true,
     title: 'Фотография',
-    icon: markRaw(IconPicture),
+    icon: markRaw(Camera),
 
     click: () => {
       fileImageRef.value.click()
@@ -219,14 +204,6 @@ const onInputEvent = (e: any) => emit('editor-event',
   emitCall('input_event', e.target.innerHTML.toString(), () => {})
 )
 
-const onImageAttachEvent = ({ callBack }: any) => {
-  const data = emitCall('image_attach_event', imagePreview.file, (ok: boolean) => {
-    callBack(ok)
-  })
-
-  emit('editor-event', data)
-}
-
 const onVoteEvent = (data: any) => {
   const msg = emitCall('vote_event', data, (ok: boolean) => {
     if (ok) {
@@ -311,26 +288,19 @@ const insertEditorImage = (file: File) => {
 
   const form = new FormData()
   form.append('file', file)
-  uploadImageApi(form)
-    .then((res: any) => {
-      const {
-        code,
-        data,
-        message
-      } = res
-
-      if (code == 200) {
-        imageNode.src = data.src
-      } else {
-        imageNode.remove()
-        ElMessage.error(message)
-      }
-    })
+  uploadApi(form).then(({ code, data, message }: any) => {
+    if (code == 200) {
+      imageNode.src = data.src
+    } else {
+      imageNode.remove()
+      ElMessage.error(message)
+    }
+  })
 }
 
 const isSupportedImageFormat = (fileName: string) => /\.(gif|jpg|jpeg|png|webp|svg)$/i.test(fileName)
 
-const onUploadImageAttachFile = (e: any) => {
+const onUploadImageChange = (e: any) => {
   const file = e.target.files[0]
   e.target.value = null
 
@@ -340,18 +310,6 @@ const onUploadImageAttachFile = (e: any) => {
 
   ElMessage.info('Поддерживаются только форматы: gif, jpg, jpeg, png, webp, svg.')
 }
-
-const onUploadImageChange = (e: any) => {
-  const file = e.target.files[0]
-
-  if (file && isSupportedImageFormat(file.name)) {
-    openImagePreview(file)
-    e.target.value = null
-  } else {
-    ElMessage.info('Поддерживаются только форматы: gif, jpg, jpeg, png, webp, svg.')
-  }
-}
-
 
 const onUploadVideoFile = (e: any) => {
   const file = e.target.files[0]
@@ -407,17 +365,6 @@ const onUploadFile = (e: any) => {
 //   emit('editor-event', emitCall('file_event', file))
 //   isShowEditorRecorder.value = false
 // }
-
-
-const openImagePreview = (file: any) => {
-  imagePreview.file = file
-  imagePreview.show = true
-}
-
-const closeImagePreview = () => {
-  imagePreview.file = null
-  imagePreview.show = false
-}
 
 const onPaste = (e: any) => {
   pasteFilter(e)
@@ -623,12 +570,6 @@ onUnmounted(() => {
             style="display: none"
           >
             <input
-              ref="fileImageAttachRef"
-              accept="image/*"
-              type="file"
-              @change="onUploadImageAttachFile"
-            >
-            <input
               ref="fileImageRef"
               accept="image/*"
               type="file"
@@ -696,12 +637,6 @@ onUnmounted(() => {
       </div>
     </div>
   </el-footer>
-  <editor-image
-    v-if="imagePreview.show"
-    :file="imagePreview.file"
-    @close="closeImagePreview"
-    @submit="onImageAttachEvent"
-  />
   <editor-vote
     v-if="isShowEditorVote"
     @close="isShowEditorVote = false"

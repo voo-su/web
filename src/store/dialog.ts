@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { chatsApi } from '@/api/chat'
-import { formatDialogItem } from '@/utils/dialog'
+import { formatDialogItem } from '@/utils/chat'
 
 const ttime = (datetime: any) => {
   if (datetime == undefined || datetime == '') {

@@ -67,13 +67,10 @@ onMounted(() => {
     <div class="preview">
       <img :src="state.src">
     </div>
-
-
     <template #footer>
       <el-button
         :loading="state.loading"
         type="primary"
-
         @click="onSendClick"
       >
         Отправить
@@ -87,13 +84,11 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .el-button {
-
   position: absolute;
   top: 100%;
   left: 0;
   width: 100%;
 }
-
 
 .preview {
   position: relative;

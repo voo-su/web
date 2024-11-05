@@ -6,7 +6,7 @@ import MessageHeader from '../message/MessageHeader.vue'
 import MessageContent from '../message/MessageContent.vue'
 import MessageFooter from '../message/MessageFooter.vue'
 import { useDialogStore } from '@/store'
-import { onRemoveDialog, onSetDisturb } from '@/utils/dialog'
+import { onRemoveDialog, onSetDisturb } from '@/utils/chat'
 import GroupPanel from '../group/GroupPanel.vue'
 
 const userStore = useUserStore()
@@ -58,7 +58,6 @@ const onPanelHeaderEvent = (eventType: any) => {
       id: dialogParams.chatId,
       index_name: dialogParams.index_name
     })
-
   }
   events[eventType] && events[eventType]()
 }
@@ -90,7 +89,7 @@ const onPanelHeaderEvent = (eventType: any) => {
     />
   </el-container>
   <group-panel
-    v-if="state.isShowGroupAside && dialogParams.type == 2"
+    v-if="state.isShowGroupAside && dialogParams.type === 2"
     :gid="dialogParams.receiver_id"
     @close="state.isShowGroupAside = false"
   />

@@ -49,8 +49,10 @@ const onPlayEnd = () => {
 }
 
 const onCanplay = () => {
-  state.duration = audioRef.value.duration
-  durationDesc.value = formatTime(parseInt(audioRef.value.duration))
+  if (audioRef.value){
+    state.duration = audioRef.value.duration
+    durationDesc.value = formatTime(parseInt(audioRef.value.duration))
+  }
 }
 
 const onError = (e: any) => {

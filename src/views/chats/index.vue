@@ -2,9 +2,9 @@
 import { onUnmounted } from 'vue'
 import { useDialogueStore } from '@/store/dialogue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
-import DialogContent from '@/components/message/dialog/DialogContent.vue'
-import DialogSide from '@/components/message/dialog/DialogSider.vue'
-import DialogGreeting from '@/components/message/dialog/DialogGreeting.vue'
+import DialogContent from '@/components/message/chat/DialogContent.vue'
+import DialogSide from '@/components/message/chat/DialogSider.vue'
+import DialogGreeting from '@/components/message/chat/DialogGreeting.vue'
 
 const dialogueStore = useDialogueStore()
 

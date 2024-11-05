@@ -127,7 +127,7 @@ const onEvent = (key: String) => {
             >
               печатает...
             </p>
-            <template v-if="props.data.type == 1 && !props.data.keyboard">
+            <template v-if="props.data.type === 1 && !props.data.keyboard">
               <span
                 v-if="props.data.online"
                 class="online"
@@ -135,7 +135,7 @@ const onEvent = (key: String) => {
               <span v-else>был(а) недавно</span>
             </template>
             <span
-              v-show="props.data.type == 2 && props.data.num"
+              v-show="props.data.type === 2 && props.data.num"
               class="num"
             >{{ props.data.num }} участники</span>
           </div>

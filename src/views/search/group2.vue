@@ -5,7 +5,7 @@ import { getGroupListApi } from '@/api/group-chat'
 import GroupPanel from '@/components/message/group/GroupPanel.vue'
 import GroupLaunch from '@/components/message/group/GroupLaunch.vue'
 import GroupRequestCard from '@/components/message/group/GroupRequestCard.vue'
-import { toDialog } from '@/utils/dialog'
+import { toDialog } from '@/utils/chat'
 import { useDialogStore, useUserStore } from '@/store'
 
 const userStore = useUserStore()

@@ -17,14 +17,14 @@ defineProps({
   }
 })
 
-const emit = defineEmits(['tab-dialog', 'top-dialog'])
+const emit = defineEmits(['tab-chat'])
 </script>
 
 <template>
   <div
     :class="{ actived: active }"
     class="dialog"
-    @click="emit('tab-dialog', data)"
+    @click="emit('tab-chat', data)"
   >
     <div class="left-module">
       <avatar-box
@@ -34,30 +34,11 @@ const emit = defineEmits(['tab-dialog', 'top-dialog'])
         :surname="data.surname"
       />
       <span
-        v-show="data.is_bot == 0 && data.dialog_type == 1 && data.is_online == 1"
+        v-show="data.is_bot === 0 && data.dialog_type === 1 && data.is_online === 1"
         class="online"
         title="Онлайн"
       />
     </div>
-
-    <!--    <div class="avatar-box">-->
-    <!--      <el-avatar-->
-    <!--        v-if="data.avatar"-->
-    <!--        :src="data.avatar || defAvatar"-->
-    <!--      />-->
-    <!--      <el-avatar v-else>-->
-    <!--        {{ data.name && data.name.substring(0, 1) }}-->
-    <!--      </el-avatar>-->
-    <!--            <div-->
-    <!--              class="top-mask"-->
-    <!--              @click.stop="emit('top-dialog', data)"-->
-    <!--            >-->
-    <!--              <el-icon>-->
-    <!--                <arrow-down v-if="data.is_top == 1" />-->
-    <!--                <arrow-up v-else />-->
-    <!--              </el-icon>-->
-    <!--            </div>-->
-    <!--    </div>-->
     <div class="content-box">
       <div class="header">
         <div class="title">
@@ -92,7 +73,7 @@ const emit = defineEmits(['tab-dialog', 'top-dialog'])
           </template>
         </div>
         <el-icon
-          v-if="data.is_top == 1"
+          v-if="data.is_top === 1"
           class="pin"
         >
           <icon-pin />
@@ -123,39 +104,6 @@ const emit = defineEmits(['tab-dialog', 'top-dialog'])
     margin-right: 5px;
   }
 
-  //.avatar-box {
-  //  height: 34px;
-  //  width: 34px;
-  //  background-color: #2F80ED;
-  //  border-radius: 50%;
-  //  display: flex;
-  //  justify-content: center;
-  //  align-items: center;
-  //  font-size: 14px;
-  //  color: white;
-  //  user-select: none;
-  //  transition: ease 1s;
-  //  position: relative;
-  //  overflow: hidden;
-  //
-  //  .top-mask {
-  //    width: 100%;
-  //    height: 100%;
-  //    background-color: rgba(22, 25, 29, 0.6);
-  //    position: absolute;
-  //    top: 0;
-  //    left: 0;
-  //    color: white;
-  //    display: none;
-  //    align-items: center;
-  //    justify-content: center;
-  //  }
-  //
-  //  &:hover .top-mask {
-  //    display: flex;
-  //  }
-  //}
-
   .left-module {
     position: relative;
 
@@ -172,9 +120,7 @@ const emit = defineEmits(['tab-dialog', 'top-dialog'])
       animation-direction: alternate;
       -webkit-animation: _notifymove 3s infinite;
     }
-
   }
-
 
   .content-box {
     height: 40px;
@@ -234,8 +180,6 @@ const emit = defineEmits(['tab-dialog', 'top-dialog'])
           color: red;
           padding-right: 3px;
         }
-
-
       }
     }
   }
@@ -245,7 +189,6 @@ const emit = defineEmits(['tab-dialog', 'top-dialog'])
     background-color: #ececec;
   }
 }
-
 
 .disturb {
   display: flex;

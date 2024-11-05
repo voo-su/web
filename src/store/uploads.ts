@@ -1,7 +1,8 @@
 import { defineStore } from 'pinia'
 
 import { fileSubareaUploadApi, findFileSplitInfoApi } from '@/api/upload'
-import { sendDialogFileApi } from '@/api/message'
+import { messageSendApi } from '@/api/message'
+import { ElMessage } from 'element-plus'
 
 const fileSlice = (file: File, uploadId: string, eachSize: number) => {
   const splitNum = Math.ceil(file.size / eachSize)
@@ -95,11 +96,24 @@ export const useUploadsStore = defineStore('uploads', {
     },
 
     sendUploadMessage(item: any) {
-      sendDialogFileApi({
-        upload_id: item.upload_id,
-        receiver_id: item.receiver_id,
-        dialog_type: item.dialog_type
-      }).then(() => {})
+      messageSendApi({
+        type: 'file',
+        receiver: {
+          dialog_type: item.dialog_type,
+          receiver_id: item.receiver_id
+        },
+        upload_id:  item.upload_id,
+      })
+        .then(({ code, message }: any) => {
+          if (code == 200) {
+            console.log(message)
+          } else {
+            ElMessage.warning(message)
+          }
+        })
+        .catch(() => {
+          ElMessage.warning('Сеть перегружена, пожалуйста, попробуйте позже')
+        })
     },
 
     close() {
