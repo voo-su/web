@@ -10,3 +10,7 @@ export interface IUpdateUserDetailApi {
 export interface IUpdateUsernameApi {
   username: string
 }
+
+export interface IPushInit {
+  subscription: string
+}

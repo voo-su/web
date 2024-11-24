@@ -6,12 +6,14 @@ import socket from '@/utils/socket'
 import { listener } from '@/utils/listener'
 import ru from 'element-plus/dist/locale/ru.mjs'
 import { isLoggedIn } from '@/utils/auth'
+import { pushInit } from '@/utils/push'
 
 const userStore = useUserStore()
 
 if (isLoggedIn()) {
   socket.connect()
   userStore.loadSetting()
+  pushInit()
 }
 
 listener()

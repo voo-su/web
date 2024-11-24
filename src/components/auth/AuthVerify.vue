@@ -11,6 +11,7 @@ import { Close } from '@element-plus/icons-vue'
 import type { IFormVerifyType } from './types'
 import { getErrorForField } from '@/utils/functions'
 import IconLogo from '@/components/icons/IconLogo.vue'
+import { pushInit } from '@/utils/push'
 
 const userStore = useUserStore()
 
@@ -68,6 +69,7 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
           setAccessToken(accessToken, expiresIn)
           socket.connect()
           userStore.loadSetting()
+          pushInit()
           emit('onSuccess')
           form.loading = false
         } else {

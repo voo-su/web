@@ -13,7 +13,6 @@ const bootstrap = async () => {
   const app = createApp(App)
   app.use(router)
 
-  plugins.setPush(app)
   plugins.setLocale(app)
   plugins.setPinia(app)
   plugins.setComponents(app)

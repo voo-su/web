@@ -1,13 +1,43 @@
-export const subscribe = () => {
-  navigator.serviceWorker.ready
-    .then((registration) => {
-      const vapidPublicKey = ''
+import { pushInitApi } from '@/api/account'
 
-      return registration.pushManager.subscribe({
-        userVisibleOnly: true,
-        applicationServerKey: urlBase64ToUint8Array(vapidPublicKey),
-      })
+export const pushInit = () => {
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('service-worker.js')
+    navigator.serviceWorker.ready
+      .then((registration: ServiceWorkerRegistration) => registration.pushManager.getSubscription())
+      .then((subscription: PushSubscription) => pushSubscriptionNotify(subscription))
+  }
+}
+
+const pushSubscriptionNotify = (subscription: PushSubscription) => {
+  if (subscription) {
+    const subscriptionObj: PushSubscriptionJSON = subscription.toJSON()
+    if (
+      !subscriptionObj ||
+      !subscriptionObj.endpoint ||
+      !subscriptionObj.keys ||
+      !subscriptionObj.keys.p256dh ||
+      !subscriptionObj.keys.auth
+    ) {
+      console.log('Недействительная push-подписка: ', subscriptionObj)
+      return
+    }
+    pushInitApi({
+      subscription: JSON.stringify(subscriptionObj)
+    }).then((res: any) => {
+      console.log(res)
     })
+  } else {
+    subscribe()
+  }
+}
+
+const subscribe = () => {
+  navigator.serviceWorker.ready
+    .then((registration) => registration.pushManager.subscribe({
+      userVisibleOnly: true,
+      applicationServerKey: urlBase64ToUint8Array(import.meta.env.VITE_VAPID_PUBLIC_KEY)
+    }))
     .then((subscription) => {
       console.log(JSON.stringify(subscription))
     })
