@@ -69,6 +69,18 @@ const routes = [
     ]
   },
   {
+    path: '/projects',
+    name: 'ProjectsView',
+    meta: { requiresAuth: true },
+    component: () => import('@/views/projects/index.vue')
+  },
+  {
+    path: '/project/:id',
+    name: 'ProjectView',
+    meta: { requiresAuth: true },
+    component: () => import('@/views/projects/project.vue')
+  },
+  {
     path: '/auth',
     name: 'AuthView',
     meta: { requiresAuth: false },

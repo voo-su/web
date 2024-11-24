@@ -9,7 +9,8 @@ import {
   Loading as IconLoading,
   Search as IconSearch,
   Setting as IconSetting,
-  User as IconUser
+  User as IconUser,
+  Memo as MemoUser
 } from '@element-plus/icons-vue'
 import IconLogo from '@/components/icons/IconLogo.vue'
 import AvatarBox from '@/components/base/BaseAvatarBox.vue'
@@ -46,6 +47,11 @@ const menus = reactive([
     link: '/search',
     icon: markRaw(IconSearch),
     hotspot: false
+  },
+  {
+    link: '/projects',
+    icon: markRaw(MemoUser),
+    hotspot: null
   }
 ])
 
