@@ -21,6 +21,11 @@ const props = defineProps({
     <div class="item">
       <span>Поставлена: <xtime :time="props.task.created_at" /></span>
     </div>
+
+    Постановщик
+    Исполнитель
+    Соисполнители
+    Наблюдатели
   </div>
 </template>
 

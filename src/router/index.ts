@@ -69,16 +69,21 @@ const routes = [
     ]
   },
   {
-    path: '/projects',
-    name: 'ProjectsView',
-    meta: { requiresAuth: true },
-    component: () => import('@/views/projects/index.vue')
-  },
-  {
-    path: '/project/:id',
-    name: 'ProjectView',
-    meta: { requiresAuth: true },
-    component: () => import('@/views/projects/project.vue')
+    path: '/projects/',
+    children: [
+      {
+        path: '',
+        name: 'ProjectsView',
+        meta: { requiresAuth: true },
+        component: () => import('@/views/projects/index.vue')
+      },
+      {
+        path: '/:id/tasks',
+        name: 'ProjectView',
+        meta: { requiresAuth: true },
+        component: () => import('@/views/projects/project.vue')
+      },
+    ]
   },
   {
     path: '/auth',

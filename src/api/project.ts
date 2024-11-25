@@ -13,3 +13,5 @@ export const setProjectTaskMoveApi = (data = {}) => put('/v1/projects/tasks/move
 export const getProjectTaskDetailApi = (data = {}) => get('/v1/projects/tasks/detail', data)
 
 export const getTaskCommentsApi = (data = {}) => get('/v1/projects/tasks/comments', data)
+
+export const createTaskCommentApi = (data = {}) => post('/v1/projects/tasks/comments/create', data)
