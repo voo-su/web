@@ -3,7 +3,7 @@ import { fileFormatSize } from '@/utils/strings'
 import { download } from '@/utils/functions'
 import type { FileExtra } from './types'
 import { Download } from '@element-plus/icons-vue'
-
+import TextMessage from './ItemTextMessage.vue'
 defineProps<{
   extra: FileExtra
   data: any
@@ -12,6 +12,7 @@ defineProps<{
 </script>
 
 <template>
+
   <section class="file-message">
     <div class="main">
       <div class="ext">
@@ -32,6 +33,11 @@ defineProps<{
         </el-button>
       </div>
     </div>
+    <text-message
+      v-if="data.content"
+      :data="data"
+      :extra="extra"
+    />
   </section>
 </template>
 

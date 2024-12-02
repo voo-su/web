@@ -39,7 +39,7 @@ textContent = textReplaceEmoji(textContent)
   padding: 3px;
   color: #333;
   background: #F4F4F7;
-  border-radius: 0 10px 0 10px;
+  border-radius: 0 10px 10px 10px;
 
   &.right {
     border-radius: 10px 0 10px 10px;
