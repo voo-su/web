@@ -135,7 +135,7 @@ export function getVideoImage(file: any) {
 
       canvas.toBlob(function (blob: any) {
         image.file = new File([blob], 'video_image.jpeg', {
-          type: blob.type,
+          type: blob?.type,
           lastModified: Date.now()
         })
         resolve(image)

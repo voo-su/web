@@ -10,27 +10,39 @@ import AppPageHeader from '@/components/app/AppPageHeader.vue'
   </app-page-header>
   <el-main>
     <div class="api-doc">
+      <p>
+        Существуют четыре способа передачи параметров в запросах к API бота:
+      </p>
+      <ul>
+        <li>Строка запроса в URL (URL query string)</li>
+        <li>Формат <code>application/x-www-form-urlencoded</code></li>
+        <li>Формат <code>application/json</code> (за исключением загрузки файлов)</li>
+        <li>Формат <code>multipart/form-data</code> (используется для загрузки файлов)</li>
+      </ul>
+      <p>
+        <span>Все запросы к API бота должны выполняться через HTTPS в следующем формате:</span>
+        <br>
+        <code>https://api.voo.su/bot/{Уникальный токен вашего бота}/METHOD_NAME</code>
+      </p>
+      <span>
+        Например: <code>GET https://api.voo.su/bot/0123456789/group-chats</code>
+      </span>
+      <el-divider/>
 
-      <h2>Получение списка групповых чатов</h2>
-      <h3>Описание</h3>
-      Метод позволяет получить список групповых чатов, в которых бот может отправлять сообщения.
-      <h3>URL</h3>
-      <code>GET https://api.voo.su/bot/{Уникальный токен вашего бота}/group-chats</code>
+      <p>
+        GET
+        <code>group-chats</code>
+      </p>
+      <p>Метод позволяет получить список групповых чатов, в которых бот может отправлять сообщения.</p>
 
       <el-divider/>
 
-      <h2>Отправка сообщения</h2>
-      <h3>Описание</h3>
-      Метод позволяет отправить текстовое сообщение в указанный чат.
-      <h3>URL</h3>
-      <code>POST https://api.voo.su/bot/{Уникальный токен вашего бота}/send/message</code>
-
-      <h4>Тип контента запроса</h4>
-      <ul>
-        <li><strong>Content-Type:</strong> <code>application/x-www-form-urlencoded</code></li>
-      </ul>
-
-      <h4>Параметры тела запроса</h4>
+      <p>
+        POST
+        <code>send/message</code>
+      </p>
+      <p>Метод позволяет отправить текстовое сообщение в указанный чат.</p>
+      <h4>Параметры</h4>
       <ul>
         <li><strong>chat_id</strong> (integer): Уникальный идентификатор чата, в который будет отправлено сообщение.</li>
         <li><strong>text</strong> (string): Содержимое текстового сообщения, которое необходимо отправить в чат.</li>
@@ -38,18 +50,12 @@ import AppPageHeader from '@/components/app/AppPageHeader.vue'
 
       <el-divider/>
 
-      <h2>Отправка фото</h2>
-      <h3>Описание</h3>
-      Метод позволяет отправить фото в указанный чат.
-      <h3>URL</h3>
-      <code>POST https://api.voo.su/bot/{Уникальный токен вашего бота}/send/photo</code>
-
-      <h4>Тип контента запроса</h4>
-      <ul>
-        <li><strong>Content-Type:</strong> <code>multipart/form-data</code></li>
-      </ul>
-
-      <h4>Параметры тела запроса</h4>
+      <p>
+        POST
+        <code>send/photo</code>
+      </p>
+      <p>Метод позволяет отправить фото в указанный чат.</p>
+      <h4>Параметры</h4>
       <ul>
         <li><strong>chat_id</strong> (integer): Уникальный идентификатор чата, в который будет отправлено фото.</li>
         <li><strong>photo</strong> (file): Локальный файл изображения, который будет отправлен.</li>
@@ -58,18 +64,12 @@ import AppPageHeader from '@/components/app/AppPageHeader.vue'
 
       <el-divider/>
 
-      <h2>Отправка видео</h2>
-      <h3>Описание</h3>
-      Метод позволяет отправить видео в указанный чат.
-      <h3>URL</h3>
-      <code>POST https://api.voo.su/bot/{Уникальный токен вашего бота}/send/video</code>
-
-      <h4>Тип контента запроса</h4>
-      <ul>
-        <li><strong>Content-Type:</strong> <code>multipart/form-data</code></li>
-      </ul>
-
-      <h4>Параметры тела запроса</h4>
+      <p>
+        POST
+        <code>send/video</code>
+      </p>
+      <p>Метод позволяет отправить видео в указанный чат.</p>
+      <h4>Параметры</h4>
       <ul>
         <li><strong>chat_id</strong> (integer): Уникальный идентификатор чата, в который будет отправлено видео.</li>
         <li><strong>video</strong> (file): Локальный файл видео, который будет отправлен.</li>
@@ -78,18 +78,12 @@ import AppPageHeader from '@/components/app/AppPageHeader.vue'
 
       <el-divider/>
 
-      <h2>Отправка аудио</h2>
-      <h3>Описание</h3>
-      Метод позволяет отправить аудиофайл в указанный чат.
-      <h3>URL</h3>
-      <code>POST https://api.voo.su/bot/{Уникальный токен вашего бота}/send/audio</code>
-
-      <h4>Тип контента запроса</h4>
-      <ul>
-        <li><strong>Content-Type:</strong> <code>multipart/form-data</code></li>
-      </ul>
-
-      <h4>Параметры тела запроса</h4>
+      <p>
+        POST
+        <code>send/audio</code>
+      </p>
+      <p>Метод позволяет отправить аудиофайл в указанный чат.</p>
+      <h4>Параметры</h4>
       <ul>
         <li><strong>chat_id</strong> (integer): Уникальный идентификатор чата, в который будет отправлено аудио.</li>
         <li><strong>audio</strong> (file): Локальный аудиофайл, который будет отправлен.</li>
@@ -98,24 +92,17 @@ import AppPageHeader from '@/components/app/AppPageHeader.vue'
 
       <el-divider/>
 
-      <h2>Отправка документа</h2>
-      <h3>Описание</h3>
-      Метод позволяет отправить документ (например, PDF, текстовый файл и другие) в указанный чат.
-      <h3>URL</h3>
-      <code>POST https://api.voo.su/bot/{Уникальный токен вашего бота}/send/document</code>
-
-      <h4>Тип контента запроса</h4>
-      <ul>
-        <li><strong>Content-Type:</strong> <code>multipart/form-data</code></li>
-      </ul>
-
-      <h4>Параметры тела запроса</h4>
+      <p>
+        POST
+        <code>send/document</code>
+      </p>
+      <p>Метод позволяет отправить документ (например, PDF, текстовый файл и другие) в указанный чат.</p>
+      <h4>Параметры</h4>
       <ul>
         <li><strong>chat_id</strong> (integer): Уникальный идентификатор чата, в который будет отправлен документ.</li>
         <li><strong>document</strong> (file): Локальный файл документа, который будет отправлен.</li>
         <li><strong>caption</strong> (string, optional): Подпись к документу. Этот параметр необязателен.</li>
       </ul>
-
     </div>
   </el-main>
 </template>
@@ -134,21 +121,24 @@ import AppPageHeader from '@/components/app/AppPageHeader.vue'
   line-height: 1.6;
   padding: 20px;
 
+  h2 {
+    font-size: 20px;
+    margin-top: 32px;
+    margin-bottom: 10px;
+  }
+
+  p {
+    margin: 5px 0;
+  }
+
   code {
     background-color: #f4f4f4;
     padding: 2px 4px;
     border-radius: 4px;
   }
 
-  pre {
-    background-color: #f4f4f4;
-    padding: 10px;
-    border-radius: 4px;
-    overflow-x: auto;
-  }
-
   ul {
-    margin: 10px 0;
+    margin: 5px 0;
     padding-left: 20px;
   }
 }
