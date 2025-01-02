@@ -5,12 +5,14 @@
 import { computed, onMounted, reactive } from 'vue'
 import { confirmVoteHandleApi } from '@/api/message'
 import { useUserStore } from '@/store/user'
+import { useI18n } from 'vue-i18n'
 
 const props = defineProps({
   extra: Object,
   data: Object
 })
 
+const { t } = useI18n()
 const userStore = useUserStore()
 const mode = props.extra.detail.answer_mode
 const state = reactive<any>({
@@ -79,7 +81,7 @@ const onSubmit = () => {
   })
 }
 
-const detail = (detail: any) => detail.answer_anonymous ? 'Анонимный опрос' : 'Опрос'
+const detail = (detail: any) => detail.answer_anonymous ? t('anonymousPoll') : t('poll')
 
 onMounted(() => {
   setOptions(props.extra.detail.answer_option)
@@ -132,14 +134,14 @@ onMounted(() => {
             link
             @click="onSubmit"
           >
-            Проголосовать
+            {{ t('vote') }}
           </el-button>
         </template>
         <div
           v-if="extra.detail.answered_num >= 1 "
           class="num"
         >
-          {{ extra.detail.answered_num + ' голосов' }}
+          {{ t('votesCount', { num: extra.detail.answered_num }) }}
         </div>
       </div>
     </div>

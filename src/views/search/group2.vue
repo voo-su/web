@@ -10,7 +10,9 @@ import GroupLaunch from '@/components/message/group/GroupLaunch.vue'
 import GroupRequestCard from '@/components/message/group/GroupRequestCard.vue'
 import { toDialog } from '@/utils/chat'
 import { useDialogStore, useUserStore } from '@/store'
+import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
 const userStore = useUserStore()
 const dialogStore = useDialogStore()
 const isShowCreateGroupBox = ref<boolean>(false)
@@ -26,12 +28,17 @@ const tabIndex = ref<string>('all')
 
 const { uid } = userStore
 
+interface IItem {
+  group_name: string
+  creator_id: number
+}
+
 const filterCreator = computed(() => {
   return items.value.filter((item: any) => item.creator_id == uid)
 })
 
 const filter: any = computed(() => {
-  return items.value.filter((item: any) => {
+  return items.value.filter((item: IItem) => {
     if (tabIndex.value == 'create' && item.creator_id != uid) {
       return false
     }
@@ -82,31 +89,20 @@ onMounted(() => {
         <el-input
           v-model="keywords"
           :prefix-icon="Search"
-          placeholder="Поиск"
+          :placeholder="t('search')"
         />
         <el-button
           :icon="Plus"
           @click="isShowCreateGroupBox = true"
         />
       </el-space>
-      <!--      <el-tabs v-model="tabIndex">-->
-      <!--        <el-tab-pane name="all">-->
-      <!--          Все группы ({{ items.length }})-->
-      <!--        </el-tab-pane>-->
-      <!--        <el-tab-pane name="create">-->
-      <!--          Группы, которые я создал ({{ filterCreator.length }})-->
-      <!--        </el-tab-pane>-->
-      <!--        <el-tab-pane name="join">-->
-      <!--          Группы, в которые я вступил ({{ items.length - filterCreator.length }})-->
-      <!--        </el-tab-pane>-->
-      <!--      </el-tabs>-->
     </el-header>
     <el-main class="scrollbar p-10">
       <div
         v-if="filter.length == 0"
         class="empty"
       >
-        Ничего не найдено.
+        {{ t('nothingFound') }}
       </div>
       <group-request-card
         v-else

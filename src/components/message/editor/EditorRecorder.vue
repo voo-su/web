@@ -6,9 +6,11 @@ import { onUnmounted, ref } from 'vue'
 import { Close, VideoPlay } from '@element-plus/icons-vue'
 import Recorder from 'js-audio-recorder'
 import { countDownTime } from '@/utils/functions'
+import { useI18n } from 'vue-i18n'
 
 const emit = defineEmits(['close', 'on-submit'])
 
+const { t } = useI18n()
 const isShow = ref<boolean>(true)
 const status = ref<number>(0)
 const animation = ref<boolean>(false)
@@ -28,7 +30,7 @@ const onDestroy = () => {
 
 const onSubmit = () => {
   let blob = recorder.getWAVBlob()
-  let file = new File([blob], 'аудиофайл.wav', {
+  let file = new File([blob], 'audio.wav', {
     type: blob.type,
     lastModified: Date.now()
   })
@@ -67,7 +69,7 @@ onUnmounted(() => {
   <el-dialog
     v-model="isShow"
     :before-close="onCloseClick"
-    title="Запись голоса"
+    :title="t('voiceRecording')"
     width="30%"
   >
     <main class="main-box">
@@ -96,7 +98,7 @@ onUnmounted(() => {
       <div class="tip">
         <p>
           <span v-show="status">
-            {{ status == 1 ? 'Запись' : 'Запись приостановлена' }}
+            {{ status == 1 ? t('recording') : t('recordingPaused') }}
           </span>
           {{ countDownTime(duration) }}
         </p>
@@ -121,14 +123,14 @@ onUnmounted(() => {
           type="primary"
           @click="onStart"
         >
-          Повторная запись
+          {{ t('reRecord') }}
         </el-button>
         <el-button
           v-show="status == 2"
           type="primary"
           @click="onSubmit"
         >
-          Отправить запись
+          {{ t('sendRecording') }}
         </el-button>
       </div>
     </template>

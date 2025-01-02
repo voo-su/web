@@ -22,6 +22,7 @@ import IconTwoCheck from '@/components/icons/IconTwoCheck.vue'
 import { publisher } from '@/utils/publisher'
 import ItemRevokeMessage from '@/components/message/message/item/ItemRevokeMessage.vue'
 import { ElMessage } from 'element-plus'
+import { useI18n } from 'vue-i18n'
 
 const props = defineProps({
   uid: {
@@ -47,6 +48,7 @@ const {
   showDropdownMenu,
   closeDropdownMenu
 } = useMenu()
+const { t } = useI18n()
 const user: any = inject('$user')
 const dialogueStore = useDialogueStore()
 const records = computed(() => dialogueStore.records)
@@ -215,10 +217,10 @@ const onDownloadFile = (data: any) => {
   }
 
   if (data.msg_type == 4) {
-    return ElMessage.info('Загрузка аудиофайлов в настоящее время не поддерживается')
+    return ElMessage.info(t('audioUploadNotSupported'))
   }
 
-  return ElMessage.info('Загрузка видеофайлов в настоящее время не поддерживается')
+  return ElMessage.info(t('videoUploadNotSupported'))
 }
 
 const onQuoteMessage = (data: any) => {
@@ -235,37 +237,37 @@ const onQuoteMessage = (data: any) => {
       item.description = data.content
       break
     case 2:
-      item.description = 'Сообщение с кодом'
+      item.description = t('code')
       break
     case 3:
       item.image = data.extra.url
       break
     case 4:
-      item.description = 'Аудиозапись'
+      item.description = t('audioRecording')
       break
     case 5:
-      item.description = 'Видео'
+      item.description = t('video')
       break
     case 6:
-      item.description = 'Другой тип файла'
+      item.description = t('unknownMessageType')
       break
     case 7:
-      item.description = 'Сообщение о местоположении'
+      item.description = t('location')
       break
     case 8:
-      item.description = 'Сообщение с контактной информацией'
+      item.description = t('card')
       break
     case 9:
-      item.description = 'Пересланное сообщение'
+      item.description = t('forwardedMessage')
       break
     case 10:
-      item.description = 'Сообщение о входе'
+      item.description = t('loginNotification')
       break
     case 11:
-      item.description = 'Опрос'
+      item.description = t('poll')
       break
     case 12:
-      item.description = 'Изображения'
+      item.description = t('photo')
       break
   }
 
@@ -284,7 +286,6 @@ const onContextMenu = (e: any, item: any) => {
     return e.preventDefault()
   }
 
-  // Добавляем выделенный текст в объект item
   item.selectedText = window.getSelection().toString()
 
   showDropdownMenu(e, props.uid, item)
@@ -343,7 +344,7 @@ const onJumpMessage = (msgid: string) => {
 
       if (locationMessage.num === 0) {
         locationMessage = null
-        ElMessage.info('Только последние 300 записей доступны для просмотра.')
+        ElMessage.info(t('viewLimitRecords'))
         return
       }
     }
@@ -382,7 +383,7 @@ const onRowClick = (item: any) => {
     if (forwardableMessageType.includes(item.msg_type)) {
       item.isCheck = !item.isCheck
     } else {
-      ElMessage.info('Этот тип сообщения не поддерживает пересылку')
+      ElMessage.info(t('messageForwardingNotSupported'))
     }
   }
 }
@@ -400,12 +401,12 @@ onMounted(onReload)
       @scroll="onPanelScroll($event)"
     >
       <div class="load">
-        <span v-if="loadConfig.status == 0">Загрузка данных...</span>
+        <span v-if="loadConfig.status == 0">{{ t('loadingData') }}</span>
         <span
           v-else-if="loadConfig.status == 1"
           @click="onLoadDialog"
         >
-          Еще
+          {{ t('more') }}
         </span>
       </div>
       <div
@@ -518,7 +519,7 @@ onMounted(onReload)
                 >
                   <icon-loading />
                 </el-icon>
-                <span v-show="item.send_status == 1">Отправка...</span>
+                <span v-show="item.send_status == 1">{{ t('sending') }}</span>
                 <span v-show="item.send_status != 1">
                   <icon-one-check v-if="item.is_read" />
                   <icon-two-check v-else />

@@ -1,6 +1,10 @@
 // Copyright (c) 2025 Magomedcoder <info@magomedcoder.ru>
 // Distributed under the GPL v3 License, see https://github.com/voo-su/web/blob/main/LICENSE
 
+import { i18n } from '@/utils/i18n'
+
+const t = i18n()
+
 const cache = new Set()
 
 interface IConfig {
@@ -17,14 +21,15 @@ interface IConfig {
   }
 }
 
+interface IOnConnect {
+  ping_interval: number
+  ping_timeout: number
+}
+
 class Ws {
-
   connect: any = null
-
   urlCallBack: any
-
   events: any
-
   config: IConfig = {
     heartbeat: {
       setInterval: null,
@@ -38,9 +43,7 @@ class Ws {
       number: 10000000
     }
   }
-
   lastTime: number = 0
-
   onCallBacks: any = []
 
   defaultEvent = {
@@ -52,7 +55,7 @@ class Ws {
   constructor(urlCallBack: any, events: any) {
     this.urlCallBack = urlCallBack
     this.events = Object.assign({}, this.defaultEvent, events)
-    this.on('connect', (data: any) => {
+    this.on('connect', (data: IOnConnect) => {
       this.config.heartbeat.pingInterval = data.ping_interval * 1000
       this.config.heartbeat.pingTimeout = data.ping_timeout * 1000
       this.heartbeat()
@@ -84,7 +87,7 @@ class Ws {
 
     this.config.reconnect.setTimeout = setTimeout(() => {
       this.connection()
-      console.log('Соединение с сетью разорвано, попытка повторного подключения...')
+      console.log(t('networkDisconnected'))
     }, this.config.reconnect.time)
   }
 
@@ -133,7 +136,7 @@ class Ws {
     if (Object.prototype.hasOwnProperty.call(this.onCallBacks, result.event)) {
       this.onCallBacks[result.event](result.data, result.orginData)
     } else {
-      console.warn(`Событие сообщения WebSocket ${result.event} не привязано...`)
+      console.warn(t('websocketEventNotBound', { event:  result.event}))
     }
   }
 
@@ -177,7 +180,7 @@ class Ws {
     if (this.connect && this.connect.readyState === 1) {
       this.connect.send(content)
     } else {
-      console.error('Соединение веб-сокет закрыто', this.connect)
+      console.error(t('websocketConnectionClosed'), this.connect)
     }
   }
 }

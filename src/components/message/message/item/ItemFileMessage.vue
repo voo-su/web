@@ -4,14 +4,18 @@
 
 import { fileFormatSize } from '@/utils/strings'
 import { download } from '@/utils/functions'
-import type { FileExtra } from './types'
+import type { IFileExtra } from './types'
 import { Download } from '@element-plus/icons-vue'
 import TextMessage from './ItemTextMessage.vue'
+import { useI18n } from 'vue-i18n'
+
 defineProps<{
-  extra: FileExtra
+  extra: IFileExtra
   data: any
   maxWidth: Boolean
 }>()
+
+const { t } = useI18n()
 </script>
 
 <template>
@@ -32,7 +36,7 @@ defineProps<{
           :icon="Download"
           @click="download(data.id)"
         >
-          <span class="size">Скачать ({{ fileFormatSize(extra.size) }})</span>
+          <span class="size">{{ t('download') }} ({{ fileFormatSize(extra.size) }})</span>
         </el-button>
       </div>
     </div>

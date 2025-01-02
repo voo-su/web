@@ -12,7 +12,9 @@ import { toDialog } from '@/utils/chat'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
 import { ElMessage } from 'element-plus'
 import AppPageHeader from '@/components/app/AppPageHeader.vue'
+import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
 const emit = defineEmits(['join'])
 
 const loading = ref<boolean>(false)
@@ -83,7 +85,7 @@ const onJoin = (item: any) => {
     .then((res: any) => {
       const { code } = res
       if (code == 200) {
-        ElMessage.success('Заявка на вступление в группу успешно отправлена')
+        ElMessage.success(t('groupJoinRequestSent'))
       } else {
         ElMessage.warning(res.message)
       }
@@ -108,7 +110,7 @@ onLoadData()
           <el-input
             :on-input="onSearchInput"
             :prefix-icon="Search"
-            placeholder="Поиск"
+            :placeholder="t('search')"
           />
         </template>
       </app-page-header>
@@ -117,7 +119,7 @@ onLoadData()
           v-if="items.length == 0"
           class="empty"
         >
-          Ничего не найдено.
+          {{ t('nothingFound') }}
         </div>
         <div v-else class="items">
           <group-request-card

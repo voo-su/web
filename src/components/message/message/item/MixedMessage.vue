@@ -4,12 +4,12 @@
 
 import { textReplaceEmoji } from '@/utils/emojis'
 import { textReplaceLink } from '@/utils/strings'
-import type { Data, MixedExtra } from './types'
+import type { IData, IMixedExtra } from './types'
 import { getImageInfo } from '@/utils/functions'
 
 const props = defineProps<{
-  extra: MixedExtra
-  data: Data
+  extra: IMixedExtra
+  data: IData
   maxWidth: Boolean
 }>()
 

@@ -5,12 +5,14 @@
 import { reactive, ref } from 'vue'
 import { VideoPause, VideoPlay } from '@element-plus/icons-vue'
 import { useAVWaveform } from 'vue-audio-visual'
+import { useI18n } from 'vue-i18n'
 
 const props = defineProps({
   extra: Object,
   data: Object
 })
 
+const { t } = useI18n()
 const audioRef = ref<any>(null)
 const canvas = ref<any>(null)
 const durationDesc = ref<any>(null)
@@ -59,7 +61,7 @@ const onCanplay = () => {
 }
 
 const onError = (e: any) => {
-  console.log('проблемы с воспроизведением аудио', e)
+  console.log(t('audioPlaybackIssues'), e)
 }
 
 const onTimeUpdate = () => {

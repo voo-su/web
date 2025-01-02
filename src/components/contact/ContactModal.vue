@@ -6,9 +6,11 @@ import { computed, ref } from 'vue'
 import { Delete, Search } from '@element-plus/icons-vue'
 import { defAvatar } from '@/constants/default.js'
 import { getContactListApi } from '@/api/contact'
+import { useI18n } from 'vue-i18n'
 
 const emit = defineEmits(['update:modelValue', 'close', 'on-submit'])
 
+const { t } = useI18n()
 const isShowBox = ref<boolean>(true)
 const items = ref<any>([])
 const keywords = ref<string>('')
@@ -73,7 +75,7 @@ onLoad()
   <el-dialog
     v-model="isShowBox"
     :before-close="onCloseClick"
-    title="Выберите контакт"
+    :title="t('selectContact')"
     width="50%"
   >
     <el-container class="launch-box">
@@ -85,7 +87,7 @@ onLoad()
             <el-input
               v-model="keywords"
               :prefix-icon="Search"
-              placeholder="Поиск"
+              :placeholder="t('search')"
             />
           </el-header>
           <el-main class="hidden">
@@ -127,7 +129,7 @@ onLoad()
             style="height: 50px"
           >
             <el-divider>
-              Выбрано ({{ checkedFilter.length }})
+              {{ t('selected') }} ({{ checkedFilter.length }})
             </el-divider>
           </el-header>
           <el-main class="hidden">
@@ -164,7 +166,7 @@ onLoad()
         <el-button
           @click="isShowBox = false"
         >
-          Отмена
+          {{ t('cancelAction') }}
         </el-button>
         <el-button
           :disabled="isCanSubmit"
@@ -172,7 +174,7 @@ onLoad()
           type="primary"
           @click="onSubmit"
         >
-          Ок
+          {{ t('ok') }}
         </el-button>
       </div>
     </template>

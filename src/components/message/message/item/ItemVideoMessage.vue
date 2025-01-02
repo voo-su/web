@@ -7,19 +7,18 @@ import { nextTick, ref, computed } from 'vue'
 import { getImageInfo, type IImageInfo } from '@/utils/functions'
 import Player, { I18N } from 'xgplayer'
 import { VideoPlay } from '@element-plus/icons-vue'
-import type { Data, VideoExtra } from './types'
+import type { IData, IVideoExtra } from './types'
 import { useI18n } from 'vue-i18n'
+
 const { t } = useI18n()
-
 const { locale, messages } = useI18n()
-
 const xgplayer = computed(() => messages.value[locale.value].xgplayer)
 
 I18N.use(xgplayer.value)
 
 const props = defineProps<{
-  extra: VideoExtra
-  data: Data
+  extra: IVideoExtra
+  data: IData
   maxWidth: boolean
 }>()
 
@@ -68,7 +67,6 @@ const onPlay = async () => {
 <template>
   <section
     :class="{ left: data.float === 'left' }"
-
     class="message-video"
   >
     <div

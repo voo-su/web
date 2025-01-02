@@ -6,6 +6,7 @@ import { reactive, ref } from 'vue'
 import { editGroupAdsApi } from '@/api/group-chat'
 import { ElMessage } from 'element-plus'
 import type { FormInstance, FormRules } from 'element-plus'
+import { useI18n } from 'vue-i18n'
 
 const props = defineProps({
   id: {
@@ -28,7 +29,8 @@ const props = defineProps({
 
 const emit = defineEmits(['close', 'success'])
 
-const titleModal = ref<string>(props.id == 0 ? 'Опубликовать объявление группы' : 'Редактировать объявление группы')
+const { t } = useI18n()
+const titleModal = ref<string>(props.id == 0 ? t('publishGroupAnnouncement') : t('editGroupAnnouncement'))
 const isShow = ref<boolean>(true)
 const loading = ref<boolean>(false)
 const formRef = ref<FormInstance>()
@@ -36,11 +38,11 @@ const formRef = ref<FormInstance>()
 const rules = reactive<FormRules>({
   title: {
     required: true,
-    message: 'Поле "Заголовок" не должно быть пустым'
+    message: t('titleFieldRequired')
   },
   content: {
     required: true,
-    message: 'Поле "Содержание" не должно быть пустым'
+    message: t('contentFieldRequired')
   }
 })
 
@@ -74,7 +76,7 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
         .then((res: any) => {
           const { code } = res
           if (code == 200) {
-            ElMessage.success('Успешно')
+            ElMessage.success(t('success'))
             emit('success')
           } else {
             ElMessage.warning(res.message)
@@ -102,22 +104,22 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
         label-position="top"
       >
         <el-form-item
-          label="Заголовок"
+          :label="t('title')"
           prop="title"
         >
           <el-input
             v-model="form.title"
-            placeholder="Введите заголовок"
+            :placeholder="t('enterTitle')"
           />
         </el-form-item>
         <el-form-item
-          label="Содержание"
+          :label="t('content')"
           prop="content"
         >
           <el-input
             v-model="form.content"
             :autosize="{ minRows: 5, maxRows: 10 }"
-            placeholder="Введите содержание"
+            :placeholder="t('enterContent')"
             type="textarea"
           />
         </el-form-item>
@@ -126,7 +128,7 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
     <template #footer>
       <div class="footer">
         <el-button @click="onCloseClick">
-          Отмена
+          {{ t('cancelAction') }}
         </el-button>
         <el-button
           :loading="loading"
@@ -134,7 +136,7 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
           type="primary"
           @click="onSubmit(formRef)"
         >
-          Сохранить
+          {{ t('save') }}
         </el-button>
       </div>
     </template>

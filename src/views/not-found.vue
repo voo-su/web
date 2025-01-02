@@ -1,14 +1,20 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+// Copyright (c) 2025 Magomedcoder <info@magomedcoder.ru>
+// Distributed under the GPL v3 License, see https://github.com/voo-su/web/blob/main/LICENSE
+
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
+</script>
 
 <template>
   <div class="page-not-found">
     <h1>404</h1>
-    <p>Страница не найдена</p>
+    <p>{{ t('pageNotFound') }}</p>
     <el-link
       href="/"
       type="primary"
     >
-      Вернуться на главную страницу
+      {{ t('goBackHome') }}
     </el-link>
   </div>
 </template>

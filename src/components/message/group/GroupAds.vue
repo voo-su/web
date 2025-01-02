@@ -6,16 +6,19 @@ import { reactive, ref } from 'vue'
 import { ArrowDown, ArrowUp } from '@element-plus/icons-vue'
 import Loading from '@/components/base/BaseLoading.vue'
 import { getGroupAdsApi } from '@/api/group-chat'
+import { useI18n } from 'vue-i18n'
 
-const emit = defineEmits(['close'])
 const props = defineProps({
   groupId: {
     type: Number,
     default: 0
   }
 })
+const emit = defineEmits(['close'])
+
+const { t } = useI18n()
 const isShow = ref<boolean>(true)
-const title = ref<string>('Объявление о группе')
+const title = ref<string>(t('groupAnnouncement'))
 
 const state = reactive<any>({
   loading: false,
@@ -39,7 +42,7 @@ const onLoadData = () => {
           item.isShow = false
         })
         state.items = items
-        title.value = `Объявление о группе (${state.items.length})`
+        title.value = t('groupAnnouncementCount', { length:state.items.length })
       }
       state.loading = false
     })
@@ -61,11 +64,9 @@ onLoadData()
     >
       <loading />
     </div>
-    <div
-      v-else-if="state.items.length === 0"
-    >
+    <div v-else-if="state.items.length === 0">
       <div class="empty">
-        Ничего не найдено.
+        {{ t('nothingFound') }}
       </div>
     </div>
     <div
@@ -86,7 +87,7 @@ onLoadData()
             :src="item.avatar"
           />
           <span class="username text-ellipsis">{{ item.username }}</span>
-          <span class="datetime">Опубликовано  {{ item.created_at }}</span>
+          <span class="datetime">{{ t('publishedAt', { created_at:item.created_at }) }}</span>
           <span
             class="btn"
             @click="item.isShow = !item.isShow"
@@ -94,14 +95,13 @@ onLoadData()
             <el-icon :size="20">
               <component :is="item.isShow ? ArrowUp : ArrowDown" />
             </el-icon>
-            {{ item.isShow ? 'Свернуть' : 'Развернуть' }}
+            {{ item.isShow ? t('collapse') : t('expand') }}
           </span>
         </div>
         <div
           v-show="item.isShow"
           class="detail"
         >
-          <span>#подробности#</span>
           {{ item.content }}
         </div>
       </div>

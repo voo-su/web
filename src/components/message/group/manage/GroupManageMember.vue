@@ -18,7 +18,6 @@ import ContextMenu from '@/components/base/BaseContextMenu.vue'
 import { ElMessageBox } from 'element-plus'
 import { ElDialog } from 'element-plus'
 import { ElMessage } from 'element-plus'
-
 import {
   getGroupMembersApi,
   groupAssignAdminApi,
@@ -27,6 +26,7 @@ import {
   removeMembersGroupApi
 } from '@/api/group-chat'
 import { renderIcon } from '@/utils/functions'
+import { useI18n } from 'vue-i18n'
 
 const props = defineProps({
   id: {
@@ -36,8 +36,8 @@ const props = defineProps({
 })
 const emit = defineEmits(['close'])
 
+const { t } = useI18n()
 const user: any = inject('$user')
-
 const userStore = useUserStore()
 const isGroupLaunch = ref<boolean>(false)
 const keywords = ref<string>('')
@@ -94,24 +94,7 @@ const onDelete = (item: any) => {
   }).then((res: any) => {
     if (res.code == 200) {
       onLoadData()
-      ElMessage.success('Успешно удален')
-    }
-  })
-}
-
-const onBatchDelete = () => {
-  if (!filterCheck.value.length) {
-    return
-  }
-
-  removeMembersGroupApi({
-    group_id: props.id,
-    members_ids: filterCheck.value.map((item: any) => item.user_id).join(',')
-  }).then((res: any) => {
-    if (res.code == 200) {
-      batchDelete.value = false
-      onLoadData()
-      ElMessage.success('Успешно удален')
+      ElMessage.success(t('successfullyDeleted') )
     }
   })
 }
@@ -127,22 +110,17 @@ const onRowClick = (item: any) => {
   }
 }
 
-const onCancelDelete = () => {
-  items.value.forEach((item: any) => {
-    item.is_delete = false
-  })
-  batchDelete.value = false
-}
-
 const onUserInfo = (item: any) => user(item.user_id)
 
 const onAssignAdmin = (item: any) => {
-  let title = item.leader == 0
-    ? `Вы уверены, что хотите назначить ${item.username} администратором ?`
-    : `Вы уверены, что хотите снять администраторские права с ${item.username} ?`
-  ElMessageBox.confirm(title, '', {
-    confirmButtonText: 'Назначить',
-    cancelButtonText: 'Отмена',
+  ElMessageBox.confirm(
+    item.leader == 0
+      ? t('confirmAssignAdmin', { username:item.username })
+      : t('confirmRemoveAdmin', { username:item.username }),
+    '',
+    {
+    confirmButtonText: t('assignAdminRights'),
+    cancelButtonText: t('cancelAction'),
     type: 'warning'
   })
     .then(() => {
@@ -154,62 +132,13 @@ const onAssignAdmin = (item: any) => {
         .then((res: any) => {
           const { code, message } = res
           if (code == 200) {
-            ElMessage.success('Успешно')
+            ElMessage.success(t('success'))
             onLoadData()
           } else {
             ElMessage.error(message)
           }
         })
     }).catch(() => {})
-}
-
-const onTransfer = (item: any) => {
-  ElDialog.create({
-    title: 'Подсказка',
-    content: `Вы уверены, что хотите передать права группы пользователю ${item.username} ?`,
-    positiveText: 'Ок',
-    negativeText: 'Отмена',
-    onPositiveClick: () => {
-      groupHandoverApi({
-        group_id: props.id,
-        user_id: parseInt(item.user_id)
-      }).then((res: any) => {
-        if (res.code == 200) {
-          ElMessage.success('Операция выполнена успешно')
-          onLoadData()
-        } else {
-          ElMessage.error(res.message)
-        }
-      })
-    }
-  })
-}
-
-const onForbidden = (item: any) => {
-  let content = `Вы уверены, что хотите запретить говорить пользователю ${item.username} ?`
-  if (item.is_mute === 1) {
-    content = `Вы уверены, что хотите снять запрет на говорение у пользователя ${item.username} ?`
-  }
-  ElDialog.create({
-    title: 'Советы',
-    content: content,
-    positiveText: 'Ок',
-    negativeText: 'Отмена',
-    onPositiveClick: () => {
-      groupNoSpeakApi({
-        mode: item.is_mute == 0 ? 1 : 2,
-        group_id: props.id,
-        user_id: parseInt(item.user_id)
-      }).then((res: any) => {
-        if (res.code == 200) {
-          ElMessage.success('Операция выполнена успешно')
-          onLoadData()
-        } else {
-          ElMessage.error(res.message)
-        }
-      })
-    }
-  })
 }
 
 const onContextMenu = (e: any, item: any) => {
@@ -220,43 +149,30 @@ const onContextMenu = (e: any, item: any) => {
   dropdown.item = Object.assign({}, item)
   dropdown.options = [
     {
-      label: 'Информация',
+      label: t('info'),
       icon: renderIcon(Postcard),
       key: 'info'
     }
 
-    // {
-    //   label: item.is_mute ? 'Разрешить говорить' : 'Запретить говорить',
-    //   key: 'forbidden'
-    // },
-    // {
-    //   label: 'Удалить',
-    //   key: 'batch_delete'
-    // }
   ]
 
   if (isAdmin.value) {
     if (item.leader == 1) {
       dropdown.options.push({
-        label: 'Снять права админа',
+        label: t('removeAdminRights'),
         icon: renderIcon(UnlockIcon),
         key: 'assignment'
       })
     } else if (item.leader == 0) {
       dropdown.options.push({
-        label: 'Назначить права админа',
+        label: t('assignAdminRights'),
         icon: renderIcon(LockIcon),
         key: 'assignment'
       })
     }
 
-    //   dropdown.options.push({
-    //     label: 'Передать права группы',
-    //     key: 'transfer'
-    //   })
-
     dropdown.options.push({
-      label: 'Удалить из группы',
+      label: t('leaveGroup'),
       icon: renderIcon(RemoveIcon),
       key: 'delete'
     })
@@ -276,11 +192,6 @@ const onContextMenuHandle = (key: string) => {
     info: onUserInfo,
     delete: onDelete,
     assignment: onAssignAdmin
-    // transfer: onTransfer,
-    // forbidden: onForbidden,
-    // batch_delete: (data: any) => {
-    //   batchDelete.value = true
-    // }
   }
   dropdown.show = false
   events[key] && events[key](dropdown.item)
@@ -292,13 +203,13 @@ onLoadData()
 <template>
   <el-container class="section is-vertical h-100">
     <el-header class="header ">
-      <p>Участники ({{ filterSearch.length }})</p>
+      <p>{{ t('groupParticipants') }} ({{ filterSearch.length }})</p>
       <div>
         <el-space>
           <el-input
             v-model="keywords"
             :prefix-icon="Search"
-            placeholder="Поиск"
+            :placeholder="t('search')"
           />
           <el-button
             :icon="Plus"
@@ -312,7 +223,7 @@ onLoadData()
         v-if="filterSearch.length === 0"
         class="empty"
       >
-        Ничего не найдено.
+        {{ t('nothingFound') }}
       </div>
       <div
         v-else
@@ -320,25 +231,6 @@ onLoadData()
         :key="member.user_id"
         class="item-card"
       >
-        <!--        <div-->
-        <!--          v-show="batchDelete"-->
-        <!--          class="flex-center"-->
-        <!--        >-->
-        <!--          <el-checkbox-->
-        <!--            v-show="member.leader < 2"-->
-        <!--            :checked="member.is_delete"-->
-        <!--            size="small"-->
-        <!--          />-->
-        <!--        </div>-->
-        <!--        <div-->
-        <!--          class="avatar"-->
-        <!--          @click="onUserInfo(member)"-->
-        <!--        >-->
-        <!--          <el-avatar-->
-        <!--            :size="30"-->
-        <!--            :src="member.avatar || defAvatar"-->
-        <!--          />-->
-        <!--        </div>-->
         <div class="left-item">
           <avatar-box
             :avatar="member.avatar"
@@ -361,57 +253,18 @@ onLoadData()
               v-if="member.leader === 2"
               class="member-type"
             >
-              Владелец
+              {{ t('owner') }}
             </span>
             <span
               v-show="member.leader == 1"
               class="member-type"
             >
-              Админ
+              {{ t('admin') }}
             </span>
-            <!--              <span-->
-            <!--                v-show="member.is_mute == 1"-->
-            <!--                class="badge"-->
-            <!--              >Запрещено говорить</span>-->
           </div>
-
-          <!--          <div class="tool">-->
-          <!--            <el-button-->
-          <!--              :icon="MoreIcon"-->
-          <!--              link-->
-          <!--            />-->
-          <!--          </div>-->
-          <!--          <div class="item-text text-ellipsis">-->
-          <!--            {{ member.about }}-->
-          <!--          </div>-->
         </div>
       </div>
     </el-main>
-    <!--    <el-footer-->
-    <!--      v-show="batchDelete"-->
-    <!--    >-->
-    <!--      <div class="tips">-->
-    <!--        Выбрано ({{ filterCheck.length }})-->
-    <!--      </div>-->
-    <!--      <div>-->
-    <!--        <el-space>-->
-    <!--          <el-button-->
-    <!--            size="small"-->
-    <!--            type="primary"-->
-    <!--            @click="onCancelDelete"-->
-    <!--          >-->
-    <!--            Отмена-->
-    <!--          </el-button>-->
-    <!--          <el-button-->
-    <!--            size="small"-->
-    <!--            type="error"-->
-    <!--            @click="onBatchDelete"-->
-    <!--          >-->
-    <!--            Массовое удаление-->
-    <!--          </el-button>-->
-    <!--        </el-space>-->
-    <!--      </div>-->
-    <!--    </el-footer>-->
   </el-container>
   <context-menu
     v-if="dropdown.show"

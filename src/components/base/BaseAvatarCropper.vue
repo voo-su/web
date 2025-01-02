@@ -7,9 +7,11 @@ import { VueCropper } from 'vue-cropper'
 import 'vue-cropper/dist/index.css'
 import { uploadAvatarApi } from '@/api/upload'
 import { ElMessage } from 'element-plus'
+import { useI18n } from 'vue-i18n'
 
 const emit = defineEmits(['close', 'success'])
 
+const { t } = useI18n()
 const state = reactive<any>({
   show: true,
   src: ''
@@ -111,9 +113,9 @@ const onOpen = async () => {
     <template #default>
       <div class="container">
         <div class="description">
-          Выбранная область будет показываться на вашей странице.
+          {{ t('selectedAreaTip') }}
           <br>
-          Если изображение ориентировано неправильно, фотографию можно повернуть.
+          {{ t('rotateImageTip') }}
         </div>
         <div class="content">
           <div class="canvas">
@@ -162,14 +164,14 @@ const onOpen = async () => {
                 type="primary"
                 @click="onSubmit"
               >
-                Сохранить
+                {{ t('save') }}
               </el-button>
               <el-button
                 v-else
                 type="primary"
                 @click="onTriggerUpload"
               >
-                Выбрать файл
+                {{ t('selectFile') }}
               </el-button>
               <el-button
                 v-if="option.preview.length !== 0"
@@ -177,7 +179,7 @@ const onOpen = async () => {
                 type="info"
                 @click="onTriggerUpload"
               >
-                Выбрать файл
+                {{ t('selectFile') }}
               </el-button>
             </div>
           </div>

@@ -1,6 +1,10 @@
 // Copyright (c) 2025 Magomedcoder <info@magomedcoder.ru>
 // Distributed under the GPL v3 License, see https://github.com/voo-su/web/blob/main/LICENSE
 
+import { i18n } from '@/utils/i18n'
+
+const t = i18n()
+
 export const chatMsgTypeText: number = 1
 export const chatMsgTypeCode: number = 2
 export const chatMsgTypeImage: number = 3
@@ -29,30 +33,30 @@ export const chatMsgSysGroupAds: number = 1111
 export const chatMsgSysGroupTransfer: number = 1113
 
 export const chatMsgTypeMapping = {
-  [chatMsgTypeText]: 'Сообщение',
-  [chatMsgTypeImage]: 'Фотография',
-  [chatMsgTypeAudio]: 'Аудиозапись',
-  [chatMsgTypeVideo]: 'Видео',
-  [chatMsgTypeFile]: 'Файл',
-  [chatMsgTypeLocation]: 'Местоположение',
-  [chatMsgTypeCard]: 'Карточка',
-  [chatMsgTypeForward]: 'Пересланное сообщение',
-  [chatMsgTypeLogin]: 'Уведомление о входе в систему',
-  [chatMsgTypeVote]: 'Опрос',
-  [chatMsgTypeCode]: 'Код',
-  [chatMsgTypeMixed]: 'Фотографии',
-  [chatMsgSysText]: 'Системное сообщение',
-  [chatMsgSysGroupCreate]: 'Создание группы',
-  [chatMsgSysGroupMemberJoin]: 'Присоединение к группе',
-  [chatMsgSysGroupMemberQuit]: 'Выход из группы',
-  [chatMsgSysGroupMemberKicked]: 'Исключение из группы',
-  [chatMsgSysGroupMessageRevoke]: 'Отзыв сообщения',
-  [chatMsgSysGroupDismissed]: 'Роспуск группы',
-  [chatMsgSysGroupMuted]: 'Отключение уведомлений в группе',
-  [chatMsgSysGroupCancelMuted]: 'Включение уведомлений в группе',
-  [chatMsgSysGroupMemberMuted]: 'Отключение уведомлений для участника группы',
-  [chatMsgSysGroupMemberCancelMuted]: 'Включение уведомлений для участника группы',
-  [chatMsgSysGroupAds]: 'Объявление в группе'
+  [chatMsgTypeText]: t('message'),
+  [chatMsgTypeImage]: t('photo'),
+  [chatMsgTypeAudio]: t('audioRecording'),
+  [chatMsgTypeVideo]: t('video'),
+  [chatMsgTypeFile]: t('file'),
+  [chatMsgTypeLocation]: t('location'),
+  [chatMsgTypeCard]: t('card'),
+  [chatMsgTypeForward]: t('forwardedMessage'),
+  [chatMsgTypeLogin]: t('loginNotification'),
+  [chatMsgTypeVote]: t('poll'),
+  [chatMsgTypeCode]: t('code'),
+  [chatMsgTypeMixed]: t('photos'),
+  [chatMsgSysText]: t('systemMessage'),
+  [chatMsgSysGroupCreate]: t('groupCreation'),
+  [chatMsgSysGroupMemberJoin]: t('groupJoin'),
+  [chatMsgSysGroupMemberQuit]: t('groupLeave'),
+  [chatMsgSysGroupMemberKicked]: t('groupExclusion'),
+  [chatMsgSysGroupMessageRevoke]: t('messageRevoke'),
+  [chatMsgSysGroupDismissed]: t('groupDissolution'),
+  [chatMsgSysGroupMuted]: t('groupNotificationsOff'),
+  [chatMsgSysGroupCancelMuted]: t('groupNotificationsOn'),
+  [chatMsgSysGroupMemberMuted]: t('memberNotificationsOff'),
+  [chatMsgSysGroupMemberCancelMuted]: t('memberNotificationsOn'),
+  [chatMsgSysGroupAds]: t('groupAnnouncement')
 }
 
 export const messageComponents = {

@@ -11,6 +11,7 @@ import { ElMessageBox } from 'element-plus'
 import AvatarBox from '@/components/base/BaseAvatarBox.vue'
 import GroupLaunch from './GroupLaunch.vue'
 import { ElMessage } from 'element-plus'
+import { useI18n } from 'vue-i18n'
 
 const userStore = useUserStore()
 
@@ -23,18 +24,11 @@ const props = defineProps({
 
 const emit = defineEmits(['close', 'to-chat'])
 
+const { t } = useI18n()
 const user: any = inject('$user')
-
-watch(props, () => {
-  loadDetail()
-  loadMembers()
-})
-
 const activeName = ref<string>('info')
-
 const isShow = ref<boolean>(true)
-
-const editCardPopover = ref<boolean>(false)
+// const editCardPopover = ref<boolean>(false)
 const isShowGroup = ref<boolean>(false)
 const isShowManage = ref<boolean>(false)
 const state = reactive<any>({
@@ -110,11 +104,11 @@ const loadMembers = () => {
 
 const onSignOut = () => {
   ElMessageBox.confirm(
-    'Вы уверены, что хотите выйти из группы?',
-    'Выйти из группы',
+    t('confirmLeaveGroup'),
+    t('leaveGroup'),
     {
-      confirmButtonText: 'Выйти',
-      cancelButtonText: 'Отмена',
+      confirmButtonText: t('logout'),
+      cancelButtonText: t('cancelAction'),
       type: 'warning'
     }
   )
@@ -124,7 +118,7 @@ const onSignOut = () => {
       })
         .then((res: any) => {
           if (res.code == 200) {
-            ElMessage.success('Вы успешно покинули группу')
+            ElMessage.success(t('leftGroupSuccess'))
             onClose()
           } else {
             ElMessage.error(res.message)
@@ -143,13 +137,18 @@ const onSignOut = () => {
 //     if (code == 200) {
 //       editCardPopover.value.setShow(false)
 //       state.detail.visit_card = state.remark
-//       ElMessage.success('Имя карточки группы успешно обновлено')
+//       ElMessage.success(t('groupNameUpdated'))
 //       loadMembers()
 //     } else {
 //       ElMessage.error(message)
 //     }
 //   })
 // }
+
+watch(props, () => {
+  loadDetail()
+  loadMembers()
+})
 
 loadDetail()
 loadMembers()
@@ -167,7 +166,7 @@ loadMembers()
         :id="titleId"
         :class="titleClass"
       >
-        Информация о группе
+        {{ t('groupInfo') }}
       </h4>
       <div class="module__after">
         <el-button
@@ -181,7 +180,7 @@ loadMembers()
     </template>
     <el-tabs v-model="activeName">
       <el-tab-pane
-        label="Информация о группе"
+        :label="t('groupInfo')"
         name="info"
       >
         <el-header>
@@ -193,85 +192,23 @@ loadMembers()
           />
         </el-header>
         <div class="info-box">
-          <!--            <div class="item-card">-->
-          <!--              <div class="block">-->
-          <!--                <el-button-->
-          <!--                  :icon="Comment"-->
-          <!--                  @click="emit('to-chat')"-->
-          <!--                />-->
-          <!--              </div>-->
-          <!--            </div>-->
           <div class="item-card">
             <div class="block">
               <div class="title">
-                Название группы
+                {{ t('groupName') }}
               </div>
             </div>
             <div class="description">
               {{ state.detail.name }}
             </div>
           </div>
-          <!--            <div class="item-card">-->
-          <!--              <div class="block">-->
-          <!--                <div class="title">-->
-          <!--                  Карточка группы：-->
-          <!--                </div>-->
-          <!--                <div class="text">-->
-          <!--                  <el-popover-->
-          <!--                    ref="editCardPopover"-->
-          <!--                    placement="left"-->
-          <!--                    trigger="click"-->
-          <!--                  >-->
-          <!--                    <template #reference>-->
-          <!--                      <el-button-->
-          <!--                        type="info"-->
-          <!--                      >-->
-          <!--                        Установить-->
-          <!--                      </el-button>-->
-          <!--                    </template>-->
-          <!--                    <div style="display: flex">-->
-          <!--                      <el-input-->
-          <!--                        v-model="state.remark"-->
-          <!--                        :autofocus="true"-->
-          <!--                        maxlength="10"-->
-          <!--                        placeholder="Установить мою карточку группы"-->
-          <!--                       -->
-          <!--                        @keydown.enter.native="onChangeRemark"-->
-          <!--                      />-->
-          <!--                      <el-button-->
-          <!--                        type="primary"-->
-          <!--                        @click="onChangeRemark"-->
-          <!--                      >-->
-          <!--                        Да-->
-          <!--                      </el-button>-->
-          <!--                    </div>-->
-          <!--                  </el-popover>-->
-          <!--                </div>-->
-          <!--              </div>-->
-          <!--              <div class="description">-->
-          <!--                {{ state.detail.visit_card || 'Не установлено' }}-->
-          <!--              </div>-->
-          <!--            </div>-->
-          <!--            <div class="item-card">-->
-          <!--              <div class="block">-->
-          <!--                <div class="title">-->
-          <!--                  Участники группы:-->
-          <!--                </div>-->
-          <!--                <div class="text">-->
-          <!--                  {{ state.members.length }} человек-->
-          <!--                </div>-->
-          <!--              </div>-->
-          <!--              <div class="description">-->
-          <!--                Владелец группы включил функцию "Новые участники могут просматривать всю историю сообщений"-->
-          <!--              </div>-->
-          <!--            </div>-->
           <div
             v-if="state.detail.description.length >= 1"
             class="item-card"
           >
             <div class="block">
               <div class="title">
-                Описание группы
+                {{ t('groupDescription') }}
               </div>
             </div>
             <div class="description">
@@ -281,14 +218,14 @@ loadMembers()
         </div>
       </el-tab-pane>
       <el-tab-pane
-        label="Участники"
+        :label="t('groupParticipants')"
         name="member"
       >
         <div class="flex">
           <el-input
             v-model="state.keywords"
             :prefix-icon="SearchIcon"
-            placeholder="Поиск"
+            :placeholder="t('search')"
           />
           <el-button
             :icon="Plus"
@@ -301,7 +238,7 @@ loadMembers()
           class="mt-20 pt-20"
         >
           <div class="empty">
-            Ничего не найдено.
+            {{ t('nothingFound') }}
           </div>
         </div>
         <div
@@ -330,11 +267,11 @@ loadMembers()
                 <span
                   v-if="item.leader === 2"
                   class="member-type"
-                >Владелец</span>
+                >{{ t('owner') }}</span>
                 <span
                   v-if="item.leader === 1"
                   class="member-type"
-                >Админ</span>
+                >{{ t('admin') }}</span>
                 <!--div class="card text-ellipsis grey">
                   {{ item.user_card ? item.user_card : '-' }}
                 </div--->
@@ -351,7 +288,7 @@ loadMembers()
         link
         @click="onSignOut"
       >
-        Выйти
+        {{ t('logout') }}
       </el-button>
       <el-button
         v-if="isLeader"
@@ -359,7 +296,7 @@ loadMembers()
         type="primary"
         @click="isShowManage = true"
       >
-        Управление группой
+        {{ t('groupManagement') }}
       </el-button>
     </el-footer>
   </el-dialog>

@@ -5,7 +5,7 @@
 defineProps({
   title: {
     type: String,
-    default: 'Неопределенный заголовок'
+    default: ''
   },
   menus: {
     type: Array,

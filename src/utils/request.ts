@@ -4,6 +4,9 @@
 import axios from 'axios'
 import { delAccessToken, getAccessToken } from '@/utils/auth'
 import { ElMessage } from 'element-plus'
+import { i18n } from '@/utils/i18n'
+
+const t = i18n()
 
 const request = axios.create({
   baseURL: import.meta.env.VITE_BASE_API,
@@ -14,7 +17,7 @@ const errorHandler = (error: any) => {
   if (error.response) {
     if (error.response.status == 401) {
       delAccessToken()
-      ElMessage.error('Ваша текущая сессия истекла. Пожалуйста, выполните вход заново.')
+      ElMessage.error(t('sessionExpired'))
       location.reload()
     }
   }

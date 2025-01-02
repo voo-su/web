@@ -8,6 +8,9 @@ import { applyNotificationAuth } from '@/utils/notification'
 import { isLoggedIn } from '@/utils/auth'
 import socket from '@/utils/socket'
 import { ElMessageBox } from 'element-plus'
+import { i18n } from '@/utils/i18n'
+
+const t = i18n()
 
 const registerOnceExpireNotice = () => {
   let once = false
@@ -33,10 +36,10 @@ const registerOnceExpireNotice = () => {
 
     once = true
     ElMessageBox.confirm(
-      'Пожалуйста, выполните вход снова.',
-      'Текущая сессия недействительна.',
+      t('pleaseLoginAgain'),
+      t('sessionExpired'),
       {
-        confirmButtonText: 'Войти',
+        confirmButtonText: t('login'),
         center: true,
         showCancelButton: false
       }
@@ -89,7 +92,7 @@ const registerUnreadListener = () => {
   watchEffect(() => {
     setInterval(() => {
       if (useDialog.dialogUnreadNum > 0) {
-        el.innerText = el.innerText == title ? 'У вас есть непрочитанные сообщения' : title
+        el.innerText = el.innerText == title ? t('newUnreadMessages') : title
       } else {
         el.innerText = title
       }

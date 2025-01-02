@@ -5,23 +5,24 @@
 import { computed, reactive, ref } from 'vue'
 import { Close as CloseIcon, Delete as IconDelete, Plus as IconPlus } from '@element-plus/icons-vue'
 import type { FormInstance, FormRules } from 'element-plus'
+import { useI18n } from 'vue-i18n'
 
 const emit = defineEmits(['close', 'submit'])
 
+const { t } = useI18n()
 const isShow = ref<boolean>(true)
-
 const formRef = ref<FormInstance>()
 const rules = reactive<FormRules>({
   title: [
     {
       required: true,
-      message: 'Поле должно быть заполнено',
+      message: t('fieldRequired'),
       trigger: 'blur',
       min: 1
     },
     {
       max: 255,
-      message: 'Не должно превышать 255 символов',
+      message: t('descriptionMaxLength'),
       trigger: 'blur'
     }
   ]
@@ -89,7 +90,7 @@ const onCloseClick = () => {
         :id="titleId"
         :class="titleClass"
       >
-        Новый опрос
+        {{ t('newPoll') }}
       </h4>
       <div class="module__after">
         <el-button
@@ -110,17 +111,17 @@ const onCloseClick = () => {
       >
         <el-form-item
           class="item-label"
-          label="Вопрос"
+          :label="t('question')"
           prop="title"
         >
           <el-input
             v-model="form.title"
-            placeholder="Задайте вопрос"
+            :placeholder="t('askQuestion')"
           />
         </el-form-item>
         <el-form-item
           class="item-label"
-          label="Варианты ответа"
+          :label="t('answerOptions')"
         >
           <div class="options">
             <div
@@ -129,7 +130,7 @@ const onCloseClick = () => {
             >
               <el-input
                 v-model="item.value"
-                placeholder="Добавить ответ..."
+                :placeholder="t('addAnswer')"
               >
                 <template #prefix>
                   <span>{{ i + 1 }}.</span>
@@ -150,27 +151,27 @@ const onCloseClick = () => {
               link
               @click="addOption"
             >
-              Еще
+              {{ t('more') }}
             </el-button>
           </div>
         </el-form-item>
         <el-form-item
           class="item-label"
-          label="Настройки"
+          :label="t('settings')"
         >
           <el-checkbox
             v-model="form.anonymous"
-            label="Анонимное опрос"
+            :label="t('anonymousSurvey')"
           />
           <el-checkbox
             v-model="form.mode"
-            label="Выбор нескольких ответов"
+            :label="t('multipleChoice')"
           />
         </el-form-item>
         <el-form-item>
           <div class="footer">
             <el-button @click="onCloseClick">
-              Отмена
+              {{ t('cancelAction') }}
             </el-button>
             <el-button
               :disabled="isCanSubmit"
@@ -178,7 +179,7 @@ const onCloseClick = () => {
               type="primary"
               @click="onSubmit(formRef)"
             >
-              Создать
+              {{ t('create') }}
             </el-button>
           </div>
         </el-form-item>

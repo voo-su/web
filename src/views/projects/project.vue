@@ -8,7 +8,9 @@ import { useRoute, useRouter } from 'vue-router'
 import { ref } from 'vue'
 import { Plus as PlusIcon } from '@element-plus/icons-vue'
 import CreateTask from '@/components/project/board/CreateTask.vue'
+import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
 const router = useRouter()
 const route = useRoute()
 
@@ -25,8 +27,8 @@ const creation = ref(false)
   <default-layout :index="3">
     <div class="project-layout h-100">
       <el-page-header
-        content="Проект"
-        title="Назад"
+        :content="t('project')"
+        :title="t('back')"
         @back="goBack"
       >
         <template #extra>
@@ -36,7 +38,7 @@ const creation = ref(false)
             link
             @click="creation = true"
           >
-            Создать задачу
+            {{ t('createTask') }}
           </el-button>
         </template>
       </el-page-header>

@@ -17,7 +17,7 @@ const { t } = useI18n()
         <i class="ant-spin-dot-item" />
       </span>
     </div>
-    <p>Загрузка данных...</p>
+    <p>{{ t('loadingData') }}</p>
   </div>
 </template>
 

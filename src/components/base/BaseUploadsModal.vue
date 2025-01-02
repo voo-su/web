@@ -5,14 +5,17 @@
 import { useUploadsStore } from '@/store/uploads'
 import { fileFormatSize } from '@/utils/strings'
 import { CloseBold } from '@element-plus/icons-vue'
+import { useI18n } from 'vue-i18n'
 
 const uploadsStore = useUploadsStore()
 
+const { t } = useI18n()
+
 const statusItem = {
-  0: 'Ожидание загрузки',
-  1: 'Идет загрузка',
-  2: 'Загрузка завершена',
-  3: 'Сетевая ошибка'
+  0: t('waitingForLoad'),
+  1: t('loading'),
+  2: t('loadComplete'),
+  3: t('networkError')
 }
 </script>
 
@@ -20,7 +23,7 @@ const statusItem = {
   <div class="section">
     <div class="title">
       <span>
-        Загрузки
+        {{ t('downloads') }}
       </span>
       <!--      <span>-->
       <!--        ({{ uploadsStore.successCount + '/' + uploadsStore.items.length}})-->

@@ -3,7 +3,9 @@
 // Distributed under the GPL v3 License, see https://github.com/voo-su/web/blob/main/LICENSE
 
 import { useUserStore } from '@/store/user'
+import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
 const emit = defineEmits(['onClick'])
 
 const userStore = useUserStore()
@@ -12,13 +14,13 @@ const userStore = useUserStore()
 <template>
   <section>
     <h3 class="title">
-      Безопасность
+      {{ t('security') }}
     </h3>
     <div class="view-box">
       <div class="info-item">
         <div class="content">
           <div class="name">
-            Имя пользователя
+            {{ t('username') }}
           </div>
           <div class="description">
             {{ userStore.username }}
@@ -30,14 +32,14 @@ const userStore = useUserStore()
             type="primary"
             @click="emit('onClick', 'username')"
           >
-            Изменить
+            {{ t('edit') }}
           </el-button>
         </div>
       </div>
       <div class="info-item">
         <div class="content">
           <div class="name">
-            Почта
+            {{ t('email') }}
           </div>
           <div class="description">
             {{ userStore.email }}
@@ -49,7 +51,7 @@ const userStore = useUserStore()
             type="primary"
             @click="emit('onClick', 'email')"
           >
-            Изменить
+            {{ t('edit') }}
           </el-button>
         </div>
       </div>

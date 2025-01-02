@@ -9,7 +9,9 @@ import { updateUsernameApi } from '@/api/account'
 import { getErrorForField } from '@/utils/functions'
 import IconUser from '@/components/icons/IconUser.vue'
 import { ElMessage } from 'element-plus'
+import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
 const userStore = useUserStore()
 const emit = defineEmits(['onClick'])
 
@@ -25,22 +27,22 @@ const rules = reactive<FormRules>({
   username: [
     {
       required: true,
-      message: 'Пожалуйста, введите имя пользователя',
+      message: t('enterUsername'),
       trigger: 'blur'
     },
     {
       min: 3,
-      message: 'Должно содержать не менее 3 символов',
+      message: t('usernameMinLength'),
       trigger: 'blur'
     },
     {
       max: 20,
-      message: 'Не должно превышать 20 символов',
+      message: t('usernameMaxLength'),
       trigger: 'blur'
     },
     {
       pattern: /^[a-zA-Z0-9_-]+$/,
-      message: 'Содержит недопустимые символы',
+      message: t('usernameInvalidChars'),
       trigger: 'blur'
     }
   ]
@@ -62,7 +64,7 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
           message
         } = res
         if (code == 200) {
-          ElMessage.success('Имя пользователя успешно изменен')
+          ElMessage.success(t('usernameChangedSuccess'))
           userStore.username = form.username
           emit('onClick', 'security')
         } else {
@@ -81,8 +83,8 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
 
 <template>
   <el-page-header
-    title="Безопасность"
-    content="Имя пользователя "
+    :title="t('security')"
+    :content="t('username')"
     @back="emit('onClick', 'security')"
   />
   <div class="flex-center form-center">
@@ -102,7 +104,7 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
         >
           <el-input
             v-model="form.username"
-            placeholder="Имя пользователя"
+            :placeholder="t('username')"
           />
         </el-form-item>
         <el-button
@@ -110,13 +112,13 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
           type="primary"
           @click="onSubmit(formRef)"
         >
-          Изменить
+          {{ t('edit') }}
         </el-button>
       </el-form>
       <div class="box-description">
-        * Пожалуйста, используйте только латинские буквы, цифры, дефисы и подчеркивания в имени пользователя.
+        {{ t('usernameGuidelines') }}
         <br>
-        Избегайте специальных символов для удобства использования и совместимости.
+        {{ t('usernameCompatibilityNote') }}
       </div>
     </div>
   </div>

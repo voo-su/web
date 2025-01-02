@@ -23,6 +23,7 @@ import AvatarBox from '@/components/base/BaseAvatarBox.vue'
 import { useDialogStore, useDialogueStore } from '@/store'
 import type { Action } from 'element-plus'
 import { ElMessage } from 'element-plus'
+import { useI18n } from 'vue-i18n'
 
 const props = defineProps({
   uid: {
@@ -38,9 +39,10 @@ const props = defineProps({
 
 const emit = defineEmits(['close', 'event'])
 
+const { t } = useI18n()
+
 const dialogStore = useDialogStore()
 const dialogueStore = useDialogueStore()
-
 const isNotification = ref<boolean>(true)
 const showModal = ref<boolean>(false)
 
@@ -90,7 +92,7 @@ const state = reactive<IContact>({
 //     return item.label
 //   }
 //
-//   return 'Папка не установлена'
+//   return ''
 // })
 
 const dialogue: any = dialogStore.findItem(dialogueStore.index_name)
@@ -107,7 +109,7 @@ const onLoadData = () => {
       Object.assign(state, data)
       showModal.value = true
     } else {
-      ElMessage.info('Информация о пользователе не существует')
+      ElMessage.info(t('userInfoNotFound'))
     }
   })
 
@@ -139,7 +141,7 @@ const onJoinContact = () => {
     if (code == 200) {
       emit('close')
       onClose()
-      ElMessage.success('Заявка успешно отправлена')
+      ElMessage.success(t('requestSent'))
     } else {
       ElMessage.error(message)
     }
@@ -154,7 +156,7 @@ const onJoinContact = () => {
 //     .then(({ code, message }: any) => {
 //     if (code == 200) {
 //       state.folder_id = value
-//       ElMessage.success('Папка успешно изменена')
+//       ElMessage.success(t('success'))
 //     } else {
 //       message().error(message)
 //     }
@@ -173,13 +175,13 @@ const onNotification = (value: any) => {
 
 const onDeleteContact = () => {
   ElMessageBox.confirm(
-    'Вы действительно хотите удалить пользователя из списка Контактов?',
-    `Удалить контакт ${state.username || state.name}`,
+    t('confirmDeleteContact'),
+    t('deleteContactConfirmation', { name: state.username || state.name }),
     {
    //   type: 'warning',
       icon: markRaw(IconDelete),
-      confirmButtonText: 'Удалить',
-      cancelButtonText: 'Отмена',
+      confirmButtonText: t('delete'),
+      cancelButtonText: t('cancelAction'),
       callback: (action: Action) => {
         if (action == 'confirm') {
           deleteContactApi({
@@ -187,7 +189,7 @@ const onDeleteContact = () => {
           }).then((res: any) => {
             const { code, message } = res
             if (code == 200) {
-              ElMessage.success('Контакт удален')
+              ElMessage.success(t('contactDeleted'))
               // onDeleteDialog(data.index_name)
             } else {
               ElMessage.error(message)
@@ -243,37 +245,37 @@ onLoadData()
       </div>
       <template v-if="state.is_bot === 0">
         <div class="info-item">
-          <span class="name">Имя пользователя</span>
+          <span class="name">{{ t('username') }}</span>
           <span class="text">{{ state.username }}</span>
         </div>
         <div
           v-if="state.name.trim().length !== 0"
           class="info-item"
         >
-          <span class="name">Имя</span>
+          <span class="name">{{ t('name') }}</span>
           <span class="text">{{ state.name }}</span>
         </div>
         <div
           v-if="state.surname.trim().length !== 0"
           class="info-item"
         >
-          <span class="name">Фамилия</span>
+          <span class="name">{{ t('surname') }}</span>
           <span class="text">{{ state.surname }}</span>
         </div>
         <div
           v-if="state.gender !== 0"
           class="info-item"
         >
-          <span class="name">Пол</span>
+          <span class="name">{{ t('gender') }}</span>
           <span class="text">
-            {{ state.gender === 1 ? 'муж' : state.gender === 2 ? 'жен' : '' }}
+            {{ state.gender === 1 ? t('male') : state.gender === 2 ? t('female') : '' }}
           </span>
         </div>
         <div
           v-if="state.about"
           class="info-item"
         >
-          <span class="name">О себе</span>
+          <span class="name">{{ t('about') }}</span>
           <span class="text">{{ state.about || '-' }}</span>
         </div>
       </template>
@@ -281,7 +283,7 @@ onLoadData()
 <!--        v-if="folders.length >= 1"-->
 <!--        class="info-item"-->
 <!--      >-->
-<!--        <span class="name">Папка</span>-->
+<!--        <span class="name">{{ t('folder') }}</span>-->
 <!--        <span class="text">{{ groupName }}</span>-->
 <!--      </div>-->
       <div
@@ -291,7 +293,7 @@ onLoadData()
         <el-icon :size="18">
           <bell />
         </el-icon>
-        <span class="label">Уведомления</span>
+        <span class="label">{{ t('notifications') }}</span>
         <span class="text">
           <el-switch
             v-model="isNotification"
@@ -313,7 +315,7 @@ onLoadData()
             @click="onToDialog"
             class="w-100"
           >
-            Отправить сообщение
+            {{ t('sendMessage') }}
           </el-button>
         </el-col>
         <el-col>
@@ -324,7 +326,7 @@ onLoadData()
             @click="onDeleteContact"
             class="w-100"
           >
-            Удалить контакт
+            {{ t('deleteContact') }}
           </el-button>
         </el-col>
       </template>
@@ -336,7 +338,7 @@ onLoadData()
             @click="onJoinContact"
             class="w-100"
           >
-            Добавить в контакты
+            {{ t('addToContacts') }}
           </el-button>
         </el-col>
       </template>

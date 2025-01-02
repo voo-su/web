@@ -8,6 +8,9 @@ import SettingSecurity from '@/components/setting/SettingSecurity.vue'
 import SettingNotification from '@/components/setting/SettingNotification.vue'
 import { Bell, Setting, User, Cpu } from '@element-plus/icons-vue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 interface IMenu {
   name: string
@@ -17,17 +20,17 @@ interface IMenu {
 
 const menus: IMenu[] = [
   {
-    name: 'Личные данные',
+    name: t('personalData'),
     icon: markRaw(User),
     component: SettingDetail
   },
   {
-    name: 'Безопасность',
+    name: t('security'),
     icon: markRaw(Setting),
     component: SettingSecurity
   },
   {
-    name: 'Уведомления',
+    name: t('notifications'),
     icon: markRaw(Bell),
     component: SettingNotification
   }

@@ -19,6 +19,9 @@ import {
   GROUP_CHAT_MSG_SYS_MEMBER_QUIT
 } from '@/constants/dialog'
 import type { IResource, IResourceData } from './type'
+import { i18n } from '@/utils/i18n'
+
+const t = i18n()
 
 class Dialog extends Base {
   resource: IResourceData
@@ -79,14 +82,14 @@ class Dialog extends Base {
   showMessageNocice() {
     if (useNotifyStore().isLeaveWeb) {
       if (useNotifyStore().isWebNotify) {
-        WebNotify('Уведомление о сообщении', {
+        WebNotify(t('messageNotification'), {
           dir: 'auto',
           lang: 'ru-RU',
-          body: 'У вас есть новое сообщение, пожалуйста, проверьте'
+          body: t('newMessageNotification')
         })
       }
     } else {
-      ElMessage.info('Уведомление о сообщении')
+      ElMessage.info(t('messageNotification'))
     }
   }
 

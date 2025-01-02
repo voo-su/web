@@ -4,6 +4,9 @@
 
 import { ref } from 'vue'
 import { Close as CloseIcon } from '@element-plus/icons-vue'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 defineProps({
   id: {
@@ -12,7 +15,7 @@ defineProps({
   },
   title: {
     type: String,
-    default: () => 'Меню'
+    default: () => ''
   },
   menus: {
     type: Array,

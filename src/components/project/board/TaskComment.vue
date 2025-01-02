@@ -10,6 +10,9 @@ import Editor from '../../message/editor/Editor.vue'
 import { throttle } from '@/utils/common'
 import { ElMessage } from 'element-plus'
 import { useProjectStore } from '@/store'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 const props = defineProps({
   taskId: {
@@ -60,7 +63,7 @@ const onSendComment = (data: any = {}, callBack: any) => {
       }
     })
     .catch(() => {
-      ElMessage.warning('Сеть перегружена, пожалуйста, попробуйте позже')
+      ElMessage.warning(t('networkOverloaded'))
     })
 }
 
@@ -158,7 +161,7 @@ onMounted(() => {
   <div class="task-comments">
     <div class="header">
       <div class="header_title">
-        Комментарии
+        {{ t('comments') }}
       </div>
     </div>
     <el-container class="h-100">

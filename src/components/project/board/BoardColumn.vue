@@ -15,7 +15,7 @@ interface IItem {
 const props = defineProps({
   title: {
     type: String,
-    default: 'Неизвестно'
+    default: ''
   },
   typeId: {
     type: Number,

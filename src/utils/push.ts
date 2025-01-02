@@ -2,6 +2,9 @@
 // Distributed under the GPL v3 License, see https://github.com/voo-su/web/blob/main/LICENSE
 
 import { pushInitApi } from '@/api/account'
+import { i18n } from '@/utils/i18n'
+
+const t = i18n()
 
 export const pushInit = () => {
   if ('serviceWorker' in navigator) {
@@ -22,9 +25,10 @@ const pushSubscriptionNotify = (subscription: PushSubscription) => {
       !subscriptionObj.keys.p256dh ||
       !subscriptionObj.keys.auth
     ) {
-      console.log('Недействительная push-подписка: ', subscriptionObj)
+      console.log(t('invalidPushSubscription', { err:subscriptionObj }))
       return
     }
+
     pushInitApi({
       subscription: JSON.stringify(subscriptionObj)
     }).then((res: any) => {

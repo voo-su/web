@@ -1,12 +1,12 @@
 // Copyright (c) 2025 Magomedcoder <info@magomedcoder.ru>
 // Distributed under the GPL v3 License, see https://github.com/voo-su/web/blob/main/LICENSE
 
-export interface CodeExtra {
+export interface ITextExtra {
   lang: string
   code: string
 }
 
-export interface FileExtra {
+export interface IFileExtra {
   drive: number
   name: string
   path: string
@@ -25,19 +25,19 @@ export interface ForwardExtra {
   user_id: number
 }
 
-export interface Data {
+export interface IData {
   float: string
   content: string
 }
 
-export interface GroupAdsExtra {
+export interface IGroupAdsExtra {
   owner_id: number
   owner_name: string
   title: number
   content: string
 }
 
-export interface MixedExtra {
+export interface IMixedExtra {
   items: {
     type: number
     content: string
@@ -45,7 +45,7 @@ export interface MixedExtra {
   }[]
 }
 
-export interface VideoExtra {
+export interface IVideoExtra {
   cover: string
   url: string
   duration: number

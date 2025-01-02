@@ -25,7 +25,9 @@ import GroupLaunch from '@/components/message/group/GroupLaunch.vue'
 import IconPin from '@/components/icons/IconPin.vue'
 import IconUnpin from '@/components/icons/IconUnpin.vue'
 import { ElMessage, ElDialog } from 'element-plus'
+import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
 const user: any = inject('$user')
 const dialogueStore = useDialogueStore()
 const dialogStore = useDialogStore()
@@ -97,7 +99,7 @@ const onUserInfo = (data: any) => {
 
 const onToTopDialog = (data: any) => {
   if (data.is_top == 0 && topItems.value.length >= 4) {
-    return ElMessage.info('Максимальное количество выбранных бесед не может превышать 4')
+    return ElMessage.info(t('maxChatsSelected'))
   }
   topChatApi({
     list_id: data.id,
@@ -119,17 +121,17 @@ const onToTopDialog = (data: any) => {
 // const onSignOutGroup = (data: any) => {
 //   ElDialog.create({
 //     showIcon: false,
-//     title: `Выйти из группового чата ${data.name} ?`,
-//     content: 'После выхода вы больше не будете получать сообщения от этой группы.',
-//     positiveText: 'Ок',
-//     negativeText: 'Отмена',
+//     title: t('leaveGroupChat', { name: data.name}),
+//     content: t('leaveGroupWarning'),
+//     positiveText: t('ok'),
+//     negativeText: t('cancelAction'),
 //     onPositiveClick: () => {
 //       secedeGroupApi({
 //         group_id: data.receiver_id
 //       }).then((res: any) => {
 //         const { code, message } = res
 //         if (code == 200) {
-//           ElMessage.success('Вы успешно вышли из группы')
+//           ElMessage.success(t('groupLeftSuccess'))
 //           onDeleteDialog(data.index_name)
 //         } else {
 //           ElMessage.error(message)
@@ -143,18 +145,18 @@ const onToTopDialog = (data: any) => {
 //   let remark = ''
 //   ElDialog.create({
 //     showIcon: false,
-//     title: 'Изменить заметку',
+//     title: t('editNote'),
 //     content: () => {
 //       return h(ElInput, {
 //         defaultValue: data.remark_name,
-//         placeholder: 'Введите заметку',
+//         placeholder: t('enterNote'),
 //         style: { marginTop: '20px' },
 //         onInput: (value: any) => (remark = value),
 //         autofocus: true
 //       })
 //     },
-//     negativeText: 'Отмена',
-//     positiveText: 'Изменить заметку',
+//     negativeText: t('cancelAction'),
+//     positiveText: t('editNote'),
 //     onPositiveClick: () => {
 //       editContactRemarkApi({
 //         friend_id: data.receiver_id,
@@ -162,7 +164,7 @@ const onToTopDialog = (data: any) => {
 //       }).then((res: any) => {
 //         const { code, message } = res
 //         if (code == 200) {
-//           ElMessage.success('Заметка успешно изменена')
+//           ElMessage.success(t('noteChangedSuccess'))
 //           dialogStore.updateItem({
 //             index_name: data.index_name,
 //             remark_name: remark
@@ -182,29 +184,29 @@ const onContextMenuDialog = (e: any, item: any) => {
   if (item.dialog_type == 1) {
     state.dropdown.options.push({
       icon: renderIcon(Postcard),
-      label: 'Информация',
+      label: t('info'),
       key: 'info'
     })
   }
   state.dropdown.options.push({
     icon: renderIcon(item.is_disturb ? Bell : MuteNotification),
-    label: item.is_disturb ? 'Включить уведомления' : 'Выключить уведомления',
+    label: item.is_disturb ? t('enableNotifications') : t('disableNotifications'),
     key: 'disturb'
   })
   state.dropdown.options.push({
     icon: renderIcon(item.is_top ? IconUnpin : IconPin),
-    label: item.is_top ? 'Открепить' : 'Закрепить',
+    label: item.is_top ? t('unpin') : t('pin'),
     key: 'top'
   })
   state.dropdown.options.push({
     icon: renderIcon(IconDelete),
-    label: 'Удалить чат',
+    label: t('deleteChat'),
     key: 'remove'
   })
   // if (item.dialog_type != 1) {
   //   state.dropdown.options.push({
   //     icon: renderIcon(Operation),
-  //     label: 'Покинуть группу',
+  //     label: t('leaveGroup'),
   //     key: 'signout_group'
   //   })
   // }
@@ -258,7 +260,7 @@ onMounted(() => {
     <el-header class="header">
       <el-input
         v-model.trim="searchKeyword"
-        placeholder="Поиск"
+        :placeholder="t('search')"
         :prefix-icon="Search"
       />
       <div class="menu">
@@ -272,49 +274,6 @@ onMounted(() => {
         </div>
       </div>
     </el-header>
-    <!--    <el-header-->
-    <!--      v-show="loadStatus === 3 && topItems.length > 0"-->
-    <!--      class="tops-header"-->
-    <!--    >-->
-    <!--      <el-tooltip-->
-    <!--        v-for="item in topItems"-->
-    <!--        :key="item.index_name"-->
-    <!--        placement="bottom"-->
-    <!--        trigger="hover"-->
-    <!--      >-->
-    <!--        <template #content>-->
-    <!--          <span> {{ item.remark_name || item.name }} </span>-->
-    <!--        </template>-->
-    <!--        <div-->
-    <!--          :class="{-->
-    <!--            active: item.index_name == indexName,-->
-    <!--          }"-->
-    <!--          class="top-item"-->
-    <!--          @click="onTabChat(item, true)"-->
-    <!--        >-->
-    <!--          <el-avatar-->
-    <!--            v-if="item.avatar"-->
-    <!--            :src="item.avatar || defAvatar"-->
-    <!--          />-->
-    <!--          <el-avatar v-else>-->
-    <!--            {{ item.name && (item.name.substr(0, 1) || '') }}-->
-    <!--          </el-avatar>-->
-    <!--          <span class="text">{{ item.remark_name || item.name }}</span>-->
-    <!--        </div>-->
-    <!--      </el-tooltip>-->
-    <!--    </el-header>-->
-    <!--    <header-->
-    <!--      v-show="loadStatus == 3 && dialogStore.dialogItems.length > 0"-->
-    <!--      class="el-header notify-header"-->
-    <!--    >-->
-    <!--      <p>Запись сеанса({{ dialogStore.dialogItems.length }})</p>-->
-    <!--      <p>-->
-    <!--        <span-->
-    <!--          v-show="unreadNum"-->
-    <!--          class="unread-count"-->
-    <!--        >{{ unreadNum }} не прочитано</span>-->
-    <!--      </p>-->
-    <!--    </header>-->
     <el-main
       id="chat-session-list"
       class="scrollbar"
@@ -341,12 +300,12 @@ onMounted(() => {
           v-show="items.length === 0"
           class="empty-list"
         >
-          <p>Нет диалогов</p>
+          <p>{{ t('noDialogs') }}</p>
         </div>
       </template>
       <el-empty
         v-if="loadStatus === 4"
-        description="Ошибка загрузки данных, пожалуйста, попробуйте снова..."
+        :description="t('dataLoadingError')"
       >
         <template #image>
           <div class="empty-image">
@@ -359,7 +318,7 @@ onMounted(() => {
           bg
           @click="onReload"
         >
-          Обновить
+          {{ t('refresh') }}
         </el-button>
       </el-empty>
       <context-menu

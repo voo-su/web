@@ -1,6 +1,10 @@
 // Copyright (c) 2025 Magomedcoder <info@magomedcoder.ru>
 // Distributed under the GPL v3 License, see https://github.com/voo-su/web/blob/main/LICENSE
 
+import { i18n } from '@/utils/i18n'
+
+const t = i18n()
+
 const getVersionNumber = (userAgent: string, regex: RegExp) => {
   const matches = userAgent.match(regex)
   return matches && matches.length > 1 ? matches[1] : ''
@@ -21,7 +25,7 @@ export const getOSType = (userAgent: string = ''): string => {
   } else if (/cros/.test(lowerUserAgent)) {
     return 'Chrome OS'
   } else {
-    return 'Неизвестная'
+    return t('unknown')
   }
 }
 
@@ -40,7 +44,7 @@ export const getBrowserType = (userAgent: string = ''): string => {
   } else if (lowerUserAgent.includes('chrome')) {
     return `Chrome ${getVersionNumber(lowerUserAgent, /chrome\/(\d+(\.\d+)*)/)}`
   } else {
-    return 'Неизвестная'
+    return t('unknown')
   }
 }
 
@@ -50,5 +54,5 @@ export const getName = (data: { username: string; name?: string; surname?: strin
     return surname && surname.length >= 1 ? `${name} ${surname}` : name
   }
 
-  return username || 'Неизвестная'
+  return username || t('unknown')
 }

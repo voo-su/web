@@ -3,6 +3,9 @@
 // Distributed under the GPL v3 License, see https://github.com/voo-su/web/blob/main/LICENSE
 
 import { ChatRound } from '@element-plus/icons-vue'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 </script>
 
 <template>
@@ -11,7 +14,7 @@ import { ChatRound } from '@element-plus/icons-vue'
       <el-icon :size="50">
         <chat-round />
       </el-icon>
-      <p>Выберите чат слева или создайте новую беседу.</p>
+      <p>{{ t('selectChat') }}</p>
     </div>
   </div>
 </template>

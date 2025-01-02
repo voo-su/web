@@ -3,12 +3,14 @@
 // Distributed under the GPL v3 License, see https://github.com/voo-su/web/blob/main/LICENSE
 
 import { inject } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 defineProps({
   extra: Object,
   data: Object
 })
 
+const { t } = useI18n()
 const showUserModal = inject<any>('$user')
 </script>
 
@@ -18,7 +20,7 @@ const showUserModal = inject<any>('$user')
       <a @click="showUserModal(extra.owner_id)">
         {{ extra.owner_name }}
       </a>
-      <span>покинул(а) чат</span>
+      <span>{{ t('leftChat') }}</span>
     </div>
   </div>
 </template>

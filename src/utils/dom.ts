@@ -1,11 +1,15 @@
 // Copyright (c) 2025 Magomedcoder <info@magomedcoder.ru>
 // Distributed under the GPL v3 License, see https://github.com/voo-su/web/blob/main/LICENSE
 
+import { i18n } from '@/utils/i18n'
+
+const t = i18n()
+
 const trim = (string: string) => (string || '').replace(/^[\s\uFEFF]+|[\s\uFEFF]+$/g, '')
 
 export const hasClass = (el: Element, cls: string) => {
   if (!el || !cls) return false
-  if (cls.indexOf(' ') !== -1) throw new Error('Имя класса не должно содержать пробелов.')
+  if (cls.indexOf(' ') !== -1) throw new Error(t('classNameNoSpaces'))
   if (el.classList) {
     return el.classList.contains(cls)
   } else {

@@ -3,6 +3,9 @@
 
 import { createApp } from 'vue'
 import { ElMessage } from 'element-plus'
+import { i18n } from '@/utils/i18n'
+
+const t = i18n()
 
 export const debounce = (fn: any, delay: any) => {
   let timer: any = null
@@ -36,7 +39,7 @@ export const clipboard = (text: any, callback: any) => {
       callback && callback()
     })
     .catch(() => {
-      ElMessage.info('Нет разрешения на доступ к буферу обмена.')
+      ElMessage.info(t('clipboardAccessDenied'))
     })
 }
 
@@ -63,7 +66,7 @@ export const clipboardImage = async (src: any, callback: any) => {
         await navigator.clipboard.write([item])
         callback()
       } catch (err: any) {
-        ElMessage.info('Ошибка при копировании изображения: ', err)
+        ElMessage.info(t('imageCopyError', { err: err }))
       }
     }, 'image/png')
   }

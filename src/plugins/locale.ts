@@ -12,5 +12,5 @@ export const setLocale = (app: App) => {
     messages: locale
   })
 
-  app.use(i18n)
+  app.use(i18n as any)
 }

@@ -7,6 +7,7 @@ import { Close as CloseIcon, Delete, Search } from '@element-plus/icons-vue'
 import { defAvatar } from '@/constants/default.js'
 import { createGroupApi, getInviteFriendsApi, inviteGroupApi } from '@/api/group-chat'
 import { ElMessage } from 'element-plus'
+import { useI18n } from 'vue-i18n'
 
 const props = defineProps({
   gid: {
@@ -17,6 +18,7 @@ const props = defineProps({
 
 const emit = defineEmits(['close', 'on-submit', 'on-invite'])
 
+const { t } = useI18n()
 const items = ref<any>([])
 const model = reactive({
   keywords: '',
@@ -104,7 +106,7 @@ const onInviteSubmit = (ids: number[]) => {
     if (res.code == 200) {
       emit('on-invite')
       emit('close')
-      ElMessage.success('Приглашение успешно отправлено')
+      ElMessage.success(t('inviteSentSuccess'))
       isShowBox.value = false
     }
   })
@@ -133,7 +135,7 @@ const onSubmit = () => {
         :id="titleId"
         :class="titleClass"
       >
-        {{ gid == 0 ? 'Создать группу' : 'Выберите друзей, которых нужно пригласить' }}
+        {{ gid == 0 ? t('createGroup') : t('selectFriendsToInvite') }}
       </h4>
       <div class="module__after">
         <el-button
@@ -151,7 +153,7 @@ const onSubmit = () => {
           <el-input
             v-model="model.keywords"
             :prefix-icon="Search"
-            placeholder="Поиск"
+            :placeholder="t('search')"
           />
         </el-header>
         <el-main class="hidden">
@@ -188,11 +190,11 @@ const onSubmit = () => {
           <el-input
             v-model="model.name"
             maxlength="20"
-            placeholder="Название группы"
+            :placeholder="t('groupDescription')"
             show-count
           />
           <el-divider>
-            Пригласить участников ({{ checkedFilter.length }})
+            {{ t('inviteParticipants', { length:checkedFilter.length }) }}
           </el-divider>
         </el-header>
         <el-main>
@@ -226,7 +228,7 @@ const onSubmit = () => {
     <template #footer>
       <div class="footer">
         <el-button @click="onCloseClick">
-          Отмена
+          {{ t('cancelAction') }}
         </el-button>
         <el-button
           :disabled="isCanSubmit"
@@ -234,7 +236,7 @@ const onSubmit = () => {
           type="primary"
           @click="onSubmit"
         >
-          {{ gid == 0 ? 'Создать группу' : 'Пригласить' }}
+          {{ gid == 0 ? t('createGroup') : t('invite') }}
         </el-button>
       </div>
     </template>

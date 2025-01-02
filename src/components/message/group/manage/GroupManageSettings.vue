@@ -5,6 +5,7 @@
 import { reactive } from 'vue'
 import { dismissGroupApi, groupDetailApi, muteGroupApi, overtGroupApi } from '@/api/group-chat'
 import { ElMessage } from 'element-plus'
+import { useI18n } from 'vue-i18n'
 
 const props = defineProps({
   id: {
@@ -14,6 +15,7 @@ const props = defineProps({
 })
 const emit = defineEmits(['close'])
 
+const { t } = useI18n()
 const detail = reactive({
   is_mute: false,
   mute_loading: false,
@@ -39,7 +41,7 @@ const onDismiss = () => {
   })
     .then((res: any) => {
       if (res.code == 200) {
-        ElMessage.success('Группа удалена')
+        ElMessage.success(t('groupDeleted'))
         emit('close')
       } else {
         ElMessage.info(res.message)
@@ -94,21 +96,21 @@ onLoadData()
 <template>
   <el-container class="section is-vertical h-100">
     <el-header class="header">
-      <p>Настройки</p>
+      <p>{{ t('groupSettings') }}</p>
     </el-header>
     <el-main class="main">
       <el-form
         label-placement="left"
         label-width="auto"
       >
-        <el-form-item label="Открытая группа">
+        <el-form-item :label="t('openGroup')">
           <el-switch
             :loading="detail.overt_loading"
             v-model="detail.is_overt"
             @change="onOvert"
           />
         </el-form-item>
-        <el-form-item label="Запретить писать сообщения">
+        <el-form-item :label="t('prohibitMessages')">
           <el-switch
             :loading="detail.mute_loading"
             v-model="detail.is_mute"
@@ -117,10 +119,10 @@ onLoadData()
         </el-form-item>
         <div class="t-center">
           <el-popconfirm
-            title="Вы действительно хотите удалить группу ?"
+            :title="t('confirmDeleteGroup')"
             width="350"
-            confirm-button-text="Удалить"
-            cancel-button-text="Отмена"
+            :confirm-button-text="t('delete')"
+            :cancel-button-text="t('cancelAction')"
             @confirm="onDismiss"
           >
             <template #reference>
@@ -128,7 +130,7 @@ onLoadData()
                 type="danger"
                 text
                 >
-                  Удалить группу
+                  {{ t('deleteGroup') }}
               </el-button>
             </template>
           </el-popconfirm>

@@ -6,7 +6,9 @@ import { computed, markRaw } from 'vue'
 import { CirclePlus, User } from '@element-plus/icons-vue'
 import { useUserStore } from '@/store/user'
 import { useRoute, useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
 const router = useRouter()
 const route = useRoute()
 const userStore = useUserStore()
@@ -14,12 +16,12 @@ const userStore = useUserStore()
 const menus = [
   {
     link: '/contacts',
-    name: 'Мои контакты',
+    name: t('myContacts'),
     icon: markRaw(User)
   },
   {
     link: '/contacts/requests',
-    name: 'Заявки',
+    name: t('requests'),
     icon: markRaw(CirclePlus),
     hotspot: userStore.isContactApply
   }

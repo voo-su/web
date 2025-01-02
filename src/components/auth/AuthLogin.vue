@@ -28,12 +28,12 @@ const rules = reactive<FormRules>({
   email: [
     {
       required: true,
-      message: 'Поле «Email» должно быть заполнено',
+      message: t('emailFieldRequired'),
       trigger: 'blur'
     },
     {
       type: 'email',
-      message: 'Пожалуйста, введите правильный адрес почты',
+      message: t('invalidEmail'),
       trigger: ['blur', 'change']
     }
   ]
@@ -86,7 +86,7 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
     <div class="logo">
       <icon-logo />
     </div>
-    <h1>Мы так рады видеть вас</h1>
+    <h1>{{ t('welcomeBack') }}</h1>
     <h6>{{ t('loginOrRegister') }}</h6>
   </el-header>
   <el-main>
@@ -111,15 +111,15 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
         class="block"
         @click="onSubmit(formRef)"
       >
-        Войти
+        {{ t('login') }}
       </el-button>
     </el-form>
     <div class="agreement">
-      Нажимая «Войти» вы соглашаетесь с
+      {{ t('loginAgreement') }}
       <a
         href="/terms"
         target="_blank"
-      >условиями использования</a>
+      >{{ t('termsOfUse') }}</a>
     </div>
   </el-main>
 </template>

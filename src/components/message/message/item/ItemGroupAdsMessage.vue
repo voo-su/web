@@ -3,10 +3,11 @@
 // Distributed under the GPL v3 License, see https://github.com/voo-su/web/blob/main/LICENSE
 
 import { ref } from 'vue'
-import type { GroupAdsExtra } from './types'
+import type { IGroupAdsExtra } from './types'
 import { WindPower } from '@element-plus/icons-vue'
+
 defineProps<{
-  extra: GroupAdsExtra
+  extra: IGroupAdsExtra
   data: any
   maxWidth: Boolean
 }>()

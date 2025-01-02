@@ -15,6 +15,7 @@ import {
   CirclePlus as IconCirclePlus,
   Setting as IconSetting
 } from '@element-plus/icons-vue'
+import { useI18n } from 'vue-i18n'
 
 const props = defineProps({
   gid: {
@@ -24,29 +25,31 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['close'])
+
+const { t } = useI18n()
 const menus = [
   {
-    name: 'Основная информация',
+    name: t('basicInfo'),
     icon: markRaw(IconPostcard),
     component: GroupManageDetail
   },
   {
-    name: 'Участники',
+    name: t('groupParticipants'),
     icon: markRaw(IconUser),
     component: GroupManageMember
   },
   {
-    name: 'Заявки',
+    name: t('groupRequests'),
     icon: markRaw(IconCirclePlus),
     component: GroupManageRequests
   },
   {
-    name: 'Объявления',
+    name: t('groupAnnouncements'),
     icon: markRaw(IconUser),
     component: GroupManageAds
   },
   {
-    name: 'Настройки',
+    name: t('groupSettings'),
     icon: markRaw(IconSetting),
     component: GroupManageSettings
   }
@@ -60,7 +63,7 @@ const onCloseClick = () => {
 <template>
   <app-layout
     :id="gid"
-    title="Управление группой"
+    :title="t('groupManagement')"
     :menus="menus"
     @close="onCloseClick"
   />

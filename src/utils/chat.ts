@@ -8,6 +8,9 @@ import { createChatApi, deleteChatApi, setNotDisturbApi } from '@/api/chat'
 import { KEY_INDEX_NAME } from '@/constants/dialog'
 import { useDialogueStore } from '@/store'
 import { ElMessage } from 'element-plus'
+import { i18n } from '@/utils/i18n'
+
+const t = i18n()
 
 export const formatDialogRecord = (uid: any, data: any) => {
   data.float = 'center'
@@ -23,8 +26,8 @@ export const palyMusic = (muted = false) => {
   if (audio) {
     audio.currentTime = 0
     audio.muted = muted
-    audio.play().catch(error => {
-      console.log('Ошибка при воспроизведении звука:', error)
+    audio.play().catch(err => {
+      console.log(t('invalidPushSubscription', { err: err }))
     })
   }
 }
@@ -42,7 +45,7 @@ export const formatDialogItem = (params: any) => {
     id: 0,
     dialog_type: 1,
     receiver_id: 0,
-    name: 'Не указано имя',
+    name: t('nameNotProvided'),
     // remark_name: '',
     avatar: '',
     is_disturb: 0,
@@ -70,8 +73,6 @@ export const onSetDisturb = (data: any) => {
   }).then((res: any) => {
     const { code, message } = res
     if (code == 200) {
-      // ElMessage.success('Успешно установлено')
-
       useDialogStore().updateItem({
         index_name: data.index_name,
         is_disturb: data.is_disturb == 0 ? 1 : 0

@@ -4,7 +4,9 @@
 
 import { computed } from 'vue'
 import { useNotifyStore } from '@/store/notify'
+import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
 const notifyStore = useNotifyStore()
 
 const isPromptTone = computed({
@@ -14,69 +16,24 @@ const isPromptTone = computed({
   }
 })
 
-const isKeyboard = computed({
-  get: () => notifyStore.isKeyboard,
-  set: val => {
-    notifyStore.setKeyboard(val)
-  }
-})
-
-const isWebNotify = computed({
-  get: () => notifyStore.isWebNotify,
-  set: val => {
-    if (val === false) {
-      notifyStore.isWebNotify = false
-    } else {
-      window.Notification.requestPermission(res => {
-        notifyStore.isWebNotify = 'granted' === res
-      })
-    }
-  }
-})
 </script>
 
 <template>
   <section>
     <h3 class="title">
-      Настройки уведомлений
+      {{ t('notificationSettings') }}
     </h3>
     <div class="view-box">
       <div class="info-item">
         <div class="content">
           <div class="name">
-            Получать уведомления со звуком
+            {{ t('receiveSoundNotifications') }}
           </div>
         </div>
         <div class="tools">
           <el-switch v-model="isPromptTone" />
         </div>
       </div>
-      <!--      <div class="info-item">-->
-      <!--        <div class="content">-->
-      <!--          <div class="name">-->
-      <!--            Уведомлять о вводе с клавиатуры-->
-      <!--          </div>-->
-      <!--          <div class="description">-->
-      <!--            Уведомлять о вводе с клавиатуры: {{ isKeyboard ? 'Включено' : 'Выключено' }}-->
-      <!--          </div>-->
-      <!--        </div>-->
-      <!--        <div class="tools">-->
-      <!--          <el-switch v-model="isKeyboard" />-->
-      <!--        </div>-->
-      <!--      </div>-->
-      <!--      <div class="info-item">-->
-      <!--        <div class="content">-->
-      <!--          <div class="name">-->
-      <!--            Уведомления о сообщениях-->
-      <!--          </div>-->
-      <!--          <div class="description">-->
-      <!--            Уведомления о сообщениях: {{ isWebNotify ? 'Включено' : 'Выключено' }}-->
-      <!--          </div>-->
-      <!--        </div>-->
-      <!--        <div class="tools">-->
-      <!--          <el-switch v-model="isWebNotify" />-->
-      <!--        </div>-->
-      <!--      </div>-->
     </div>
   </section>
 </template>

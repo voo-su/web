@@ -5,6 +5,7 @@
 import { onMounted, reactive } from 'vue'
 import { emitCall } from '@/utils/common'
 import { Upload } from '@element-plus/icons-vue'
+import { useI18n } from 'vue-i18n'
 
 const props = defineProps({
   file: {
@@ -22,6 +23,7 @@ interface IState {
   loading: boolean
 }
 
+const { t } = useI18n()
 const state = reactive<IState>({
   show: true,
   src: '',
@@ -56,8 +58,6 @@ const loadFileSrc = (file: any) => {
 onMounted(() => {
   loadFileSrc(props.file)
 })
-//  title="Предварительный просмотр изображения"
-//      Отправить изображение ({{ fileFormatSize(state.size) }})
 </script>
 
 <template>
@@ -76,7 +76,7 @@ onMounted(() => {
         type="primary"
         @click="onSendClick"
       >
-        Отправить
+        {{ t('send') }}
         <el-icon class="el-icon--right">
           <upload />
         </el-icon>

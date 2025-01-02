@@ -8,6 +8,9 @@ import { searchUsersApi } from '@/api/search'
 import AppPageHeader from '@/components/app/AppPageHeader.vue'
 import SearchCard from '@/components/contact/ContactSearchCard.vue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 const emit = defineEmits(['update:show'])
 
@@ -44,7 +47,7 @@ const onSearchInput = (value: any) => {
           <el-input
             v-model="keywords"
             :prefix-icon="Search"
-            placeholder="Поиск по имени пользователя"
+            :placeholder="t('searchByUsername')"
             @input="onSearchInput"
           />
         </template>
@@ -54,7 +57,7 @@ const onSearchInput = (value: any) => {
           v-if="items.length === 0"
           class="empty"
         >
-          Ничего не найдено.
+          {{ t('nothingFound') }}
         </div>
         <search-card
           v-else

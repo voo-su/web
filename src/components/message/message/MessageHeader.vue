@@ -14,7 +14,9 @@ import {
 import ContextMenu from '@/components/base/BaseContextMenu.vue'
 import { renderIcon } from '@/utils/functions'
 import { getName } from '@/utils/util'
+import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
 const props = defineProps({
   data: Object
 })
@@ -49,30 +51,32 @@ const onContextMenuMessage = (e: any) => {
   if (props.data.type == 1) {
     state.dropdown.options.push({
       icon: renderIcon(Postcard),
-      label: 'Информация',
+      label: t('info'),
       key: 'info'
     })
   }
   if (props.data.type != 1) {
     state.dropdown.options.push({
       icon: renderIcon(Postcard),
-      label: 'Информация о группе',
+      label: t('groupInfo'),
       key: 'group'
     })
     // menu.options.push({
     //   icon: renderIcon(Postcard),
-    //   label: 'Объявление о группе',
+    //   label: t('groupAnnouncement'),
     //   key: 'ads'
     // })
   }
   state.dropdown.options.push({
     icon: renderIcon((props.data.is_disturb == 0) ? IconBell : IconMuteNotification),
-    label: (props.data.is_disturb == 0) ? 'Включить уведомления' : 'Выключить уведомления',
+    label: (props.data.is_disturb == 0)
+      ? t('enableNotifications')
+      : t('disableNotifications'),
     key: 'disturb'
   })
   state.dropdown.options.push({
     icon: renderIcon(IconDelete),
-    label: 'Удалить чат',
+    label: t('deleteChat'),
     key: 'remove'
   })
 
@@ -128,19 +132,19 @@ const onEvent = (key: String) => {
               v-show="props.data.keyboard"
               class="keyboard-status"
             >
-              печатает...
+              {{ t('typing') }}
             </p>
             <template v-if="props.data.type === 1 && !props.data.keyboard">
               <span
                 v-if="props.data.online"
                 class="online"
-              >онлайн</span>
-              <span v-else>был(а) недавно</span>
+              >{{ t('online') }}</span>
+              <span v-else>{{ t('lastSeenRecently') }}</span>
             </template>
             <span
               v-show="props.data.type === 2 && props.data.num"
               class="num"
-            >{{ props.data.num }} участники</span>
+            >{{ t('participantsCount', { num: props.data.num }) }}</span>
           </div>
         </div>
       </div>

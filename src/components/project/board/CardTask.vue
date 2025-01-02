@@ -8,6 +8,8 @@ import { getProjectTaskDetailApi } from '@/api/project'
 import TaskComment from './TaskComment.vue'
 import TaskDetail from './TaskDetail.vue'
 
+import { useI18n } from 'vue-i18n'
+
 const props = defineProps({
   taskId: {
     type: Number,
@@ -17,6 +19,7 @@ const props = defineProps({
 
 const emit = defineEmits(['close'])
 
+const { t } = useI18n()
 const isShow = ref<boolean>(true)
 
 const onCloseClick = () => {
@@ -68,7 +71,7 @@ onMounted(() => {
         :id="titleId"
         :class="titleClass"
       >
-        Задача
+        {{ t('task') }}
       </h4>
       <div class="module__after">
         <el-button

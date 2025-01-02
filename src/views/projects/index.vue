@@ -9,7 +9,9 @@ import { Plus as PlusIcon } from '@element-plus/icons-vue'
 import { getProjectsApi } from '@/api/project'
 import CreateProject from '@/components/project/CreateProject.vue'
 import AppPageHeader from '@/components/app/AppPageHeader.vue'
+import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
 const router = useRouter()
 
 interface Item {
@@ -44,7 +46,7 @@ onMounted(() => {
     <div class="project-layout h-100">
       <app-page-header>
         <template #content>
-          Проекты
+          {{ t('projects') }}
         </template>
         <template #extra>
           <el-button
@@ -53,7 +55,7 @@ onMounted(() => {
             link
             @click="creation = true"
           >
-            Создать проект
+            {{ t('createProject') }}
           </el-button>
         </template>
       </app-page-header>

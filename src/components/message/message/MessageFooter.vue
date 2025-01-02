@@ -11,7 +11,9 @@ import { getVideoImage, throttle } from '@/utils/common'
 import Editor from '@/components/message/editor/Editor.vue'
 import { uploadApi } from '@/api/upload'
 import { ElMessage } from 'element-plus'
+import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
 const props = defineProps({
   uid: {
     type: Number,
@@ -60,7 +62,7 @@ const onSendMessage = (data = {}, callBack: any) => {
       }
     })
     .catch(() => {
-      ElMessage.warning('Сеть перегружена, пожалуйста, попробуйте позже')
+      ElMessage.warning(t('networkOverloaded'))
     })
 }
 
@@ -124,7 +126,7 @@ const onSendVideoEvent = async ({ data }: any) => {
 const onSendAudioEvent = ({ data }: any) => {
   let maxsize = 200 * 1024 * 1024
   if (data.size > maxsize) {
-    return ElMessage.warning('Файлы размером более 100 МБ нельзя загружать')
+    return ElMessage.warning(t('fileSizeLimitExceeded'))
   }
   uploadsStore.initUploadFile(
     data,
@@ -137,7 +139,7 @@ const onSendAudioEvent = ({ data }: any) => {
 const onSendFileEvent = ({ data }: any) => {
   let maxsize = 200 * 1024 * 1024
   if (data.size > maxsize) {
-    return ElMessage.warning('Файлы размером более 100 МБ нельзя загружать')
+    return ElMessage.warning(t('fileSizeLimitExceeded'))
   }
   uploadsStore.initUploadFile(
     data,

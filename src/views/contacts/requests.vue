@@ -12,12 +12,13 @@ import { throttle } from '@/utils/common'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
 import ContactTopMenu from '@/components/contact/ContactTopMenu.vue'
 import { ElMessage } from 'element-plus'
+import { useI18n } from 'vue-i18n'
 
-const user: any = inject('$user')
-
-const userStore = useUserStore()
 const emit = defineEmits(['close'])
 
+const { t } = useI18n()
+const user: any = inject('$user')
+const userStore = useUserStore()
 const loadingAccept = ref<boolean>(false)
 const loadingDecline = ref<boolean>(false)
 const items = ref<any>([])
@@ -42,7 +43,7 @@ const onAccept = throttle((item: any) => {
     const { code, message } = res
     if (code == 200) {
       onLoadData()
-      ElMessage.success('Заявка принята')
+      ElMessage.success(t('requestAccepted'))
     } else {
       ElMessage.info(message)
     }
@@ -61,7 +62,7 @@ const onDecline = throttle((item: any) => {
     loadingAccept.value = false
     if (code == 200) {
       onLoadData()
-      ElMessage.success('Заявка отклонена')
+      ElMessage.success(t('requestRejected'))
     } else {
       ElMessage.info(message)
     }
@@ -78,13 +79,13 @@ onLoadData()
     <el-container class="is-vertical h-100">
       <dialog-page-header>
         <template #content>
-          Список заявок
+          {{ t('requestList') }}
         </template>
       </dialog-page-header>
       <contact-top-menu />
       <el-main v-if="items.length === 0">
         <div class="empty">
-          Ничего не найдено.
+          {{ t('nothingFound') }}
         </div>
       </el-main>
       <el-main
@@ -124,7 +125,7 @@ onLoadData()
               type="primary"
               @click="onAccept(item)"
             >
-              Принять
+              {{ t('accept') }}
             </el-button>
             <el-button
               :icon="Close"
@@ -134,7 +135,7 @@ onLoadData()
               type="danger"
               @click="onDecline(item)"
             >
-              Отклонить
+              {{ t('reject') }}
             </el-button>
           </div>
         </div>

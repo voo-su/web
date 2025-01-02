@@ -6,6 +6,7 @@ import { computed, reactive, ref } from 'vue'
 import { Plus, Search } from '@element-plus/icons-vue'
 import GroupManageAdsEditor from './GroupManageAdsEditor.vue'
 import { getGroupAdsApi } from '@/api/group-chat'
+import { useI18n } from 'vue-i18n'
 
 const props = defineProps({
   id: {
@@ -14,6 +15,7 @@ const props = defineProps({
   }
 })
 
+const { t } = useI18n()
 const keywords = ref<string>('')
 const batchDelete = ref<boolean>(false)
 const items = ref<any>([])
@@ -95,13 +97,13 @@ onLoadData()
 <template>
   <el-container class="section is-vertical h-100">
     <el-header class="header">
-      <p>Объявления ({{ filterSearch.length }})</p>
+      <p>{{ t('announcementsCount', { length:filterSearch.length }) }}</p>
       <div>
         <el-space>
           <el-input
             v-model="keywords"
             :prefix-icon="Search"
-            placeholder="Поиск"
+            :placeholder="t('search')"
           />
           <el-button
             :icon="Plus"
@@ -115,7 +117,7 @@ onLoadData()
         v-if="filterSearch.length === 0"
         class="empty"
       >
-        Ничего не найдено.
+        {{ t('nothingFound') }}
       </div>
       <div
         v-else
@@ -143,7 +145,7 @@ onLoadData()
       class="footer"
     >
       <div class="tips">
-        Выбрано ({{ filterCheck.length }})
+        {{ t('selectedCount', { length:filterCheck.length }) }}
       </div>
       <div>
         <el-space>
@@ -152,14 +154,14 @@ onLoadData()
             type="primary"
             @click="onCancelDelete"
           >
-            Отмена
+            {{ t('cancelAction') }}
           </el-button>
           <el-button
             size="small"
             type="error"
             @click="onBatchDelete"
           >
-            Удалить
+            {{ t('delete') }}
           </el-button>
         </el-space>
       </div>

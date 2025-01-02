@@ -5,7 +5,9 @@
 import { reactive, ref } from 'vue'
 import { useUserStore } from '@/store'
 import type { FormInstance, FormRules } from 'element-plus'
+import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
 const userStore = useUserStore()
 
 const emit = defineEmits(['onClick'])
@@ -20,12 +22,12 @@ const rules = reactive<FormRules>({
   email: [
     {
       required: true,
-      message: 'Поле «Email» должно быть заполнено',
+      message: t('emailFieldRequired'),
       trigger: 'blur'
     },
     {
       type: 'email',
-      message: 'Пожалуйста, введите правильный адрес почты',
+      message: t('invalidEmail'),
       trigger: ['blur', 'change']
     }
   ]
@@ -47,8 +49,8 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
 
 <template>
   <el-page-header
-    title="Безопасность"
-    content="Почта"
+    :title="t('security')"
+    :content="t('email')"
     @back="emit('onClick', 'security')"
   />
   <div class="flex-center form-center">
@@ -62,7 +64,7 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
         <el-form-item prop="email">
           <el-input
             v-model="form.email"
-            placeholder="Почта"
+            :placeholder="t('email')"
             disabled
           />
         </el-form-item>
@@ -71,7 +73,7 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
         <!--          type="primary"-->
         <!--          @click="onSubmit(formRef)"-->
         <!--        >-->
-        <!--          Изменить-->
+        <!--          {{ t('edit') }}-->
         <!--        </el-button>-->
       </el-form>
     </div>

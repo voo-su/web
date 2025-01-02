@@ -4,6 +4,9 @@
 import { defineStore } from 'pinia'
 import { chatsApi } from '@/api/chat'
 import { formatDialogItem } from '@/utils/chat'
+import { i18n } from '@/utils/i18n'
+
+const t = i18n()
 
 const ttime = (datetime: any) => {
   if (datetime == undefined || datetime == '') {
@@ -74,7 +77,7 @@ export const useDialogStore = defineStore('dialog', {
           }
         })
         .catch((err: any) => {
-          console.error('Не удалось:', err)
+          console.error(t('failed'), err)
           this.loadStatus = 4
         })
     }

@@ -1,6 +1,10 @@
 // Copyright (c) 2025 Magomedcoder <info@magomedcoder.ru>
 // Distributed under the GPL v3 License, see https://github.com/voo-su/web/blob/main/LICENSE
 
+import { i18n } from '@/utils/i18n'
+
+const t = i18n()
+
 export const trim = (str: string, type = null) => {
   if (type) {
     return str.replace(/(^\s*)|(\s*$)/g, '')
@@ -31,7 +35,7 @@ export const fileFormatSize = (value: string) => {
   let index = Math.floor(Math.log(srcsize) / Math.log(1000))
   let size = srcsize / Math.pow(1000, index)
 
-  const unitArr = ['Байт', 'КБ', 'МБ', 'ГБ', 'ТБ', 'ПБ', 'ЭБ', 'ЗБ', 'ИБ']
+  const unitArr = [t('byte'), t('kb'), t('mb'), t('gb'), t('tb'), t('pb'), t('eb'), t('zb'), t('yb')]
   return size.toFixed(2) + ' ' + unitArr[index]
 }
 

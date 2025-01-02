@@ -2,10 +2,12 @@
 // Distributed under the GPL v3 License, see https://github.com/voo-su/web/blob/main/LICENSE
 
 import { defineStore } from 'pinia'
-
 import { fileSubareaUploadApi, findFileSplitInfoApi } from '@/api/upload'
 import { messageSendApi } from '@/api/message'
 import { ElMessage } from 'element-plus'
+import { i18n } from '@/utils/i18n'
+
+const t = i18n()
 
 const fileSlice = (file: File, uploadId: string, eachSize: number) => {
   const splitNum = Math.ceil(file.size / eachSize)
@@ -45,7 +47,7 @@ export const useUploadsStore = defineStore('uploads', {
         file_name: file.name,
         file_size: file.size
       }).then(({ code, data, message }: any) => {
-        if (code !== 200) throw new Error('Не удалось найти информацию о разделении файла.')
+        if (code !== 200) throw new Error(t('fileSplitInfoNotFound'))
 
         const { upload_id, shard_size } = data
 
@@ -115,7 +117,7 @@ export const useUploadsStore = defineStore('uploads', {
           }
         })
         .catch(() => {
-          ElMessage.warning('Сеть перегружена, пожалуйста, попробуйте позже')
+          ElMessage.warning(t('networkOverloaded'))
         })
     },
 

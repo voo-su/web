@@ -2,6 +2,9 @@
 // Distributed under the GPL v3 License, see https://github.com/voo-su/web/blob/main/LICENSE
 
 import { ElMessage } from 'element-plus'
+import { i18n } from '@/utils/i18n'
+
+const t = i18n()
 
 let _window: any = window
 
@@ -14,7 +17,7 @@ export const applyNotificationAuth = (fn: any) => {
   if (notification) {
     notification.requestPermission((result: any) => fn('granted' === result))
   } else {
-    ElMessage.error('Уведомления не поддерживаются в вашем браузере.')
+    ElMessage.error(t('notificationsNotSupported'))
     return fn(false)
   }
 }

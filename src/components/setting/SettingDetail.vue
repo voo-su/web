@@ -9,7 +9,9 @@ import AvatarCropper from '@/components/base/BaseAvatarCropper.vue'
 import { useUserStore } from '@/store/user'
 import type { FormInstance, FormRules } from 'element-plus'
 import { ElMessage } from 'element-plus'
+import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
 const userStore = useUserStore()
 const cropper = ref<boolean>(false)
 const formRef = ref<FormInstance>()
@@ -19,24 +21,23 @@ const rules = reactive<FormRules>({
   name: [
     {
       required: true,
-      message: 'Поле «Имя» должно быть заполнено',
+      message: t('firstNameRequired'),
       trigger: 'blur'
     }
   ],
   surname: [
     {
       required: true,
-      message: 'Поле «Фамилия» должно быть заполнено',
+      message: t('lastNameRequired'),
       trigger: 'blur'
     }
   ],
-  // email: [],
   gender: [],
   about: [],
   birthday: []
 })
 
-interface FormType {
+interface IFormType {
   avatar: string
   name: string
   surname: string
@@ -47,7 +48,7 @@ interface FormType {
   loading: boolean
 }
 
-const form = reactive<FormType>({
+const form = reactive<IFormType>({
   avatar: '',
   email: '',
   name: '',
@@ -92,11 +93,11 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
         about: form.about
       })
         .then(() => {
-          ElMessage.success('Информация успешно сохранена')
+          ElMessage.success(t('infoSavedSuccess'))
           userStore.loadSetting()
         })
         .catch(() => {
-          ElMessage.warning('Не удалось сохранить информацию')
+          ElMessage.warning(t('infoSaveFailed'))
         })
         .finally(() => {
           form.loading = false
@@ -108,7 +109,7 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
 
 <template>
   <h3 class="title">
-    Личные данные
+    {{ t('personalInfo') }}
   </h3>
   <el-container>
     <el-aside class="el-aside-left">
@@ -123,7 +124,7 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
         link
         @click="cropper = true"
       >
-        Изменить аватар
+        {{ t('changeAvatar') }}
       </el-button>
     </el-aside>
     <el-main style="padding-right: 20px">
@@ -136,28 +137,28 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
         label-position="top"
       >
         <el-form-item
-          label="Имя"
+          :label="t('name')"
           prop="name"
         >
           <el-input
             v-model="form.name"
-            placeholder="Имя"
+            :placeholder="t('name')"
           />
         </el-form-item>
         <el-form-item
-          label="Фамилия"
+          :label="t('surname')"
           prop="surname"
         >
           <el-input
             v-model="form.surname"
-            placeholder="Фамилия"
+            :placeholder="t('surname')"
           />
         </el-form-item>
         <div class="flex w-100">
           <el-form-item
             label="Пол"
             class="w-50"
-            placeholder="Укажите свой пол"
+            :placeholder="t('specifyGender')"
             prop="gender"
           >
             <el-segmented
@@ -166,13 +167,13 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
             />
           </el-form-item>
           <el-form-item
-            label="День рождения"
+            :label="t('birthday')"
             prop="birthday"
             class="w-50"
           >
             <el-date-picker
               v-model="form.birthday"
-              placeholder="День рождения"
+              :placeholder="t('birthday')"
               format="DD-MM-YYYY"
               value-format="YYYY-MM-DD"
               :clearable="false"
@@ -180,14 +181,14 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
           </el-form-item>
         </div>
         <el-form-item
-          label="О себе"
+          :label="t('about')"
           prop="about"
         >
           <el-input
             v-model="form.about"
             :autosize="{ minRows: 3, maxRows: 5}"
             maxlength="500"
-            placeholder="О себе"
+            :placeholder="t('about')"
             type="textarea"
           />
         </el-form-item>
@@ -197,7 +198,7 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
             type="primary"
             @click="onSubmit(formRef)"
           >
-            Сохранить
+            {{ t('save') }}
           </el-button>
         </div>
       </el-form>

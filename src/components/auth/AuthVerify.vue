@@ -15,6 +15,7 @@ import type { IFormVerifyType } from './types'
 import { getErrorForField } from '@/utils/functions'
 import IconLogo from '@/components/icons/IconLogo.vue'
 import { pushInit } from '@/utils/push'
+import { useI18n } from 'vue-i18n'
 
 const userStore = useUserStore()
 
@@ -22,8 +23,10 @@ const props = defineProps({
   time: Number,
   timerExpired: Boolean
 })
+
 const emit = defineEmits(['onLogin', 'onVerify', 'onSuccess', 'time', 'timerExpired'])
 
+const { t } = useI18n()
 const formRef = ref<FormInstance>()
 const errors = ref<any>([])
 
@@ -32,12 +35,12 @@ const rules = reactive<FormRules>({
     {
       required: true,
       trigger: 'blur',
-      message: 'Введите ваш 6-значный секретный код'
+      message: t('enterSixDigitCode')
     },
     {
       min: 6,
       trigger: 'blur',
-      message: 'Код быть не менее 6 символов'
+      message: t('codeMinLength')
     }
   ]
 })
@@ -54,20 +57,13 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
       form.loading = true
       errors.value = []
       const token = cookie.get(authSessionKey)
+      if (token == null) return
       verifyApi({
         token: token,
         code: form.code
-      }).then((res: any) => {
-        const {
-          code,
-          message,
-          data
-        } = res
+      }).then(({ code, message, data }: any) => {
         if (code == 200) {
-          const {
-            accessToken,
-            expiresIn
-          } = data
+          const { accessToken, expiresIn } = data
           cookie.remove(authSessionKey)
           setAccessToken(accessToken, expiresIn)
           socket.connect()
@@ -98,7 +94,7 @@ const onLogin = () => {
     <div class="logo">
       <icon-logo />
     </div>
-    <h5>Пожалуйста, введите в форму ниже код, который мы отправили вам.</h5>
+    <h5>{{ t('enterCodeBelow') }}</h5>
   </el-header>
   <el-main>
     <el-form
@@ -133,14 +129,14 @@ const onLogin = () => {
         Подтвердить
       </el-button>
       <div class="time">
-        <p>Вы сможете отправить код повторно через {{ props.time }} сек.</p>
+        <p>{{ t('resendCodeIn', { time: props.time }) }}</p>
         <el-button
           :icon="Close"
           link
           type="info"
           @click="onLogin()"
         >
-          Отменить
+          {{ t('cancel') }}
         </el-button>
       </div>
     </el-form>
@@ -148,13 +144,13 @@ const onLogin = () => {
       v-else
       class="expired"
     >
-      <p>Истекло время для подтверждения.</p>
+      <p>{{ t('confirmationTimeout') }}</p>
       <el-button
         type="primary"
         text
         @click="onLogin()"
       >
-        Повторить
+        {{ t('retry') }}
       </el-button>
     </div>
   </el-main>

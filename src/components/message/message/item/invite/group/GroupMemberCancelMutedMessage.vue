@@ -3,12 +3,14 @@
 // Distributed under the GPL v3 License, see https://github.com/voo-su/web/blob/main/LICENSE
 
 import { inject } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 defineProps({
   extra: Object,
   data: Object
 })
 
+const { t } = useI18n()
 const showUserModal = inject<any>('$user')
 </script>
 
@@ -18,12 +20,12 @@ const showUserModal = inject<any>('$user')
       <a @click="showUserModal(extra.owner_id)">
         {{ extra.owner_name }}
       </a>
-      <span>снял(а) ограничение чата для</span>
+      <span>{{ t('liftedChatRestrictionFor') }}</span>
       <template v-for="(user, index) in extra.members">
         <a @click="showUserModal(user.user_id)">{{ user.username }}</a>
         <em v-show="index < extra.members.length - 1">,</em>
       </template>
-      <span>на отправку сообщений</span>
+      <span>{{ t('messageSending') }}</span>
     </div>
   </div>
 </template>

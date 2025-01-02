@@ -3,12 +3,14 @@
 // Distributed under the GPL v3 License, see https://github.com/voo-su/web/blob/main/LICENSE
 
 import { inject } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 defineProps({
   extra: Object,
   data: Object
 })
 
+const { t } = useI18n()
 const showUserModal = inject<any>('$user')
 </script>
 
@@ -16,7 +18,7 @@ const showUserModal = inject<any>('$user')
   <div class="invite-message">
     <div class="sys-text">
       <a @click="showUserModal(extra.old_owner_id)">{{ extra.old_owner_name }}</a>
-      <span>передал(а) группу владельцу</span>
+      <span>{{ t('transferredGroupOwnership') }}</span>
       <a @click="showUserModal(extra.new_owner_id)">{{ extra.new_owner_name }}</a>
     </div>
   </div>

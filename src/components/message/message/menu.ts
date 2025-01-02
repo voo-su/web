@@ -11,6 +11,9 @@ import {
 } from '@element-plus/icons-vue'
 import type { IDropdown } from './types'
 import IconForward from '@/components/icons/IconForward.vue'
+import { i18n } from '@/utils/i18n'
+
+const t = i18n()
 
 const isRevoke = (uid: any, item: any): boolean => {
   if (uid != item.user_id) {
@@ -35,48 +38,48 @@ export const useMenu = () => {
     dropdown.options = []
     if ([1, 3].includes(item.msg_type)) {
       dropdown.options.push({
-        label: 'Копировать',
+        label: t('copy'),
         icon: markRaw(IconCopyDocument),
         key: 'copy'
       })
     }
 
     dropdown.options.push({
-      label: 'Ответить',
+      label: t('reply'),
       icon: markRaw(IconChatRound),
       key: 'quote'
     })
 
     if (isRevoke(uid, item)) {
       dropdown.options.push({
-        label: `Отозвать`,
+        label: t('revoke'),
         icon: markRaw(RemoveIcon),
         key: 'revoke'
       })
     }
 
     // dropdown.options.push({
-    //   label: 'Переслать',
+    //   label: t('forward'),
     //   icon: markRaw(IconForward),
     //   key: 'forward'
     // })
 
     // dropdown.options.push({
-    //   label: 'Выделить',
+    //   label: t('highlight'),
     //   icon: markRaw(IconForward),
     //   key: 'multiSelect'
     // })
 
     if ([3, 4, 5].includes(item.msg_type)) {
       dropdown.options.push({
-        label: 'Скачать',
+        label: t('download'),
         icon: markRaw(IconDownload),
         key: 'download'
       })
     }
 
     dropdown.options.push({
-      label: 'Удалить',
+      label: t('delete'),
       icon: markRaw(IconDelete),
       key: 'delete'
     })

@@ -4,6 +4,9 @@
 
 import type { PropType } from 'vue'
 import Xtime from '../../base/BaseXtime.vue'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 interface ITask {
   title: string

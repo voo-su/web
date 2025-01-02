@@ -6,6 +6,7 @@ import { computed, ref } from 'vue'
 import { Check, Close, Refresh, Search } from '@element-plus/icons-vue'
 import { agreeGroupApplyApi, deleteGroupApplyApi, getGroupRequestsApi } from '@/api/group-chat'
 import { ElMessage } from 'element-plus'
+import { useI18n } from 'vue-i18n'
 
 const props = defineProps({
   id: {
@@ -14,6 +15,7 @@ const props = defineProps({
   }
 })
 
+const { t } = useI18n()
 const keywords = ref<string>('')
 const batchDelete = ref<any>(false)
 const items = ref<any>([])
@@ -80,13 +82,13 @@ onLoadData()
 <template>
   <el-container class="section is-vertical h-100">
     <el-header class="header">
-      <p>Заявки ({{ filterSearch.length }})</p>
+      <p>{{ t('requestsCount', { length:filterSearch.length }) }}</p>
       <div>
         <el-space>
           <el-input
             v-model="keywords"
             :prefix-icon="Search"
-            placeholder="Поиск"
+            :placeholder="t('search')"
           />
           <el-button
             :icon="Refresh"
@@ -100,13 +102,13 @@ onLoadData()
         v-if="filterSearch.length === 0"
         class="empty"
       >
-        Ничего не найдено.
+        {{ t('nothingFound') }}
       </div>
       <div
         v-else
         v-for="item in filterSearch"
         class="item-card"
-        @click="onRowClick(item)"
+        @click="onRowClick()"
       >
         <div class="content hidden">
           <div class="item-title">

@@ -4,11 +4,11 @@
 
 import { textReplaceEmoji } from '@/utils/emojis'
 import { textReplaceLink, textReplaceMention } from '@/utils/strings'
-import type { Data } from './types'
+import type { IData } from './types'
 
 const props = defineProps<{
   extra: any
-  data: Data
+  data: IData
   maxWidth: Boolean
 }>()
 

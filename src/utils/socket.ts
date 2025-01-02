@@ -11,6 +11,9 @@ import EventKeyboard from '../event/socket/keyboard'
 import EventLogin from '../event/socket/login'
 import EventRevoke from '../event/socket/revoke'
 import { ElMessageBox, ElNotification, ElMessage } from 'element-plus'
+import { i18n } from '@/utils/i18n'
+
+const t = i18n()
 
 const urlCallback = () => {
   if (!isLoggedIn()) {
@@ -27,7 +30,7 @@ class Socket {
   constructor() {
     this.ws = new Ws(urlCallback, {
       onError: () => {
-        console.log('Метод обратного вызова для неудачного соединения с WebSocket')
+        console.log(t('websocketConnectionFailedCallback'))
       },
 
       onOpen: () => {
@@ -83,8 +86,8 @@ class Socket {
   onReset() {
     this.ws.on('voo.reset', () => {
       ElMessageBox.confirm(
-        'Сайт был обновлён. Перезагрузите страницу, чтобы всё работало корректно.',
-        'Обновление сайта',
+        t('siteUpdated'),
+        t('siteUpdate'),
         {
           center: true,
           showConfirmButton: false,
@@ -131,9 +134,9 @@ class Socket {
   onImContactApply() {
     this.ws.on('voo.contact.request', (data: any) => {
       // ElNotification.create({
-      //   title: 'Уведомление о запросе на добавление в контакты',
+      //   title: t('contactRequestNotification'),
       //   content: data.username,
-      //   description: `Заявитель: ${data.friend.username}`,
+      //   description: `${data.friend.username}`,
       //   meta: data.friend.created_at,
       //   avatar: () =>
       //     h(ElAvatar, {
@@ -150,10 +153,9 @@ class Socket {
 
   onImGroupApply() {
     this.ws.on('voo.group_chat.request', () => {
-      // ElMessage.info('Уведомление о заявке в группу')
       // ElNotification.create({
-      //   title: 'Уведомление о заявке в группу',
-      //   content: 'Поступила новая заявка на вступление в группу. Пожалуйста, проверьте.',
+      //   title: t('groupRequestNotification'),
+      //   content: t('newGroupJoinRequest'),
       //   avatar: () =>
       //     h(NAvatar, {
       //       size: 'small',

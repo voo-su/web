@@ -9,8 +9,8 @@ import { defGroup } from '@/constants/default'
 import AvatarBox from '@/components/base/BaseAvatarBox.vue'
 import type { FormInstance, FormRules } from 'element-plus'
 import { ElMessage } from 'element-plus'
+import { useI18n } from 'vue-i18n'
 
-const emit = defineEmits(['close'])
 const props = defineProps({
   id: {
     type: Number,
@@ -18,6 +18,9 @@ const props = defineProps({
   }
 })
 
+const emit = defineEmits(['close'])
+
+const { t } = useI18n()
 const cropper = ref<boolean>(false)
 const formRef = ref<FormInstance>()
 
@@ -37,14 +40,14 @@ const rules = reactive<FormRules>({
   name: [
     {
       required: true,
-      message: 'Поле «Имя» должно быть заполнено',
+      message: t('firstNameRequired'),
       trigger: 'blur'
     }
   ],
   description: [
     {
       max: 255,
-      message: 'Описание не должно превышать 255 символов',
+      message: t('descriptionMaxLength'),
       trigger: 'blur'
     }
   ]
@@ -71,7 +74,8 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
   await formEl.validate(async valid => {
     if (valid) {
       if (form.name.trim() == '') {
-        return ElMessage.info('Имя группы не может быть пустым')
+         ElMessage.info(t('groupNameRequired'))
+        return
       }
 
       editGroupApi({
@@ -81,7 +85,7 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
         description: form.description
       }).then((res: any) => {
         if (res.code == 200) {
-          ElMessage.success('Информация о группе успешно обновлена')
+          ElMessage.success(t('groupInfoUpdatedSuccess'))
           emit('close')
         } else {
           ElMessage.error(res.message)
@@ -98,7 +102,7 @@ onMounted(() => {
 
 <template>
   <el-header class="header">
-    <p>Основная информация</p>
+    <p>{{ t('basicInfo') }}</p>
   </el-header>
   <el-main>
     <div class="t-center">
@@ -112,7 +116,7 @@ onMounted(() => {
         link
         @click="cropper = true"
       >
-        Загрузить фотографию
+        {{ t('uploadPhoto') }}
       </el-button>
     </div>
     <el-form
@@ -122,22 +126,22 @@ onMounted(() => {
       label-position="top"
     >
       <el-form-item
-        label="Название группы"
+        :label="t('groupName')"
         prop="name"
         required
       >
         <el-input
           v-model="form.name"
-          placeholder="Название группы"
+          :placeholder="t('groupNameField')"
         />
       </el-form-item>
       <el-form-item
-        label="Описание группы"
+        :label="t('groupDescription')"
         prop="description"
       >
         <el-input
           v-model="form.description"
-          placeholder="Описание группы"
+          :placeholder="t('groupDescription')"
           type="textarea"
         />
       </el-form-item>
@@ -146,7 +150,7 @@ onMounted(() => {
           type="primary"
           @click="onSubmit(formRef)"
         >
-          Сохранить
+          {{ t('save') }}
         </el-button>
       </div>
     </el-form>

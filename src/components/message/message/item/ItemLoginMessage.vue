@@ -4,23 +4,25 @@
 
 import { getBrowserType, getOSType } from '@/utils/util'
 import { formatTime } from '@/utils/datetime'
+import { useI18n } from 'vue-i18n'
 
 defineProps({
   extra: Object,
   data: Object
 })
 
+const { t } = useI18n()
 </script>
 
 <template>
   <section class="login-message">
-    <h4>Уведомление о входе в систему</h4>
+    <h4>{{ t('loginNotification') }}</h4>
     <p>
-      Устройство: {{ getOSType(extra.agent) }} / {{ getBrowserType(extra.agent) }}
+      {{ t('device') }}: {{ getOSType(extra.agent) }} / {{ getBrowserType(extra.agent) }}
     </p>
     <p>IP: {{ extra.ip }}</p>
-    <p>Место входа: {{ extra.address }}</p>
-    <p>Время входа: {{ formatTime(extra.datetime) }}</p>
+    <p>{{ t('loginLocation') }}: {{ extra.address }}</p>
+    <p>{{ t('loginTime') }}: {{ formatTime(extra.datetime) }}</p>
   </section>
 </template>
 

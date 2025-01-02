@@ -5,20 +5,22 @@
 import { computed, reactive, ref } from 'vue'
 import { contactFoldersApi, contactFolderSaveApi } from '@/api/contact'
 import { Delete as IconDelete, Plus as IconPlus } from '@element-plus/icons-vue'
-import { ElDialog } from 'element-plus'
-import { ElMessage } from 'element-plus'
+import { ElDialog, ElMessage } from 'element-plus'
+import { useI18n } from 'vue-i18n'
 
 const emit = defineEmits(['close', 'relaod'])
-const isShowBox = ref<boolean>(true)
 
-interface Item {
+const isShowBox = ref<boolean>(true)
+const { t } = useI18n()
+
+interface IItem {
   id: number
   index: number
   name: string
   count: number
 }
 
-const options = reactive<Item[]>([])
+const options = reactive<IItem[]>([])
 
 let index = 1
 
@@ -53,7 +55,7 @@ const onSubmit = () => {
     .then((res: any) => {
       const { code, message } = res
       if (code == 200) {
-        ElMessage.success('Успешно')
+        ElMessage.success(t('success'))
         emit('relaod')
         emit('close')
       } else {
@@ -71,7 +73,7 @@ const addOption = () => {
   })
 }
 
-const delOption = (item: Item) => {
+const delOption = (item: IItem) => {
   let fn = () => {
     let i = options.findIndex(value => value.index == item.index)
     if (i >= 0) {
@@ -81,9 +83,9 @@ const delOption = (item: Item) => {
   if (item.count > 0) {
     ElDialog.create({
       title: '',
-      content: `В папке ${item.name} есть ${item.count} контакты. Вы уверены, что хотите удалить ?`,
-      positiveText: 'Ок',
-      negativeText: 'Отмена',
+      content: t('confirmDeleteFolder', { name: item.name, count: item.count }),
+      positiveText: t('ok'),
+      negativeText: t('cancelAction'),
       onPositiveClick: () => {
         fn()
       }
@@ -97,7 +99,7 @@ const onCloseClick = () => {
   emit('close')
 }
 const isCanSubmit = computed(() => {
-  return options.some((item: Item) => item.name.trim().length === 0)
+  return options.some((item: IItem) => item.name.trim().length === 0)
 })
 
 onLoad()
@@ -107,7 +109,7 @@ onLoad()
   <el-dialog
     v-model="isShowBox"
     :before-close="onCloseClick"
-    title="Папки с контактами"
+    :title="t('contactFolders')"
     width="30%"
   >
     <el-container class="launch-box">
@@ -119,7 +121,7 @@ onLoad()
         >
           <el-input
             v-model="item.name"
-            placeholder="Введите название папки"
+            :placeholder="t('enterFolderName')"
           />
           <el-button
             @click="delOption(item)"
@@ -135,7 +137,7 @@ onLoad()
           link
           @click="addOption"
         >
-          Еще
+          {{ t('more') }}
         </el-button>
       </div>
     </el-container>
@@ -144,7 +146,7 @@ onLoad()
         <el-button
           @click="isShowBox = false"
         >
-          Отмена
+          {{ t('cancelAction') }}
         </el-button>
         <el-button
           :disabled="isCanSubmit"
@@ -152,7 +154,7 @@ onLoad()
           type="primary"
           @click="onSubmit"
         >
-          Сохранить
+          {{ t('save') }}
         </el-button>
       </div>
     </template>

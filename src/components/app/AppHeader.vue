@@ -22,6 +22,7 @@ import { toggleDark, isDark } from '@/composition/dark'
 import IconLight from '@/components/icons/IconLight.vue'
 import IconDark from '@/components/icons/IconDark.vue'
 import IconExit from '@/components/icons/IconExit.vue'
+import { useI18n } from 'vue-i18n'
 
 const props = defineProps({
   index: {
@@ -30,6 +31,7 @@ const props = defineProps({
   }
 })
 
+const { t } = useI18n()
 const userStore = useUserStore()
 const dialogStore = useDialogStore()
 const uploadsStore = useUploadsStore()
@@ -116,7 +118,7 @@ const onLogout = () => {
                   <!--                      <icon-dark v-if="isDark" />-->
                   <!--                      <icon-light v-else />-->
                   <!--                    </el-icon>-->
-                  <!--                    Переключить режим-->
+                  <!--                    {{ t('toggleMode') }}-->
                   <!--                  </el-dropdown-item>-->
                   <el-dropdown-item
                     @click="onClickMenu({ link: '/settings' })"
@@ -124,7 +126,7 @@ const onLogout = () => {
                     <el-icon :size="18">
                       <icon-setting />
                     </el-icon>
-                    Настройки
+                    {{ t('settings') }}
                   </el-dropdown-item>
                   <el-dropdown-item
                     divided
@@ -133,7 +135,7 @@ const onLogout = () => {
                     <el-icon :size="18">
                       <icon-exit />
                     </el-icon>
-                    Выйти
+                    {{ t('logout') }}
                   </el-dropdown-item>
                 </el-dropdown-menu>
               </template>

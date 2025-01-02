@@ -1,6 +1,10 @@
 // Copyright (c) 2025 Magomedcoder <info@magomedcoder.ru>
 // Distributed under the GPL v3 License, see https://github.com/voo-su/web/blob/main/LICENSE
 
+import { i18n } from '@/utils/i18n'
+
+const t = i18n()
+
 export const authSessionKey: string = 'voo_su_auth_session'
 export const authSessionTimerKey: string = 'voo_su_auth_timer'
 
@@ -9,11 +13,11 @@ export const userInfo: string = 'voo_su_user'
 
 export const genderOptions = [
   {
-    label: 'Мужской',
+    label: t('maleOption'),
     value: '1'
   },
   {
-    label: 'Женский',
+    label: t('femaleOption'),
     value: '2'
   }
 ]

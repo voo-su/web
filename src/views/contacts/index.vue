@@ -15,6 +15,9 @@ import ContactTopMenu from '@/components/contact/ContactTopMenu.vue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
 // import ContactFolderManage from '@/components/contact/ContactFolderManage.vue'
 // import { Files as IconFiles } from '@element-plus/icons-vue'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 const emit = defineEmits(['close'])
 const user: any = inject('$user')
@@ -97,13 +100,13 @@ onMounted(() => {
     <el-container class="is-vertical h-100">
       <app-page-header>
         <template #content>
-          Контакты
+          {{ t('contacts') }}
         </template>
         <template #extra>
           <el-input
             v-model="keywords"
             :prefix-icon="Search"
-            placeholder="Поиск"
+            :placeholder="t('search')"
           />
         </template>
       </app-page-header>
@@ -137,7 +140,7 @@ onMounted(() => {
       </div>
       <el-main v-else>
         <div class="empty">
-          Ничего не найдено.
+          {{ t('nothingFound') }}
         </div>
       </el-main>
     </el-container>

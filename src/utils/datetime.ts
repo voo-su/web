@@ -1,6 +1,10 @@
 // Copyright (c) 2025 Magomedcoder <info@magomedcoder.ru>
 // Distributed under the GPL v3 License, see https://github.com/voo-su/web/blob/main/LICENSE
 
+import { i18n } from '@/utils/i18n'
+
+const t = i18n()
+
 export const formatTime = (datetime: string | null): string => {
   if (datetime == null) {
     return ''
@@ -29,11 +33,11 @@ export const formatTime = (datetime: string | null): string => {
     const day = outTime.getDate() - time.getDate()
 
     if (day === -1) {
-      return parseTime(outTime, 'Вчера h:i')
+      return parseTime(outTime, t('yesterday'))
     }
 
     if (day === -2) {
-      return parseTime(outTime, 'Позавчера h:i')
+      return parseTime(outTime, t('dayBeforeYesterday'))
     }
 
     return parseTime(outTime, 'h:i d.m.y')
@@ -48,11 +52,11 @@ export const formatTime = (datetime: string | null): string => {
   let minutes = outTime.getMinutes() - time.getMinutes()
 
   if (minutes === 0) {
-    return 'только что'
+    return t('justNow')
   }
 
   minutes = Math.abs(minutes)
-  return `${minutes} минут назад`
+  return t('minutesAgo', { minute: minutes })
 }
 
 export const parseTime = (time: any, cFormat?: string): string => {
@@ -92,7 +96,7 @@ export const parseTime = (time: any, cFormat?: string): string => {
       const value = formatObj[key]
 
       if (key === 'a') {
-        return ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'][value]
+        return [t('sunday'), t('monday'), t('tuesday'), t('wednesday'), t('thursday'), t('friday'), t('saturday')][value]
       }
 
       return value.toString().padStart(2, '0')
@@ -129,11 +133,11 @@ export const beautifyTime = (datetime: string | null): string => {
     const day = outTime.getDate() - time.getDate()
 
     if (day === -1) {
-      return parseTime(outTime, 'Вчера h:i')
+      return parseTime(outTime, t('yesterday'))
     }
 
     if (day === -2) {
-      return parseTime(outTime, 'Позавчера h:i')
+      return parseTime(outTime, t('dayBeforeYesterday'))
     }
 
     return parseTime(outTime, 'd.m')
@@ -146,8 +150,8 @@ export const beautifyTime = (datetime: string | null): string => {
   const minutes = Math.abs(outTime.getMinutes() - time.getMinutes())
 
   if (minutes === 0) {
-    return 'только что'
+    return t('justNow')
   }
 
-  return `${minutes} минут назад`
+  return t('minutesAgo', { minute: minutes })
 }

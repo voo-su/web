@@ -49,7 +49,7 @@ const onLang = () => ElMessageBox({
         </el-link>
       </li>
       <li>
-        <el-link href="/dev">
+        <el-link href="https://dev.voo.su/">
           {{ t('developers') }}
         </el-link>
       </li>

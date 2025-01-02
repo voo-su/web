@@ -7,6 +7,7 @@ import { MuteNotification } from '@element-plus/icons-vue'
 import AvatarBox from '@/components/base/BaseAvatarBox.vue'
 import { getName } from '@/utils/util'
 import IconPin from '@/components/icons/IconPin.vue'
+import { useI18n } from 'vue-i18n'
 
 defineProps({
   data: {
@@ -21,6 +22,8 @@ defineProps({
 })
 
 const emit = defineEmits(['tab-chat'])
+
+const { t } = useI18n()
 </script>
 
 <template>
@@ -68,7 +71,7 @@ const emit = defineEmits(['tab-chat'])
       <div class="content">
         <div class="text">
           <template v-if="!active && data.draft_text">
-            <span class="draft">Черновик:</span>
+            <span class="draft">{{ t('draft') }}</span>
             <span v-html="data.draft_text" />
           </template>
           <template v-else>

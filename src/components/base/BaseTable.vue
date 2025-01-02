@@ -3,8 +3,11 @@
 // Distributed under the GPL v3 License, see https://github.com/voo-su/web/blob/main/LICENSE
 
 import 'element-plus/es/components/empty/style/css'
+import { useI18n } from 'vue-i18n'
 
 defineProps(['loading', 'columns', 'items', 'rowEventHandlers'])
+
+const { t } = useI18n()
 </script>
 
 <template>
@@ -24,7 +27,7 @@ defineProps(['loading', 'columns', 'items', 'rowEventHandlers'])
         <template #empty>
           <div class="el-empty">
             <div class="el-empty__description">
-              <p>Нет данных</p>
+              <p>{{ t('noData') }}</p>
             </div>
           </div>
         </template>

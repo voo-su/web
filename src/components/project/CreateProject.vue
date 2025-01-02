@@ -6,7 +6,9 @@ import { reactive, ref } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
 import { Close as CloseIcon } from '@element-plus/icons-vue'
 import { createProjectApi } from '@/api/project'
+import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
 const emit = defineEmits(['close', 'success'])
 
 const isShow = ref(true)
@@ -21,17 +23,17 @@ const rules = reactive<FormRules>({
   title: [
     {
       required: true,
-      message: 'Пожалуйста, введите наименование',
+      message: t('enterName'),
       trigger: 'blur'
     },
     {
       min: 3,
-      message: 'Должно содержать не менее 3 символов',
+      message: t('usernameMinLength'),
       trigger: 'blur'
     },
     {
       max: 255,
-      message: 'Не должно превышать 255 символов',
+      message: t('descriptionMaxLength'),
       trigger: 'blur'
     }
   ]
@@ -83,7 +85,7 @@ const onCloseClick = () => {
         :id="titleId"
         :class="titleClass"
       >
-        Новый проект
+        {{ t('newProject') }}
       </h4>
       <div class="module__after">
         <el-button
@@ -104,20 +106,20 @@ const onCloseClick = () => {
         <el-form-item prop="title">
           <el-input
             v-model="form.title"
-            placeholder="Наименование"
+            :placeholder="t('nameProject')"
           />
         </el-form-item>
         <el-form-item>
           <div class="footer">
             <el-button @click="onCloseClick">
-              Отмена
+              {{ t('cancelAction') }}
             </el-button>
             <el-button
               :loading="form.loading"
               type="primary"
               @click="onSubmit(formRef)"
             >
-              Создать
+              {{ t('create') }}
             </el-button>
           </div>
         </el-form-item>

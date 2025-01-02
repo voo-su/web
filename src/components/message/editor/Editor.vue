@@ -29,6 +29,7 @@ import { publisher } from '@/utils/publisher'
 import IconClip from '@/components/icons/IconClip.vue'
 import type { IDropdown } from './types'
 import { ElMessage } from 'element-plus'
+import { useI18n } from 'vue-i18n'
 
 const props = defineProps({
   vote: {
@@ -41,6 +42,8 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['editor-event'])
+
+const { t } = useI18n()
 const dialogueStore = useDialogueStore()
 const dialogStore = useDialogStore()
 
@@ -59,7 +62,7 @@ const stickerRef = ref()
 const dropdown = reactive<IDropdown[]>([
   {
     show: true,
-    title: 'Фотография',
+    title: t('photo'),
     icon: markRaw(Camera),
 
     click: () => {
@@ -68,7 +71,7 @@ const dropdown = reactive<IDropdown[]>([
   },
   {
     show: true,
-    title: 'Видеозапись',
+    title: t('videoRecording'),
     icon: markRaw(VideoCamera),
 
     click: () => {
@@ -77,7 +80,7 @@ const dropdown = reactive<IDropdown[]>([
   },
   {
     show: true,
-    title: 'Аудиозапись',
+    title: t('audioRecording'),
     icon: markRaw(IconAudio),
 
     click: () => {
@@ -86,7 +89,7 @@ const dropdown = reactive<IDropdown[]>([
   },
   {
     show: true,
-    title: 'Файл',
+    title: t('file'),
     icon: markRaw(IconFolder),
     click: () => {
       uploadFileRef.value.click()
@@ -94,7 +97,7 @@ const dropdown = reactive<IDropdown[]>([
   },
   {
     show: computed(() => props.vote),
-    title: 'Опрос',
+    title: t('poll'),
     icon: markRaw(IconOperation),
     click: () => {
       isShowEditorVote.value = true
@@ -140,7 +143,7 @@ const sendMessage = (e: any, data: any) => {
   switch (data.msgType) {
     case 1:
       if (data.items[0].content.length > 1024) {
-        return ElMessage.info('Превышена максимальная длина сообщения. Пожалуйста, разделите его на несколько частей и отправьте отдельно.')
+        return ElMessage.info(t('messageTooLong'))
       }
 
       let event = emitCall('text_event', data, (ok: any) => {
@@ -311,7 +314,7 @@ const onUploadImageChange = (e: any) => {
     return insertEditorImage(file)
   }
 
-  ElMessage.info('Поддерживаются только форматы: gif, jpg, jpeg, png, webp, svg.')
+  ElMessage.info(t('supportedImageFormats'))
 }
 
 const onUploadVideoFile = (e: any) => {
@@ -329,7 +332,7 @@ const onUploadVideoFile = (e: any) => {
     return
   }
 
-  ElMessage.info('Поддерживаются только форматы: mp4, avi, mov, mkv')
+  ElMessage.info(t('supportedVideoFormats'))
 }
 
 const onUploadAudioFile = (e: any) => {
@@ -347,7 +350,7 @@ const onUploadAudioFile = (e: any) => {
     return
   }
 
-  ElMessage.info('Поддерживаются только форматы: mp3, wav, aac, flac, ogg')
+  ElMessage.info(t('supportedAudioFormats'))
 }
 
 const onUploadFile = (e: any) => {
@@ -361,7 +364,7 @@ const onUploadFile = (e: any) => {
   // return
   // }
 
-  // return ElMessage.info('Поддерживаются только форматы: pdf, docx, xlsx, zip, txt')
+  // return ElMessage.info(t('supportedFileFormats'))
 }
 
 // const onRecorderEvent = (file: any) => {
@@ -442,37 +445,30 @@ const onSubscribeQuote = (data: any) => {
     let range = selection.getRangeAt(0)
     range.deleteContents()
 
-    // Создание блока цитаты
     const quoteCard = document.createElement('div')
     quoteCard.classList.add('quote-card')
 
-    // Установка data-атрибутов цитаты
     quoteCard.dataset.id = id
     quoteCard.dataset.title = title
     quoteCard.dataset.description = description
     quoteCard.dataset.image = image
 
-    // Отключаем редактирование цитаты
     quoteCard.setAttribute('contenteditable', 'false')
 
-    // Создание контента для цитаты
     const quoteCardContent = document.createElement('span')
     quoteCardContent.classList.add('quote-card-content')
 
-    // Заголовок цитаты
     const quoteCardTitle = document.createElement('span')
     quoteCardTitle.classList.add('quote-card-title')
     quoteCardTitle.textContent = title
     quoteCardContent.appendChild(quoteCardTitle)
 
-    // Если изображения нет, добавляем описание
     if (image.length === 0) {
       const quoteCardMeta = document.createElement('span')
       quoteCardMeta.classList.add('quote-card-meta')
       quoteCardMeta.textContent = description
       quoteCardContent.appendChild(quoteCardMeta)
     } else {
-      // Добавляем изображение, если оно есть
       const iconImg = document.createElement('img')
       iconImg.setAttribute('src', image)
       iconImg.classList.add('quote-card-image')
@@ -481,11 +477,9 @@ const onSubscribeQuote = (data: any) => {
 
     quoteCard.appendChild(quoteCardContent)
 
-    // Вставляем цитату на место курсора
     try {
       range.insertNode(quoteCard)
 
-      // Создание пустого текстового узла после цитаты, чтобы пользователь мог продолжить ввод текста
       const textNode = document.createTextNode('\u00A0') // это неразрывный пробел
       range.setStartAfter(quoteCard)
       range.insertNode(textNode)
@@ -495,7 +489,6 @@ const onSubscribeQuote = (data: any) => {
       console.error('Не удалось вставить:', err)
     }
 
-    // Снимаем выделение и устанавливаем новое после вставки
     selection.removeAllRanges()
     selection.addRange(range)
     editor.focus()
@@ -534,7 +527,7 @@ onUnmounted(() => {
       <div class="message-compose">
         <div class="option-btn-left">
           <el-dropdown>
-            <span title="Вложение">
+            <span :title="t('attachment')">
               <el-icon :size="20">
                 <icon-clip />
               </el-icon>
@@ -564,7 +557,7 @@ onUnmounted(() => {
             v-paste="onPaste"
             class="editable"
             contenteditable="true"
-            placeholder="Написать сообщение..."
+            :placeholder="t('writeMessage')"
             spellcheck="true"
             @keydown="onKeydownEvent($event)"
           />
@@ -606,7 +599,7 @@ onUnmounted(() => {
             <template #reference>
               <div
                 class="el-button el-button--info is-link"
-                title="Эмодзи"
+                :title="t('emoji')"
               >
                 <el-icon :size="23">
                   <icon-emoticon />

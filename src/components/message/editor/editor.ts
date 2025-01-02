@@ -1,13 +1,13 @@
 // Copyright (c) 2025 Magomedcoder <info@magomedcoder.ru>
 // Distributed under the GPL v3 License, see https://github.com/voo-su/web/blob/main/LICENSE
 
-interface Item {
+interface IItem {
   type: number
   content: string
 }
 
-interface AnalysisResp {
-  items: Item[]
+interface IAnalysisResp {
+  items: IItem[]
   mentions: any[]
   mentionUids: number[]
   quoteId: string
@@ -17,8 +17,8 @@ interface AnalysisResp {
 const removeLeadingNewlines = (str: string) => str.replace(/^[\n\s]+/, '')
 const removeTrailingNewlines = (str: string) => str.replace(/[\n\s]+$/, '')
 
-export const getEditorNodeInfo = (editor: HTMLElement | null): AnalysisResp => {
-  const resp: AnalysisResp = {
+export const getEditorNodeInfo = (editor: HTMLElement | null): IAnalysisResp => {
+  const resp: IAnalysisResp = {
     items: [],
     mentions: [],
     mentionUids: [],
@@ -44,12 +44,11 @@ export const getEditorNodeInfo = (editor: HTMLElement | null): AnalysisResp => {
     if (node.nodeName === '#text') {
       if (!node.textContent) continue
 
-      // Разбиваем текстовое содержимое на части по \n
       const parts = node.textContent.split('\n')
       parts.forEach((part, index) => {
         appendTextContent(part)
         if (index < parts.length - 1) {
-          // Добавляем перенос строки после каждой части, кроме последней
+          // Перенос строки после каждой части, кроме последней
           appendTextContent('\n')
         }
       })
@@ -57,7 +56,6 @@ export const getEditorNodeInfo = (editor: HTMLElement | null): AnalysisResp => {
     }
 
     if (node.nodeName === 'BR') {
-      // Обрабатываем <br> как перенос строки
       appendTextContent('\n')
       continue
     }
