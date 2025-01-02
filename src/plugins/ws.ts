@@ -1,3 +1,6 @@
+// Copyright (c) 2025 Magomedcoder <info@magomedcoder.ru>
+// Distributed under the GPL v3 License, see https://github.com/voo-su/web/blob/main/LICENSE
+
 const cache = new Set()
 
 interface IConfig {
@@ -17,7 +20,7 @@ interface IConfig {
 class Ws {
 
   connect: any = null
-  
+
   urlCallBack: any
 
   events: any

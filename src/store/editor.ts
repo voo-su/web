@@ -1,3 +1,6 @@
+// Copyright (c) 2025 Magomedcoder <info@magomedcoder.ru>
+// Distributed under the GPL v3 License, see https://github.com/voo-su/web/blob/main/LICENSE
+
 import { defineStore } from 'pinia'
 import {deleteStickerApi, getStickerListApi, uploadStickerApi} from '@/api/message'
 import { collectStickerApi } from '@/api/message'

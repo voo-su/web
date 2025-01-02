@@ -1,4 +1,7 @@
 <script lang="ts" setup>
+// Copyright (c) 2025 Magomedcoder <info@magomedcoder.ru>
+// Distributed under the GPL v3 License, see https://github.com/voo-su/web/blob/main/LICENSE
+
 import { reactive } from 'vue'
 import { dismissGroupApi, groupDetailApi, muteGroupApi, overtGroupApi } from '@/api/group-chat'
 import { ElMessage } from 'element-plus'

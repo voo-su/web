@@ -1,3 +1,6 @@
+// Copyright (c) 2025 Magomedcoder <info@magomedcoder.ru>
+// Distributed under the GPL v3 License, see https://github.com/voo-su/web/blob/main/LICENSE
+
 const getVersionNumber = (userAgent: string, regex: RegExp) => {
   const matches = userAgent.match(regex)
   return matches && matches.length > 1 ? matches[1] : ''

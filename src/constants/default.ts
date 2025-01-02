@@ -1,3 +1,6 @@
+// Copyright (c) 2025 Magomedcoder <info@magomedcoder.ru>
+// Distributed under the GPL v3 License, see https://github.com/voo-su/web/blob/main/LICENSE
+
 export const authSessionKey: string = 'voo_su_auth_session'
 export const authSessionTimerKey: string = 'voo_su_auth_timer'
 

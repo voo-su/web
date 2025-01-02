@@ -1,3 +1,6 @@
+// Copyright (c) 2025 Magomedcoder <info@magomedcoder.ru>
+// Distributed under the GPL v3 License, see https://github.com/voo-su/web/blob/main/LICENSE
+
 import { get, put, post } from '@/utils/request'
 import type { IUpdateUserDetailApi, IUpdateUsernameApi, IPushInit } from '@/api/types/account'
 
