@@ -2,39 +2,34 @@
 // Copyright (c) 2025 Magomedcoder <info@magomedcoder.ru>
 // Distributed under the GPL v3 License, see https://github.com/voo-su/web/blob/main/LICENSE
 
-import { h, ref } from 'vue'
+import { h } from 'vue'
 import { ElMessageBox } from 'element-plus'
 import IconLang from '@/components/icons/IconLang.vue'
 import { useI18n } from 'vue-i18n'
-const { locale, t } = useI18n()
+import { LANGUAGES } from '@/constants/locale'
 
-const languages = [
-  {
-    label: 'Русский',
-    value: 'ru'
-  }
-]
+const { locale, t } = useI18n()
 
 const onLang = () => ElMessageBox({
   title: t('selectYourLang'),
   showCancelButton: true,
   showConfirmButton: false,
   message: () => h('ul', {
-      class: 'lang-list'
-    }, languages.map(lang =>
-      h('li', {
-        key: lang.value,
-        class: {
-          'lang-item': true,
-          'selected': locale.value === lang.value
-        },
-        onClick: () => {
-          locale.value = lang.value
-        }
-      }, lang.label)
-    ))
-}).catch(() => { })
-
+    class: 'lang-list'
+  }, LANGUAGES.map(lang =>
+    h('li', {
+      key: lang.value,
+      class: {
+        'lang-item': true,
+        'selected': locale.value === lang.value
+      },
+      onClick: () => {
+        locale.value = lang.value
+        ElMessageBox.close()
+      }
+    }, lang.label)
+  ))
+}).catch(() => {})
 </script>
 
 <template>
