@@ -1,7 +1,4 @@
 <script lang="ts" setup>
-// Copyright (c) 2025 Magomedcoder <info@magomedcoder.ru>
-// Distributed under the GPL v3 License, see https://github.com/voo-su/web/blob/main/LICENSE
-
 import 'xgplayer/dist/index.min.css'
 import { nextTick, ref, computed } from 'vue'
 import { getImageInfo, type IImageInfo } from '@/utils/functions'

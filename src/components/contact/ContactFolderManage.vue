@@ -1,7 +1,4 @@
 <script lang="ts" setup>
-// Copyright (c) 2025 Magomedcoder <info@magomedcoder.ru>
-// Distributed under the GPL v3 License, see https://github.com/voo-su/web/blob/main/LICENSE
-
 import { computed, reactive, ref } from 'vue'
 import { contactFoldersApi, contactFolderSaveApi } from '@/api/contact'
 import { Delete as IconDelete, Plus as IconPlus } from '@element-plus/icons-vue'

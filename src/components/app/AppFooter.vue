@@ -1,7 +1,4 @@
 <script lang="ts" setup>
-// Copyright (c) 2025 Magomedcoder <info@magomedcoder.ru>
-// Distributed under the GPL v3 License, see https://github.com/voo-su/web/blob/main/LICENSE
-
 import { h } from 'vue'
 import { ElMessageBox } from 'element-plus'
 import IconLang from '@/components/icons/IconLang.vue'

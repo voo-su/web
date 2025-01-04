@@ -1,7 +1,4 @@
 <script lang="ts" setup>
-// Copyright (c) 2025 Magomedcoder <info@magomedcoder.ru>
-// Distributed under the GPL v3 License, see https://github.com/voo-su/web/blob/main/LICENSE
-
 import { computed, reactive, ref, markRaw } from 'vue'
 import {
   contactFolderMoveApi,
@@ -23,7 +20,7 @@ import AvatarBox from '@/components/base/BaseAvatarBox.vue'
 import { useDialogStore, useDialogueStore } from '@/store'
 import type { Action } from 'element-plus'
 import { ElMessage } from 'element-plus'
-import { useI18n } from 'vue-i18n'
+import { i18n } from '@/utils/i18n'
 
 const props = defineProps({
   uid: {
@@ -39,7 +36,7 @@ const props = defineProps({
 
 const emit = defineEmits(['close', 'event'])
 
-const { t } = useI18n()
+const t = i18n()
 
 const dialogStore = useDialogStore()
 const dialogueStore = useDialogueStore()

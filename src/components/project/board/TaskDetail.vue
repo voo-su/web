@@ -1,7 +1,4 @@
 <script lang="ts" setup>
-// Copyright (c) 2025 Magomedcoder <info@magomedcoder.ru>
-// Distributed under the GPL v3 License, see https://github.com/voo-su/web/blob/main/LICENSE
-
 import type { PropType } from 'vue'
 import Xtime from '../../base/BaseXtime.vue'
 import { useI18n } from 'vue-i18n'
