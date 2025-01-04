@@ -20,9 +20,8 @@ const items = ref<Item[]>([])
 const creation = ref(false)
 
 const load = () => {
-  getProjectsApi().then((res: any) => {
-    if (res.code == 200 && res.data) {
-      const { data } = res
+  getProjectsApi().then(({ code, data }: { code?: number; data: { items: Item[] } }) => {
+    if (code == 200 && data) {
       items.value = data.items || []
     }
   })

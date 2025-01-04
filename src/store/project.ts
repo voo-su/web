@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { getTaskCommentsApi } from '@/api/project'
 import { formatTaskCommentItem } from '@/utils/project'
+import { ICommentItem } from '@/components/project/types'
 
 export const useProjectStore = defineStore('project', {
   state: () => {
@@ -17,15 +18,17 @@ export const useProjectStore = defineStore('project', {
     loadTaskComments(taskId: number) {
       getTaskCommentsApi({
         task_id: taskId
-      }).then(({ data, code }: any) => {
-        if (code == 200 && data) {
-          this.comments = data.items.map((item: any) => formatTaskCommentItem(item))
+      }).then(({ code, data }: { code?: number; data: { items: ICommentItem[] } })=> {
+        if (code == 200 && data.items) {
+          if (data.items) {
+            this.comments = data.items.map((item: ICommentItem) => formatTaskCommentItem(item))
+          }
         }
       })
     },
 
     updateCommentItem(params: any) {
-      const item = this.comments.find((item: any) => item.index_name === params.index_name)
+      const item = this.comments.find((item: ICommentItem) => item.index_name === params.index_name)
       item && Object.assign(item, params)
     }
   },

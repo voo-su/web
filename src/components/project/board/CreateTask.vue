@@ -1,13 +1,15 @@
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue'
+import { computed, reactive, ref } from 'vue'
+import type { FormInstance, FormRules } from 'element-plus'
 import { Close as CloseIcon } from '@element-plus/icons-vue'
-import { getProjectTaskDetailApi } from '@/api/project'
-import TaskComment from './TaskComment.vue'
-import TaskDetail from './TaskDetail.vue'
+import { createTaskProjectApi } from '@/api/project'
+import { useProjectStore } from '@/store'
 import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
+
 const props = defineProps({
-  taskId: {
+  projectId: {
     type: Number,
     default: 0
   }
@@ -15,45 +17,82 @@ const props = defineProps({
 
 const emit = defineEmits(['close'])
 
-const { t } = useI18n()
-const isShow = ref<boolean>(true)
+const isShow = ref(true)
+const formRef = ref<FormInstance>()
+
+interface IForm {
+  loading: boolean
+  title: string
+  description: string
+  typeId: number | null
+}
+
+const form = reactive<IForm>({
+  loading: false,
+  title: '',
+  description: '',
+  typeId: null
+})
+
+const rules = reactive<FormRules>({
+  title: [
+    {
+      required: true,
+      message: t('enterName'),
+      trigger: 'blur'
+    },
+    {
+      min: 2,
+      message: t('usernameMinLength', { length: 2 }),
+      trigger: 'blur'
+    },
+    {
+      max: 255,
+      message: t('task', { usernameMaxLength: 255 }),
+      trigger: 'blur'
+    }
+  ],
+  description: [],
+  typeId: [
+    {
+      required: true,
+      message: t('statusFieldRequired'),
+      trigger: 'blur'
+    }
+  ]
+})
+
+interface IType {
+  id: number
+  title: string
+}
+
+const types = computed<IType[]>(() => useProjectStore().getTypes)
+
+const onSubmit = async (formEl: FormInstance | undefined) => {
+  if (!formEl) return
+  await formEl.validate(async valid => {
+    if (valid) {
+      createTaskProjectApi({
+        project_id: props.projectId,
+        type_id: form.typeId,
+        title: form.title,
+        description: form.description
+      }).then(({ code, data }: { code?: number; data: { id: number } }) => {
+        if (code == 200) {
+          emit('close')
+        }
+      }).finally(() => {
+        form.loading = false
+      })
+    }
+  })
+}
 
 const onCloseClick = () => {
   emit('close')
   isShow.value = false
 }
-
-interface ITask {
-  title: string
-  description: string
-  created_at: string
-}
-
-interface IRes {
-  code?: number
-  data: ITask
-}
-
-const task = ref<ITask>({
-  title: '',
-  description: '',
-  created_at: ''
-})
-
-const load = () => {
-  getProjectTaskDetailApi({
-    task_id: props.taskId
-  }).then((res: IRes) => {
-    if (res.code == 200 && res.data) {
-      const { data } = res
-      task.value = data
-    }
-  })
-}
-
-onMounted(() => {
-  load()
-})
 </script>
 
 <template>
@@ -61,14 +100,13 @@ onMounted(() => {
     v-model="isShow"
     :before-close="onCloseClick"
     :show-close="false"
-    top="5vh"
   >
     <template #header="{ close, titleId, titleClass }">
       <h4
         :id="titleId"
         :class="titleClass"
       >
-        {{ t('task') }}
+        {{ t('newTask') }}
       </h4>
       <div class="module__after">
         <el-button
@@ -80,38 +118,79 @@ onMounted(() => {
         />
       </div>
     </template>
-    <el-row>
-      <el-col :span="16">
-        <div class="card">
-          <div class="card-title">
-            {{ task.title }}
+    <el-container class="launch-box">
+      <el-form
+        ref="formRef"
+        :model="form"
+        :rules="rules"
+        label-position="top"
+      >
+        <el-form-item prop="title">
+          <el-input
+            v-model="form.title"
+            :placeholder="t('enterTaskName')"
+          />
+        </el-form-item>
+        <el-form-item prop="description">
+          <el-input
+            v-model="form.description"
+            type="textarea"
+          />
+        </el-form-item>
+        <el-form-item
+          prop="typeId"
+          class="status"
+          label="Статус"
+        >
+          <el-select v-model="form.typeId">
+            <el-option
+              v-for="(item, index) in types"
+              :key="index"
+              :label="item.title"
+              :value="item.id"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item>
+          <div class="footer">
+            <el-button @click="onCloseClick">
+              {{ t('cancelAction') }}
+            </el-button>
+            <el-button
+              :loading="form.loading"
+              type="primary"
+              @click="onSubmit(formRef)"
+            >
+              {{ t('create') }}
+            </el-button>
           </div>
-          <div class="card-desc">
-            {{ task.description }}
-          </div>
-        </div>
-        <task-comment :task-id="props.taskId" />
-      </el-col>
-      <el-col :span="8">
-        <task-detail :task="task" />
-      </el-col>
-    </el-row>
+        </el-form-item>
+      </el-form>
+    </el-container>
   </el-dialog>
 </template>
 
 <style lang="scss" scoped>
-.card {
-  margin: 10px 20px;
-  min-height: 100px;
+.launch-box {
+  margin: 10px 20px 0 20px;
 
-  .card-title {
-    padding: 7px 0;
-    line-height: 1.28;
-    font-weight: 600;
+  .el-form {
+    width: 100%;
+
+    .status {
+      width: 200px;
+    }
   }
 
-  .card-desc {
-    padding: 7px 7px 8px;
+  .footer {
+    width: 100%;
+    text-align: right;
+
+    .el-button {
+      width: 120px;
+      padding: 10px;
+      height: 35px;
+    }
   }
 }
 </style>

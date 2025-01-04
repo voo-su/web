@@ -30,11 +30,6 @@ interface ITask {
   created_at: string
 }
 
-interface IRes {
-  code?: number
-  data: ITask
-}
-
 const task = ref<ITask>({
   title: '',
   description: '',
@@ -44,9 +39,8 @@ const task = ref<ITask>({
 const load = () => {
   getProjectTaskDetailApi({
     task_id: props.taskId
-  }).then((res: IRes) => {
-    if (res.code == 200 && res.data) {
-      const { data } = res
+  }).then(({ code, data }: { code?: number; data: ITask }) => {
+    if (code == 200 && data) {
       task.value = data
     }
   })
@@ -93,7 +87,10 @@ onMounted(() => {
         <task-comment :task-id="props.taskId" />
       </el-col>
       <el-col :span="8">
-        <task-detail :task="task" />
+        <task-detail
+          :task-id="props.taskId"
+          :task="task"
+        />
       </el-col>
     </el-row>
   </el-dialog>

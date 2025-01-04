@@ -25,7 +25,7 @@ const rules = reactive<FormRules>({
     },
     {
       min: 3,
-      message: t('usernameMinLength'),
+      message: t('usernameMinLength', { length: 3 }),
       trigger: 'blur'
     },
     {
@@ -36,24 +36,13 @@ const rules = reactive<FormRules>({
   ]
 })
 
-interface IRes {
-  code?: number
-  data: {
-    id: number
-  }
-}
-
 const onSubmit = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
   await formEl.validate(async valid => {
     if (valid) {
       createProjectApi({
         title: form.title
-      }).then((res: IRes) => {
-        const {
-          code,
-          data
-        } = res
+      }).then(({ code, data }: { code?: number; data: { id: number } }) => {
         if (code == 200) {
           emit('success', data.id)
         }

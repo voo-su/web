@@ -8,6 +8,7 @@ import { throttle } from '@/utils/common'
 import { ElMessage } from 'element-plus'
 import { useProjectStore } from '@/store'
 import { useI18n } from 'vue-i18n'
+import { ICommentItem } from '@/components/project/types'
 
 const { t } = useI18n()
 
@@ -20,28 +21,7 @@ const props = defineProps({
 
 const projectStore = useProjectStore()
 
-interface IItem {
-  id: number
-  comment: string
-  user: {
-    avatar: string
-    username: string
-    name: string
-    surname: string
-  }
-  created_at: string
-}
-
-interface IRes {
-  code?: number
-  data: {
-    items: IItem[]
-  }
-}
-
-const items: any = computed(() => {
-  return projectStore.getComments
-})
+const items: any = computed<ICommentItem[]>(() => projectStore.getComments)
 
 const load = () => {
   projectStore.loadTaskComments(props.taskId)

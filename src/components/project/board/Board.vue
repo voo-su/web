@@ -23,13 +23,6 @@ interface IItem {
   tasks: ITasks[]
 }
 
-interface IRes {
-  code?: number
-  data: {
-    categories: IItem[]
-  }
-}
-
 const items = computed<IItem[]>(() => useProjectStore().getItems)
 const cardTask = ref<boolean>(false)
 const taskId = ref<number | null>(null)
@@ -37,9 +30,8 @@ const taskId = ref<number | null>(null)
 const load = () => {
   getProjectTasksApi({
     project_id: props.projectId
-  }).then((res: IRes) => {
-    if (res.code == 200 && res.data) {
-      const { data } = res
+  }).then(({ code, data }: { code?: number; data: { categories: IItem[] } }) => {
+    if (code == 200 && data) {
       const { categories } = data
       useProjectStore().addItems(categories)
     }
