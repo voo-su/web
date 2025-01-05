@@ -1,22 +1,24 @@
-export interface ICoexecutorItem {
+export interface ITask {
   id: number
-  username: string
+  title: string
+  description: string
+  created_at: string
+  assigner: IMemberItem
+  executor: IMemberItem
 }
 
-export interface IWatcherItem {
+export interface IMemberItem {
   id: number
+  avatar: string
   username: string
+  name: string
+  surname: string
 }
 
 export interface ICommentItem {
   id: number
   comment: string
-  user: {
-    avatar: string
-    username: string
-    name: string
-    surname: string
-  }
+  user: IMemberItem
   created_at: string
   index_name: string
 }

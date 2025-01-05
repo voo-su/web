@@ -4,7 +4,7 @@ import { Close as CloseIcon } from '@element-plus/icons-vue'
 import { getProjectTaskDetailApi } from '@/api/project'
 import TaskComment from './TaskComment.vue'
 import TaskDetail from './TaskDetail.vue'
-
+import type { ITask, IMemberItem } from '@/components/project/types'
 import { useI18n } from 'vue-i18n'
 
 const props = defineProps({
@@ -24,16 +24,25 @@ const onCloseClick = () => {
   isShow.value = false
 }
 
-interface ITask {
-  title: string
-  description: string
-  created_at: string
-}
-
 const task = ref<ITask>({
+  id: 0,
   title: '',
   description: '',
-  created_at: ''
+  created_at: '',
+  assigner: {
+    id: 0,
+    avatar: '',
+    username: '',
+    name: '',
+    surname: '',
+  },
+  executor: {
+    id: 0,
+    avatar: '',
+    username: '',
+    name: '',
+    surname: '',
+  }
 })
 
 const load = () => {
