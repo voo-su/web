@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
 import { Delete, Search } from '@element-plus/icons-vue'
-import { defAvatar } from '@/constants/default.js'
+import { defAvatar } from '@/constants/default'
 import { getContactListApi } from '@/api/contact'
 import { useI18n } from 'vue-i18n'
 

@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import { onMounted, ref, computed } from 'vue'
-import { getTaskCommentsApi, createTaskCommentApi } from '@/api/project'
-import AvatarBox from '../../base/BaseAvatarBox.vue'
-import Xtime from '../../base/BaseXtime.vue'
-import Editor from '../../message/editor/Editor.vue'
+import { onMounted, computed } from 'vue'
+import { createTaskCommentApi } from '@/api/project'
+import AvatarBox from '@/components/base/BaseAvatarBox.vue'
+import Xtime from '@/components/base/BaseXtime.vue'
+import Editor from '@/components/message/editor/Editor.vue'
 import { throttle } from '@/utils/common'
 import { ElMessage } from 'element-plus'
 import { useProjectStore } from '@/store'
@@ -21,7 +21,7 @@ const props = defineProps({
 
 const projectStore = useProjectStore()
 
-const items: any = computed<ICommentItem[]>(() => projectStore.getComments)
+const items = computed<ICommentItem[]>(() => projectStore.getComments)
 
 const load = () => {
   projectStore.loadTaskComments(props.taskId)

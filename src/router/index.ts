@@ -60,7 +60,7 @@ const routes = [
         component: () => import('@/views/projects/index.vue')
       },
       {
-        path: '/:id/tasks',
+        path: ':id/tasks',
         name: 'ProjectView',
         meta: { requiresAuth: true },
         component: () => import('@/views/projects/project.vue')

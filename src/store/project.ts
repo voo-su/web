@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { getTaskCommentsApi } from '@/api/project'
 import { formatTaskCommentItem } from '@/utils/project'
-import { ICommentItem } from '@/components/project/types'
+import type { ICommentItem } from '@/components/project/types'
 
 export const useProjectStore = defineStore('project', {
   state: () => {

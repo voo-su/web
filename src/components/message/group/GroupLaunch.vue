@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { computed, reactive, ref } from 'vue'
 import { Close as CloseIcon, Delete, Search } from '@element-plus/icons-vue'
-import { defAvatar } from '@/constants/default.js'
+import { defAvatar } from '@/constants/default'
 import { createGroupApi, getInviteFriendsApi, inviteGroupApi } from '@/api/group-chat'
 import { ElMessage } from 'element-plus'
 import { useI18n } from 'vue-i18n'
@@ -16,13 +16,14 @@ const props = defineProps({
 const emit = defineEmits(['close', 'on-submit', 'on-invite'])
 
 const { t } = useI18n()
+
+const isShowBox = ref<boolean>(true)
+
 const items = ref<any>([])
 const model = reactive({
   keywords: '',
   name: ''
 })
-
-const isShowBox = ref<boolean>(true)
 
 const searchFilter: any = computed(() => {
   if (model.keywords) {
@@ -54,22 +55,17 @@ const onReset = () => {
 const onLoad = () => {
   getInviteFriendsApi({
     group_id: props.gid
-  })
-    .then((res: any) => {
-      if (res.code == 200 && res.data) {
-        let list = res.data || []
-        items.value = list.map((item: any) => {
-          return Object.assign(item, {
-            username: /*item.friend_remark ? item.friend_remark :*/ item.username,
-            checked: false
-          })
+  }).then(({ code, data }: { code?: number; data: any }) => {
+    if (code == 200 && data) {
+      let list = data || []
+      items.value = list.map((item: any) => {
+        return Object.assign(item, {
+          username: /*item.friend_remark ? item.friend_remark :*/ item.username,
+          checked: false
         })
-      }
-    })
-}
-
-const onCloseClick = () => {
-  emit('close')
+      })
+    }
+  })
 }
 
 const onTriggerContact = (item: any) => {
@@ -116,6 +112,10 @@ const onSubmit = () => {
   } else {
     onInviteSubmit(ids)
   }
+}
+
+const onCloseClick = () => {
+  emit('close')
 }
 </script>
 
@@ -188,7 +188,6 @@ const onSubmit = () => {
             v-model="model.name"
             maxlength="20"
             :placeholder="t('groupDescription')"
-            show-count
           />
           <el-divider>
             {{ t('inviteParticipants', { length:checkedFilter.length }) }}
@@ -252,7 +251,6 @@ const onSubmit = () => {
 
     .el-header {
       padding: 15px 10px 10px 10px;
-
     }
   }
 

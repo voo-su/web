@@ -94,5 +94,5 @@ onMounted(() => {
 </template>
 
 <style lang="scss" scoped>
-@import '@/assets/scss/login.scss';
+@use '@/assets/scss/login.scss';
 </style>

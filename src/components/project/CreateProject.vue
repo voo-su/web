@@ -35,7 +35,7 @@ const rules = reactive<FormRules>({
     },
     {
       min: 3,
-      message: t('usernameMinLength', { length: 3 }),
+      message: t('minLength', { length: 3 }),
       trigger: 'blur'
     },
     {

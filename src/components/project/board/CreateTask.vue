@@ -43,12 +43,12 @@ const rules = reactive<FormRules>({
     },
     {
       min: 2,
-      message: t('usernameMinLength', { length: 2 }),
+      message: t('minLength', { length: 2 }),
       trigger: 'blur'
     },
     {
       max: 255,
-      message: t('task', { usernameMaxLength: 255 }),
+      message: t('maxLength', { length: 255 }),
       trigger: 'blur'
     }
   ],
