@@ -1,8 +1,11 @@
 import { get, post, put } from '@/utils/request'
+import type { ICreateProjectApi, IInviteFriendsApi } from '@/api/types/project'
 
 export const getProjectsApi = () => get('/v1/projects')
 
-export const createProjectApi = (data = {}) => post('/v1/projects/create', data)
+export const createProjectApi = (data: ICreateProjectApi) => post('/v1/projects/create', data)
+
+export const getInviteFriendsApi = (data = IInviteFriendsApi) => get('/v1/projects/members/invites', data)
 
 export const createTaskProjectApi = (data = {}) => post('/v1/projects/tasks/create', data)
 

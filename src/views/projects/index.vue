@@ -11,16 +11,16 @@ import { useI18n } from 'vue-i18n'
 const { t } = useI18n()
 const router = useRouter()
 
-interface Item {
+interface IItem {
   id: number
   title: string
 }
 
-const items = ref<Item[]>([])
+const items = ref<IItem[]>([])
 const creation = ref(false)
 
 const load = () => {
-  getProjectsApi().then(({ code, data }: { code?: number; data: { items: Item[] } }) => {
+  getProjectsApi().then(({ code, data }: { code?: number; data: { items: IItem[] } }) => {
     if (code == 200 && data) {
       items.value = data.items || []
     }
@@ -69,7 +69,7 @@ onMounted(() => {
     </div>
   </default-layout>
   <create-project
-    v-if="creation"
+    v-model="creation"
     @close="creation = false"
     @success="goProject"
   />
