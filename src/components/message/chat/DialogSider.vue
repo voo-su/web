@@ -3,11 +3,12 @@ import { computed, inject, nextTick, onMounted, reactive, ref } from 'vue'
 import { onBeforeRouteUpdate } from 'vue-router'
 import { useDialogueStore } from '@/store/dialogue'
 import { useDialogStore } from '@/store'
-import { ElInput } from 'element-plus'
+import { ElInput, ElMessageBox } from 'element-plus'
 import {
   Bell,
   CirclePlus,
   Delete as IconDelete,
+  Operation as IconOperation,
   Message,
   MuteNotification,
   Postcard,
@@ -15,14 +16,22 @@ import {
 } from '@element-plus/icons-vue'
 import DialogItem from './DialogItem.vue'
 import { clearUnreadChatApi, topChatApi } from '@/api/chat'
-import { findDialog, findDialogIndex, getCacheIndexName, onRemoveDialog, onSetDisturb } from '@/utils/chat'
+import {
+  findDialog,
+  findDialogIndex,
+  getCacheIndexName,
+  onDeleteDialog,
+  onRemoveDialog,
+  onSetDisturb
+} from '@/utils/chat'
 import ContextMenu from '@/components/base/BaseContextMenu.vue'
 import { renderIcon } from '@/utils/functions'
 import GroupLaunch from '@/components/message/group/GroupLaunch.vue'
 import IconPin from '@/components/icons/IconPin.vue'
 import IconUnpin from '@/components/icons/IconUnpin.vue'
-import { ElMessage, ElDialog } from 'element-plus'
+import { ElMessage } from 'element-plus'
 import { useI18n } from 'vue-i18n'
+import { secedeGroupApi } from '@/api/group-chat'
 
 const { t } = useI18n()
 const user: any = inject('$user')
@@ -115,64 +124,30 @@ const onToTopDialog = (data: any) => {
   })
 }
 
-// const onSignOutGroup = (data: any) => {
-//   ElDialog.create({
-//     showIcon: false,
-//     title: t('leaveGroupChat', { name: data.name}),
-//     content: t('leaveGroupWarning'),
-//     positiveText: t('ok'),
-//     negativeText: t('cancelAction'),
-//     onPositiveClick: () => {
-//       secedeGroupApi({
-//         group_id: data.receiver_id
-//       }).then((res: any) => {
-//         const { code, message } = res
-//         if (code == 200) {
-//           ElMessage.success(t('groupLeftSuccess'))
-//           onDeleteDialog(data.index_name)
-//         } else {
-//           ElMessage.error(message)
-//         }
-//       })
-//     }
-//   })
-// }
-
-// const onChangeRemark = (data: any) => {
-//   let remark = ''
-//   ElDialog.create({
-//     showIcon: false,
-//     title: t('editNote'),
-//     content: () => {
-//       return h(ElInput, {
-//         defaultValue: data.remark_name,
-//         placeholder: t('enterNote'),
-//         style: { marginTop: '20px' },
-//         onInput: (value: any) => (remark = value),
-//         autofocus: true
-//       })
-//     },
-//     negativeText: t('cancelAction'),
-//     positiveText: t('editNote'),
-//     onPositiveClick: () => {
-//       editContactRemarkApi({
-//         friend_id: data.receiver_id,
-//         remark: remark
-//       }).then((res: any) => {
-//         const { code, message } = res
-//         if (code == 200) {
-//           ElMessage.success(t('noteChangedSuccess'))
-//           dialogStore.updateItem({
-//             index_name: data.index_name,
-//             remark_name: remark
-//           })
-//         } else {
-//           ElMessage.error(message)
-//         }
-//       })
-//     }
-//   })
-// }
+const onSignOutGroup = (data: any) => {
+  ElMessageBox.confirm(
+    t('confirmLeaveGroup'),
+    t('leaveGroup'),
+    {
+      confirmButtonText: t('logout'),
+      cancelButtonText: t('cancelAction'),
+      type: 'warning'
+    }
+  )
+    .then(() => {
+      secedeGroupApi({
+        group_id: data.receiver_id
+      }).then(({ code, message }: any) => {
+        if (code == 200) {
+          ElMessage.success(t('groupLeftSuccess'))
+          onDeleteDialog(data.index_name)
+        } else {
+          ElMessage.error(message)
+        }
+      })
+    })
+    .catch(() => {})
+}
 
 const onContextMenuDialog = (e: any, item: any) => {
   state.dropdown.show = false
@@ -200,13 +175,15 @@ const onContextMenuDialog = (e: any, item: any) => {
     label: t('deleteChat'),
     key: 'remove'
   })
-  // if (item.dialog_type != 1) {
-  //   state.dropdown.options.push({
-  //     icon: renderIcon(Operation),
-  //     label: t('leaveGroup'),
-  //     key: 'signout_group'
-  //   })
-  // }
+
+  if (item.dialog_type != 1) {
+    state.dropdown.options.push({
+      icon: renderIcon(IconOperation),
+      label: t('leaveGroup'),
+      key: 'signout_group'
+    })
+  }
+
   nextTick(() => {
     state.dropdown.show = true
     state.dropdown.dropdownX = e.clientX
@@ -222,8 +199,7 @@ const onContextMenuDialogHandle = (key: string) => {
     disturb: onSetDisturb,
     remove: onRemoveDialog,
     top: onToTopDialog,
-    // signout_group: onSignOutGroup,
-    // remark: onChangeRemark
+    signout_group: onSignOutGroup,
   }
   state.dropdown.show = false
   events[key] && events[key](state.dropdown.item)
