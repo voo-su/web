@@ -121,7 +121,7 @@ export const setCacheIndexName = (type: any, id: any) => {
   sessionStorage.setItem(KEY_INDEX_NAME, `${type}_${id}`)
 }
 
-const onDeleteDialog = (index_name = '') => {
+export const onDeleteDialog = (index_name = '') => {
   useDialogStore().delItem(index_name)
   index_name === useDialogueStore().index_name && useDialogueStore().$reset()
 }
