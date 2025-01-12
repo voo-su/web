@@ -3,12 +3,9 @@ import { ref, onMounted } from 'vue'
 import type { PropType } from 'vue'
 import Xtime from '@/components/base/BaseXtime.vue'
 import { getTaskCoexecutorsApi, getTaskWatchersApi } from '@/api/project'
-import AvatarBox from '@/components/base/BaseAvatarBox.vue'
 import TaskMember from '@/components/project/TaskMember.vue'
 import type { ITask, IMemberItem } from '@/components/project/types'
 import { useI18n } from 'vue-i18n'
-
-const { t } = useI18n()
 
 const props = defineProps({
   taskId: {
@@ -20,6 +17,8 @@ const props = defineProps({
     default: {}
   }
 })
+
+const { t } = useI18n()
 
 const coexecutors = ref<IMemberItem[]>([])
 const watchers = ref<IMemberItem[]>([])

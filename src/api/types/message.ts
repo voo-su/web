@@ -1,4 +1,4 @@
-export interface IDialogRecordsApi {
+export interface IRecordsApi {
   record_id: number
   receiver_id: number
   dialog_type: number

@@ -3,7 +3,7 @@ import type {
   ICollectStickerApi,
   IConfirmVoteHandleApi,
   IDeleteStickerApi,
-  IDialogRecordsApi,
+  IRecordsApi,
   IForwardRecordsApi,
   IGetForwardRecordsApi,
   IMessageSendApi,
@@ -12,7 +12,7 @@ import type {
   ISendVoteApi,
 } from '@/api/types/message'
 
-export const dialogRecordsApi = (data: IDialogRecordsApi) => get('/v1/messages', data)
+export const getRecordsApi = (data: IRecordsApi) => get('/v1/messages', data)
 
 export const messageSendApi = (data: IMessageSendApi) => post('/v1/messages/send', data)
 

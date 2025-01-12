@@ -90,8 +90,6 @@ export default {
   selectChat: 'Select a chat on the left or create a new conversation.',
   draft: 'Draft:',
   maxChatsSelected: 'The maximum number of selected chats cannot exceed 4',
-  leaveGroupChat: 'Leave the group chat {name}?',
-  leaveGroupWarning: 'After leaving, you will no longer receive messages from this group.',
   groupLeftSuccess: 'You have successfully left the group',
   enterNote: 'Enter a note',
   editNote: 'Edit note',

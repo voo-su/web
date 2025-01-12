@@ -2,7 +2,6 @@
 import { VueDraggableNext } from 'vue-draggable-next'
 import { setProjectTaskMoveApi } from '@/api/project'
 import type { PropType } from 'vue'
-import { defineProps } from 'vue'
 
 interface IItem {
   id: number

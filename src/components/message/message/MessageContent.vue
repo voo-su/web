@@ -10,7 +10,7 @@ import { addClass, removeClass } from '@/utils/dom'
 import { downloadImage } from '@/utils/functions'
 import { formatDialogRecord } from '@/utils/chat'
 import { forwardableMessageType, messageComponents } from '@/constants/message'
-import { dialogRecordsApi } from '@/api/message'
+import { getRecordsApi } from '@/api/message'
 import { useMenu } from './menu'
 import ContextMenu from '@/components/base/BaseContextMenu.vue'
 import AvatarBox from '@/components/base/BaseAvatarBox.vue'
@@ -66,9 +66,9 @@ let locationMessage: any = null
 
 const onLoadDialog = () => {
   const data = {
-    record_id: loadConfig.minRecord,
-    receiver_id: props.receiver_id,
     dialog_type: props.dialog_type,
+    receiver_id: props.receiver_id,
+    record_id: loadConfig.minRecord,
     limit: 30
   }
 
@@ -85,7 +85,7 @@ const onLoadDialog = () => {
 
   loadConfig.status = 0
 
-  dialogRecordsApi(data)
+  getRecordsApi(data)
     .then(res => {
       if (
         data.dialog_type != props.dialog_type ||
