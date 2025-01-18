@@ -62,12 +62,6 @@ const routes = [
         path: '',
         name: 'DevView',
         component: () => import('@/views/dev/index.vue')
-      },
-      {
-        path: 'bots',
-        name: 'DevBotView',
-        component: () => import('@/views/dev/bot.vue'),
-        meta: { requiresAuth: true }
       }
     ]
   },

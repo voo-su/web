@@ -1,13 +1,15 @@
 <script lang="ts" setup>
-// Copyright (c) 2025 Magomedcoder <info@magomedcoder.ru>
-// Distributed under the GPL v3 License, see https://github.com/voo-su/web/blob/main/LICENSE
-
 import { markRaw, ref } from 'vue'
 import SettingDetail from '@/components/setting/SettingDetail.vue'
 import SettingSecurity from '@/components/setting/SettingSecurity.vue'
 import SettingNotification from '@/components/setting/SettingNotification.vue'
-import { Bell, Setting, User, Cpu } from '@element-plus/icons-vue'
+import SettingManageBot from '@/components/setting/SettingManageBot.vue'
+import IconBot from '@/components/icons/IconBot.vue'
+import { Bell, Setting, User } from '@element-plus/icons-vue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 interface IMenu {
   name: string
@@ -30,6 +32,11 @@ const menus: IMenu[] = [
     name: 'Уведомления',
     icon: markRaw(Bell),
     component: SettingNotification
+  },
+  {
+    name: t('botManager'),
+    icon: markRaw(IconBot),
+    component: SettingManageBot
   }
 ]
 

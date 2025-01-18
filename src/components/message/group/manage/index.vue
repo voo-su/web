@@ -3,7 +3,7 @@
 // Distributed under the GPL v3 License, see https://github.com/voo-su/web/blob/main/LICENSE
 
 import { markRaw } from 'vue'
-import AppLayout from '@/components/app/AppLayout.vue'
+import AppLayoutDialog from '@/components/app/AppLayoutDialog.vue'
 import GroupManageDetail from './GroupManageDetail.vue'
 import GroupManageMember from './GroupManageMember.vue'
 import GroupManageAds from './GroupManageAds.vue'
@@ -58,7 +58,7 @@ const onCloseClick = () => {
 </script>
 
 <template>
-  <app-layout
+  <app-layout-dialog
     :id="gid"
     title="Управление группой"
     :menus="menus"

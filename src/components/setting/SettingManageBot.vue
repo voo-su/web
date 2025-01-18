@@ -1,22 +1,21 @@
 <script lang="ts" setup>
-// Copyright (c) 2025 Magomedcoder <info@magomedcoder.ru>
-// Distributed under the GPL v3 License, see https://github.com/voo-su/web/blob/main/LICENSE
-
 import { reactive, ref, h } from 'vue'
 import { ElMessageBox, ElMessage, ElInput, ElForm, ElFormItem } from 'element-plus'
 import type { FormInstance, FormRules, Column } from 'element-plus'
 import { createBot } from '@/api/bot'
-import AppPageHeader from '@/components/app/AppPageHeader.vue'
 import BaseTable from '@/components/base/BaseTable.vue'
 import { getBots } from '@/api/bot'
+import { useI18n } from 'vue-i18n'
 
-interface FormType {
+const { t } = useI18n()
+
+interface IFormType {
   username: string
 }
 
 const formRef = ref<FormInstance>()
 
-const form = reactive<FormType>({
+const form = reactive<IFormType>({
   username: ''
 })
 
@@ -24,13 +23,13 @@ const rules = reactive<FormRules>({
   username: [
     {
       required: true,
-      message: 'Поле «Имя пользователя» должно быть заполнено',
+      message: t('usernameRequired'),
       trigger: 'blur'
     },
     {
       validator: (rule, value, callback) => {
         if (!value.endsWith('_bot') && !value.endsWith('bot')) {
-          callback(new Error('Имя пользователя должно заканчиваться на "_bot" или "bot"'))
+          callback(new Error(t('usernameSuffix')))
         } else {
           callback();
         }
@@ -58,15 +57,15 @@ interface IColumn {
 
 const columns: Column<IColumn>[] = [
   {
-    key: "username",
-    dataKey: "username",
-    title: "Имя пользователя",
+    key: 'username',
+    dataKey: 'username',
+    title: t('username'),
     width: 150
   },
   {
-    key: "token",
-    dataKey: "token",
-    title: "Токен",
+    key: 'token',
+    dataKey: 'token',
+    title: t('token'),
     width: 800
   },
 ]
@@ -109,9 +108,9 @@ const validateForm = (): Promise<boolean> => {
 }
 
 const onCreate = () => ElMessageBox({
-  title: "Создание бота",
+  title: t('createBot'),
   showCancelButton: true,
-  confirmButtonText: 'Сохранить',
+  confirmButtonText: t('save'),
   message: () => h(ElForm, {
     ref: formRef,
     model: form,
@@ -126,10 +125,10 @@ const onCreate = () => ElMessageBox({
           h(ElInput, {
             modelValue: form.username,
             'onUpdate:modelValue': (value: string) => form.username = value,
-            placeholder: 'Имя пользователя',
+            placeholder: t('username'),
             onKeydown: (event: KeyboardEvent) => {
               if (event.key === 'Enter') {
-                event.preventDefault(); // отменяем действие по умолчанию
+                event.preventDefault()
               }
             }
           })
@@ -145,7 +144,7 @@ const onCreate = () => ElMessageBox({
         })
           .then(({ code, data, message }: any) => {
             if (code == 200) {
-              ElMessage.success('Успешно')
+              ElMessage.success(t('success'))
               done()
               load()
             } else {
@@ -153,7 +152,7 @@ const onCreate = () => ElMessageBox({
             }
           })
           .catch(() => {
-            ElMessage.warning('Не удалось')
+            ElMessage.warning(t('failed'))
           })
           .finally(() => {
 
@@ -169,22 +168,19 @@ load()
 </script>
 
 <template>
-  <app-page-header>
-    <template #left>
-      <h3 class="title">Менеджер ботов</h3>
-    </template>
-    <template #extra>
+  <section>
+    <h3 class="title">
+      {{ t('botManager') }}
+    </h3>
+    <div class="view-box">
       <el-button
         type="primary"
         @click="onCreate"
         size="small"
       >
-        Новый бот
+        {{ t('newBot') }}
       </el-button>
-    </template>
-  </app-page-header>
-  <el-main>
-    <div style="height: 670px">
+
       <base-table
         v-loading="loading"
         :columns="columns"
@@ -193,7 +189,7 @@ load()
         :row-event-handlers="rowEventHandlers"
       />
     </div>
-  </el-main>
+  </section>
 </template>
 
 <style lang="scss" scoped>

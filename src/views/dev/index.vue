@@ -1,110 +1,77 @@
 <script lang="ts" setup>
-// Copyright (c) 2025 Magomedcoder <info@magomedcoder.ru>
-// Distributed under the GPL v3 License, see https://github.com/voo-su/web/blob/main/LICENSE
-
 import AppPageHeader from '@/components/app/AppPageHeader.vue'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 </script>
 
 <template>
   <app-page-header>
     <template #left>
-      <h3 class="title">Bot API</h3>
+      <h3 class="title">{{ t('apiBotDoc.title') }}</h3>
     </template>
   </app-page-header>
   <el-main>
     <div class="api-doc">
-      <p>
-        Существуют четыре способа передачи параметров в запросах к API бота:
-      </p>
+      <p>{{ t('apiBotDoc.description') }}</p>
       <ul>
-        <li>Строка запроса в URL (URL query string)</li>
-        <li>Формат <code>application/x-www-form-urlencoded</code></li>
-        <li>Формат <code>application/json</code> (за исключением загрузки файлов)</li>
-        <li>Формат <code>multipart/form-data</code> (используется для загрузки файлов)</li>
+        <li>{{ t('apiBotDoc.urlQueryString') }}</li>
+        <li>{{ t('apiBotDoc.format') }} <code>application/x-www-form-urlencoded</code></li>
+        <li>{{ t('apiBotDoc.format') }} <code>application/json</code> {{ t('apiBotDoc.formatExcludingFileUpload') }}</li>
+        <li>{{ t('apiBotDoc.format') }} <code>multipart/form-data</code> {{ t('apiBotDoc.formatForFileUpload') }}</li>
       </ul>
       <p>
-        <span>Все запросы к API бота должны выполняться через HTTPS в следующем формате:</span>
+        <span>{{ t('apiBotDoc.apiRequestFormat') }}</span>
         <br>
-        <code>https://api.voo.su/bot/{Уникальный токен вашего бота}/METHOD_NAME</code>
+        <code>{{ t('apiBotDoc.apiRequestExample') }}</code>
       </p>
-      <span>
-        Например: <code>GET https://api.voo.su/bot/0123456789/group-chats</code>
-      </span>
+      <span>{{ t('apiBotDoc.forExample') }} <code>GET https://api.voo.su/bot/0123456789/group-chats</code></span>
       <el-divider/>
-
-      <p>
-        GET
-        <code>group-chats</code>
-      </p>
-      <p>Метод позволяет получить список групповых чатов, в которых бот может отправлять сообщения.</p>
-
+      <p>GET <code>group-chats</code></p>
+      <p>{{ t('apiBotDoc.groupChatsDescription') }}</p>
       <el-divider/>
-
-      <p>
-        POST
-        <code>send/message</code>
-      </p>
-      <p>Метод позволяет отправить текстовое сообщение в указанный чат.</p>
-      <h4>Параметры</h4>
+      <p>POST <code>send/message</code></p>
+      <p>{{ t('apiBotDoc.sendMessageDescription') }}</p>
+      <h4>{{ t('apiBotDoc.parameters') }}</h4>
       <ul>
-        <li><strong>chat_id</strong> (integer): Уникальный идентификатор чата, в который будет отправлено сообщение.</li>
-        <li><strong>text</strong> (string): Содержимое текстового сообщения, которое необходимо отправить в чат.</li>
+        <li><strong>chat_id</strong> (integer): {{ t('apiBotDoc.chatIdForTextMessage') }}</li>
+        <li><strong>text</strong> (string): {{ t('apiBotDoc.textMessageContent') }}</li>
       </ul>
-
       <el-divider/>
-
-      <p>
-        POST
-        <code>send/photo</code>
-      </p>
-      <p>Метод позволяет отправить фото в указанный чат.</p>
-      <h4>Параметры</h4>
+      <p>POST <code>send/photo</code></p>
+      <p>{{ t('apiBotDoc.sendPhotoDescription') }}</p>
+      <h4>{{ t('apiBotDoc.parameters') }}</h4>
       <ul>
-        <li><strong>chat_id</strong> (integer): Уникальный идентификатор чата, в который будет отправлено фото.</li>
-        <li><strong>photo</strong> (file): Локальный файл изображения, который будет отправлен.</li>
-        <li><strong>caption</strong> (string, optional): Подпись к изображению. Этот параметр необязателен.</li>
+        <li><strong>chat_id</strong> (integer): {{ t('apiBotDoc.chatIdForPhoto') }}</li>
+        <li><strong>photo</strong> (file): {{ t('apiBotDoc.localImageFile') }}</li>
+        <li><strong>caption</strong> (string, optional): {{ t('apiBotDoc.imageCaption') }}</li>
       </ul>
-
       <el-divider/>
-
-      <p>
-        POST
-        <code>send/video</code>
-      </p>
-      <p>Метод позволяет отправить видео в указанный чат.</p>
-      <h4>Параметры</h4>
+      <p>POST <code>send/video</code></p>
+      <p>{{ t('apiBotDoc.sendVideoDescription') }}</p>
+      <h4>{{ t('apiBotDoc.parameters') }}</h4>
       <ul>
-        <li><strong>chat_id</strong> (integer): Уникальный идентификатор чата, в который будет отправлено видео.</li>
-        <li><strong>video</strong> (file): Локальный файл видео, который будет отправлен.</li>
-        <li><strong>caption</strong> (string, optional): Подпись к видео. Этот параметр необязателен.</li>
+        <li><strong>chat_id</strong> (integer): {{ t('apiBotDoc.chatIdForVideo') }}</li>
+        <li><strong>video</strong> (file): {{ t('apiBotDoc.localVideoFile') }}</li>
+        <li><strong>caption</strong> (string, optional): {{ t('apiBotDoc.videoCaption') }}</li>
       </ul>
-
       <el-divider/>
-
-      <p>
-        POST
-        <code>send/audio</code>
-      </p>
-      <p>Метод позволяет отправить аудиофайл в указанный чат.</p>
-      <h4>Параметры</h4>
+      <p>POST <code>send/audio</code></p>
+      <p>{{ t('apiBotDoc.sendAudioDescription') }}</p>
+      <h4>{{ t('apiBotDoc.parameters') }}</h4>
       <ul>
-        <li><strong>chat_id</strong> (integer): Уникальный идентификатор чата, в который будет отправлено аудио.</li>
-        <li><strong>audio</strong> (file): Локальный аудиофайл, который будет отправлен.</li>
-        <li><strong>caption</strong> (string, optional): Подпись к аудиофайлу. Этот параметр необязателен.</li>
+        <li><strong>chat_id</strong> (integer): {{ t('apiBotDoc.chatIdForAudio') }}</li>
+        <li><strong>audio</strong> (file): {{ t('apiBotDoc.localAudioFile') }}</li>
+        <li><strong>caption</strong> (string, optional): {{ t('apiBotDoc.audioCaption') }}</li>
       </ul>
-
       <el-divider/>
-
-      <p>
-        POST
-        <code>send/document</code>
-      </p>
-      <p>Метод позволяет отправить документ (например, PDF, текстовый файл и другие) в указанный чат.</p>
-      <h4>Параметры</h4>
+      <p>POST <code>send/document</code></p>
+      <p>{{ t('apiBotDoc.sendDocumentDescription') }}</p>
+      <h4>{{ t('apiBotDoc.parameters') }}</h4>
       <ul>
-        <li><strong>chat_id</strong> (integer): Уникальный идентификатор чата, в который будет отправлен документ.</li>
-        <li><strong>document</strong> (file): Локальный файл документа, который будет отправлен.</li>
-        <li><strong>caption</strong> (string, optional): Подпись к документу. Этот параметр необязателен.</li>
+        <li><strong>chat_id</strong> (integer): {{ t('apiBotDoc.chatIdForDocument') }}</li>
+        <li><strong>document</strong> (file): {{ t('apiBotDoc.localDocumentFile') }}</li>
+        <li><strong>caption</strong> (string, optional): {{ t('apiBotDoc.documentCaption') }}</li>
       </ul>
     </div>
   </el-main>
