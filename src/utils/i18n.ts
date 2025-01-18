@@ -4,7 +4,7 @@ import locale from '@/locale'
 export const i18n = () => {
   const i18n = createI18n({
     legacy: false,
-    locale: 'ru',
+    locale: import.meta.env.VITE_DEFAULT_LANGUAGE,
     messages: locale
   })
 

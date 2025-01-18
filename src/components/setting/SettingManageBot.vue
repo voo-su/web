@@ -29,7 +29,7 @@ const rules = reactive<FormRules>({
     {
       validator: (rule, value, callback) => {
         if (!value.endsWith('_bot') && !value.endsWith('bot')) {
-          callback(new Error(t('usernameSuffix')))
+          callback(new Error(t('usernameSuffixBot')))
         } else {
           callback();
         }

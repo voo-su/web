@@ -23,7 +23,7 @@ const { t } = useI18n()
       <p>
         <span>{{ t('apiBotDoc.apiRequestFormat') }}</span>
         <br>
-        <code>{{ t('apiBotDoc.apiRequestExample') }}</code>
+        <code>https://api.voo.su/bot/{{ '{' + t('apiBotDoc.apiYourBotToken') + '}' }}/METHOD_NAME</code>
       </p>
       <span>{{ t('apiBotDoc.forExample') }} <code>GET https://api.voo.su/bot/0123456789/group-chats</code></span>
       <el-divider/>

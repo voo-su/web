@@ -1,6 +1,6 @@
 # VooSu Web
 
-<img src="./src/assets/image/logo.svg" width=150 height=150 style="float: left; padding-right: 10px" alt="VooSu logo">
+<img src="https://github.com/voo-su/server/blob/main/assets/logo.svg" align="left" width=150 height=150 alt="VooSu logo">
 
 [VooSu](https://voo.su) - это открытая платформа для мгновенного обмена сообщениями, разработанная для бизнеса, который
 ценит прозрачность и гибкость.
