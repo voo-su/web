@@ -1,109 +1,56 @@
-<script lang="ts" setup>
-import { ref } from 'vue'
-import { Close as CloseIcon } from '@element-plus/icons-vue'
-import { useI18n } from 'vue-i18n'
-
-const { t } = useI18n()
-
-defineProps({
-  id: {
-    type: Number,
-    default: 0
-  },
-  title: {
-    type: String,
-    default: () => ''
-  },
-  menus: {
-    type: Array,
-    default: () => []
-  }
-})
-
-const emit = defineEmits(['close'])
-
-const isShowBox = ref<boolean>(true)
-const tabIndex = ref<number>(0)
-
-const onClose = () => {
-  emit('close')
-}
-</script>
+<script lang="ts" setup></script>
 
 <template>
-  <el-dialog
-    v-model="isShowBox"
-    :before-close="onClose"
-    :show-close="false"
-  >
-    <template #header="{ close, titleId, titleClass }">
-      <h4
-        :id="titleId"
-        :class="titleClass"
-      >
-        {{ title }}
-      </h4>
-      <div class="module__after">
-        <el-button
-          type="info"
-          class="close"
-          link
-          :icon="CloseIcon"
-          @click="close"
-        />
+  <div class="container">
+    <div class="header-container">
+      <div class="navbar-default navbar-fixed-top">
+        <div class="header-fixed">
+          <slot name="header" />
+        </div>
       </div>
-    </template>
-    <el-container>
-      <el-aside>
-        <el-menu
-          default-active="0"
-          mode="vertical"
-        >
-          <el-menu-item
-            v-for="(menu, index) in menus"
-            :index="String(index)"
-            @click="tabIndex = index"
-          >
-            <el-icon
-              v-if="menu.icon"
-              :size="20"
-            >
-              <component :is="menu.icon" />
-            </el-icon>
-            <span>{{ menu.name }}</span>
-            <span
-              v-if="menu.hotspot"
-              class="left"
-            >++</span>
-          </el-menu-item>
-        </el-menu>
-      </el-aside>
-      <el-main>
-        <component
-          :is="menus[tabIndex].component"
-          :id="id"
-          @close="onClose"
-        />
-      </el-main>
-    </el-container>
-  </el-dialog>
+    </div>
+    <div class="content-container">
+      <div class="main-fixed">
+        <slot name="content" />
+      </div>
+    </div>
+  </div>
 </template>
 
 <style lang="scss" scoped>
-.el-aside {
-  width: 250px;
-  border-right: solid 1px var(--el-border-color);
+.container {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  flex-basis: auto;
+  box-sizing: border-box;
+  min-width: 0;
+  background-color: #f0f2f5;
 
-  .el-menu {
-    border-right: none;
+  .navbar-default {
+    border-bottom: 1px solid var(--el-border-color);
+    background-color: #ffffff;
 
-    .left {
-      margin-left: auto;
+    .header-fixed{
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0;
+
     }
+  }
 
-    & > .el-menu-item.is-active {
-      border-right: 2px solid #2196f3;
-      background-color: rgb(0 0 0 / 4%);
+  .content-container {
+    margin-top: 63px;
+    display: block;
+    flex: 1;
+    flex-basis: auto;
+    overflow: auto;
+
+    .main-fixed {
+      max-width: 1280px;
+      margin: 0 auto;
+      height: calc(100vh - 105px);
+      padding: 0 0 40px;
     }
   }
 }

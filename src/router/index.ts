@@ -1,5 +1,9 @@
+// Copyright (c) 2025 Magomedcoder <info@magomedcoder.ru>
+// Distributed under the GPL v3 License, see https://github.com/voo-su/web/blob/main/LICENSE
+
 import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router'
 import { isLoggedIn } from '@/utils/auth'
+import DevLayout from '@/layouts/DevLayout.vue'
 
 const routes = [
   {
@@ -49,6 +53,17 @@ const routes = [
     name: 'TermsView',
     meta: {},
     component: () => import('@/views/terms.vue')
+  },
+  {
+    path: '/dev/',
+    component: DevLayout,
+    children: [
+      {
+        path: '',
+        name: 'DevView',
+        component: () => import('@/views/dev/index.vue')
+      }
+    ]
   },
   {
     path: '/projects/',

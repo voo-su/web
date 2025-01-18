@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { markRaw } from 'vue'
-import AppLayout from '@/components/app/AppLayout.vue'
+import AppLayoutDialog from '@/components/app/AppLayoutDialog.vue'
 import GroupManageDetail from './GroupManageDetail.vue'
 import GroupManageMember from './GroupManageMember.vue'
 import GroupManageAds from './GroupManageAds.vue'
@@ -58,7 +58,7 @@ const onCloseClick = () => {
 </script>
 
 <template>
-  <app-layout
+  <app-layout-dialog
     :id="gid"
     :title="t('groupManagement')"
     :menus="menus"
