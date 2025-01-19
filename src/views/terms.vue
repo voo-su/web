@@ -15,7 +15,7 @@ const goBack = () => router.push('/')
     <template #header>
       <el-page-header
         @back="goBack"
-        content="Соглашение и правила пользования"
+        :content="t('terms')"
       />
     </template>
     <template #content>
@@ -25,16 +25,13 @@ const goBack = () => router.push('/')
             <icon-logo @click="goBack" />
           </div>
           <p>
-            Настоящее Соглашение регламентирует отношения между Администрацией информационного ресурса «Voo.su» и
-            физическим лицом, которое ищет и распространяет информацию на данном ресурсе.
+            {{ t('termsText.text1') }}
           </p>
           <p>
-            Информационный ресурс «Voo.su» не является средством массовой информации, Администрация ресурса не осуществляет
-            редактирование размещаемой информации и не несет ответственность за ее содержание.
+            {{ t('termsText.text2') }}
           </p>
           <p>
-            Пользователь, разместивший информацию на ресурсе «Voo.su», самостоятельно представляет и защищает свои
-            интересы, возникающие в связи с размещением указанной информации, в отношениях с третьими лицами.
+            {{ t('termsText.text3') }}
           </p>
         </div>
       </div>
@@ -51,10 +48,9 @@ const goBack = () => router.push('/')
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: 80vh;
 
   .terms {
-    margin: 10px auto;
     text-align: left;
     max-width: 800px;
     width: 100%;

@@ -358,6 +358,12 @@ export default {
     documentCaption: 'Caption for the document. This parameter is optional.'
   },
 
+  termsText: {
+    text1: 'This Agreement regulates the relationship between the Administration of the information resource "Voo.su" and the individual who searches for and distributes information on this resource.',
+    text2: 'The information resource "Voo.su" is not a mass media outlet, and the Administration of the resource does not edit the posted information and is not responsible for its content.',
+    text3: 'The user who posts information on the "Voo.su" resource independently represents and defends their interests arising from the posting of such information in relations with third parties.',
+  },
+
   xgplayer: {
     LANG: 'en',
     TEXT: {
