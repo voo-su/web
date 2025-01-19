@@ -12,8 +12,4 @@ making it an excellent alternative to commercial messengers for teams and organi
 
 ---
 
-### Repositories
-
 [Server version repository](https://github.com/voo-su/server)
-
-[Apps repository (Android, iOS, Desktop)](https://github.com/voo-su/app)

@@ -54,7 +54,7 @@ const onPlay = async () => {
     url: props.extra.url,
     fluid: true,
     autoplay: true,
-    lang: 'ru'
+    lang: import.meta.env.VITE_DEFAULT_LANGUAGE
   })
 }
 

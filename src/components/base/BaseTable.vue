@@ -18,7 +18,6 @@ const { t } = useI18n()
         :height="height"
         fixed
         :scrollbar-always-on="true"
-        row-class="cursor-pointer"
         :row-event-handlers="rowEventHandlers"
       >
         <template #empty>

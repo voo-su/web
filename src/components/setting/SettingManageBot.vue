@@ -90,7 +90,6 @@ const rowEventHandlers = {
   onClick: handleRowClick
 }
 
-
 const validateForm = (): Promise<boolean> => {
   return new Promise((resolve, reject) => {
     if (formRef.value) {
@@ -168,11 +167,9 @@ load()
 </script>
 
 <template>
-  <section>
-    <h3 class="title">
-      {{ t('botManager') }}
-    </h3>
-    <div class="view-box">
+  <section class="view">
+    <div class="view-header">
+      <h3 class="title">{{ t('botManager') }}</h3>
       <el-button
         type="primary"
         @click="onCreate"
@@ -180,7 +177,8 @@ load()
       >
         {{ t('newBot') }}
       </el-button>
-
+    </div>
+    <div class="view-box">
       <base-table
         v-loading="loading"
         :columns="columns"
@@ -193,11 +191,22 @@ load()
 </template>
 
 <style lang="scss" scoped>
-.el-page-header {
-  padding: 10px;
+.view {
+  .view-header {
+    padding: 0 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--el-border-color);
 
-  h3.title {
-    border-bottom: none;
+    .title {
+      padding-left: 15px;
+      border-bottom: none;
+    }
+  }
+
+  .view-box {
+    height: calc(90vh - 105px);
   }
 }
 </style>

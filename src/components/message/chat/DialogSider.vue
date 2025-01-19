@@ -165,11 +165,12 @@ const onContextMenuDialog = (e: any, item: any) => {
     label: item.is_disturb ? t('enableNotifications') : t('disableNotifications'),
     key: 'disturb'
   })
-  state.dropdown.options.push({
-    icon: renderIcon(item.is_top ? IconUnpin : IconPin),
-    label: item.is_top ? t('unpin') : t('pin'),
-    key: 'top'
-  })
+  // TODO
+  // state.dropdown.options.push({
+  //   icon: renderIcon(item.is_top ? IconUnpin : IconPin),
+  //   label: item.is_top ? t('unpin') : t('pin'),
+  //   key: 'top'
+  // })
   state.dropdown.options.push({
     icon: renderIcon(IconDelete),
     label: t('deleteChat'),
