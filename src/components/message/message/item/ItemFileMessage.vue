@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { fileFormatSize } from '@/utils/strings'
-import { download } from '@/utils/functions'
+import { onDownload } from '@/utils/functions'
 import type { IFileExtra } from './types'
-import { Download } from '@element-plus/icons-vue'
+import { Download as IconDownload } from '@element-plus/icons-vue'
 import TextMessage from './ItemTextMessage.vue'
 import { useI18n } from 'vue-i18n'
 
@@ -30,8 +30,8 @@ const { t } = useI18n()
           type="primary"
           link
           size="small"
-          :icon="Download"
-          @click="download(data.id)"
+          :icon="IconDownload"
+          @click="onDownload(data.id, extra.name)"
         >
           <span class="size">{{ t('download') }} ({{ fileFormatSize(extra.size) }})</span>
         </el-button>

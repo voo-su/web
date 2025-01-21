@@ -35,6 +35,7 @@ module.exports = {
         'alignAttributesVertically': true,
         'ignores': []
       }
-    ]
+    ],
+    'vue/script-setup-uses-vars': 'error'
   }
 }

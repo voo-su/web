@@ -56,6 +56,7 @@ export default {
   waitingForLoad: 'Ожидание загрузки',
   loading: 'Идет загрузка',
   loadComplete: 'Загрузка завершена',
+  error: 'Error',
   networkError: 'Сетевая ошибка',
   downloads: 'Загрузки',
   success: 'Успешно',

@@ -56,6 +56,7 @@ export default {
   waitingForLoad: 'Waiting for load',
   loading: 'Loading',
   loadComplete: 'Load complete',
+  error: 'Ошибка',
   networkError: 'Network error',
   downloads: 'Downloads',
   success: 'Success',

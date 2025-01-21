@@ -58,3 +58,8 @@ export interface IGetForwardRecordsApi {
   record_id: number
 }
 
+export interface IDownloadFileApi {
+  cr_id: number
+}
+
+

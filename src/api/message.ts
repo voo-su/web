@@ -10,6 +10,7 @@ import type {
   IRemoveRecordsApi,
   IRevokeRecordsApi,
   ISendVoteApi,
+  IDownloadFileApi,
 } from '@/api/types/message'
 
 export const getRecordsApi = (data: IRecordsApi) => get('/v1/messages', data)
@@ -36,3 +37,4 @@ export const forwardRecordsApi = (data: IForwardRecordsApi) => post('/v1/message
 
 export const getForwardRecordsApi = (data: IGetForwardRecordsApi) => get('/v1/messages/forward/list', data)
 
+export const downloadFile = (data: IDownloadFileApi, options = {}) => get('/v1/messages/file/download', data, options)

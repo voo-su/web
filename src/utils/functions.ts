@@ -1,19 +1,22 @@
-import { getAccessToken } from '@/utils/auth'
 import { h } from 'vue'
 import { ElIcon } from 'element-plus'
+import { downloadFile } from '@/api/message'
+import { i18n } from '@/utils/i18n'
+
+const t = i18n()
 
 export interface IImageInfo {
   width: number
   height: number
 }
 
-export const getImageInfo = (imgsrc: any): IImageInfo => {
+export const getImageInfo = (img: any): IImageInfo => {
   const data = {
     width: 0,
     height: 0
   }
 
-  const arr = imgsrc.split('_')
+  const arr = img.split('_')
   if (arr.length == 1) {
     return data
   }
@@ -30,15 +33,25 @@ export const getImageInfo = (imgsrc: any): IImageInfo => {
   }
 }
 
-export const download = (cr_id: any) => {
-  const token = getAccessToken()
+export const onDownload = async (crId: number, fileName: string = 'unknown') => {
   try {
-    const link = document.createElement('a')
-    // link.target = '_blank'
-    link.href = `${import.meta.env.VITE_BASE_API
-      }/v1/messages/file/download?cr_id=${cr_id}&token=${token}`
-    link.click()
-  } catch (e) {
+    downloadFile({cr_id: crId}, {
+      headers: {
+        'Accept': 'application/octet-stream'
+      },
+      responseType: 'blob'
+    })
+      .then((res) => {
+          const blobUrl = window.URL.createObjectURL(new Blob([res]))
+          const link = document.createElement('a')
+          link.href = blobUrl
+          link.download = fileName
+          link.click()
+
+          window.URL.revokeObjectURL(blobUrl)
+      })
+  } catch (err) {
+    console.error(`${t('error')}:`, err);
   }
 }
 
