@@ -36,7 +36,7 @@ const onLoad = () => {
           id: item.id,
           type: 1,
           index_name: `1_${item.id}`,
-          username: /*item.friend_remark ||*/ item.username,
+          username: item.username,
           checked: false
         })
       })
@@ -103,7 +103,6 @@ onLoad()
                   </div>
                   <div class="content">
                     <span class="text-ellipsis">
-                      <!--                      {{ item.remark || item.username }}-->
                       {{ item.username }}
                     </span>
                   </div>

@@ -34,21 +34,15 @@ const state = reactive<any>({
     avatar: '',
     name: '',
     description: ''
-    // visit_card: ''
   },
   members: []
-  // remark: ''
 })
 
 const search = computed(() => {
   if (state.keywords) {
-    return state.members.filter((item: any) => {
-      return (
-        item.username.match(state.keywords) != null /*||
-        item.user_card.match(state.keywords) != null*/
-      )
-    })
+    return state.members.filter((item: any) => item.username.match(state.keywords) != null
   }
+
   return state.members
 })
 
@@ -81,8 +75,6 @@ const loadDetail = () => {
         state.detail.avatar = result.avatar
         state.detail.name = result.group_name
         state.detail.description = result.description
-        // state.detail.visit_card = result.visit_card
-        // state.remark = result.visit_card
         if (result.ads) {
           state.detail.group_ads = result.ads
         }
@@ -124,23 +116,6 @@ const onSignOut = () => {
     })
     .catch(() => {})
 }
-
-// const onChangeRemark = () => {
-//   updateGroupCardApi({
-//     group_id: props.gid,
-//     visit_card: state.remark
-//   }).then((res: any) => {
-//     const { code, message } = res
-//     if (code == 200) {
-//       editCardPopover.value.setShow(false)
-//       state.detail.visit_card = state.remark
-//       ElMessage.success(t('groupNameUpdated'))
-//       loadMembers()
-//     } else {
-//       ElMessage.error(message)
-//     }
-//   })
-// }
 
 watch(props, () => {
   loadDetail()
@@ -269,9 +244,6 @@ loadMembers()
                   v-if="item.leader === 1"
                   class="member-type"
                 >{{ t('admin') }}</span>
-                <!--div class="card text-ellipsis grey">
-                  {{ item.user_card ? item.user_card : '-' }}
-                </div--->
               </div>
             </div>
           </div>

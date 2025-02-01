@@ -116,7 +116,6 @@ export const useDialogueStore = defineStore('dialogue', {
           avatar: o.avatar,
           gender: o.gender,
           leader: o.leader,
-          // remark: o.user_card,
           online: false,
           value: o.username
         })

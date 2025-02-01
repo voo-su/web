@@ -18,11 +18,6 @@ export interface IDeleteContactApi {
   friend_id: number
 }
 
-export interface IEditContactRemarkApi {
-  friend_id: number
-  remark: string
-}
-
 export interface IContactFolderSaveApi {
   items: any
 }

@@ -43,7 +43,6 @@ export const formatDialogItem = (params: any) => {
     dialog_type: 1,
     receiver_id: 0,
     name: t('nameNotProvided'),
-    // remark_name: '',
     avatar: '',
     is_disturb: 0,
     is_top: 0,
@@ -57,7 +56,6 @@ export const formatDialogItem = (params: any) => {
     created_at: parseTime(new Date())
   }
   Object.assign(options, params)
-  options.msg_text = options.msg_text
   options.index_name = `${options.dialog_type}_${options.receiver_id}`
   return options
 }

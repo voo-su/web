@@ -200,7 +200,7 @@ const onContextMenuDialogHandle = (key: string) => {
     disturb: onSetDisturb,
     remove: onRemoveDialog,
     top: onToTopDialog,
-    signout_group: onSignOutGroup,
+    signout_group: onSignOutGroup
   }
   state.dropdown.show = false
   events[key] && events[key](state.dropdown.item)
@@ -327,10 +327,8 @@ onMounted(() => {
 }
 
 .dialog-sider {
-  //border-right: 1px solid var(--el-border-color);
   background: #FFFFFF;
   border-radius: 16px;
-  //padding: 10px;
 }
 
 .header {
@@ -377,46 +375,6 @@ onMounted(() => {
   }
 
 }
-
-//.tops-header {
-//  padding: 5px 8px;
-//  -webkit-justify-content: space-between;
-//  -ms-flex-pack: justify;
-//  justify-content: space-between;
-//  grid-gap: 0 14px;
-//  grid-template-columns: repeat(auto-fill, 32px);
-//  display: grid;
-//  box-sizing: border-box;
-//
-//  .top-item {
-//    flex-basis: 46px;
-//    flex-shrink: 0;
-//    margin: 3px 2px 3px 2px;
-//    display: flex;
-//    flex-direction: column;
-//    justify-content: space-between;
-//    align-items: center;
-//    position: relative;
-//
-//    &.active {
-//      .text {
-//        color: rgb(80 138 254);
-//      }
-//    }
-//
-//    .text {
-//      display: inline-block;
-//      height: 20px;
-//      font-size: 12px;
-//      color: #8f959e;
-//      transform: scale(0.84);
-//      text-align: center;
-//      line-height: 20px;
-//      word-break: break-all;
-//      overflow: hidden;
-//    }
-//  }
-//}
 
 .skeleton {
   padding: 5px 10px;

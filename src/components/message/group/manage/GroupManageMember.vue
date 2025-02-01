@@ -49,12 +49,7 @@ const filterSearch: any = computed(() => {
   if (!keywords.value.length) {
     return items.value
   }
-  return items.value.filter((item: any) => {
-    return (
-      item.username.match(keywords.value) != null /*||
-      item.user_card.match(keywords.value) != null*/
-    )
-  })
+  return items.value.filter((item: any) => item.username.match(keywords.value) != null)
 })
 
 const isAdmin = computed(() => {
@@ -244,7 +239,6 @@ onLoadData()
           <div class="item-title">
             <p class="username text-ellipsis">
               <span>{{ member.username }}</span>
-              <!--<span v-show="member.user_card"> ({{ member.user_card }})</span>-->
             </p>
             <span
               v-if="member.leader === 2"

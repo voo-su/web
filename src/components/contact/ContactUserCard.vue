@@ -51,7 +51,6 @@ interface IContact {
   gender: number
   avatar: string
   about: string
-  // remark: string
   friend_status: number
   text: string
   is_bot: number
@@ -66,7 +65,6 @@ const state = reactive<IContact>({
   gender: 0,
   avatar: '',
   about: '',
-  // remark: '',
   friend_status: 1,
   text: '',
   is_bot: 0,

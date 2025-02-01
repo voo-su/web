@@ -35,7 +35,7 @@ const items = ref<any>([])
 
 const filter: any = computed(() => {
   return items.value.filter((item: any) => {
-    let value = /*item.remark ||*/ item.username
+    let value = item.username
     let findIndex = value.toLowerCase().indexOf(keywords.value.toLowerCase())
     if (index.value == 0) {
       return findIndex != -1
@@ -130,7 +130,7 @@ onMounted(() => {
           :gender="item.gender"
           :name="item.name"
           :surname="item.surname"
-          :username="/*item.remark ||*/ item.username"
+          :username="item.username"
           @click="onInfo(item)"
           @to-chat="onToChat(item)"
         />

@@ -1,4 +1,4 @@
-import { get, post, put } from '@/utils/request'
+import { get, post } from '@/utils/request'
 import type {
   IApplyAcceptApi,
   IApplyDeclineApi,
@@ -6,7 +6,6 @@ import type {
   IContactFolderSaveApi,
   ICreateContactApi,
   IDeleteContactApi,
-  IEditContactRemarkApi,
   ISearchUserApi
 } from '@/api/types/contact'
 
@@ -25,8 +24,6 @@ export const findFriendApplyNumApi = () => get('/v1/contacts/requests/unread-num
 export const searchUserApi = (data: ISearchUserApi) => get('/v1/contacts/get', data)
 
 export const deleteContactApi = (data: IDeleteContactApi) => post('/v1/contacts/delete', data)
-
-export const editContactRemarkApi = (data: IEditContactRemarkApi) => put('/v1/contacts/remark', data)
 
 export const contactFoldersApi = (): any => get('/v1/contacts/folders')
 

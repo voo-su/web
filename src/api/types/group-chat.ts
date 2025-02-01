@@ -98,7 +98,3 @@ export interface IEditGroupAdsApi {
   is_confirm: number
 }
 
-export interface IUpdateGroupCardApi {
-  group_id: number
-  visit_card: string
-}

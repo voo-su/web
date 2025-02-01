@@ -19,8 +19,7 @@ import type {
   IMuteGroupApi,
   IOvertGroupApi,
   IRemoveMembersGroupApi,
-  ISecedeGroupApi,
-  IUpdateGroupCardApi
+  ISecedeGroupApi
 } from '@/api/types/group-chat'
 
 export const getGroupListApi = () => get('/v1/group-chats')
@@ -64,9 +63,5 @@ export const agreeGroupApplyApi = (data: IAgreeGroupApplyApi) => post('/v1/group
 export const getGroupAdsApi = (data: IGetGroupAdsApi) => get('/v1/group-chats/ads', data)
 
 export const editGroupAdsApi = (data: IEditGroupAdsApi) => post('/v1/group-chats/ads/edit', data)
-
-export const updateGroupCardApi = (data: IUpdateGroupCardApi) => post('/v1/group-chats/members/remark', data)
-
-export const getGroupApplyAllApi = () => get('/v1/group-chats/requests/all')
 
 export const groupApplyUnreadApi = () => get('/v1/group-chats/requests/unread')

@@ -117,9 +117,7 @@ const tribute = new Tribute({
     }
 
     let name = item.original.username
-    // if (item.original.remark) {
-    //   name += `(${item.original.remark})`
-    // }
+
     return `
     <img width="18" height="18" src="${avatar}" style="border-radius:50%;">
     <span class="text-ellipsis">${name}</span>`

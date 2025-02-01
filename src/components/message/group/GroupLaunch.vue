@@ -60,7 +60,7 @@ const onLoad = () => {
       let list = data || []
       items.value = list.map((item: any) => {
         return Object.assign(item, {
-          username: /*item.friend_remark ? item.friend_remark :*/ item.username,
+          username: item.username,
           checked: false
         })
       })
