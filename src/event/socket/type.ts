@@ -1,7 +1,7 @@
 export interface IResource {
   sender_id: any
   receiver_id: any
-  dialog_type: any
+  chat_type: any
   resource: any
   data: any
 }

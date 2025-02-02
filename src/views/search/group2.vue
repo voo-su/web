@@ -2,19 +2,25 @@
 import { computed, onMounted, reactive, ref } from 'vue'
 import { Plus, Search } from '@element-plus/icons-vue'
 import { getGroupListApi } from '@/api/group-chat'
-import GroupPanel from '@/components/message/group/GroupPanel.vue'
-import GroupLaunch from '@/components/message/group/GroupLaunch.vue'
-import GroupRequestCard from '@/components/message/group/GroupRequestCard.vue'
-import { toDialog } from '@/utils/chat'
-import { useDialogStore, useUserStore } from '@/store'
+import GroupPanel from '@/components/chat/GroupPanel.vue'
+import GroupLaunch from '@/components/chat/GroupLaunch.vue'
+import GroupRequestCard from '@/components/chat/GroupRequestCard.vue'
+import { toChat } from '@/utils/chat'
+import { useChatStore, useUserStore } from '@/store'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 const userStore = useUserStore()
-const dialogStore = useDialogStore()
+const chatStore = useChatStore()
+
+interface IItem {
+  group_name: string
+  creator_id: number
+}
+
 const isShowCreateGroupBox = ref<boolean>(false)
 const keywords = ref<string>('')
-const items = ref<any>([])
+const items = ref<IItem[]>([])
 
 const params = reactive({
   isShow: false,
@@ -25,13 +31,8 @@ const tabIndex = ref<string>('all')
 
 const { uid } = userStore
 
-interface IItem {
-  group_name: string
-  creator_id: number
-}
-
 const filterCreator = computed(() => {
-  return items.value.filter((item: any) => item.creator_id == uid)
+  return items.value.filter((item: IItem) => item.creator_id == uid)
 })
 
 const filter: any = computed(() => {
@@ -49,9 +50,9 @@ const filter: any = computed(() => {
 })
 
 const onLoadData = () => {
-  getGroupListApi().then((res: any) => {
-    if (res.code == 200) {
-      items.value = res.data.items || []
+  getGroupListApi().then(({ code, data }: any) => {
+    if (code == 200) {
+      items.value = data.items || []
     }
   })
 }
@@ -61,14 +62,12 @@ const onShowGroup = (item: any) => {
   params.id = item.id
 }
 
-const onToDialog = (item: any) => {
-  toDialog(2, item.id)
-}
+const onToChat = (item: any) => toChat(2, item.id)
 
 const onGroupCallBack = () => {
   isShowCreateGroupBox.value = false
   onLoadData()
-  dialogStore.loadDialogList()
+  chatStore.loadList()
 }
 
 onMounted(() => {
@@ -110,7 +109,7 @@ onMounted(() => {
         :is-member="true"
         :username="item.group_name"
         @click="onShowGroup(item)"
-        @dialog="onToDialog(item)"
+        @chat="onToChat(item)"
       />
     </el-main>
   </el-container>
@@ -130,9 +129,9 @@ onMounted(() => {
     <group-panel
       :gid="params.id"
       @close="params.isShow = false"
-      @to-dialog="
+      @to-chat="
         () => {
-          toDialog(2, params.id)
+          toChat(2, params.id)
         }
       "
     />

@@ -3,7 +3,7 @@ import { computed, markRaw, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/store/user'
 import { useUploadsStore } from '@/store/uploads'
-import { useDialogStore } from '@/store'
+import { useChatStore } from '@/store'
 import {
   ChatRound as IconChatRound,
   Loading as IconLoading,
@@ -30,7 +30,7 @@ const props = defineProps({
 
 const { t } = useI18n()
 const userStore = useUserStore()
-const dialogStore = useDialogStore()
+const chatStore = useChatStore()
 const uploadsStore = useUploadsStore()
 const router = useRouter()
 
@@ -38,7 +38,7 @@ const menus = reactive([
   {
     link: '/',
     icon: markRaw(IconChatRound),
-    hotspot: computed(() => dialogStore.dialogUnreadNum > 0)
+    hotspot: computed(() => chatStore.getUnreadNum > 0)
   },
   {
     link: '/contacts',

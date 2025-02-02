@@ -13,7 +13,7 @@ const state = reactive<any>({
   show: true,
   src: ''
 })
-const dialogRef = ref<any>()
+const avatarRef = ref<any>()
 
 const cropper = ref<any>('cropper')
 
@@ -75,18 +75,18 @@ const onSubmit = () => {
     const form = new FormData()
     form.append('file', file)
 
-    uploadAvatarApi(form).then((res: any) => {
-      if (res.code == 200) {
-        emit('success', res.data.avatar)
+    uploadAvatarApi(form).then(({ code, data, message }: any) => {
+      if (code == 200) {
+        emit('success', data.avatar)
       } else {
-        ElMessage.info(res.message)
+        ElMessage.info(message)
       }
     })
   })
 }
 
 const onOpen = async () => {
-  const element = dialogRef.value
+  const element = avatarRef.value
   if (element) {
     element.dialogContentRef.$refs.headerRef.remove()
   }
@@ -101,7 +101,7 @@ const onOpen = async () => {
     @change="onUpload"
   >
   <el-dialog
-    ref="dialogRef"
+    ref="avatarRef"
     v-model="state.show"
     :before-close="onCloseClick"
     width="690px"

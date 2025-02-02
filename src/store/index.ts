@@ -1,17 +1,17 @@
 import { useUserStore } from '@/store/user'
-import { useNotifyStore } from '@/store/notify'
-import { useDialogStore } from '@/store/dialog'
+import { useNotificationStore } from '@/store/notification'
+import { useChatStore } from '@/store/chat'
 import { useEditorStore } from '@/store/editor'
-import { useDialogueStore } from '@/store/dialogue'
+import { useMessageStore } from '@/store/message'
 import { useUploadsStore } from '@/store/uploads'
 import { useProjectStore } from '@/store/project'
 
 export {
   useUserStore,
-  useNotifyStore,
-  useDialogStore,
+  useNotificationStore,
+  useChatStore,
   useEditorStore,
-  useDialogueStore,
+  useMessageStore,
   useUploadsStore,
   useProjectStore
 }

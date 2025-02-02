@@ -1,14 +1,14 @@
 export interface IRecordsApi {
   record_id: number
   receiver_id: number
-  dialog_type: number
+  chat_type: number
   limit: number
 }
 
 export interface IMessageSendApi {
   type: string
   receiver: {
-    dialog_type: number
+    chat_type: number
     receiver_id: number
   }
 }
@@ -18,7 +18,7 @@ export interface IRevokeRecordsApi {
 }
 
 export interface IRemoveRecordsApi {
-  dialog_type: number
+  chat_type: number
   receiver_id: number
   record_id: string
 }
@@ -45,7 +45,7 @@ export interface ICollectStickerApi {
 }
 
 export interface IForwardRecordsApi {
-  dialog_type: number
+  chat_type: number
   receiver_id: number
   forward_mode: number
   records_ids: string

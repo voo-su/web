@@ -31,15 +31,13 @@ interface IUploads {
 }
 
 export const useUploadsStore = defineStore('uploads', {
-  state: (): IUploads => {
-    return {
-      isShow: false,
-      items: []
-    }
-  },
+  state: (): IUploads => ({
+    isShow: false,
+    items: []
+  }),
 
   actions: {
-    async initUploadFile(file: File, dialogType: number, receiverId: number, username: string) {
+    async initUploadFile(file: File, chatType: number, receiverId: number, username: string) {
       findFileSplitInfoApi({
         file_name: file.name,
         file_size: file.size
@@ -50,7 +48,7 @@ export const useUploadsStore = defineStore('uploads', {
 
         this.items.unshift({
           file: file,
-          dialog_type: dialogType,
+          chat_type: chatType,
           receiver_id: receiverId,
           upload_id: upload_id,
           uploadIndex: 0,
@@ -75,8 +73,7 @@ export const useUploadsStore = defineStore('uploads', {
       const form = item.files[item.uploadIndex]
       item.status = 1
       fileSubareaUploadApi(form)
-        .then((res: any) => {
-          const { code } = res
+        .then(({ code }: any) => {
           if (code == 200) {
             item.uploadIndex++
             if (item.uploadIndex === item.files.length) {
@@ -101,7 +98,7 @@ export const useUploadsStore = defineStore('uploads', {
       messageSendApi({
         type: 'file',
         receiver: {
-          dialog_type: item.dialog_type,
+          chat_type: item.chat_type,
           receiver_id: item.receiver_id
         },
         upload_id:  item.upload_id,

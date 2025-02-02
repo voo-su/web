@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
-import { useNotifyStore } from '@/store/notify'
+import { useNotificationStore } from '@/store/notification'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
-const notifyStore = useNotifyStore()
+const notifyStore = useNotificationStore()
 
 const isPromptTone = computed({
   get: () => notifyStore.isPromptTone,

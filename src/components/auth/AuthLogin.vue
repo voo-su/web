@@ -50,12 +50,7 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
       loginApi({
         email: form.email,
         platform: 'web'
-      }).then(async (res: any) => {
-        const {
-          code,
-          message,
-          data
-        } = res
+      }).then(async ({ code, message, data }: any) => {
         form.loading = false
         if (code == 200) {
           const {

@@ -72,8 +72,7 @@ const columns: Column<IColumn>[] = [
 
 const load = async () => {
   loading.value = true
-  getBots().then(async (res: any) => {
-    const { code, data } = res
+  getBots().then(async ({ code, data }: any) => {
     if (code == 200 && data.items) {
       items.value = data.items
     }

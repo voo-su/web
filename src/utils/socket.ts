@@ -1,12 +1,12 @@
-import { useDialogStore } from '@/store'
+import { useChatStore } from '@/store'
 import { useUserStore } from '@/store/user'
-import { useDialogueStore } from '@/store/dialogue'
+import { useMessageStore } from '@/store/message'
 import { getAccessToken, isLoggedIn } from './auth'
-import Ws from '../plugins/ws'
-import EventDialog from '../event/socket/dialog'
-import EventKeyboard from '../event/socket/keyboard'
-import EventLogin from '../event/socket/login'
-import EventRevoke from '../event/socket/revoke'
+import Ws from '@/plugins/ws'
+import EventChat from '@/event/socket/chat'
+import EventKeyboard from '@/event/socket/keyboard'
+import EventLogin from '@/event/socket/login'
+import EventRevoke from '@/event/socket/revoke'
 import { ElMessageBox, ElNotification, ElMessage } from 'element-plus'
 import { i18n } from '@/utils/i18n'
 
@@ -32,7 +32,7 @@ class Socket {
 
       onOpen: () => {
         useUserStore().updateSocketStatus(true)
-        useDialogStore().loadDialogList()
+        useChatStore().loadList()
       },
 
       onClose: () => {
@@ -97,18 +97,18 @@ class Socket {
   }
 
   onImMessage() {
-    this.ws.on('voo.message', (data: any) => new EventDialog(data))
+    this.ws.on('voo.message', (data: any) => new EventChat(data))
   }
 
   onImMessageRead() {
     this.ws.on('voo.message.read', (data: any) => {
-      const dialogueStore = useDialogueStore()
-      if (dialogueStore.index_name !== `1_${data.sender_id}`) {
+      const messageStore = useMessageStore()
+      if (messageStore.index_name !== `1_${data.sender_id}`) {
         return
       }
       const { msg_ids = [] } = data
       for (const msgid of msg_ids) {
-        dialogueStore.updateDialogueRecord({
+        messageStore.updateMessage({
           msg_id: msgid,
           is_read: 1
         })

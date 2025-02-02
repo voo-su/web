@@ -1,5 +1,5 @@
-import ru from './translations/ru'
-import en from './translations/en'
+import ru from './ru'
+import en from './en'
 
 export default {
   ru,

@@ -21,21 +21,19 @@ interface IUser {
 }
 
 export const useUserStore = defineStore('user', {
-  state: (): IUser => {
-    return {
-      uid: 0,
-      username: '',
-      avatar: '',
-      name: '',
-      surname: '',
-      gender: 0,
-      email: '',
-      about: '',
-      online: false,
-      isContactApply: false,
-      isGroupApply: false
-    }
-  },
+  state: (): IUser => ({
+    uid: 0,
+    username: '',
+    avatar: '',
+    name: '',
+    surname: '',
+    gender: 0,
+    email: '',
+    about: '',
+    online: false,
+    isContactApply: false,
+    isGroupApply: false
+  }),
   // persist: true,
   actions: {
     updateSocketStatus(status: boolean) {
@@ -56,11 +54,7 @@ export const useUserStore = defineStore('user', {
 
     loadSetting() {
       getAccountApi()
-        .then((res: any) => {
-          const {
-            code,
-            data
-          } = res
+        .then(({ code, data }: any) => {
           if (code == 200) {
             const {
               id,
@@ -85,16 +79,14 @@ export const useUserStore = defineStore('user', {
         })
 
       findFriendApplyNumApi()
-        .then((res: any) => {
-          const { code, data } = res
+        .then(({ code, data }: any) => {
           if (code == 200) {
             this.isContactApply = data.unread_num > 0
           }
         })
 
       // groupApplyUnreadApi()
-      //   .then((res: any) => {
-      //     const { code, data } = res
+      //   .then(({ code, data }: any) => {
       //     if (code == 200) {
       //       this.isGroupApply = data.unread_num > 0
       //     }

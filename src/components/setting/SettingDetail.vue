@@ -57,8 +57,7 @@ const form = reactive<IFormType>({
 })
 
 getAccountApi()
-  .then((res: any) => {
-    const { data } = res
+  .then(({ data }: any) => {
     form.avatar = data.avatar
     form.email = data.email.toString()
     form.name = data.name.toString()

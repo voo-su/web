@@ -55,11 +55,7 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
       errors.value = []
       updateUsernameApi({
         username: form.username
-      }).then((res: any) => {
-        const {
-          code,
-          message
-        } = res
+      }).then(({ code, message }: any) => {
         if (code == 200) {
           ElMessage.success(t('usernameChangedSuccess'))
           userStore.username = form.username

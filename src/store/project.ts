@@ -4,12 +4,10 @@ import { formatTaskCommentItem } from '@/utils/project'
 import type { ICommentItem } from '@/components/project/types'
 
 export const useProjectStore = defineStore('project', {
-  state: () => {
-    return {
-      items: [],
-      comments: []
-    }
-  },
+  state: () => ({
+    items: [],
+    comments: []
+  }),
   actions: {
     addItems(items) {
       this.items = items

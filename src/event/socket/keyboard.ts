@@ -1,5 +1,5 @@
 import Base from './base'
-import { useDialogueStore } from '@/store/dialogue'
+import { useMessageStore } from '@/store/message'
 
 class Keyboard extends Base {
 
@@ -12,12 +12,12 @@ class Keyboard extends Base {
   }
 
   handle() {
-    const params = this.getDialogParams()
+    const params = this.getParams()
     if (params.index_name === null) {
       return false
     }
 
-    if (params.dialog_type != 1) {
+    if (params.chat_type != 1) {
       return false
     }
 
@@ -25,7 +25,7 @@ class Keyboard extends Base {
       return false
     }
 
-    useDialogueStore().triggerKeyboard()
+    useMessageStore().triggerKeyboard()
   }
 }
 

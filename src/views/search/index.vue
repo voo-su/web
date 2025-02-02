@@ -27,9 +27,9 @@ const onSearchInput = (value: any) => {
   if (value.trim().length >= 2) {
     searchUsersApi({
       q: keywords.value
-    }).then((res: any) => {
-      if (res.code == 200) {
-        items.value = res.data.items || []
+    }).then(({ code, data, }: any) => {
+      if (code == 200) {
+        items.value = data.items || []
       }
     })
   }

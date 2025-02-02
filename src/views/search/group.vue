@@ -2,10 +2,10 @@
 import { reactive, ref } from 'vue'
 import { createGroupRequestsApi } from '@/api/group-chat'
 import { searchGroupsApi } from '@/api/search'
-import GroupRequestCard from '@/components/message/group/GroupRequestCard.vue'
+import GroupRequestCard from '@/components/chat/GroupRequestCard.vue'
 import { Fold, Search } from '@element-plus/icons-vue'
 import { debounce } from '@/utils/common'
-import { toDialog } from '@/utils/chat'
+import { toChat } from '@/utils/chat'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
 import { ElMessage } from 'element-plus'
 import AppPageHeader from '@/components/app/AppPageHeader.vue'
@@ -43,8 +43,7 @@ const onLoadData = () => {
   searchGroupsApi({
     page: search.page,
     name: search.name
-  }).then((res: any) => {
-    const { code, data } = res
+  }).then(({ code, data }: any) => {
     if (code == 200) {
       let list: any = data.items || []
       if (search.page == 1) {
@@ -64,32 +63,28 @@ const onLoadMore = () => {
   onLoadData()
 }
 
-const onSearchInput = debounce((value: any) => {
+const onSearchInput = debounce((value: string) => {
   search.page = 1
   search.name = value
   onLoadData()
 }, 300)
 
-const onToDialog = (item: any) => {
-  toDialog(2, item.id)
-}
+const onToChat = (item: IItem) => toChat(2, item.id)
 
-const onJoin = (item: any) => {
+const onJoin = (item: IItem) => {
   loading.value = true
   createGroupRequestsApi({
     group_id: item.id
+  }).then(({ code, message }: any) => {
+    if (code == 200) {
+      ElMessage.success(t('groupJoinRequestSent'))
+    } else {
+      ElMessage.warning(message)
+    }
   })
-    .then((res: any) => {
-      const { code } = res
-      if (code == 200) {
-        ElMessage.success(t('groupJoinRequestSent'))
-      } else {
-        ElMessage.warning(res.message)
-      }
-    })
-    .finally(() => {
-      loading.value = false
-    })
+  .finally(() => {
+    loading.value = false
+  })
 }
 
 const onInfo = (item: any) => {
@@ -127,7 +122,7 @@ onLoadData()
             :about="item.description"
             :name="item.name"
             @click="onInfo(item)"
-            @dialog="onToDialog(item)"
+            @chat="onToChat(item)"
             @join="onJoin(item)"
           />
         </div>

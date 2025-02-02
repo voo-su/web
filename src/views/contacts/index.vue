@@ -5,7 +5,7 @@ import ContactUserCard from '@/components/contact/ContactUserCard.vue'
 import ContactMemberCard from '@/components/contact/ContactMemberCard.vue'
 import AppPageHeader from '@/components/app/AppPageHeader.vue'
 import { modal } from '@/utils/common'
-import { toDialog } from '@/utils/chat'
+import { toChat } from '@/utils/chat'
 import { useUserStore } from '@/store/user'
 import { contactFoldersApi, getContactListApi } from '@/api/contact'
 import ContactTopMenu from '@/components/contact/ContactTopMenu.vue'
@@ -45,17 +45,17 @@ const filter: any = computed(() => {
 })
 
 const onLoad = () => {
-  getContactListApi().then((res: any) => {
-    if (res.code == 200) {
-      items.value = res.data.items || []
+  getContactListApi().then(({ code, data }: any) => {
+    if (code == 200) {
+      items.value = data.items || []
     }
   })
 }
 
 // const onLoadFolders = () => {
-//   contactFoldersApi().then((res: any) => {
-//     if (res.code == 200) {
-//       let items = res.data.items.map((item: any) => {
+//   contactFoldersApi().then(({ code, data }: any) => {
+//     if (code == 200) {
+//       let items = data.items.map((item: any) => {
 //         return {
 //           label: `${item.name} (${item.count})`,
 //           value: item.id,
@@ -66,9 +66,7 @@ const onLoad = () => {
 //   })
 // }
 
-const onToChat = (item: any) => {
-  toDialog(1, item.id)
-}
+const onToChat = (item: any) => toChat(1, item.id)
 
 const onInfo = (item: any) => {
   // user(item.id, () =>{

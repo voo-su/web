@@ -1,6 +1,6 @@
 import router from '@/router'
 import { useUserStore } from '@/store/user'
-import { useDialogueStore } from '@/store/dialogue'
+import { useMessageStore } from '@/store/message'
 
 class Base {
 
@@ -8,22 +8,22 @@ class Base {
     return useUserStore().uid
   }
 
-  getDialogParams() {
-    const dialogueStore = useDialogueStore()
+  getParams() {
+    const messageStore = useMessageStore()
     const {
-      dialog_type,
+      chat_type,
       receiver_id
-    } = dialogueStore.dialog
+    } = messageStore.chat
     return {
-      dialog_type,
+      chat_type,
       receiver_id,
-      index_name: dialogueStore.index_name
+      index_name: messageStore.index_name
     }
   }
 
-  isDialog(dialogType: number, senderId: number, receiverId:number) {
-    const params = this.getDialogParams()
-    if (dialogType != params.dialog_type) {
+  isChat(type: number, senderId: number, receiverId:number) {
+    const params = this.getParams()
+    if (type != params.chat_type) {
       return false
     } else if (
       params.receiver_id == receiverId ||
@@ -32,10 +32,6 @@ class Base {
       return true
     }
     return false
-  }
-
-  isDialogPage() {
-    return ['/message', '/'].includes(router.currentRoute.value.path)
   }
 }
 

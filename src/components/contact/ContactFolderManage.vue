@@ -49,8 +49,7 @@ const onSubmit = () => {
   contactFolderSaveApi({
     items: options
   })
-    .then((res: any) => {
-      const { code, message } = res
+    .then(({ code, message }: any) => {
       if (code == 200) {
         ElMessage.success(t('success'))
         emit('relaod')
@@ -61,14 +60,12 @@ const onSubmit = () => {
     })
 }
 
-const addOption = () => {
-  options.push({
-    name: '',
-    id: 0,
-    index: index++,
-    count: 0
-  })
-}
+const addOption = () => options.push({
+  name: '',
+  id: 0,
+  index: index++,
+  count: 0
+})
 
 const delOption = (item: IItem) => {
   let fn = () => {
@@ -92,12 +89,9 @@ const delOption = (item: IItem) => {
   }
 }
 
-const onCloseClick = () => {
-  emit('close')
-}
-const isCanSubmit = computed(() => {
-  return options.some((item: IItem) => item.name.trim().length === 0)
-})
+const onCloseClick = () => emit('close')
+
+const isCanSubmit = computed(() => options.some((item: IItem) => item.name.trim().length === 0))
 
 onLoad()
 </script>

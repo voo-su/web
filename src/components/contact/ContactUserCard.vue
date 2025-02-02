@@ -8,7 +8,7 @@ import {
   deleteContactApi
 } from '@/api/contact'
 import { ElMessageBox } from 'element-plus'
-import { onSetDisturb, toDialog } from '@/utils/chat'
+import { onSetDisturb, toChat } from '@/utils/chat'
 import {
   Bell,
   Close as CloseIcon,
@@ -17,7 +17,7 @@ import {
   Delete as IconDelete
 } from '@element-plus/icons-vue'
 import AvatarBox from '@/components/base/BaseAvatarBox.vue'
-import { useDialogStore, useDialogueStore } from '@/store'
+import { useChatStore, useMessageStore } from '@/store'
 import type { Action } from 'element-plus'
 import { ElMessage } from 'element-plus'
 import { i18n } from '@/utils/i18n'
@@ -38,8 +38,8 @@ const emit = defineEmits(['close', 'event'])
 
 const t = i18n()
 
-const dialogStore = useDialogStore()
-const dialogueStore = useDialogueStore()
+const chatStore = useChatStore()
+const messageStore = useMessageStore()
 const isNotification = ref<boolean>(true)
 const showModal = ref<boolean>(false)
 
@@ -90,10 +90,10 @@ const state = reactive<IContact>({
 //   return ''
 // })
 
-const dialogue: any = dialogStore.findItem(dialogueStore.index_name)
+const chat: any = chatStore.findItem(messageStore.index_name)
 
-if (dialogueStore.index_name !== null) {
-  isNotification.value = dialogue.is_disturb == 0
+if (messageStore.index_name !== null) {
+  isNotification.value = chat.is_disturb == 0
 }
 
 const onLoadData = () => {
@@ -122,8 +122,8 @@ const onLoadData = () => {
   // })
 }
 
-const onToDialog = () => {
-  toDialog(1, props.uid)
+const onToChat = () => {
+  toChat(1, props.uid)
   props.remove()
   emit('close')
 }
@@ -153,17 +153,17 @@ const onJoinContact = () => {
 //       state.folder_id = value
 //       ElMessage.success(t('success'))
 //     } else {
-//       message().error(message)
+//       ElMessage.error(message)
 //     }
 //   })
 // }
 
 const onNotification = (value: any) => {
   onSetDisturb({
-    dialog_type: dialogueStore.dialog.dialog_type,
-    receiver_id: dialogueStore.dialog.receiver_id,
-    is_disturb: dialogue.is_disturb,
-    index_name: dialogueStore.index_name
+    chat_type: messageStore.chat.chat_type,
+    receiver_id: messageStore.chat.receiver_id,
+    is_disturb: chat.is_disturb,
+    index_name: messageStore.index_name
   })
   isNotification.value = value
 }
@@ -181,11 +181,10 @@ const onDeleteContact = () => {
         if (action == 'confirm') {
           deleteContactApi({
             friend_id: state.id
-          }).then((res: any) => {
-            const { code, message } = res
+          }).then(({ code, message }: any) => {
             if (code == 200) {
               ElMessage.success(t('contactDeleted'))
-              // onDeleteDialog(data.index_name)
+              // onChatDelete(data.index_name)
             } else {
               ElMessage.error(message)
             }
@@ -282,7 +281,7 @@ onLoadData()
 <!--        <span class="text">{{ groupName }}</span>-->
 <!--      </div>-->
       <div
-        v-if="state.friend_status === 2 && dialogueStore.index_name !== null"
+        v-if="state.friend_status === 2 && messageStore.index_name !== null"
         class="info-item notif right"
       >
         <el-icon :size="18">
@@ -307,7 +306,7 @@ onLoadData()
             type="primary"
             text
             :icon="IconPromotion"
-            @click="onToDialog"
+            @click="onToChat"
             class="w-100"
           >
             {{ t('sendMessage') }}

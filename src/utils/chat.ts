@@ -1,15 +1,15 @@
-import { useDialogStore } from '@/store'
+import { useChatStore } from '@/store'
 import router from '@/router'
 import { parseTime } from '@/utils/datetime'
 import { createChatApi, deleteChatApi, setNotDisturbApi } from '@/api/chat'
-import { KEY_INDEX_NAME } from '@/constants/dialog'
-import { useDialogueStore } from '@/store'
+import { KEY_INDEX_NAME } from '@/constants/chat'
+import { useMessageStore } from '@/store'
 import { ElMessage } from 'element-plus'
 import { i18n } from '@/utils/i18n'
 
 const t = i18n()
 
-export const formatDialogRecord = (uid: any, data: any) => {
+export const formatRecord = (uid: any, data: any) => {
   data.float = 'center'
   if (data.user_id > 0) {
     data.float = data.user_id == uid ? 'right' : 'left'
@@ -29,18 +29,18 @@ export const palyMusic = (muted = false) => {
   }
 }
 
-export const findDialogIndex = (index_name: any) => {
-  return useDialogStore().items.findIndex((item: any) => item.index_name === index_name)
+export const findChatIndex = (index_name: any) => {
+  return useChatStore().items.findIndex((item: any) => item.index_name === index_name)
 }
 
-export const findDialog = (index_name: any) => {
-  return useDialogStore().items.find((item: any) => item.index_name === index_name)
+export const findChat = (index_name: any) => {
+  return useChatStore().items.find((item: any) => item.index_name === index_name)
 }
 
-export const formatDialogItem = (params: any) => {
+export const formatMessageItem = (params: any) => {
   const options = {
     id: 0,
-    dialog_type: 1,
+    chat_type: 1,
     receiver_id: 0,
     name: t('nameNotProvided'),
     avatar: '',
@@ -56,19 +56,18 @@ export const formatDialogItem = (params: any) => {
     created_at: parseTime(new Date())
   }
   Object.assign(options, params)
-  options.index_name = `${options.dialog_type}_${options.receiver_id}`
+  options.index_name = `${options.chat_type}_${options.receiver_id}`
   return options
 }
 
 export const onSetDisturb = (data: any) => {
   setNotDisturbApi({
-    dialog_type: data.dialog_type,
+    chat_type: data.chat_type,
     receiver_id: data.receiver_id,
     is_disturb: data.is_disturb == 0 ? 1 : 0
-  }).then((res: any) => {
-    const { code, message } = res
+  }).then(({ code, message }: any) => {
     if (code == 200) {
-      useDialogStore().updateItem({
+      useChatStore().updateItem({
         index_name: data.index_name,
         is_disturb: data.is_disturb == 0 ? 1 : 0
       })
@@ -78,24 +77,22 @@ export const onSetDisturb = (data: any) => {
   })
 }
 
-export const toDialog = (dialog_type: any, receiver_id: any) => {
-  if (findDialogIndex(`${dialog_type}_${receiver_id}`) >= 0) {
-    sessionStorage.setItem(KEY_INDEX_NAME, `${dialog_type}_${receiver_id}`)
+export const toChat = (chat_type: any, receiver_id: any) => {
+  if (findChatIndex(`${chat_type}_${receiver_id}`) >= 0) {
+    sessionStorage.setItem(KEY_INDEX_NAME, `${chat_type}_${receiver_id}`)
     return router.push({
       path: '/messages',
       query: { v: new Date().getTime() }
     })
   }
   createChatApi({
-    dialog_type: parseInt(dialog_type),
+    chat_type: parseInt(chat_type),
     receiver_id: parseInt(receiver_id)
-  }).then((res: any) => {
-    const { code, data, message } = res
-
+  }).then(({ code, data, message }: any) => {
     if (code == 200) {
-      sessionStorage.setItem(KEY_INDEX_NAME, `${dialog_type}_${receiver_id}`)
-      if (findDialogIndex(`${dialog_type}_${receiver_id}`) === -1) {
-        useDialogStore().addItem(formatDialogItem(data))
+      sessionStorage.setItem(KEY_INDEX_NAME, `${chat_type}_${receiver_id}`)
+      if (findChatIndex(`${chat_type}_${receiver_id}`) === -1) {
+        useChatStore().addItem(formatMessageItem(data))
       }
       router.push({
         path: '/messages',
@@ -119,18 +116,17 @@ export const setCacheIndexName = (type: any, id: any) => {
   sessionStorage.setItem(KEY_INDEX_NAME, `${type}_${id}`)
 }
 
-export const onDeleteDialog = (index_name = '') => {
-  useDialogStore().delItem(index_name)
-  index_name === useDialogueStore().index_name && useDialogueStore().$reset()
+export const onChatDelete = (index_name = '') => {
+  useChatStore().delItem(index_name)
+  index_name === useMessageStore().index_name && useMessageStore().$reset()
 }
 
-export const onRemoveDialog = (data: any) => {
+export const onChatRemove = (data: any) => {
   deleteChatApi({
     list_id: data.id
-  }).then((res: any) => {
-    const { code } = res
+  }).then(({ code }: any) => {
     if (code == 200) {
-      onDeleteDialog(data.index_name)
+      onChatDelete(data.index_name)
     }
   })
 }

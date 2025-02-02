@@ -3,7 +3,7 @@ import { inject, ref } from 'vue'
 import { Check, Close } from '@element-plus/icons-vue'
 import { applyAcceptApi, applyDeclineApi, getContactApplyRecordsApi } from '@/api/contact'
 import { useUserStore } from '@/store/user'
-import DialogPageHeader from '@/components/app/AppPageHeader.vue'
+import AppPageHeader from '@/components/app/AppPageHeader.vue'
 import AvatarBox from '@/components/base/BaseAvatarBox.vue'
 import { throttle } from '@/utils/common'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
@@ -21,8 +21,7 @@ const loadingDecline = ref<boolean>(false)
 const items = ref<any>([])
 
 const onLoadData = () => {
-  getContactApplyRecordsApi().then((res: any) => {
-    const { code, data } = res
+  getContactApplyRecordsApi().then(({ code, data }: any) => {
     if (code == 200) {
       items.value = data.items || []
       userStore.isContactApply = false
@@ -36,8 +35,7 @@ const onAccept = throttle((item: any) => {
   loadingAccept.value = true
   applyAcceptApi({
     apply_id: item.id
-  }).then((res: any) => {
-    const { code, message } = res
+  }).then(({ code, message }: any) => {
     if (code == 200) {
       onLoadData()
       ElMessage.success(t('requestAccepted'))
@@ -53,9 +51,7 @@ const onDecline = throttle((item: any) => {
   loadingDecline.value = true
   applyDeclineApi({
     apply_id: item.id
-  }).then((res: any) => {
-    const { code, message } = res
-
+  }).then(({ code, message }: any) => {
     loadingAccept.value = false
     if (code == 200) {
       onLoadData()
@@ -74,11 +70,11 @@ onLoadData()
 <template>
   <default-layout :index="1">
     <el-container class="is-vertical h-100">
-      <dialog-page-header>
+      <app-page-header>
         <template #content>
           {{ t('requestList') }}
         </template>
-      </dialog-page-header>
+      </app-page-header>
       <contact-top-menu />
       <el-main v-if="items.length === 0">
         <div class="empty">

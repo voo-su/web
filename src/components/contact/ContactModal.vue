@@ -27,9 +27,9 @@ const isCanSubmit = computed(() => {
 })
 
 const onLoad = () => {
-  getContactListApi().then((res: any) => {
-    if (res.code == 200 && res.data) {
-      let list = res.data.items || []
+  getContactListApi().then(({ code, data }: any) => {
+    if (code == 200 && data) {
+      let list = data.items || []
 
       items.value = list.map((item: any) => {
         return Object.assign(item, {

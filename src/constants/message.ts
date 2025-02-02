@@ -79,7 +79,7 @@ export const messageComponents = {
   [chatMsgSysGroupTransfer]: 'sys-group-transfer-message',
   [chatMsgSysGroupMuted]: 'sys-group-muted-message',
   [chatMsgSysGroupCancelMuted]: 'sys-group-cancel-muted-message',
-  [chatMsgSysGroupAds]: 'Group-ads-message'
+  [chatMsgSysGroupAds]: 'group-ads-message'
 }
 
 export const forwardableMessageType = [

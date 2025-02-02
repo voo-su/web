@@ -1,6 +1,6 @@
 import { watchEffect } from 'vue'
 import { useRouter } from 'vue-router'
-import { useDialogStore, useNotifyStore } from '@/store'
+import { useChatStore, useNotificationStore } from '@/store'
 import { applyNotificationAuth } from '@/utils/notification'
 import { isLoggedIn } from '@/utils/auth'
 import socket from '@/utils/socket'
@@ -51,13 +51,13 @@ const registerOnceExpireNotice = () => {
 
 const registerLeaveWebListener = () => {
   document.addEventListener('visibilitychange', () => {
-    useNotifyStore().isLeaveWeb = document.visibilityState === 'hidden'
+    useNotificationStore().isLeaveWeb = document.visibilityState === 'hidden'
   })
 }
 
 const registerNotificationAuth = () => {
   applyNotificationAuth((value: any) => {
-    useNotifyStore().isWebNotify = value
+    useNotificationStore().isWebNotify = value
   })
 }
 
@@ -83,12 +83,12 @@ const registerClickListener = () => {
 }
 
 const registerUnreadListener = () => {
-  const useDialog = useDialogStore()
+  const сhatStore = useChatStore()
   const el = document.getElementsByTagName('title')[0]
   const title = el.innerText
   watchEffect(() => {
     setInterval(() => {
-      if (useDialog.dialogUnreadNum > 0) {
+      if (сhatStore.getUnreadNum > 0) {
         el.innerText = el.innerText == title ? t('newUnreadMessages') : title
       } else {
         el.innerText = title
@@ -98,7 +98,7 @@ const registerUnreadListener = () => {
 }
 
 const registerConnectListener = () => {
-  const notifyStore = useNotifyStore()
+  const notifyStore = useNotificationStore()
   const router = useRouter()
   watchEffect(() => {
     if (notifyStore.isLeaveWeb) {
