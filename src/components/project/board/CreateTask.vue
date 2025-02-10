@@ -10,8 +10,8 @@ const { t } = useI18n()
 
 const props = defineProps({
   projectId: {
-    type: Number,
-    default: 0
+    type: String,
+    default: null
   }
 })
 

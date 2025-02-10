@@ -4,13 +4,13 @@ export interface ICreateProjectApi {
 }
 
 export interface IDetailApi {
-  id: number
+  id: string
 }
 
 export interface IMembersApi {
-  project_id: number
+  project_id: string
 }
 
 export interface IInviteFriendsApi {
-  project_id: number | undefined
+  project_id: string | undefined
 }

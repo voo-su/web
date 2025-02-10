@@ -7,8 +7,8 @@ import { useProjectStore } from '@/store'
 
 const props = defineProps({
   projectId: {
-    type: Number,
-    default: 0
+    type: String,
+    default: null
   }
 })
 
@@ -25,7 +25,7 @@ interface IItem {
 
 const items = computed<IItem[]>(() => useProjectStore().getItems)
 const cardTask = ref<boolean>(false)
-const taskId = ref<number | null>(null)
+const taskId = ref<string | null>(null)
 
 const load = () => {
   getProjectTasksApi({
@@ -38,7 +38,7 @@ const load = () => {
   })
 }
 
-const onOpenTask = (id: number) => {
+const onOpenTask = (id: string) => {
   taskId.value = id
   cardTask.value = true
 }

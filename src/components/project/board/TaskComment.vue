@@ -14,8 +14,8 @@ const { t } = useI18n()
 
 const props = defineProps({
   taskId: {
-    type: Number,
-    default: 0
+    type: String,
+    default: null
   }
 })
 

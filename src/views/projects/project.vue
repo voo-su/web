@@ -14,7 +14,7 @@ const router = useRouter()
 const route = useRoute()
 
 const { params } = route
-const projectId = Number(params.id)
+const projectId = String(params.id)
 
 const goBack = () => router.push({ name: 'ProjectsView' })
 

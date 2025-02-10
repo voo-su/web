@@ -18,7 +18,7 @@ const props = defineProps({
     default: null
   },
   projectId: {
-    type: Number,
+    type: String,
     default: null
   },
   items: {

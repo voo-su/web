@@ -5,7 +5,7 @@ const t = i18n()
 
 export const pushInit = () => {
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('service-worker.js')
+    navigator.serviceWorker.register('/service-worker.js')
     navigator.serviceWorker.ready
       .then((registration: ServiceWorkerRegistration) => registration.pushManager.getSubscription())
       .then((subscription: PushSubscription) => pushSubscriptionNotify(subscription))

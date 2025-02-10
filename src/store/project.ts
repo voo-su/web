@@ -13,7 +13,7 @@ export const useProjectStore = defineStore('project', {
       this.items = items
     },
 
-    loadTaskComments(taskId: number) {
+    loadTaskComments(taskId: string) {
       getTaskCommentsApi({
         task_id: taskId
       }).then(({ code, data }: { code?: number; data: { items: ICommentItem[] } })=> {
@@ -25,7 +25,7 @@ export const useProjectStore = defineStore('project', {
       })
     },
 
-    updateCommentItem(params: any) {
+    updateCommentItem(params: ICommentItem) {
       const item = this.comments.find((item: ICommentItem) => item.index_name === params.index_name)
       item && Object.assign(item, params)
     }

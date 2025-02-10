@@ -48,7 +48,7 @@ const rules = reactive<FormRules>({
 
 const onLoad = () => {
   getInviteFriendsApi({
-    //project_id: 0
+    //project_id: null
   }).then(({ code, data }: { code?: number; data: any }) => {
     if (code == 200 && data) {
       let list = data || []
