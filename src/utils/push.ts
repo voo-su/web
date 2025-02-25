@@ -1,7 +1,18 @@
 import { pushInitApi } from '@/api/account'
 import { i18n } from '@/utils/i18n'
+import { pushToken, pushTokenSent } from '@/constants/default'
 
 const t = i18n()
+
+const sendPushTokenToServer = (subscriptionObj) => {
+  pushInitApi({
+    subscription: JSON.stringify(subscriptionObj)
+  }).then((res) => {
+    console.log('Push token sent to server:', res)
+  }).catch(err => {
+    console.error('Error sending push token:', err)
+  })
+}
 
 export const pushInit = () => {
   if ('serviceWorker' in navigator) {
@@ -22,18 +33,34 @@ const pushSubscriptionNotify = (subscription: PushSubscription) => {
       !subscriptionObj.keys.p256dh ||
       !subscriptionObj.keys.auth
     ) {
-      console.log(t('invalidPushSubscription', { err:subscriptionObj }))
+      console.log(t('invalidPushSubscription', { err: subscriptionObj }))
       return
     }
 
-    pushInitApi({
-      subscription: JSON.stringify(subscriptionObj)
-    }).then((res: any) => {
-      console.log(res)
-    })
+    if (!localStorage.getItem(pushTokenSent) || isTokenChanged(subscriptionObj)) {
+      sendPushTokenToServer(subscriptionObj)
+      localStorage.setItem(pushTokenSent, 'true')
+      localStorage.setItem(pushToken, JSON.stringify(subscriptionObj))
+    }
   } else {
     subscribe()
   }
+}
+
+const isTokenChanged = (newSubscriptionObj: {
+  endpoint: string
+  keys: {
+    p256dh: string
+    auth: string
+  }
+}) => {
+  const oldToken = localStorage.getItem(pushToken)
+  if (!oldToken) return true
+
+  const oldSubscriptionObj = JSON.parse(oldToken)
+  return newSubscriptionObj.endpoint !== oldSubscriptionObj.endpoint ||
+    newSubscriptionObj.keys.p256dh !== oldSubscriptionObj.keys.p256dh ||
+    newSubscriptionObj.keys.auth !== oldSubscriptionObj.keys.auth
 }
 
 const subscribe = () => {
@@ -43,9 +70,12 @@ const subscribe = () => {
       applicationServerKey: urlBase64ToUint8Array(import.meta.env.VITE_VAPID_PUBLIC_KEY)
     }))
     .then((subscription) => {
-      console.log(JSON.stringify(subscription))
+      const subscriptionObj: PushSubscriptionJSON = subscription.toJSON()
+      sendPushTokenToServer(subscriptionObj)
+      localStorage.setItem(pushTokenSent, 'true')
+      localStorage.setItem(pushToken, JSON.stringify(subscriptionObj))
     })
-    .catch(err => console.error(err))
+    .catch(err => console.error('Error during subscription:', err))
 }
 
 const urlBase64ToUint8Array = (base64String) => {

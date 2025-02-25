@@ -2,7 +2,7 @@ self.addEventListener('push', event => {
   console.log('[Service Worker] Push Received.');
   console.log(`[Service Worker] Push had this data: "${event.data.text()}"`)
 
-  const title = 'Web push'
+  const title = 'VooSu'
   const options = {
     body: event.data.text()
   }

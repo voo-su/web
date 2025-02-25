@@ -8,6 +8,9 @@ export const authSessionTimerKey: string = 'voo_su_auth_timer'
 export const accessToken: string = 'voo_su_access_token'
 export const userInfo: string = 'voo_su_user'
 
+export const pushTokenSent: string = 'push_token_sent'
+export const pushToken: string = 'push_token'
+
 export const genderOptions = [
   {
     label: t('maleOption'),
