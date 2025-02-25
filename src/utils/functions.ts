@@ -1,6 +1,6 @@
 import { h } from 'vue'
 import { ElIcon } from 'element-plus'
-import { downloadFile } from '@/api/message'
+import { downloadFile } from '@/api/chat'
 import { i18n } from '@/utils/i18n'
 
 const t = i18n()

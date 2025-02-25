@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia'
-import {deleteStickerApi, getStickerListApi, uploadStickerApi} from '@/api/message'
-import { collectStickerApi } from '@/api/message'
+import { collectStickerApi, deleteStickerApi, getStickerListApi, uploadStickerApi } from '@/api/chat'
 import { ElMessage } from 'element-plus'
 import { i18n } from '@/utils/i18n'
 

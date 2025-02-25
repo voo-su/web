@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { fileSubareaUploadApi, findFileSplitInfoApi } from '@/api/upload'
-import { messageSendApi } from '@/api/message'
+import { sendMessageApi } from '@/api/chat'
 import { ElMessage } from 'element-plus'
 import { i18n } from '@/utils/i18n'
 
@@ -95,7 +95,7 @@ export const useUploadsStore = defineStore('uploads', {
     },
 
     sendUploadMessage(item: any) {
-      messageSendApi({
+      sendMessageApi({
         type: 'file',
         receiver: {
           chat_type: item.chat_type,

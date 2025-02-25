@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { forwardRecordsApi, removeRecordsApi, revokeRecordsApi } from '@/api/message'
+import { forwardRecordsApi, removeRecordsApi, revokeRecordsApi } from '@/api/chat'
 import { getGroupMembersApi } from '@/api/group-chat'
 import { ElMessage } from 'element-plus'
 

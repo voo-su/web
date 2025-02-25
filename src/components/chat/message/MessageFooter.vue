@@ -3,7 +3,7 @@ import { onMounted } from 'vue'
 import { useChatStore, useMessageStore, useNotificationStore, useUploadsStore } from '@/store'
 import { useEditorStore } from '@/store/editor'
 import socket from '@/utils/socket'
-import { messageSendApi, sendVoteApi } from '@/api/message'
+import { sendMessageApi, sendVoteApi } from '@/api/chat'
 import { getVideoImage, throttle } from '@/utils/common'
 import Editor from '@/components/chat/editor/Editor.vue'
 import { uploadApi } from '@/api/upload'
@@ -44,7 +44,7 @@ const uploadsStore = useUploadsStore()
 const messageStore = useMessageStore()
 
 const onSendMessage = (data = {}, callBack: any) => {
-  messageSendApi({
+  sendMessageApi({
     ...data,
     receiver: {
       receiver_id: props.receiver_id,

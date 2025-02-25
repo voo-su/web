@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { computed, onMounted, reactive } from 'vue'
-import { confirmVoteHandleApi } from '@/api/message'
+import { confirmVoteHandleApi } from '@/api/chat'
 import { useUserStore } from '@/store/user'
 import { useI18n } from 'vue-i18n'
 
