@@ -12,7 +12,6 @@ class CookieStorage {
     document.cookie = cookieValue
   }
 
-
   get(key: string): string | null {
     const name = `${key}=`
     const cookieString = decodeURIComponent(document.cookie)

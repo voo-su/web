@@ -9,8 +9,7 @@ import EventLogin from '@/event/socket/login'
 import EventRevoke from '@/event/socket/revoke'
 import { ElMessageBox, ElNotification, ElMessage } from 'element-plus'
 import { i18n } from '@/utils/i18n'
-
-const t = i18n()
+import { log } from '@/utils/log'
 
 const urlCallback = () => {
   if (!isLoggedIn()) {
@@ -27,7 +26,7 @@ class Socket {
   constructor() {
     this.ws = new Ws(urlCallback, {
       onError: () => {
-        console.log(t('websocketConnectionFailedCallback'))
+        log(i18n('websocketConnectionFailedCallback'))
       },
 
       onOpen: () => {
@@ -83,8 +82,8 @@ class Socket {
   onReset() {
     this.ws.on('voo.reset', () => {
       ElMessageBox.confirm(
-        t('siteUpdated'),
-        t('siteUpdate'),
+        i18n('siteUpdated'),
+        i18n('siteUpdate'),
         {
           center: true,
           showConfirmButton: false,
@@ -131,7 +130,7 @@ class Socket {
   onImContactApply() {
     this.ws.on('voo.contact.request', (data: any) => {
       // ElNotification.create({
-      //   title: t('contactRequestNotification'),
+      //   title: i18n('contactRequestNotification'),
       //   content: data.username,
       //   description: `${data.friend.username}`,
       //   meta: data.friend.created_at,
@@ -151,8 +150,8 @@ class Socket {
   onImGroupApply() {
     this.ws.on('voo.group_chat.request', () => {
       // ElNotification.create({
-      //   title: t('groupRequestNotification'),
-      //   content: t('newGroupJoinRequest'),
+      //   title: i18n('groupRequestNotification'),
+      //   content: i18n('newGroupJoinRequest'),
       //   avatar: () =>
       //     h(NAvatar, {
       //       size: 'small',

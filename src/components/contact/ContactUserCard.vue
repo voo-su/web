@@ -21,6 +21,9 @@ import { useChatStore, useMessageStore } from '@/store'
 import type { Action } from 'element-plus'
 import { ElMessage } from 'element-plus'
 import { i18n } from '@/utils/i18n'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 const props = defineProps({
   uid: {
@@ -35,8 +38,6 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['close', 'event'])
-
-const t = i18n()
 
 const chatStore = useChatStore()
 const messageStore = useMessageStore()
@@ -104,7 +105,7 @@ const onLoadData = () => {
       Object.assign(state, data)
       showModal.value = true
     } else {
-      ElMessage.info(t('userInfoNotFound'))
+      ElMessage.info(i18n('userInfoNotFound'))
     }
   })
 
@@ -136,7 +137,7 @@ const onJoinContact = () => {
     if (code == 200) {
       emit('close')
       onClose()
-      ElMessage.success(t('requestSent'))
+      ElMessage.success(i18n('requestSent'))
     } else {
       ElMessage.error(message)
     }
@@ -151,7 +152,7 @@ const onJoinContact = () => {
 //     .then(({ code, message }: any) => {
 //     if (code == 200) {
 //       state.folder_id = value
-//       ElMessage.success(t('success'))
+//       ElMessage.success(i18n('success'))
 //     } else {
 //       ElMessage.error(message)
 //     }
@@ -170,20 +171,20 @@ const onNotification = (value: any) => {
 
 const onDeleteContact = () => {
   ElMessageBox.confirm(
-    t('confirmDeleteContact'),
-    t('deleteContactConfirmation', { name: state.username || state.name }),
+    i18n('confirmDeleteContact'),
+    i18n('deleteContactConfirmation', { name: state.username || state.name }),
     {
    //   type: 'warning',
       icon: markRaw(IconDelete),
-      confirmButtonText: t('delete'),
-      cancelButtonText: t('cancelAction'),
+      confirmButtonText: i18n('delete'),
+      cancelButtonText: i18n('cancelAction'),
       callback: (action: Action) => {
         if (action == 'confirm') {
           deleteContactApi({
             friend_id: state.id
           }).then(({ code, message }: any) => {
             if (code == 200) {
-              ElMessage.success(t('contactDeleted'))
+              ElMessage.success(i18n('contactDeleted'))
               // onChatDelete(data.index_name)
             } else {
               ElMessage.error(message)

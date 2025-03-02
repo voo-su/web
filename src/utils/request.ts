@@ -3,8 +3,6 @@ import { delAccessToken, getAccessToken } from '@/utils/auth'
 import { ElMessage } from 'element-plus'
 import { i18n } from '@/utils/i18n'
 
-const t = i18n()
-
 const request = axios.create({
   baseURL: import.meta.env.VITE_BASE_API,
   timeout: 10000
@@ -14,7 +12,7 @@ const errorHandler = (error: any) => {
   if (error.response) {
     if (error.response.status == 401) {
       delAccessToken()
-      ElMessage.error(t('sessionExpired'))
+      ElMessage.error(i18n('sessionExpired'))
       location.reload()
     }
   }

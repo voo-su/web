@@ -2,7 +2,7 @@
 import { onMounted, reactive, ref } from 'vue'
 import AvatarCropper from '@/components/base/BaseAvatarCropper.vue'
 import { editGroupApi, groupDetailApi } from '@/api/group-chat'
-import { defGroup } from '@/constants/default'
+import { GROUP_ICON } from '@/constants/default'
 import AvatarBox from '@/components/base/BaseAvatarBox.vue'
 import type { FormInstance, FormRules } from 'element-plus'
 import { ElMessage } from 'element-plus'
@@ -104,7 +104,7 @@ onMounted(() => {
   <el-main>
     <div class="t-center">
       <avatar-box
-        :avatar="form.avatar || defGroup"
+        :avatar="form.avatar || GROUP_ICON"
         :username="form.name"
         :size="150"
       />

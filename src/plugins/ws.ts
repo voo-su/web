@@ -1,6 +1,5 @@
 import { i18n } from '@/utils/i18n'
-
-const t = i18n()
+import { logE } from '@/utils/log'
 
 const cache = new Set()
 
@@ -84,7 +83,7 @@ class Ws {
 
     this.config.reconnect.setTimeout = setTimeout(() => {
       this.connection()
-      console.log(t('networkDisconnected'))
+      console.log(i18n('networkDisconnected'))
     }, this.config.reconnect.time)
   }
 
@@ -133,7 +132,7 @@ class Ws {
     if (Object.prototype.hasOwnProperty.call(this.onCallBacks, result.event)) {
       this.onCallBacks[result.event](result.data, result.orginData)
     } else {
-      console.warn(t('websocketEventNotBound', { event:  result.event}))
+      console.warn(i18n('websocketEventNotBound', { event:  result.event}))
     }
   }
 
@@ -177,7 +176,7 @@ class Ws {
     if (this.connect && this.connect.readyState === 1) {
       this.connect.send(content)
     } else {
-      console.error(t('websocketConnectionClosed'), this.connect)
+      logE(i18n('websocketConnectionClosed'), this.connect)
     }
   }
 }

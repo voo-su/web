@@ -3,7 +3,7 @@ import { reactive, ref } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
 import { loginApi } from '@/api/auth'
 import { cookie } from '@/utils/storage/cookie-storage'
-import { authSessionKey } from '@/constants/default'
+import { AUTH_SESSION_KEY } from '@/constants/default'
 import { getErrorForField } from '@/utils/functions'
 import type { IFormLoginType } from './types'
 import IconLogo from '@/components/icons/IconLogo.vue'
@@ -57,7 +57,7 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
             token,
             expiresIn
           } = data
-          await cookie.set(authSessionKey, token, expiresIn)
+          await cookie.set(AUTH_SESSION_KEY, token, expiresIn)
           emit('onVerify')
         } else {
           errors.value.push({

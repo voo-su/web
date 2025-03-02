@@ -1,7 +1,5 @@
 import { i18n } from '@/utils/i18n'
 
-const t = i18n()
-
 export const formatTime = (datetime: string | null): string => {
   if (datetime == null) {
     return ''
@@ -30,11 +28,11 @@ export const formatTime = (datetime: string | null): string => {
     const day = outTime.getDate() - time.getDate()
 
     if (day === -1) {
-      return parseTime(outTime, t('yesterday'))
+      return parseTime(outTime, i18n('yesterday'))
     }
 
     if (day === -2) {
-      return parseTime(outTime, t('dayBeforeYesterday'))
+      return parseTime(outTime, i18n('dayBeforeYesterday'))
     }
 
     return parseTime(outTime, 'h:i d.m.y')
@@ -49,11 +47,11 @@ export const formatTime = (datetime: string | null): string => {
   let minutes = outTime.getMinutes() - time.getMinutes()
 
   if (minutes === 0) {
-    return t('justNow')
+    return i18n('justNow')
   }
 
   minutes = Math.abs(minutes)
-  return t('minutesAgo', { minute: minutes })
+  return i18n('minutesAgo', { minute: minutes })
 }
 
 export const parseTime = (time: any, cFormat?: string): string => {
@@ -93,7 +91,7 @@ export const parseTime = (time: any, cFormat?: string): string => {
       const value = formatObj[key]
 
       if (key === 'a') {
-        return [t('sunday'), t('monday'), t('tuesday'), t('wednesday'), t('thursday'), t('friday'), t('saturday')][value]
+        return [i18n('sunday'), i18n('monday'), i18n('tuesday'), i18n('wednesday'), i18n('thursday'), i18n('friday'), i18n('saturday')][value]
       }
 
       return value.toString().padStart(2, '0')
@@ -130,11 +128,11 @@ export const beautifyTime = (datetime: string | null): string => {
     const day = outTime.getDate() - time.getDate()
 
     if (day === -1) {
-      return parseTime(outTime, t('yesterday'))
+      return parseTime(outTime, i18n('yesterday'))
     }
 
     if (day === -2) {
-      return parseTime(outTime, t('dayBeforeYesterday'))
+      return parseTime(outTime, i18n('dayBeforeYesterday'))
     }
 
     return parseTime(outTime, 'd.m')
@@ -147,8 +145,8 @@ export const beautifyTime = (datetime: string | null): string => {
   const minutes = Math.abs(outTime.getMinutes() - time.getMinutes())
 
   if (minutes === 0) {
-    return t('justNow')
+    return i18n('justNow')
   }
 
-  return t('minutesAgo', { minute: minutes })
+  return i18n('minutesAgo', { minute: minutes })
 }

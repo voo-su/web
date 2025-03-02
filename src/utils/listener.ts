@@ -7,8 +7,6 @@ import socket from '@/utils/socket'
 import { ElMessageBox } from 'element-plus'
 import { i18n } from '@/utils/i18n'
 
-const t = i18n()
-
 const registerOnceExpireNotice = () => {
   let once = false
   const paths = ['/auth']
@@ -33,10 +31,10 @@ const registerOnceExpireNotice = () => {
 
     once = true
     ElMessageBox.confirm(
-      t('pleaseLoginAgain'),
-      t('sessionExpired'),
+      i18n('pleaseLoginAgain'),
+      i18n('sessionExpired'),
       {
-        confirmButtonText: t('login'),
+        confirmButtonText: i18n('login'),
         center: true,
         showCancelButton: false
       }
@@ -89,7 +87,7 @@ const registerUnreadListener = () => {
   watchEffect(() => {
     setInterval(() => {
       if (сhatStore.getUnreadNum > 0) {
-        el.innerText = el.innerText == title ? t('newUnreadMessages') : title
+        el.innerText = el.innerText == title ? i18n('newUnreadMessages') : title
       } else {
         el.innerText = title
       }

@@ -1,8 +1,6 @@
 import { ElMessage } from 'element-plus'
 import { i18n } from '@/utils/i18n'
 
-const t = i18n()
-
 let _window: any = window
 
 const WebNotification = _window.Notification
@@ -14,7 +12,7 @@ export const applyNotificationAuth = (fn: any) => {
   if (notification) {
     notification.requestPermission((result: any) => fn('granted' === result))
   } else {
-    ElMessage.error(t('notificationsNotSupported'))
+    ElMessage.error(i18n('notificationsNotSupported'))
     return fn(false)
   }
 }

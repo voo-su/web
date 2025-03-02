@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { computed, reactive, ref } from 'vue'
 import { Close as CloseIcon, Delete, Search } from '@element-plus/icons-vue'
-import { defAvatar } from '@/constants/default'
+import { AVATAR_ICON } from '@/constants/default'
 import { createGroupApi, getInviteFriendsApi, inviteGroupApi } from '@/api/group-chat'
 import { ElMessage } from 'element-plus'
 import { useI18n } from 'vue-i18n'
@@ -164,7 +164,7 @@ const onCloseClick = () => {
                 <div class="avatar">
                   <el-avatar
                     :size="25"
-                    :src="item.avatar || defAvatar"
+                    :src="item.avatar || AVATAR_ICON"
                   />
                 </div>
                 <div class="content">
@@ -204,7 +204,7 @@ const onCloseClick = () => {
                 <div class="avatar">
                   <el-avatar
                     :size="25"
-                    :src="item.avatar || defAvatar"
+                    :src="item.avatar || AVATAR_ICON"
                   />
                 </div>
                 <div class="content">

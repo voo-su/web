@@ -4,8 +4,6 @@ import { sendMessageApi } from '@/api/chat'
 import { ElMessage } from 'element-plus'
 import { i18n } from '@/utils/i18n'
 
-const t = i18n()
-
 const fileSlice = (file: File, uploadId: string, eachSize: number) => {
   const splitNum = Math.ceil(file.size / eachSize)
   const items: FormData[] = []
@@ -42,7 +40,7 @@ export const useUploadsStore = defineStore('uploads', {
         file_name: file.name,
         file_size: file.size
       }).then(({ code, data, message }: any) => {
-        if (code !== 200) throw new Error(t('fileSplitInfoNotFound'))
+        if (code !== 200) throw new Error(i18n('fileSplitInfoNotFound'))
 
         const { upload_id, shard_size } = data
 
@@ -111,7 +109,7 @@ export const useUploadsStore = defineStore('uploads', {
           }
         })
         .catch(() => {
-          ElMessage.warning(t('networkOverloaded'))
+          ElMessage.warning(i18n('networkOverloaded'))
         })
     },
 

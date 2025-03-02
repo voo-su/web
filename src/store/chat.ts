@@ -2,8 +2,7 @@ import { defineStore } from 'pinia'
 import { chatsApi } from '@/api/chat'
 import { formatMessageItem } from '@/utils/chat'
 import { i18n } from '@/utils/i18n'
-
-const t = i18n()
+import { logE } from '@/utils/log'
 
 const tTime = (datetime: any) => {
   if (datetime == undefined || datetime == '') {
@@ -42,7 +41,7 @@ export const useChatStore = defineStore('chat', {
           }
         })
         .catch((err: any) => {
-          console.error(t('failed'), err)
+          logE(`${i18n('failed')}: ${err}`)
           this.loadStatus = 4
         })
     },

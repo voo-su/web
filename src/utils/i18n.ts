@@ -1,6 +1,7 @@
-import { createI18n } from 'vue-i18n'
 import type { I18n } from 'vue-i18n'
+import { createI18n } from 'vue-i18n'
 import locale from '@/locale'
+import { logW } from '@/utils/log'
 
 const userLanguage = (): string => {
   const userLang = navigator.language || import.meta.env.VITE_DEFAULT_LANGUAGE
@@ -16,4 +17,13 @@ export const instanceI18n = (): I18n => createI18n({
   messages: locale
 })
 
-export const i18n = () => instanceI18n().global.t
+export const i18n = (key: string): string => {
+  const i18nInstance = instanceI18n()
+  const translatedValue = i18nInstance.global.t(key)
+
+  if (translatedValue === key) {
+    logW(`Translation key not found: ${key}`)
+  }
+
+  return translatedValue
+}

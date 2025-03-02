@@ -3,7 +3,7 @@ import { getAccountApi } from '@/api/account'
 import { findFriendApplyNumApi } from '@/api/contact'
 import { delAccessToken } from '@/utils/auth'
 import { storage } from '@/utils/storage/local-storage'
-import { userInfo } from '@/constants/default'
+import { USER_INFO } from '@/constants/default'
 import { logoutApi } from '@/api/auth'
 
 interface IUser {
@@ -47,7 +47,7 @@ export const useUserStore = defineStore('user', {
         console.log(res)
       })
 
-      storage.remove(userInfo)
+      storage.remove(USER_INFO)
       delAccessToken()
       location.reload()
     },
@@ -74,7 +74,7 @@ export const useUserStore = defineStore('user', {
             this.gender = gender
             this.email = email || ''
             this.about = about
-            storage.set(userInfo, data)
+            storage.set(USER_INFO, data)
           }
         })
 

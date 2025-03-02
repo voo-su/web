@@ -1,7 +1,5 @@
 import { i18n } from '@/utils/i18n'
 
-const t = i18n()
-
 export const trim = (str: string, type = null) => {
   if (type) {
     return str.replace(/(^\s*)|(\s*$)/g, '')
@@ -32,7 +30,7 @@ export const fileFormatSize = (value: string) => {
   let index = Math.floor(Math.log(srcsize) / Math.log(1000))
   let size = srcsize / Math.pow(1000, index)
 
-  const unitArr = [t('byte'), t('kb'), t('mb'), t('gb'), t('tb'), t('pb'), t('eb'), t('zb'), t('yb')]
+  const unitArr = [i18n('byte'), i18n('kb'), i18n('mb'), i18n('gb'), i18n('tb'), i18n('pb'), i18n('eb'), i18n('zb'), i18n('yb')]
   return size.toFixed(2) + ' ' + unitArr[index]
 }
 

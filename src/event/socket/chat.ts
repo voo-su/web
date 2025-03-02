@@ -18,8 +18,6 @@ import {
 import type { IResource, IResourceData } from './type'
 import { i18n } from '@/utils/i18n'
 
-const t = i18n()
-
 class Chat extends Base {
 
   resource: IResourceData
@@ -80,14 +78,14 @@ class Chat extends Base {
   showMessageNocice() {
     if (useNotificationStore().isLeaveWeb) {
       if (useNotificationStore().isWebNotify) {
-        WebNotify(t('messageNotification'), {
+        WebNotify(i18n('messageNotification'), {
           dir: 'auto',
           lang: 'ru-RU',
-          body: t('newMessageNotification')
+          body: i18n('newMessageNotification')
         })
       }
     } else {
-      ElMessage.info(t('messageNotification'))
+      ElMessage.info(i18n('messageNotification'))
     }
   }
 

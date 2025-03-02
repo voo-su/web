@@ -1,16 +1,34 @@
 import { pushInitApi } from '@/api/account'
+import { log, logE } from '@/utils/log'
 import { i18n } from '@/utils/i18n'
-import { pushToken, pushTokenSent } from '@/constants/default'
+import { PUSH_TOKEN_EXPIRATION_TIME, PUSH_STORAGE_KEY } from '@/constants/default'
+import { cookie } from '@/utils/storage/cookie-storage'
 
-const t = i18n()
+const saveSubscriptionData = (data: Record<string, any>) => {
+  cookie.set(PUSH_STORAGE_KEY, JSON.stringify(data), PUSH_TOKEN_EXPIRATION_TIME / 1000)
+}
 
-const sendPushTokenToServer = (subscriptionObj) => {
+const getSubscriptionData = (): Record<string, any> | null => {
+  const data = cookie.get(PUSH_STORAGE_KEY)
+  return data ? JSON.parse(data) : null
+}
+
+const sendPushTokenToServer = (obj: PushSubscriptionJSON) => {
   pushInitApi({
-    subscription: JSON.stringify(subscriptionObj)
+    subscription: JSON.stringify({
+      endpoint: obj.endpoint,
+      keys: {
+        auth: obj.keys.auth,
+        p256dh: obj.keys.p256dh
+      }
+    })
   }).then((res) => {
     console.log('Push token sent to server:', res)
+    const subscriptionData = getSubscriptionData() || {}
+    subscriptionData.lastSent = Date.now()
+    saveSubscriptionData(subscriptionData)
   }).catch(err => {
-    console.error('Error sending push token:', err)
+    logE(`Error sending push token: ${err}`)
   })
 }
 
@@ -26,41 +44,40 @@ export const pushInit = () => {
 const pushSubscriptionNotify = (subscription: PushSubscription) => {
   if (subscription) {
     const subscriptionObj: PushSubscriptionJSON = subscription.toJSON()
-    if (
-      !subscriptionObj ||
-      !subscriptionObj.endpoint ||
-      !subscriptionObj.keys ||
-      !subscriptionObj.keys.p256dh ||
-      !subscriptionObj.keys.auth
-    ) {
-      console.log(t('invalidPushSubscription', { err: subscriptionObj }))
+    if (!isValidSubscription(subscriptionObj)) {
+      log(`${i18n('invalidPushSubscription')} : ${subscriptionObj}`)
       return
     }
 
-    if (!localStorage.getItem(pushTokenSent) || isTokenChanged(subscriptionObj)) {
+    const subscriptionData = getSubscriptionData()
+    const lastSent = subscriptionData?.lastSent
+    const shouldSend = !lastSent || (Date.now() - lastSent) > PUSH_TOKEN_EXPIRATION_TIME
+
+    if (!subscriptionData || isTokenChanged(subscriptionObj, subscriptionData) || shouldSend) {
+      saveSubscriptionData({
+        token: subscriptionObj,
+        sent: true,
+        lastSent: Date.now()
+      })
       sendPushTokenToServer(subscriptionObj)
-      localStorage.setItem(pushTokenSent, 'true')
-      localStorage.setItem(pushToken, JSON.stringify(subscriptionObj))
     }
   } else {
     subscribe()
   }
 }
 
-const isTokenChanged = (newSubscriptionObj: {
-  endpoint: string
-  keys: {
-    p256dh: string
-    auth: string
-  }
-}) => {
-  const oldToken = localStorage.getItem(pushToken)
-  if (!oldToken) return true
+const isTokenChanged = (newSubscriptionObj: PushSubscriptionJSON, subscriptionData: Record<string, any>) => {
+  const oldSubscriptionObj = subscriptionData?.token
+  if (!oldSubscriptionObj) return true
 
-  const oldSubscriptionObj = JSON.parse(oldToken)
   return newSubscriptionObj.endpoint !== oldSubscriptionObj.endpoint ||
     newSubscriptionObj.keys.p256dh !== oldSubscriptionObj.keys.p256dh ||
     newSubscriptionObj.keys.auth !== oldSubscriptionObj.keys.auth
+}
+
+const isValidSubscription = (subscriptionObj: PushSubscriptionJSON) => {
+  return subscriptionObj && subscriptionObj.endpoint && subscriptionObj.keys &&
+    subscriptionObj.keys.p256dh && subscriptionObj.keys.auth
 }
 
 const subscribe = () => {
@@ -71,18 +88,22 @@ const subscribe = () => {
     }))
     .then((subscription) => {
       const subscriptionObj: PushSubscriptionJSON = subscription.toJSON()
+      saveSubscriptionData({
+        token: subscriptionObj,
+        sent: true,
+        lastSent: Date.now()
+      })
       sendPushTokenToServer(subscriptionObj)
-      localStorage.setItem(pushTokenSent, 'true')
-      localStorage.setItem(pushToken, JSON.stringify(subscriptionObj))
     })
-    .catch(err => console.error('Error during subscription:', err))
+    .catch(err => logE('Error during subscription:', err))
 }
 
-const urlBase64ToUint8Array = (base64String) => {
+const urlBase64ToUint8Array = (base64String: string): Uint8Array => {
   const padding = '='.repeat((4 - (base64String.length % 4)) % 4)
   const base64 = (base64String + padding)
-    .replace(/\-/g, '+')
+    .replace(/-/g, '+')
     .replace(/_/g, '/')
   const rawData = window.atob(base64)
-  return Uint8Array.from([...rawData].map(char => char.charCodeAt(0)))
+
+  return new Uint8Array(Array.from(rawData).map((char) => char.charCodeAt(0)))
 }

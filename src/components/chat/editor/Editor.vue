@@ -13,7 +13,7 @@ import {
 } from '@element-plus/icons-vue'
 import { emitCall } from '@/utils/common'
 import { getDragPasteImg, pasteFilter } from '@/utils/editor'
-import { defAvatar } from '@/constants/default'
+import { AVATAR_ICON } from '@/constants/default'
 import EditorSticker from './EditorSticker.vue'
 import EditorVote from './EditorVote.vue'
 // import EditorRecorder from './EditorRecorder.vue'
@@ -27,6 +27,7 @@ import IconClip from '@/components/icons/IconClip.vue'
 import type { IDropdown } from './types'
 import { ElMessage } from 'element-plus'
 import { useI18n } from 'vue-i18n'
+import { logE } from '@/utils/log'
 
 const props = defineProps({
   vote: {
@@ -113,7 +114,7 @@ const tribute = new Tribute({
     let { avatar } = item.original
 
     if (avatar == '') {
-      avatar = defAvatar
+      avatar = AVATAR_ICON
     }
 
     let name = item.original.username
@@ -385,7 +386,7 @@ const onPaste = (e: any) => {
   //     }
   //   }
   // } catch (err) {
-  //   console.error(err)
+  //   logE(err)
   // }
 
   // return e.preventDefault()
@@ -481,7 +482,7 @@ const onSubscribeQuote = (data: any) => {
       range.setStartAfter(textNode)
       range.collapse(true)
     } catch (err) {
-      console.error('Не удалось вставить:', err)
+      logE(`Не удалось вставить: ${err}`)
     }
 
     selection.removeAllRanges()

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { defAvatar } from '@/constants/default'
+import { AVATAR_ICON } from '@/constants/default'
 import { Plus, Share } from '@element-plus/icons-vue'
 
 defineProps({
@@ -33,7 +33,7 @@ const emit = defineEmits(['chat', 'join'])
       >
         <el-avatar
           :size="40"
-          :src="avatar || defAvatar"
+          :src="avatar || AVATAR_ICON"
         />
       </div>
       <div

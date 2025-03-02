@@ -1,7 +1,5 @@
 import { i18n } from '@/utils/i18n'
 
-const t = i18n()
-
 export const chatMsgTypeText: number = 1
 export const chatMsgTypeCode: number = 2
 export const chatMsgTypeImage: number = 3
@@ -30,30 +28,30 @@ export const chatMsgSysGroupAds: number = 1111
 export const chatMsgSysGroupTransfer: number = 1113
 
 export const chatMsgTypeMapping = {
-  [chatMsgTypeText]: t('message'),
-  [chatMsgTypeImage]: t('photo'),
-  [chatMsgTypeAudio]: t('audioRecording'),
-  [chatMsgTypeVideo]: t('video'),
-  [chatMsgTypeFile]: t('file'),
-  [chatMsgTypeLocation]: t('location'),
-  [chatMsgTypeCard]: t('card'),
-  [chatMsgTypeForward]: t('forwardedMessage'),
-  [chatMsgTypeLogin]: t('loginNotification'),
-  [chatMsgTypeVote]: t('poll'),
-  [chatMsgTypeCode]: t('code'),
-  [chatMsgTypeMixed]: t('photos'),
-  [chatMsgSysText]: t('systemMessage'),
-  [chatMsgSysGroupCreate]: t('groupCreation'),
-  [chatMsgSysGroupMemberJoin]: t('groupJoin'),
-  [chatMsgSysGroupMemberQuit]: t('groupLeave'),
-  [chatMsgSysGroupMemberKicked]: t('groupExclusion'),
-  [chatMsgSysGroupMessageRevoke]: t('messageRevoke'),
-  [chatMsgSysGroupDismissed]: t('groupDissolution'),
-  [chatMsgSysGroupMuted]: t('groupNotificationsOff'),
-  [chatMsgSysGroupCancelMuted]: t('groupNotificationsOn'),
-  [chatMsgSysGroupMemberMuted]: t('memberNotificationsOff'),
-  [chatMsgSysGroupMemberCancelMuted]: t('memberNotificationsOn'),
-  [chatMsgSysGroupAds]: t('groupAnnouncement')
+  [chatMsgTypeText]: i18n('message'),
+  [chatMsgTypeImage]: i18n('photo'),
+  [chatMsgTypeAudio]: i18n('audioRecording'),
+  [chatMsgTypeVideo]: i18n('video'),
+  [chatMsgTypeFile]: i18n('file'),
+  [chatMsgTypeLocation]: i18n('location'),
+  [chatMsgTypeCard]: i18n('card'),
+  [chatMsgTypeForward]: i18n('forwardedMessage'),
+  [chatMsgTypeLogin]: i18n('loginNotification'),
+  [chatMsgTypeVote]: i18n('poll'),
+  [chatMsgTypeCode]: i18n('code'),
+  [chatMsgTypeMixed]: i18n('photos'),
+  [chatMsgSysText]: i18n('systemMessage'),
+  [chatMsgSysGroupCreate]: i18n('groupCreation'),
+  [chatMsgSysGroupMemberJoin]: i18n('groupJoin'),
+  [chatMsgSysGroupMemberQuit]: i18n('groupLeave'),
+  [chatMsgSysGroupMemberKicked]: i18n('groupExclusion'),
+  [chatMsgSysGroupMessageRevoke]: i18n('messageRevoke'),
+  [chatMsgSysGroupDismissed]: i18n('groupDissolution'),
+  [chatMsgSysGroupMuted]: i18n('groupNotificationsOff'),
+  [chatMsgSysGroupCancelMuted]: i18n('groupNotificationsOn'),
+  [chatMsgSysGroupMemberMuted]: i18n('memberNotificationsOff'),
+  [chatMsgSysGroupMemberCancelMuted]: i18n('memberNotificationsOn'),
+  [chatMsgSysGroupAds]: i18n('groupAnnouncement')
 }
 
 export const messageComponents = {

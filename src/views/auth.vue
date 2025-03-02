@@ -3,7 +3,7 @@ import { markRaw, onMounted, reactive, ref } from 'vue'
 import AuthLogin from '@/components/auth/AuthLogin.vue'
 import AuthVerify from '@/components/auth/AuthVerify.vue'
 import { cookie } from '@/utils/storage/cookie-storage'
-import { authSessionKey, authSessionTimerKey } from '@/constants/default'
+import { AUTH_SESSION_KEY, AUTH_SESSION_TIMER_KEY } from '@/constants/default'
 import { useRouter } from 'vue-router'
 import { palyMusic } from '@/utils/chat'
 import AppFooter from '../components/app/AppFooter.vue'
@@ -28,8 +28,8 @@ const onVerify = () => {
 }
 
 const onClear = async () => {
-  cookie.remove(authSessionTimerKey)
-  cookie.remove(authSessionKey)
+  cookie.remove(AUTH_SESSION_TIMER_KEY)
+  cookie.remove(AUTH_SESSION_KEY)
   time.value = 0
   timerExpired.value = true
 }
@@ -49,9 +49,9 @@ const onSuccess = async () => {
 }
 
 const init = () => {
-  const timer = cookie.get(authSessionTimerKey)
+  const timer = cookie.get(AUTH_SESSION_TIMER_KEY)
   if (timer) {
-    time.value = Number(cookie.get(authSessionTimerKey))
+    time.value = Number(cookie.get(AUTH_SESSION_TIMER_KEY))
     state.component = markRaw(AuthVerify)
   }
 }
@@ -61,9 +61,9 @@ init()
 const countdown = () => {
   if (time.value > 0) {
     time.value--
-    cookie.set(authSessionTimerKey, time.value.toString())
+    cookie.set(AUTH_SESSION_TIMER_KEY, time.value.toString())
   } else {
-    cookie.remove(authSessionTimerKey)
+    cookie.remove(AUTH_SESSION_TIMER_KEY)
     timerExpired.value = true
   }
 }

@@ -1,18 +1,18 @@
 import { cookie } from './storage/cookie-storage'
-import { accessToken } from '@/constants/default'
+import { ACCESS_TOKEN } from '@/constants/default'
 
 export const isLoggedIn = () => {
   return getAccessToken() != ''
 }
 
 export const getAccessToken = (): string => {
-  return cookie.get(accessToken) || ''
+  return cookie.get(ACCESS_TOKEN) || ''
 }
 
 export const setAccessToken = (token = '', expire: number): void => {
-  cookie.set(accessToken, token, expire)
+  cookie.set(ACCESS_TOKEN, token, expire)
 }
 
 export const delAccessToken = (): void => {
-  cookie.remove(accessToken)
+  cookie.remove(ACCESS_TOKEN)
 }

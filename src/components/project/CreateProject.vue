@@ -2,7 +2,7 @@
 import {computed, reactive, ref} from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
 import { Close as CloseIcon, Delete, Search } from '@element-plus/icons-vue'
-import { defAvatar } from '@/constants/default'
+import { AVATAR_ICON } from '@/constants/default'
 import { createProjectApi } from '@/api/project'
 import { useI18n } from 'vue-i18n'
 import type { IMemberItem } from '@/components/project/types'
@@ -152,7 +152,7 @@ const onCloseClick = () => {
                 <div class="avatar">
                   <el-avatar
                     :size="25"
-                    :src="item.avatar || defAvatar"
+                    :src="item.avatar || AVATAR_ICON"
                   />
                 </div>
                 <div class="content">
@@ -200,7 +200,7 @@ const onCloseClick = () => {
                   <div class="avatar">
                     <el-avatar
                       :size="25"
-                      :src="item.avatar || defAvatar"
+                      :src="item.avatar || AVATAR_ICON"
                     />
                   </div>
                   <div class="content">

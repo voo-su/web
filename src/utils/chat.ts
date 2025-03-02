@@ -7,8 +7,6 @@ import { useMessageStore } from '@/store'
 import { ElMessage } from 'element-plus'
 import { i18n } from '@/utils/i18n'
 
-const t = i18n()
-
 export const formatRecord = (uid: any, data: any) => {
   data.float = 'center'
   if (data.user_id > 0) {
@@ -24,7 +22,7 @@ export const palyMusic = (muted = false) => {
     audio.currentTime = 0
     audio.muted = muted
     audio.play().catch(err => {
-      console.log(t('invalidPushSubscription', { err: err }))
+      console.log(i18n('invalidPushSubscription', { err: err }))
     })
   }
 }
@@ -42,7 +40,7 @@ export const formatMessageItem = (params: any) => {
     id: 0,
     chat_type: 1,
     receiver_id: 0,
-    name: t('nameNotProvided'),
+    name: i18n('nameNotProvided'),
     avatar: '',
     is_disturb: 0,
     is_top: 0,

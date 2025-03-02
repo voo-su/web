@@ -2,8 +2,7 @@ import { h } from 'vue'
 import { ElIcon } from 'element-plus'
 import { downloadFile } from '@/api/chat'
 import { i18n } from '@/utils/i18n'
-
-const t = i18n()
+import { logE } from '@/utils/log'
 
 export interface IImageInfo {
   width: number
@@ -51,7 +50,7 @@ export const onDownload = async (crId: number, fileName: string = 'unknown') => 
           window.URL.revokeObjectURL(blobUrl)
       })
   } catch (err) {
-    console.error(`${t('error')}:`, err);
+    logE(`${i18n('error')}:`, err);
   }
 }
 

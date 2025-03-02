@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
 import { getAccountApi, updateUserDetailApi } from '@/api/account'
-import { defAvatar, genderOptions } from '@/constants/default'
+import { AVATAR_ICON, GENDER_OPTIONS } from '@/constants/default'
 import AvatarCropper from '@/components/base/BaseAvatarCropper.vue'
 import { useUserStore } from '@/store/user'
 import type { FormInstance, FormRules } from 'element-plus'
@@ -111,7 +111,7 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
     <el-aside class="el-aside-left">
       <el-avatar
         :size="200"
-        :src="form.avatar || defAvatar"
+        :src="form.avatar || AVATAR_ICON"
         class="avatar-box"
         @click="cropper = true"
       />
@@ -159,7 +159,7 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
           >
             <el-segmented
               v-model="form.gender"
-              :options="genderOptions"
+              :options="GENDER_OPTIONS"
             />
           </el-form-item>
           <el-form-item

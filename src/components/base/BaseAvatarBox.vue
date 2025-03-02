@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { defAvatar } from '@/constants/default'
+import { AVATAR_ICON } from '@/constants/default'
 
 const props = defineProps({
   avatar: {
@@ -44,7 +44,7 @@ const substring = (value: string) => value.substring(0, 1).toLocaleUpperCase()
     <el-avatar
       v-else
       :size="props.size"
-      :src="avatar || defAvatar"
+      :src="avatar || AVATAR_ICON"
     />
   </div>
   <div

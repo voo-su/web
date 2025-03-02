@@ -283,7 +283,7 @@ export default {
   pleaseLoginAgain: 'Пожалуйста, выполните вход снова.',
   sessionExpired: 'Ваша текущая сессия истекла. Пожалуйста, выполните вход заново.',
   notificationsNotSupported: 'Уведомления не поддерживаются в вашем браузере.',
-  invalidPushSubscription: 'Недействительная push-подписка: {err}',
+  invalidPushSubscription: 'Недействительная push-подписка:',
   websocketConnectionFailedCallback: 'Метод обратного вызова для неудачного соединения с WebSocket',
   siteUpdated: 'Сайт был обновлён. Перезагрузите страницу, чтобы всё работало корректно',
   siteUpdate: 'Обновление сайта',

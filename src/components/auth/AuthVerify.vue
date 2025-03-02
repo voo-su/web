@@ -2,7 +2,7 @@
 import { reactive, ref } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
 import { verifyApi } from '@/api/auth'
-import { authSessionKey } from '@/constants/default'
+import { AUTH_SESSION_KEY } from '@/constants/default'
 import { cookie } from '@/utils/storage/cookie-storage'
 import socket from '@/utils/socket'
 import { setAccessToken } from '@/utils/auth'
@@ -53,7 +53,7 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
     if (valid) {
       form.loading = true
       errors.value = []
-      const token = cookie.get(authSessionKey)
+      const token = cookie.get(AUTH_SESSION_KEY)
       if (token == null) return
       verifyApi({
         token: token,
@@ -61,7 +61,7 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
       }).then(({ code, message, data }: any) => {
         if (code == 200) {
           const { accessToken, expiresIn } = data
-          cookie.remove(authSessionKey)
+          cookie.remove(AUTH_SESSION_KEY)
           setAccessToken(accessToken, expiresIn)
           socket.connect()
           userStore.loadSetting()

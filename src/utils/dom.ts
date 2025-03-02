@@ -1,12 +1,10 @@
 import { i18n } from '@/utils/i18n'
 
-const t = i18n()
-
 const trim = (string: string) => (string || '').replace(/^[\s\uFEFF]+|[\s\uFEFF]+$/g, '')
 
 export const hasClass = (el: Element, cls: string) => {
   if (!el || !cls) return false
-  if (cls.indexOf(' ') !== -1) throw new Error(t('classNameNoSpaces'))
+  if (cls.indexOf(' ') !== -1) throw new Error(i18n('classNameNoSpaces'))
   if (el.classList) {
     return el.classList.contains(cls)
   } else {

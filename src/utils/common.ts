@@ -2,8 +2,6 @@ import { createApp } from 'vue'
 import { ElMessage } from 'element-plus'
 import { i18n } from '@/utils/i18n'
 
-const t = i18n()
-
 export const debounce = (fn: any, delay: any) => {
   let timer: any = null
   return function () {
@@ -36,7 +34,7 @@ export const clipboard = (text: any, callback: any) => {
       callback && callback()
     })
     .catch(() => {
-      ElMessage.info(t('clipboardAccessDenied'))
+      ElMessage.info(i18n('clipboardAccessDenied'))
     })
 }
 
@@ -63,7 +61,7 @@ export const clipboardImage = async (src: any, callback: any) => {
         await navigator.clipboard.write([item])
         callback()
       } catch (err: any) {
-        ElMessage.info(t('imageCopyError', { err: err }))
+        ElMessage.info(i18n('imageCopyError', { err: err }))
       }
     }, 'image/png')
   }

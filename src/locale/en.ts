@@ -283,7 +283,7 @@ export default {
   pleaseLoginAgain: 'Please log in again.',
   sessionExpired: 'Your session has expired. Please log in again.',
   notificationsNotSupported: 'Notifications are not supported in your browser.',
-  invalidPushSubscription: 'Invalid push subscription: {err}',
+  invalidPushSubscription: 'Invalid push subscription:',
   websocketConnectionFailedCallback: 'Callback method for WebSocket connection failure',
   siteUpdated: 'The site has been updated. Please refresh the page for proper functionality',
   siteUpdate: 'Site update',
