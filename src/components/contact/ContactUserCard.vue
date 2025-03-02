@@ -21,9 +21,6 @@ import { useChatStore, useMessageStore } from '@/store'
 import type { Action } from 'element-plus'
 import { ElMessage } from 'element-plus'
 import { i18n } from '@/utils/i18n'
-import { useI18n } from 'vue-i18n'
-
-const { t } = useI18n()
 
 const props = defineProps({
   uid: {
@@ -240,37 +237,37 @@ onLoadData()
       </div>
       <template v-if="state.is_bot === 0">
         <div class="info-item">
-          <span class="name">{{ t('username') }}</span>
+          <span class="name">{{ i18n('username') }}</span>
           <span class="text">{{ state.username }}</span>
         </div>
         <div
           v-if="state.name.trim().length !== 0"
           class="info-item"
         >
-          <span class="name">{{ t('name') }}</span>
+          <span class="name">{{ i18n('name') }}</span>
           <span class="text">{{ state.name }}</span>
         </div>
         <div
           v-if="state.surname.trim().length !== 0"
           class="info-item"
         >
-          <span class="name">{{ t('surname') }}</span>
+          <span class="name">{{ i18n('surname') }}</span>
           <span class="text">{{ state.surname }}</span>
         </div>
         <div
           v-if="state.gender !== 0"
           class="info-item"
         >
-          <span class="name">{{ t('gender') }}</span>
+          <span class="name">{{ i18n('gender') }}</span>
           <span class="text">
-            {{ state.gender === 1 ? t('male') : state.gender === 2 ? t('female') : '' }}
+            {{ state.gender === 1 ? i18n('male') : state.gender === 2 ? i18n('female') : '' }}
           </span>
         </div>
         <div
           v-if="state.about"
           class="info-item"
         >
-          <span class="name">{{ t('about') }}</span>
+          <span class="name">{{ i18n('about') }}</span>
           <span class="text">{{ state.about || '-' }}</span>
         </div>
       </template>
@@ -278,7 +275,7 @@ onLoadData()
 <!--        v-if="folders.length >= 1"-->
 <!--        class="info-item"-->
 <!--      >-->
-<!--        <span class="name">{{ t('folder') }}</span>-->
+<!--        <span class="name">{{ i18n('folder') }}</span>-->
 <!--        <span class="text">{{ groupName }}</span>-->
 <!--      </div>-->
       <div
@@ -288,7 +285,7 @@ onLoadData()
         <el-icon :size="18">
           <bell />
         </el-icon>
-        <span class="label">{{ t('notifications') }}</span>
+        <span class="label">{{ i18n('notifications') }}</span>
         <span class="text">
           <el-switch
             v-model="isNotification"
@@ -310,7 +307,7 @@ onLoadData()
             @click="onToChat"
             class="w-100"
           >
-            {{ t('sendMessage') }}
+            {{ i18n('sendMessage') }}
           </el-button>
         </el-col>
         <el-col>
@@ -321,7 +318,7 @@ onLoadData()
             @click="onDeleteContact"
             class="w-100"
           >
-            {{ t('deleteContact') }}
+            {{ i18n('deleteContact') }}
           </el-button>
         </el-col>
       </template>
@@ -333,7 +330,7 @@ onLoadData()
             @click="onJoinContact"
             class="w-100"
           >
-            {{ t('addToContacts') }}
+            {{ i18n('addToContacts') }}
           </el-button>
         </el-col>
       </template>

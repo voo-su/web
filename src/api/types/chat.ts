@@ -45,7 +45,7 @@ export interface IRevokeRecordsApi {
 export interface IRemoveRecordsApi {
   chat_type: number
   receiver_id: number
-  record_id: string
+  msg_ids: string
 }
 
 export interface ISendVoteApi {

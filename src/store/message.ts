@@ -180,7 +180,7 @@ export const useMessageStore = defineStore('message', {
       removeRecordsApi({
         chat_type: this.chat.chat_type,
         receiver_id: this.chat.receiver_id,
-        record_id: ids.join(',')
+        msg_ids: ids.join(',')
       })
         .then(({ code, message }: any) => {
           if (code == 200) {
