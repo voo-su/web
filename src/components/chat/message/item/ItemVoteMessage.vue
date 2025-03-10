@@ -66,7 +66,7 @@ const onSubmit = () => {
   })
 
   confirmVoteHandleApi({
-    record_id: props.data.id,
+    message_id: props.data.id,
     options: items.join(',')
   }).then(({ code, data }: any) => {
     if (code == 200) {

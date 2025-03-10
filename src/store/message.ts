@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { forwardRecordsApi, removeRecordsApi, revokeRecordsApi } from '@/api/chat'
+import { forwardMessagesApi, removeMessagesApi, revokeMessagesApi } from '@/api/chat'
 import { getGroupMembersApi } from '@/api/group-chat'
 import { ElMessage } from 'element-plus'
 
@@ -16,7 +16,7 @@ interface IMessageItems {
   chat_type: number
   receiver_id: number
   read_sequence: number
-  records: any
+  messages: any
 }
 
 interface IMember {
@@ -34,7 +34,7 @@ interface IMessageState {
   is_bot: number
   keyboard: boolean
   online: boolean
-  records: IRecord[]
+  messages: IRecord[]
   unreadBubble: number
   isOpenMultiSelect: boolean
   isShowEditor: boolean
@@ -60,7 +60,7 @@ export const useMessageStore = defineStore('message', {
     is_bot: 0,
     keyboard: false,
     online: false,
-    records: [],
+    messages: [],
     unreadBubble: 0,
     isOpenMultiSelect: false,
     isShowEditor: false,
@@ -71,7 +71,7 @@ export const useMessageStore = defineStore('message', {
         chat_type: 1,
         receiver_id: 0,
         read_sequence: 0,
-        records: []
+        messages: []
       }
     ]
   }),
@@ -94,7 +94,7 @@ export const useMessageStore = defineStore('message', {
         receiver_id: data.receiver_id
       }
       this.index_name = data.chat_type + '_' + data.receiver_id
-      this.records = []
+      this.messages = []
       this.unreadBubble = 0
       this.isShowEditor = data.is_bot === 0
 
@@ -129,27 +129,27 @@ export const useMessageStore = defineStore('message', {
     },
 
     clearMessage() {
-      this.records = []
+      this.messages = []
     },
 
-    unshiftMessage(records: any) {
-      this.records.unshift(...records)
+    unshiftMessage(messages: any) {
+      this.messages.unshift(...messages)
     },
 
     addMessage(record: any) {
-      this.records.push(record)
+      this.messages.push(record)
     },
 
     updateMessage(params: any) {
       const { msg_id = '' } = params
-      const item = this.records.find((item: { msg_id: number }) => item.msg_id === msg_id)
+      const item = this.messages.find((item: { msg_id: number }) => item.msg_id === msg_id)
       item && Object.assign(item, params)
     },
 
     batchMessageDel(ids: number[]) {
       ids.forEach((id: number) => {
-        const index = this.records.findIndex((item: { id: number }) => item.id === id)
-        if (index >= 0) this.records.splice(index, 1)
+        const index = this.messages.findIndex((item: { id: number }) => item.id === id)
+        if (index >= 0) this.messages.splice(index, 1)
       })
     },
 
@@ -177,7 +177,7 @@ export const useMessageStore = defineStore('message', {
     },
 
     deleteRecord(ids: number[] = []) {
-      removeRecordsApi({
+      removeMessagesApi({
         chat_type: this.chat.chat_type,
         receiver_id: this.chat.receiver_id,
         msg_ids: ids.join(',')
@@ -192,7 +192,7 @@ export const useMessageStore = defineStore('message', {
     },
 
     revokeRecord(msg_id: string = '') {
-      revokeRecordsApi({ msg_id })
+      revokeMessagesApi({ msg_id })
         .then(({ code, message }: any) => {
           if (code == 200) {
             this.updateMessage({
@@ -210,7 +210,7 @@ export const useMessageStore = defineStore('message', {
         receiver_id: this.chat.receiver_id
       }, options)
 
-      forwardRecordsApi(data)
+      forwardMessagesApi(data)
         .then(({ code }: any) => {
           if (code == 200) {
             this.closeMultiSelect()
@@ -220,7 +220,7 @@ export const useMessageStore = defineStore('message', {
   },
 
   getters: {
-    selectItems: state => state.records.filter((item: any) => item.isCheck),
+    selectItems: state => state.messages.filter((item: any) => item.isCheck),
 
     isGroupChat: state => state.chat.chat_type === 2
   }

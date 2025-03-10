@@ -13,7 +13,7 @@ export const getContactListApi = () => get('/v1/contacts')
 
 export const createContactApi = (data: ICreateContactApi) => post('/v1/contacts/requests', data)
 
-export const getContactApplyRecordsApi = () => get('/v1/contacts/requests')
+export const getContactApplyMessagesApi = () => get('/v1/contacts/requests')
 
 export const applyAcceptApi = (data: IApplyAcceptApi) => post('/v1/contacts/requests/accept', data)
 

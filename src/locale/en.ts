@@ -173,7 +173,7 @@ export default {
   fileSizeLimitExceeded: 'Files larger than 100 MB cannot be uploaded',
   audioUploadNotSupported: 'Audio file upload is currently not supported',
   videoUploadNotSupported: 'Video file upload is currently not supported',
-  viewLimitRecords: 'Only the last 300 records are available for viewing',
+  viewLimitMessages: 'Only the last 300 records are available for viewing',
   messageForwardingNotSupported: 'This message type does not support forwarding',
   copy: 'Copy',
   reply: 'Reply',

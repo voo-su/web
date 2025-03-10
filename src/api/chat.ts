@@ -8,12 +8,12 @@ import type {
   ICollectStickerApi,
   IConfirmVoteHandleApi,
   IDeleteStickerApi,
-  IRecordsApi,
-  IForwardRecordsApi,
-  IGetForwardRecordsApi,
+  IMessagesApi,
+  IForwardMessagesApi,
+  IGetForwardMessagesApi,
   ISendMessageApi,
-  IRemoveRecordsApi,
-  IRevokeRecordsApi,
+  IRemoveMessagesApi,
+  IRevokeMessagesApi,
   ISendVoteApi,
   IDownloadFileApi,
 } from '@/api/types/chat'
@@ -30,13 +30,13 @@ export const clearUnreadChatApi = (data: IClearUnreadChatApi) => post('/v1/chats
 
 export const setNotDisturbApi = (data: ISetNotDisturbApi) => post('/v1/chats/disturb', data)
 
-export const getRecordsApi = (data: IRecordsApi) => get('/v1/chats/messages', data)
+export const getMessagesApi = (data: IMessagesApi) => get('/v1/chats/messages', data)
 
 export const sendMessageApi = (data: ISendMessageApi) => post('/v1/chats/messages/send', data)
 
-export const revokeRecordsApi = (data: IRevokeRecordsApi) => post('/v1/chats/messages/revoke', data)
+export const revokeMessagesApi = (data: IRevokeMessagesApi) => post('/v1/chats/messages/revoke', data)
 
-export const removeRecordsApi = (data: IRemoveRecordsApi) => post('/v1/chats/messages/delete', data)
+export const removeMessagesApi = (data: IRemoveMessagesApi) => post('/v1/chats/messages/delete', data)
 
 export const sendVoteApi = (data: ISendVoteApi) => post('/v1/chats/messages/vote', data)
 
@@ -50,8 +50,8 @@ export const deleteStickerApi = (data: IDeleteStickerApi) => post('/v1/chats/mes
 
 export const collectStickerApi = (data: ICollectStickerApi) => post('/v1/chats/messages/collect', data)
 
-export const forwardRecordsApi = (data: IForwardRecordsApi) => post('/v1/chats/messages/forward', data)
+export const forwardMessagesApi = (data: IForwardMessagesApi) => post('/v1/chats/messages/forward', data)
 
-export const getForwardRecordsApi = (data: IGetForwardRecordsApi) => get('/v1/chats/messages/forward/list', data)
+export const getForwardMessagesApi = (data: IGetForwardMessagesApi) => get('/v1/chats/messages/forward/list', data)
 
 export const downloadFile = (data: IDownloadFileApi, options = {}) => get('/v1/chats/messages/file/download', data, options)

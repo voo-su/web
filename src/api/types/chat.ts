@@ -23,8 +23,8 @@ export interface ISetNotDisturbApi {
   is_disturb: number
 }
 
-export interface IRecordsApi {
-  record_id: number
+export interface IMessagesApi {
+  message_id: number
   receiver_id: number
   chat_type: number
   limit: number
@@ -38,11 +38,11 @@ export interface ISendMessageApi {
   }
 }
 
-export interface IRevokeRecordsApi {
+export interface IRevokeMessagesApi {
   msg_id: string
 }
 
-export interface IRemoveRecordsApi {
+export interface IRemoveMessagesApi {
   chat_type: number
   receiver_id: number
   msg_ids: string
@@ -57,7 +57,7 @@ export interface ISendVoteApi {
 }
 
 export interface IConfirmVoteHandleApi {
-  record_id: number
+  message_id: number
   options: any
 }
 
@@ -66,21 +66,21 @@ export interface IDeleteStickerApi {
 }
 
 export interface ICollectStickerApi {
-  record_id: number
+  message_id: number
 }
 
-export interface IForwardRecordsApi {
+export interface IForwardMessagesApi {
   chat_type: number
   receiver_id: number
   forward_mode: number
-  records_ids: string
+  messages_ids: string
   receive_user_ids: string
   receive_group_ids: string
 }
 
-export interface IGetForwardRecordsApi {
+export interface IGetForwardMessagesApi {
   pid: string
-  record_id: number
+  message_id: number
 }
 
 export interface IDownloadFileApi {

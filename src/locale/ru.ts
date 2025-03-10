@@ -173,7 +173,7 @@ export default {
   fileSizeLimitExceeded: 'Файлы размером более 100 МБ нельзя загружать',
   audioUploadNotSupported: 'Загрузка аудиофайлов в настоящее время не поддерживается',
   videoUploadNotSupported: 'Загрузка видеофайлов в настоящее время не поддерживается',
-  viewLimitRecords: 'Только последние 300 записей доступны для просмотра',
+  viewLimitMessages: 'Только последние 300 записей доступны для просмотра',
   messageForwardingNotSupported: 'Этот тип сообщения не поддерживает пересылку',
   copy: 'Копировать',
   reply: 'Ответить',

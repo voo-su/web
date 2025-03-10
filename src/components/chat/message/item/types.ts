@@ -14,7 +14,7 @@ export interface IFileExtra {
 export interface ForwardExtra {
   msg_ids: number[]
   receiver_id: number
-  records: {
+  messages: {
     username: string
     text: string
   }[]

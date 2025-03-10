@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { inject, ref } from 'vue'
 import { Check, Close } from '@element-plus/icons-vue'
-import { applyAcceptApi, applyDeclineApi, getContactApplyRecordsApi } from '@/api/contact'
+import { applyAcceptApi, applyDeclineApi, getContactApplyMessagesApi } from '@/api/contact'
 import { useUserStore } from '@/store/user'
 import AppPageHeader from '@/components/app/AppPageHeader.vue'
 import AvatarBox from '@/components/base/BaseAvatarBox.vue'
@@ -21,7 +21,7 @@ const loadingDecline = ref<boolean>(false)
 const items = ref<any>([])
 
 const onLoadData = () => {
-  getContactApplyRecordsApi().then(({ code, data }: any) => {
+  getContactApplyMessagesApi().then(({ code, data }: any) => {
     if (code == 200) {
       items.value = data.items || []
       userStore.isContactApply = false

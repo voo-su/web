@@ -10,7 +10,7 @@ import { addClass, removeClass } from '@/utils/dom'
 import { downloadImage } from '@/utils/functions'
 import { formatRecord } from '@/utils/chat'
 import { forwardableMessageType, messageComponents } from '@/constants/message'
-import { getRecordsApi } from '@/api/chat'
+import { getMessagesApi } from '@/api/chat'
 import { useMenu } from './menu'
 import ContextMenu from '@/components/base/BaseContextMenu.vue'
 import AvatarBox from '@/components/base/BaseAvatarBox.vue'
@@ -48,16 +48,16 @@ const {
 const { t } = useI18n()
 const user: any = inject('$user')
 const messageStore = useMessageStore()
-const records = computed(() => messageStore.records)
+const messages = computed(() => messageStore.messages)
 
 interface ILoadConfig {
   status: number
-  minRecord: number
+  minMessage: number
 }
 
 const loadConfig = reactive<ILoadConfig>({
   status: 0,
-  minRecord: 0
+  minMessage: 0
 })
 
 const skipBottom = ref<boolean>(false)
@@ -68,7 +68,7 @@ const onLoad = () => {
   const data = {
     chat_type: props.chat_type,
     receiver_id: props.receiver_id,
-    record_id: loadConfig.minRecord,
+    message_id: loadConfig.minMessage,
     limit: 30
   }
 
@@ -85,7 +85,7 @@ const onLoad = () => {
 
   loadConfig.status = 0
 
-  getRecordsApi(data)
+  getMessagesApi(data)
     .then(res => {
       if (
         data.chat_type != props.chat_type ||
@@ -95,28 +95,28 @@ const onLoad = () => {
         return
       }
 
-      const records = res.data.items || []
+      const messages = res.data.items || []
 
-      records.map((item: any) => formatRecord(props.uid, item))
+      messages.map((item: any) => formatRecord(props.uid, item))
 
-      if (data.record_id == 0) {
+      if (data.message_id == 0) {
         messageStore.clearMessage()
       }
 
       if (props.chat_type == 1) {
-        onAfterRead(records)
+        onAfterRead(messages)
       }
 
-      messageStore.unshiftMessage(records.reverse())
+      messageStore.unshiftMessage(messages.reverse())
 
-      loadConfig.status = records.length >= res.data.limit ? 1 : 2
-      loadConfig.minRecord = res.data.record_id
+      loadConfig.status = messages.length >= res.data.limit ? 1 : 2
+      loadConfig.minMessage = res.data.message_id
 
       nextTick(() => {
         if (!el)
           return
 
-        if (data.record_id == 0) {
+        if (data.message_id == 0) {
           el.scrollTop = el.scrollHeight
         } else {
           el.scrollTop = el.scrollHeight - scrollHeight
@@ -132,9 +132,9 @@ const onLoad = () => {
     })
 }
 
-const onAfterRead = (records: any) => {
+const onAfterRead = (messages: any) => {
   let ids: number[] = []
-  for (const record of records) {
+  for (const record of messages) {
     if (props.receiver_id === record.user_id && record.is_read === 0) {
       ids.push(record.msg_id)
     }
@@ -153,7 +153,7 @@ const isShowMessageTime = (index: number, datetime: string) => {
     return false
   }
 
-  if (records.value[index].is_revoke == 1) {
+  if (messages.value[index].is_revoke == 1) {
     return false
   }
 
@@ -163,11 +163,11 @@ const isShowMessageTime = (index: number, datetime: string) => {
   let currTime = Math.floor(new Date().getTime() / 1000)
   if (currTime - time < 300) return false
 
-  if (index == records.value.length - 1) {
+  if (index == messages.value.length - 1) {
     return true
   }
 
-  let nextDate = records.value[index + 1].created_at.replace(/-/g, '/')
+  let nextDate = messages.value[index + 1].created_at.replace(/-/g, '/')
 
   return !(
     parseTime(new Date(datetime), 'h:i d.m.y') ==
@@ -341,7 +341,7 @@ const onJumpMessage = (msgid: string) => {
 
       if (locationMessage.num === 0) {
         locationMessage = null
-        ElMessage.info(t('viewLimitRecords'))
+        ElMessage.info(t('viewLimitMessages'))
         return
       }
     }
@@ -370,7 +370,7 @@ const onJumpMessage = (msgid: string) => {
 
 const onReload = () => {
   loadConfig.status = 0
-  loadConfig.minRecord = 0
+  loadConfig.minMessage = 0
   locationMessage = null
   onLoad()
 }
@@ -407,7 +407,7 @@ onMounted(onReload)
         </span>
       </div>
       <div
-        v-for="(item, index) in records"
+        v-for="(item, index) in messages"
         :id="item.msg_id"
         :key="item.msg_id"
         class="message-item"
