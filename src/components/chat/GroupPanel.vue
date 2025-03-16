@@ -3,7 +3,7 @@ import { computed, inject, reactive, ref, watch } from 'vue'
 import { useUserStore } from '@/store/user'
 import GroupManage from './group/index.vue'
 import { Close as CloseIcon, Plus, Search as SearchIcon } from '@element-plus/icons-vue'
-import { getGroupMembersApi, groupDetailApi, secedeGroupApi } from '@/api/group-chat'
+import { getGroupMembersApi, groupDetailApi, leaveGroupApi } from '@/api/group-chat'
 import { ElMessageBox } from 'element-plus'
 import AvatarBox from '@/components/base/BaseAvatarBox.vue'
 import GroupLaunch from './GroupLaunch.vue'
@@ -102,7 +102,7 @@ const onSignOut = () => {
     }
   )
     .then(() => {
-      secedeGroupApi({
+      leaveGroupApi({
         group_id: props.gid
       })
         .then(({ code, message }: any) => {

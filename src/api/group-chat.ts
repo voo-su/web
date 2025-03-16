@@ -19,7 +19,7 @@ import type {
   IMuteGroupApi,
   IOvertGroupApi,
   IRemoveMembersGroupApi,
-  ISecedeGroupApi
+  ILeaveGroupApi
 } from '@/api/types/group-chat'
 
 export const getGroupListApi = () => get('/v1/group-chats')
@@ -32,7 +32,7 @@ export const editGroupApi = (data: IEditGroupApi) => post('/v1/group-chats/setti
 
 export const inviteGroupApi = (data: IInviteGroupApi) => post('/v1/group-chats/invite', data)
 
-export const secedeGroupApi = (data: ISecedeGroupApi) => post('/v1/group-chats/leave-chat', data)
+export const leaveGroupApi = (data: ILeaveGroupApi) => post('/v1/group-chats/leave', data)
 
 export const getGroupMembersApi = (data: IGetGroupMembersApi): any => get('/v1/group-chats/members', data)
 

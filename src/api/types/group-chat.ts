@@ -21,7 +21,7 @@ export interface IInviteGroupApi {
   ids: string
 }
 
-export interface ISecedeGroupApi {
+export interface ILeaveGroupApi {
   group_id: number
 }
 

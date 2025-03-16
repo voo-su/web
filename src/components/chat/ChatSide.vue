@@ -31,7 +31,7 @@ import IconPin from '@/components/icons/IconPin.vue'
 import IconUnpin from '@/components/icons/IconUnpin.vue'
 import { ElMessage } from 'element-plus'
 import { useI18n } from 'vue-i18n'
-import { secedeGroupApi } from '@/api/group-chat'
+import { leaveGroupApi } from '@/api/group-chat'
 
 const { t } = useI18n()
 const user: any = inject('$user')
@@ -136,7 +136,7 @@ const onSignOutGroup = (data: any) => {
     }
   )
     .then(() => {
-      secedeGroupApi({
+      leaveGroupApi({
         group_id: data.receiver_id
       }).then(({ code, message }: any) => {
         if (code == 200) {
