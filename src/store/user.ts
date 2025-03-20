@@ -1,10 +1,10 @@
 import { defineStore } from 'pinia'
 import { getAccountApi } from '@/api/account'
 import { findFriendApplyNumApi } from '@/api/contact'
-import { storage } from '@/utils/storage/local-storage'
+import { LStorage } from '@/utils/storage'
 import { ACCESS_TOKEN, USER_INFO } from '@/constants/storage'
 import { logoutApi } from '@/api/auth'
-import { cookie } from '@/utils/storage/cookie-storage'
+import { CStorage } from '@/utils/storage'
 
 interface IUser {
   uid: number
@@ -47,8 +47,8 @@ export const useUserStore = defineStore('user', {
         console.log(res)
       })
 
-      storage.remove(USER_INFO)
-      cookie.remove(ACCESS_TOKEN)
+      LStorage.deleteItem(USER_INFO)
+      CStorage.deleteItem(ACCESS_TOKEN)
       location.reload()
     },
 
@@ -74,7 +74,7 @@ export const useUserStore = defineStore('user', {
             this.gender = gender
             this.email = email || ''
             this.about = about
-            storage.set(USER_INFO, data)
+            LStorage.addItem(USER_INFO, data)
           }
         })
 

@@ -1,30 +1,21 @@
 <script lang="ts" setup>
-// import { getCurrentInstance } from 'vue'
-// import { ElMessage } from 'element-plus'
 import { useUserStore } from '@/store'
 import socket from '@/utils/socket'
 import { listener } from '@/utils/listener'
 import ru from 'element-plus/dist/locale/ru.mjs'
 import { pushInit } from '@/utils/push'
-import { cookie } from '@/utils/storage/cookie-storage'
+import { CStorage } from '@/utils/storage'
 import { ACCESS_TOKEN } from '@/constants/storage'
 
 const userStore = useUserStore()
 
-if (cookie.exists(ACCESS_TOKEN)) {
+if (CStorage.exists(ACCESS_TOKEN)) {
   socket.connect()
   userStore.loadSetting()
   pushInit()
 }
 
 listener()
-
-// const ctx = getCurrentInstance()
-// if (ctx) {
-//   const message = ElMessage
-//   ElMessage = message
-//   ctx.appContext.config.globalProperties.$message = message
-// }
 </script>
 
 <template>

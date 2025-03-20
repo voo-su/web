@@ -2,7 +2,7 @@
 import { reactive, ref } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
 import { loginApi } from '@/api/auth'
-import { cookie } from '@/utils/storage/cookie-storage'
+import { CStorage } from '@/utils/storage'
 import { AUTH_SESSION_KEY } from '@/constants/storage'
 import { getErrorForField } from '@/utils/functions'
 import type { IFormLoginType } from './types'
@@ -57,7 +57,7 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
             token,
             expiresIn
           } = data
-          await cookie.set(AUTH_SESSION_KEY, token, expiresIn)
+          await CStorage.addItem(AUTH_SESSION_KEY, token, expiresIn)
           emit('onVerify')
         } else {
           errors.value.push({

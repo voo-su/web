@@ -1,4 +1,5 @@
 import { INDEXEDDB } from '@/constants/storage'
+import { logE } from '@/utils/log'
 
 export class IndexedDBStorage {
   private db: IDBDatabase | null = null
@@ -12,7 +13,7 @@ export class IndexedDBStorage {
     const request = indexedDB.open(INDEXEDDB, 1)
 
     request.onerror = (event: Event) => {
-      console.error('Ошибка при открытии базы данных:', (event.target as IDBRequest).error)
+      logE(`Ошибка при открытии базы данных: ${(event.target as IDBRequest).error}`)
     }
 
     request.onupgradeneeded = (event: IDBVersionChangeEvent) => {

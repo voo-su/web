@@ -1,6 +1,6 @@
 import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router'
 import DevLayout from '@/layouts/DevLayout.vue'
-import { cookie } from '@/utils/storage/cookie-storage'
+import { CStorage } from '@/utils/storage'
 import { ACCESS_TOKEN } from '@/constants/storage'
 
 const routes = [
@@ -103,7 +103,7 @@ const router = createRouter({
 })
 
 router.beforeEach((to: any) => {
-  if (to.meta.requiresAuth && !cookie.exists(ACCESS_TOKEN)) {
+  if (to.meta.requiresAuth && !CStorage.exists(ACCESS_TOKEN)) {
     return {
       path: '/auth'
       // query: { redirect: to.fullPath }

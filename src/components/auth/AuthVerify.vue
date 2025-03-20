@@ -3,7 +3,7 @@ import { reactive, ref } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
 import { verifyApi } from '@/api/auth'
 import { ACCESS_TOKEN, AUTH_SESSION_KEY } from '@/constants/storage'
-import { cookie } from '@/utils/storage/cookie-storage'
+import { CStorage } from '@/utils/storage'
 import socket from '@/utils/socket'
 import { useUserStore } from '@/store'
 import { Close } from '@element-plus/icons-vue'
@@ -52,7 +52,7 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
     if (valid) {
       form.loading = true
       errors.value = []
-      const token = cookie.get(AUTH_SESSION_KEY)
+      const token = CStorage.getItem(AUTH_SESSION_KEY)
       if (token == null) return
       verifyApi({
         token: token,
@@ -60,8 +60,8 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
       }).then(({ code, message, data }: any) => {
         if (code == 200) {
           const { accessToken, expiresIn } = data
-          cookie.remove(AUTH_SESSION_KEY)
-          cookie.set(ACCESS_TOKEN, accessToken, expiresIn)
+          CStorage.deleteItem(AUTH_SESSION_KEY)
+          CStorage.addItem(ACCESS_TOKEN, accessToken, expiresIn)
           socket.connect()
           userStore.loadSetting()
           pushInit()

@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { ElMessage } from 'element-plus'
 import { i18n } from '@/utils/i18n'
-import { cookie } from '@/utils/storage/cookie-storage'
+import { CStorage } from '@/utils/storage'
 import { ACCESS_TOKEN } from '@/constants/storage'
 
 const request = axios.create({
@@ -12,7 +12,7 @@ const request = axios.create({
 const errorHandler = (error: any) => {
   if (error.response) {
     if (error.response.status == 401) {
-      cookie.remove(ACCESS_TOKEN)
+      CStorage.deleteItem(ACCESS_TOKEN)
       ElMessage.error(i18n('sessionExpired'))
       location.reload()
     }
@@ -22,7 +22,7 @@ const errorHandler = (error: any) => {
 }
 
 request.interceptors.request.use(config => {
-  const token = cookie.get(ACCESS_TOKEN)
+  const token = CStorage.getItem(ACCESS_TOKEN)
   if (token) {
     config.headers['Authorization'] = `Bearer ${token}`
   }

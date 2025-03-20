@@ -5,7 +5,7 @@ import { applyNotificationAuth } from '@/utils/notification'
 import socket from '@/utils/socket'
 import { ElMessageBox } from 'element-plus'
 import { i18n } from '@/utils/i18n'
-import { cookie } from '@/utils/storage/cookie-storage'
+import { CStorage } from '@/utils/storage'
 import { ACCESS_TOKEN } from '@/constants/storage'
 
 const registerOnceExpireNotice = () => {
@@ -16,7 +16,7 @@ const registerOnceExpireNotice = () => {
       return
     }
 
-    if (cookie.exists(ACCESS_TOKEN) || once) {
+    if (CStorage.exists(ACCESS_TOKEN) || once) {
       return
     }
 
@@ -109,7 +109,7 @@ const registerConnectListener = () => {
       '/auth',
       '/terms'
     ]
-    if (!paths.includes(pathname) && cookie.exists(ACCESS_TOKEN)) {
+    if (!paths.includes(pathname) && CStorage.exists(ACCESS_TOKEN)) {
       !socket.isConnect() && socket.connect()
     }
   })

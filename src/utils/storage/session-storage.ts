@@ -1,12 +1,11 @@
 import { logE } from '@/utils/log'
 
-class SessionStorage {
-
-  set<T>(key: string, value: T): void {
+export class SessionStorage {
+  addItem<T>(key: string, value: T): void {
     sessionStorage.setItem(key, JSON.stringify(value))
   }
 
-  get<T>(keys: string | string[]): { [key: string]: T } | T | null {
+  getItem<T>(keys: string | string[]): { [key: string]: T } | T | null {
     if (Array.isArray(keys)) {
       const data: { [key: string]: T } = {}
       keys.forEach(key => {
@@ -33,7 +32,7 @@ class SessionStorage {
     }
   }
 
-  remove(keys: string | string[]): void {
+  deleteItem(keys: string | string[]): void {
     if (Array.isArray(keys)) {
       keys.forEach(key => sessionStorage.removeItem(key))
     } else {
@@ -45,5 +44,3 @@ class SessionStorage {
     sessionStorage.clear()
   }
 }
-
-export const session = new SessionStorage()

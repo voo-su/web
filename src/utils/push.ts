@@ -1,17 +1,18 @@
 import { pushInitApi } from '@/api/account'
 import { log, logE } from '@/utils/log'
 import { i18n } from '@/utils/i18n'
-import { PUSH_TOKEN_EXPIRATION_TIME, PUSH_STORAGE_KEY } from '@/constants/notifications'
-import { cookie } from '@/utils/storage/cookie-storage'
+import { PUSH_STORAGE_KEY, PUSH_TOKEN_EXPIRATION_TIME } from '@/constants/notifications'
+import { CStorage } from '@/utils/storage'
 
-const saveSubscriptionData = (data: Record<string, any>) => {
-  cookie.set(PUSH_STORAGE_KEY, JSON.stringify(data), PUSH_TOKEN_EXPIRATION_TIME / 1000)
+interface ISubscriptionData {
+  token: PushSubscriptionJSON
+  sent: boolean
+  lastSent: number
 }
 
-const getSubscriptionData = (): Record<string, any> | null => {
-  const data = cookie.get(PUSH_STORAGE_KEY)
-  return data ? JSON.parse(data) : null
-}
+const saveSubscriptionData = (data: ISubscriptionData) => CStorage.addItem(PUSH_STORAGE_KEY, JSON.stringify(data), PUSH_TOKEN_EXPIRATION_TIME / 1000)
+
+const getSubscriptionData = (): ISubscriptionData | null => CStorage.getItem<ISubscriptionData>(PUSH_STORAGE_KEY)
 
 const sendPushTokenToServer = (obj: PushSubscriptionJSON) => {
   pushInitApi({
@@ -23,8 +24,8 @@ const sendPushTokenToServer = (obj: PushSubscriptionJSON) => {
       }
     })
   }).then((res) => {
-    console.log('Push token sent to server:', res)
-    const subscriptionData = getSubscriptionData() || {}
+    const subscriptionData = getSubscriptionData()
+    if (subscriptionData == null) return
     subscriptionData.lastSent = Date.now()
     saveSubscriptionData(subscriptionData)
   }).catch(err => {

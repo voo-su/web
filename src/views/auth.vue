@@ -2,7 +2,7 @@
 import { markRaw, onMounted, reactive, ref } from 'vue'
 import AuthLogin from '@/components/auth/AuthLogin.vue'
 import AuthVerify from '@/components/auth/AuthVerify.vue'
-import { cookie } from '@/utils/storage/cookie-storage'
+import { CStorage } from '@/utils/storage'
 import { AUTH_SESSION_KEY, AUTH_SESSION_TIMER_KEY } from '@/constants/storage'
 import { useRouter } from 'vue-router'
 import { palyMusic } from '@/utils/chat'
@@ -28,8 +28,8 @@ const onVerify = () => {
 }
 
 const onClear = async () => {
-  cookie.remove(AUTH_SESSION_TIMER_KEY)
-  cookie.remove(AUTH_SESSION_KEY)
+  CStorage.deleteItem(AUTH_SESSION_TIMER_KEY)
+  CStorage.deleteItem(AUTH_SESSION_KEY)
   time.value = 0
   timerExpired.value = true
 }
@@ -49,9 +49,9 @@ const onSuccess = async () => {
 }
 
 const init = () => {
-  const timer = cookie.get(AUTH_SESSION_TIMER_KEY)
+  const timer = CStorage.getItem(AUTH_SESSION_TIMER_KEY)
   if (timer) {
-    time.value = Number(cookie.get(AUTH_SESSION_TIMER_KEY))
+    time.value = Number(CStorage.getItem(AUTH_SESSION_TIMER_KEY))
     state.component = markRaw(AuthVerify)
   }
 }
@@ -61,9 +61,9 @@ init()
 const countdown = () => {
   if (time.value > 0) {
     time.value--
-    cookie.set(AUTH_SESSION_TIMER_KEY, time.value.toString())
+    CStorage.addItem(AUTH_SESSION_TIMER_KEY, time.value.toString())
   } else {
-    cookie.remove(AUTH_SESSION_TIMER_KEY)
+    CStorage.deleteItem(AUTH_SESSION_TIMER_KEY)
     timerExpired.value = true
   }
 }

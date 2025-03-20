@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { storage } from '@/utils/storage/local-storage'
+import { LStorage } from '@/utils/storage'
 
 interface INotify {
   isPromptTone: any
@@ -10,20 +10,20 @@ interface INotify {
 
 export const useNotificationStore = defineStore('notification', {
   state: (): INotify => ({
-    isPromptTone: storage.get<boolean>('isPromptTone', true),
-    isKeyboard: storage.get<boolean>('isKeyboard', true),
+    isPromptTone: LStorage.getItem<boolean>('isPromptTone', true),
+    isKeyboard: LStorage.getItem<boolean>('isKeyboard', true),
     isLeaveWeb: false,
     isWebNotify: false
   }),
   actions: {
     setPromptTone(value: any) {
       this.isPromptTone = value
-      storage.set('isPromptTone', value, null)
+      LStorage.addItem('isPromptTone', value, null)
     },
 
     setKeyboard(value: any) {
       this.isKeyboard = value
-      storage.set('isKeyboard', value, null)
+      LStorage.addItem('isKeyboard', value, null)
     }
   }
 })

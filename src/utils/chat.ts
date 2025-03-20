@@ -5,7 +5,7 @@ import { createChatApi, deleteChatApi, setNotDisturbApi } from '@/api/chat'
 import { KEY_INDEX_NAME } from '@/constants/chat'
 import { ElMessage } from 'element-plus'
 import { i18n } from '@/utils/i18n'
-import { IndexedDBStorage } from '@/utils/storage/indexeddb-storage'
+import { SStorage, IDBStorage } from '@/utils/storage'
 
 export const formatRecord = (uid: any, data: any) => {
   data.float = 'center'
@@ -77,7 +77,7 @@ export const onSetDisturb = (data: any) => {
 
 export const toChat = (chat_type: any, receiver_id: any) => {
   if (findChatIndex(`${chat_type}_${receiver_id}`) >= 0) {
-    sessionStorage.setItem(KEY_INDEX_NAME, `${chat_type}_${receiver_id}`)
+    SStorage.addItem(KEY_INDEX_NAME, `${chat_type}_${receiver_id}`)
     return router.push({
       path: '/messages',
       query: { v: new Date().getTime() }
@@ -88,7 +88,7 @@ export const toChat = (chat_type: any, receiver_id: any) => {
     receiver_id: parseInt(receiver_id)
   }).then(({ code, data, message }: any) => {
     if (code == 200) {
-      sessionStorage.setItem(KEY_INDEX_NAME, `${chat_type}_${receiver_id}`)
+      SStorage.addItem(KEY_INDEX_NAME, `${chat_type}_${receiver_id}`)
       if (findChatIndex(`${chat_type}_${receiver_id}`) === -1) {
         useChatStore().addItem(formatMessageItem(data))
       }
@@ -105,13 +105,13 @@ export const toChat = (chat_type: any, receiver_id: any) => {
 export const getCacheIndexName = () => {
   const index_name = sessionStorage.getItem(KEY_INDEX_NAME)
   if (index_name) {
-    sessionStorage.removeItem(KEY_INDEX_NAME)
+    SStorage.deleteItem(KEY_INDEX_NAME)
   }
   return index_name
 }
 
 export const setCacheIndexName = (type: any, id: any) => {
-  sessionStorage.setItem(KEY_INDEX_NAME, `${type}_${id}`)
+  SStorage.addItem(KEY_INDEX_NAME, `${type}_${id}`)
 }
 
 export const onChatDelete = (index_name = '') => {
@@ -129,23 +129,21 @@ export const onChatRemove = (data: any) => {
   })
 }
 
-const testIndexedDBStorage = async () => {
-  const IDB = new IndexedDBStorage()
-
-  await IDB.addItem({
-    name: 'Image1',
-    type: 'image',
+const testIDBStorage = async () => {
+  await IDBStorage.addItem({
+    name: 'logo.svg',
+    type: 'image/svg',
     content: new Blob()
   })
 
-  console.log(await IDB.getAllItems())
+  console.log(await IDBStorage.getAllItems())
 
-  await IDB.updateItem(123456789, {
-    name: 'Updated Image',
-    type: 'image/updated'
+  await IDBStorage.updateItem(123456789, {
+    name: 'logo.svg',
+    type: 'image/svg'
   })
 
-  await IDB.deleteItem(123456789)
+  await IDBStorage.deleteItem(123456789)
 }
 
-testIndexedDBStorage()
+// testIDBStorage()

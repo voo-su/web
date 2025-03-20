@@ -1,50 +1,50 @@
-class CookieStorage {
-
-  set(
+export class CookieStorage {
+  addItem(
     name: string,
-    value: string,
+    value: string | object,
     expiresInSeconds: number = 0,
     path: string = '/',
-    secure: boolean = false,
-    httpOnly: boolean = false
+    secure: boolean = false
   ): void {
     const encodedName = encodeURIComponent(name)
-    const encodedValue = encodeURIComponent(value)
+    const encodedValue = encodeURIComponent(typeof value === 'object' ? JSON.stringify(value) : value)
     const date = new Date(Date.now() + expiresInSeconds * 1000)
     const expires = expiresInSeconds ? `expires=${date.toUTCString()};` : ''
     let cookieValue = `${encodedName}=${encodedValue}; ${expires} path=${path};`
 
     if (secure) cookieValue += ' Secure;'
-    if (httpOnly) cookieValue += ' HttpOnly;'
 
     document.cookie = cookieValue
   }
 
-  get(key: string): string | null {
+  getItem<T = string | object>(key: string): T | null {
     const name = `${encodeURIComponent(key)}=`
     const cookies = document.cookie ? document.cookie.split('; ') : []
 
     for (let cookie of cookies) {
-      if (cookie.startsWith(name)) {
-        return cookie.substring(name.length)
+      let [cookieName, cookieValue] = cookie.split('=')
+      if (cookieName === name.slice(0, -1)) {
+        try {
+          return JSON.parse(decodeURIComponent(cookieValue)) as T
+        } catch {
+          return decodeURIComponent(cookieValue) as T
+        }
       }
     }
     return null
   }
 
-  remove(names: string | string[], path: string = '/', secure: boolean = false, httpOnly: boolean = false): void {
+  deleteItem(names: string | string[], path: string = '/', secure: boolean = false): void {
     if (Array.isArray(names)) {
       for (let name of names) {
-        this.set(name, '', -1, path, secure, httpOnly)
+        this.addItem(name, '', -1, path, secure)
       }
     } else {
-      this.set(names, '', -1, path, secure, httpOnly)
+      this.addItem(names, '', -1, path, secure)
     }
   }
 
   exists(key: string): boolean {
-    return this.get(key) !== null
+    return this.getItem(key) !== null
   }
 }
-
-export const cookie = new CookieStorage()
