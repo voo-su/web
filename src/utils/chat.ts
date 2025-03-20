@@ -1,11 +1,11 @@
-import { useChatStore } from '@/store'
+import { useChatStore, useMessageStore } from '@/store'
 import router from '@/router'
 import { parseTime } from '@/utils/datetime'
 import { createChatApi, deleteChatApi, setNotDisturbApi } from '@/api/chat'
 import { KEY_INDEX_NAME } from '@/constants/chat'
-import { useMessageStore } from '@/store'
 import { ElMessage } from 'element-plus'
 import { i18n } from '@/utils/i18n'
+import { IndexedDBStorage } from '@/utils/storage/indexeddb-storage'
 
 export const formatRecord = (uid: any, data: any) => {
   data.float = 'center'
@@ -128,3 +128,24 @@ export const onChatRemove = (data: any) => {
     }
   })
 }
+
+const testIndexedDBStorage = async () => {
+  const IDB = new IndexedDBStorage()
+
+  await IDB.addItem({
+    name: 'Image1',
+    type: 'image',
+    content: new Blob()
+  })
+
+  console.log(await IDB.getAllItems())
+
+  await IDB.updateItem(123456789, {
+    name: 'Updated Image',
+    type: 'image/updated'
+  })
+
+  await IDB.deleteItem(123456789)
+}
+
+testIndexedDBStorage()

@@ -1,4 +1,3 @@
-import router from '@/router'
 import { useUserStore } from '@/store/user'
 import { useMessageStore } from '@/store/message'
 

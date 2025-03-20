@@ -169,7 +169,7 @@ export default {
   uploadPhoto: 'Загрузить фотографию',
   announcementsCount: 'Объявления ({length})',
   selectedCount: 'Выбрано ({length})',
-  networkOverloaded: 'Сеть перегружена, пожалуйста, попробуйте позже',
+  networkOverloaded: 'Произошла временная ошибка. Попробуйте выполнить операцию через некоторое время',
   fileSizeLimitExceeded: 'Файлы размером более 100 МБ нельзя загружать',
   audioUploadNotSupported: 'Загрузка аудиофайлов в настоящее время не поддерживается',
   videoUploadNotSupported: 'Загрузка видеофайлов в настоящее время не поддерживается',

@@ -169,7 +169,7 @@ export default {
   uploadPhoto: 'Upload photo',
   announcementsCount: 'Announcements ({length})',
   selectedCount: 'Selected ({length})',
-  networkOverloaded: 'Network is overloaded, please try again later',
+  networkOverloaded: 'A temporary error has occurred. Please try again later',
   fileSizeLimitExceeded: 'Files larger than 100 MB cannot be uploaded',
   audioUploadNotSupported: 'Audio file upload is currently not supported',
   videoUploadNotSupported: 'Video file upload is currently not supported',
