@@ -2,10 +2,11 @@ import { watchEffect } from 'vue'
 import { useRouter } from 'vue-router'
 import { useChatStore, useNotificationStore } from '@/store'
 import { applyNotificationAuth } from '@/utils/notification'
-import { isLoggedIn } from '@/utils/auth'
 import socket from '@/utils/socket'
 import { ElMessageBox } from 'element-plus'
 import { i18n } from '@/utils/i18n'
+import { cookie } from '@/utils/storage/cookie-storage'
+import { ACCESS_TOKEN } from '@/constants/storage'
 
 const registerOnceExpireNotice = () => {
   let once = false
@@ -15,7 +16,7 @@ const registerOnceExpireNotice = () => {
       return
     }
 
-    if (isLoggedIn() || once) {
+    if (cookie.exists(ACCESS_TOKEN) || once) {
       return
     }
 
@@ -108,7 +109,7 @@ const registerConnectListener = () => {
       '/auth',
       '/terms'
     ]
-    if (!paths.includes(pathname) && isLoggedIn()) {
+    if (!paths.includes(pathname) && cookie.exists(ACCESS_TOKEN)) {
       !socket.isConnect() && socket.connect()
     }
   })

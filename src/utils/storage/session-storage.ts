@@ -1,34 +1,49 @@
+import { logE } from '@/utils/log'
+
 class SessionStorage {
 
-  set(key: string, value: any): void {
-    sessionStorage.setItem(`${key}`, JSON.stringify(value))
+  set<T>(key: string, value: T): void {
+    sessionStorage.setItem(key, JSON.stringify(value))
   }
 
-  get(keys: string | any[]): any {
-    let data: { [index: string]: any } | null = {}
+  get<T>(keys: string | string[]): { [key: string]: T } | T | null {
     if (Array.isArray(keys)) {
-      for (let i = 0, len = keys.length; i < len; i++) {
-        const key = keys[i]
-        data[key] = JSON.parse(sessionStorage.getItem(key) as string) as any
-      }
+      const data: { [key: string]: T } = {}
+      keys.forEach(key => {
+        const item = sessionStorage.getItem(key)
+        if (item !== null) {
+          try {
+            data[key] = JSON.parse(item) as T
+          } catch (e) {
+            logE(`Ошибка при парсинге данных для ключа: ${key} - ${e}`)
+          }
+        }
+      })
+      return data
     } else {
-      data = null
-      if (keys)
-        data = JSON.parse(sessionStorage.getItem(keys) as string) as any
+      const item = sessionStorage.getItem(keys)
+      if (item !== null) {
+        try {
+          return JSON.parse(item) as T
+        } catch (e) {
+          logE(`Ошибка при парсинге данных для ключа: ${keys} - ${e}`)
+        }
+      }
+      return null
     }
-    return data
   }
 
-  remove(keys: string | string[]) {
+  remove(keys: string | string[]): void {
     if (Array.isArray(keys)) {
-      for (let i = 0, len = keys.length; i < len; i++) {
-        sessionStorage.removeItem(keys[i])
-      }
+      keys.forEach(key => sessionStorage.removeItem(key))
     } else {
       sessionStorage.removeItem(keys)
     }
   }
 
+  clear(): void {
+    sessionStorage.clear()
+  }
 }
 
 export const session = new SessionStorage()

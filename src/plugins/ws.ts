@@ -176,7 +176,7 @@ class Ws {
     if (this.connect && this.connect.readyState === 1) {
       this.connect.send(content)
     } else {
-      logE(i18n('websocketConnectionClosed'), this.connect)
+      logE(`${i18n('websocketConnectionClosed')} ${this.connect}`)
     }
   }
 }

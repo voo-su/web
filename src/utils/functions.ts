@@ -50,7 +50,7 @@ export const onDownload = async (crId: number, fileName: string = 'unknown') => 
           window.URL.revokeObjectURL(blobUrl)
       })
   } catch (err) {
-    logE(`${i18n('error')}:`, err);
+    logE(`${i18n('error')}: ${err}`);
   }
 }
 

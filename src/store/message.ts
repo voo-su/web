@@ -106,14 +106,12 @@ export const useMessageStore = defineStore('message', {
     },
 
     async updateGroupMembers() {
-      const {
-        code,
-        data
-      } = await getGroupMembersApi({
+      const { code, data } = await getGroupMembersApi({
         group_id: this.chat.receiver_id
       })
 
-      if (code != 200) return
+      if (code != 200 || data.items == undefined) return
+
       this.members = []
       for (const o of data.items) {
         this.members.push({

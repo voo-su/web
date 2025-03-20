@@ -2,10 +2,9 @@
 import { reactive, ref } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
 import { verifyApi } from '@/api/auth'
-import { AUTH_SESSION_KEY } from '@/constants/default'
+import { ACCESS_TOKEN, AUTH_SESSION_KEY } from '@/constants/storage'
 import { cookie } from '@/utils/storage/cookie-storage'
 import socket from '@/utils/socket'
-import { setAccessToken } from '@/utils/auth'
 import { useUserStore } from '@/store'
 import { Close } from '@element-plus/icons-vue'
 import type { IFormVerifyType } from './types'
@@ -62,7 +61,7 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
         if (code == 200) {
           const { accessToken, expiresIn } = data
           cookie.remove(AUTH_SESSION_KEY)
-          setAccessToken(accessToken, expiresIn)
+          cookie.set(ACCESS_TOKEN, accessToken, expiresIn)
           socket.connect()
           userStore.loadSetting()
           pushInit()

@@ -1,7 +1,7 @@
 import { pushInitApi } from '@/api/account'
 import { log, logE } from '@/utils/log'
 import { i18n } from '@/utils/i18n'
-import { PUSH_TOKEN_EXPIRATION_TIME, PUSH_STORAGE_KEY } from '@/constants/default'
+import { PUSH_TOKEN_EXPIRATION_TIME, PUSH_STORAGE_KEY } from '@/constants/notifications'
 import { cookie } from '@/utils/storage/cookie-storage'
 
 const saveSubscriptionData = (data: Record<string, any>) => {
@@ -95,7 +95,7 @@ const subscribe = () => {
       })
       sendPushTokenToServer(subscriptionObj)
     })
-    .catch(err => logE('Error during subscription:', err))
+    .catch(err => logE(`Error during subscription: ${err}`))
 }
 
 const urlBase64ToUint8Array = (base64String: string): Uint8Array => {

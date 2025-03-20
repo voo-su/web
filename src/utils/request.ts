@@ -1,7 +1,8 @@
 import axios from 'axios'
-import { delAccessToken, getAccessToken } from '@/utils/auth'
 import { ElMessage } from 'element-plus'
 import { i18n } from '@/utils/i18n'
+import { cookie } from '@/utils/storage/cookie-storage'
+import { ACCESS_TOKEN } from '@/constants/storage'
 
 const request = axios.create({
   baseURL: import.meta.env.VITE_BASE_API,
@@ -11,7 +12,7 @@ const request = axios.create({
 const errorHandler = (error: any) => {
   if (error.response) {
     if (error.response.status == 401) {
-      delAccessToken()
+      cookie.remove(ACCESS_TOKEN)
       ElMessage.error(i18n('sessionExpired'))
       location.reload()
     }
@@ -21,7 +22,7 @@ const errorHandler = (error: any) => {
 }
 
 request.interceptors.request.use(config => {
-  const token = getAccessToken()
+  const token = cookie.get(ACCESS_TOKEN)
   if (token) {
     config.headers['Authorization'] = `Bearer ${token}`
   }

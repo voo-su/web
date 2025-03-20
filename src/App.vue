@@ -5,12 +5,13 @@ import { useUserStore } from '@/store'
 import socket from '@/utils/socket'
 import { listener } from '@/utils/listener'
 import ru from 'element-plus/dist/locale/ru.mjs'
-import { isLoggedIn } from '@/utils/auth'
 import { pushInit } from '@/utils/push'
+import { cookie } from '@/utils/storage/cookie-storage'
+import { ACCESS_TOKEN } from '@/constants/storage'
 
 const userStore = useUserStore()
 
-if (isLoggedIn()) {
+if (cookie.exists(ACCESS_TOKEN)) {
   socket.connect()
   userStore.loadSetting()
   pushInit()

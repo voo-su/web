@@ -10,8 +10,8 @@ interface INotify {
 
 export const useNotificationStore = defineStore('notification', {
   state: (): INotify => ({
-    isPromptTone: storage.get('isPromptTone', true),
-    isKeyboard: storage.get('isKeyboard', true),
+    isPromptTone: storage.get<boolean>('isPromptTone', true),
+    isKeyboard: storage.get<boolean>('isKeyboard', true),
     isLeaveWeb: false,
     isWebNotify: false
   }),

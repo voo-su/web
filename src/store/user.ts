@@ -1,10 +1,10 @@
 import { defineStore } from 'pinia'
 import { getAccountApi } from '@/api/account'
 import { findFriendApplyNumApi } from '@/api/contact'
-import { delAccessToken } from '@/utils/auth'
 import { storage } from '@/utils/storage/local-storage'
-import { USER_INFO } from '@/constants/default'
+import { ACCESS_TOKEN, USER_INFO } from '@/constants/storage'
 import { logoutApi } from '@/api/auth'
+import { cookie } from '@/utils/storage/cookie-storage'
 
 interface IUser {
   uid: number
@@ -48,7 +48,7 @@ export const useUserStore = defineStore('user', {
       })
 
       storage.remove(USER_INFO)
-      delAccessToken()
+      cookie.remove(ACCESS_TOKEN)
       location.reload()
     },
 

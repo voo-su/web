@@ -1,7 +1,6 @@
 import { useChatStore } from '@/store'
 import { useUserStore } from '@/store/user'
 import { useMessageStore } from '@/store/message'
-import { getAccessToken, isLoggedIn } from './auth'
 import Ws from '@/plugins/ws'
 import EventChat from '@/event/socket/chat'
 import EventKeyboard from '@/event/socket/keyboard'
@@ -10,13 +9,15 @@ import EventRevoke from '@/event/socket/revoke'
 import { ElMessageBox, ElNotification, ElMessage } from 'element-plus'
 import { i18n } from '@/utils/i18n'
 import { log } from '@/utils/log'
+import { cookie } from "@/utils/storage/cookie-storage"
+import { ACCESS_TOKEN } from "@/constants/storage"
 
 const urlCallback = () => {
-  if (!isLoggedIn()) {
+  if (!cookie.exists(ACCESS_TOKEN)) {
     window.location.reload()
   }
 
-  return `${import.meta.env.VITE_SOCKET_API}/ws?token=${getAccessToken()}`
+  return `${import.meta.env.VITE_SOCKET_API}/ws?token=${cookie.get(ACCESS_TOKEN)}`
 }
 
 class Socket {

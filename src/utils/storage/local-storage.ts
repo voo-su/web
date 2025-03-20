@@ -1,37 +1,39 @@
+import { logE } from '@/utils/log'
+
 class LocalStorage {
 
-  get(key: string, def: any = '') {
+  get<T>(key: string, def: T = null as T): T {
     const item = localStorage.getItem(key)
     if (!item) return def
+
     try {
-      const {
-        value,
-        expire
-      } = JSON.parse(item)
+      const { value, expire }: { value: T; expire: number | null } = JSON.parse(item)
+
       if (expire === null || expire >= Date.now()) {
         return value
+      } else {
+        this.remove(key)
       }
-      this.remove(key)
     } catch (e) {
+      logE(`Ошибка при парсинге данных из localStorage: ${e}`)
     }
+
     return def
   }
 
-  set(key: string, value: string, expire: number | null = 60 * 60 * 24) {
-    localStorage.setItem(key, JSON.stringify({
-        value,
-        expire: expire !== null
-          ? new Date().getTime() + expire * 1000
-          : null
-      })
-    )
+  set<T>(key: string, value: T, expire: number | null = 60 * 60 * 24): void {
+    const item = {
+      value,
+      expire: expire !== null ? Date.now() + expire * 1000 : null
+    }
+    localStorage.setItem(key, JSON.stringify(item))
   }
 
-  remove(key: string) {
+  remove(key: string): void {
     localStorage.removeItem(key)
   }
 
-  clear() {
+  clear(): void {
     localStorage.clear()
   }
 }

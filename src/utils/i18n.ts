@@ -17,7 +17,7 @@ export const instanceI18n = (): I18n => createI18n({
   messages: locale
 })
 
-export const i18n = (key: string, params: any): string => {
+export const i18n = (key: string, params: any = undefined): string => {
   const i18nInstance = instanceI18n()
   const translatedValue = i18nInstance.global.t(key, params)
 
